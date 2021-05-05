@@ -2,3 +2,6 @@ vim/.vim/plugged/
 vim/.vim/autoload/
 vim/.vim/spell/
 vim/.vim/.netrwhist
+vim/.vim/vimspector-config/gadgets
+
+zsh/.zsh/plugins

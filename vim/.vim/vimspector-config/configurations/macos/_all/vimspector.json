@@ -6,7 +6,7 @@
       "configuration": {
         "request": "launch",
         "program": "${fileDirname}",
-        "mode": "debug",
+        "mode": "lauch",
         "dlvToolPath": "$HOME/Projects/go/bin/dlv"
       }
     }

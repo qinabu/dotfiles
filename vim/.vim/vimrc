@@ -1,27 +1,19 @@
 " Based on
 " https://raw.githubusercontent.com/nickjj/dotfiles/master/.vimrc
 " https://github.com/wincent/wincent/tree/aa3a322e3a911dabe0ef398ebb1fd7c77209b8ac/roles/dotfiles/files/.vim
-"filetype plugin on
- 
-" au FileType php setl ofu=phpcomplete#CompletePHP
-" au FileType ruby,eruby setl ofu=rubycomplete#Complete
-" au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
-" au FileType c setl ofu=ccomplete#CompleteCpp
-" au FileType css setl ofu=csscomplete#CompleteCSS
-" "
-" highlight Cursor guifg=white guibg=black
-" highlight iCursor guifg=white guibg=steelblue
-" set guicursor=n-v-c:block-Cursor
-" set guicursor+=i:ver100-iCursor
-" set guicursor+=n-v-c:blinkon0
-" set guicursor+=i:blinkwait10
-
-" Help {{{
-" VIM
+"
+" My Help {{{
+"
+" VIM & VIEW
 " L-ve  - "Vim Edit vimrc"          // :edit $MYVIMRC
 " L-vr  - "Vim Runtime vimrc"       // :source $MYVIMRC
 " L-vi  - "Vim Install plugins"     // :PlugInstall
 " L-vu  - "Vim Update plugins"      // :PlugUpdate
+"
+" L-vb  - "View Blame"              // :Gblame
+" L-vd  - "View Diff split"         // :Gdiffsplit
+" L-vD  - "View Difftool"           // :Git difftool
+" L-vg  - "View Git window"         // :Git
 
 " OPTIONS TOGGLES
 " L-os  - "Option Spell"            // :setlocal spell!
@@ -31,8 +23,9 @@
 
 " EDIT
 " L-w   - "Write"                   // :write
-" K     - "K-Up move"   :visual
-" J     - "J-Down move" :visual
+" K     - "K-Up move"    visual     // :visual
+" J     - "J-Down move"  visual     // :visual
+" jj    - STOP   insert & command   // <esc>
 "
 " FIND
 " L-ff  - "Find File"               // :FZF
@@ -52,7 +45,7 @@
 " jk/kj - exit insert / command mode// <C-c>
 
 " L-oO  - "Only One window"         // :only
-" L-oo  - "Only one maximized"      // :only
+" L-oo  - "Only one maximized"      // :MaximizerToggle!
 
 " L-qq  - "Quit window"             // :quit
 " L-qw  - "Quit and Write"          // :wq
@@ -64,7 +57,7 @@
 " L-qe  - "Quit & Exit"             // :qall!
 
 " L-c   - "c quickfix toggle"
-" L-l   - "l location list toggle"
+" L-l   - "i location list toggle"
 "
 " }}}
 
@@ -213,7 +206,6 @@ Plug 'janko/vim-test'
 Plug 'tpope/vim-dispatch' "{{{
         let g:dispatch_no_maps = 1
 "}}}
-
 " Languages and file types.
 " Plug 'cakebaker/scss-syntax.vim'
 " Plug 'chr4/nginx.vim'
@@ -250,14 +242,29 @@ Plug 'fatih/vim-go'
 " Toggle functions for quickfix and location list.
 Plug 'milkypostman/vim-togglelist'
 
-" Completion menu.
-Plug 'prabirshrestha/asyncomplete.vim'
+" LSP & Autocomplete {{{
+
+Plug 'prabirshrestha/async.vim'
 " Language Server Protocol.
 Plug 'prabirshrestha/vim-lsp'
 " Configurator for vim-lsp.
 Plug 'mattn/vim-lsp-settings'
+" Completion menu.
+Plug 'prabirshrestha/asyncomplete.vim'
 " Completion menu for vim-lsp.
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+let g:asyncomplete_auto_popup       = v:true
+let g:asyncomplete_auto_completeopt = v:true
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
+
+
+" }}}
+
 " Debug Adapter Protocol for vim.
 Plug 'puremourning/vimspector'
 " Document inspector.
@@ -494,6 +501,7 @@ augroup fern-custom
   autocmd FileType fern nnoremap <buffer> <C-h> <C-w><C-h>
   autocmd FileType fern nnoremap <buffer> <C-k> <C-w><C-k>
   autocmd FileType fern nnoremap <buffer> <C-j> <C-w><C-j>
+  autocmd FileType fern nnoremap <buffer> . <Plug>(fern-action-hidden)
 augroup END
 
 nnoremap <silent> <Leader>qq :quit<CR>
@@ -512,9 +520,6 @@ nnoremap <Leader>w :write<cr>
 
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-
-nnoremap <silent> <Leader>0 :cnext<CR>
-nnoremap <silent> <Leader>9 :cprevious<CR>
 
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [q :cprevious<CR>
@@ -624,8 +629,9 @@ vnoremap J :m '>+1<CR>gv=gv
 
 " Select the complete menu item like CTRL+y would.
 " inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
-inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
-inoremap <expr> <Tab> pumvisible() ? "<C-y>" :"<Tab>"
+" inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
+" inoremap <expr> <Tab> pumvisible() ? "<C-y>" :"<Tab>"
+
 
 " Cancel the complete menu item like CTRL+e would.
 " inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
@@ -817,8 +823,7 @@ let g:loaded_netrwFileHandlers = 1
 " Use symbols.
 let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR>
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR>
+noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=25<CR>
 noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 
@@ -1016,7 +1021,7 @@ let g:lsp_preview_float = 1
 let g:lsp_hover_conceal = 0
 
 function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
+    " setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nmap <buffer> gd <plug>(lsp-definition)
@@ -1060,18 +1065,18 @@ noremap <silent> <Leader>fs :Vista!!<CR>
 
 " prabirshrestha/asyncomplete-lsp.vim
 "
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " milkypostman/vim-togglelist
 " .....................
 
-nnoremap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+nnoremap <script> <silent> <leader>i :call ToggleLocationList()<CR>
 nnoremap <script> <silent> <leader>c :call ToggleQuickfixList()<CR>
 
 " puremourning/vimspector
 " .....................
 
-let g:vimspector_base_dir = '~/.vim/vimspector-config'
+let g:vimspector_base_dir = expand( '$HOME/.vim/vimspector-config' )
 function! GotoWindow(id)
   :call win_gotoid(a:id)
 endfun
@@ -1114,5 +1119,6 @@ nnoremap <Leader>vd :Gdiffsplit<CR>
 nnoremap <Leader>vD :Git difftool<CR>
 nnoremap <Leader>vg :Git<CR>
 
+" prabirshrestha/asyncomplete-lsp.vim
 " ---
 " vim:foldmethod=marker

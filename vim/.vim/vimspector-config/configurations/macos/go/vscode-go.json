@@ -6,7 +6,7 @@
         "request": "launch",
         "program": "${fileDirname}",
         "mode": "debug",
-        "dlvToolPath": "$HOME/go/bin/dlv"
+        "dlvToolPath": "$HOME/Projects/go/bin/dlv"
       }
     },
     "Attach Current Dir (Local)": {
@@ -17,7 +17,7 @@
         "remotePath": "${fileDirname}",
         "cwd": "${fileDirname}",
         "mode": "local",
-        "dlvToolPath": "$HOME/go/bin/dlv",
+        "dlvToolPath": "$HOME/Projects/go/bin/dlv",
         "processId": "${PID}",
         "trace": "verbose"
       }
@@ -30,7 +30,7 @@
         "remotePath": "${fileDirname}",
         "cwd": "${fileDirname}",
         "mode": "remote",
-        "dlvToolPath": "$HOME/go/bin/dlv",
+        "dlvToolPath": "$HOME/Projects/go/bin/dlv",
         "trace": "verbose",
         "host": "localhost",
         "port": 4321

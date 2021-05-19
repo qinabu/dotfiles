@@ -8,7 +8,7 @@ source <(antibody init)
 antibody bundle < ~/.zsh/plugins.txt
 
 for file in ~/.zsh/*.zsh; do
-  source $file
+        source $file
 done
 
 source ~/.profile

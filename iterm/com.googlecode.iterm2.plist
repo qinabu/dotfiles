@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Actions</key>
+	<array/>
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
+	<key>BadgeFont</key>
+	<string>SF Mono</string>
 	<key>ColoredSelectedTabOutlineStrength</key>
 	<real>0.60000002384185791</real>
 	<key>ColoredUnselectedTabTextProminence</key>
@@ -11,7 +15,7 @@
 	<key>Command</key>
 	<string></string>
 	<key>CompactMinimalTabBarHeight</key>
-	<real>20</real>
+	<real>22</real>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>3024 Day</key>
@@ -62464,11 +62468,11 @@
 		</dict>
 	</dict>
 	<key>CustomTabBarFontSize</key>
-	<real>15</real>
+	<real>14</real>
 	<key>Default Bookmark Guid</key>
 	<string>F5F0AB83-DDE9-47C6-BD9A-F746A2FE35E0</string>
 	<key>DefaultTabBarHeight</key>
-	<real>20</real>
+	<real>22</real>
 	<key>DimBackgroundWindows</key>
 	<false/>
 	<key>DimInactiveSplitPanes</key>
@@ -62482,7 +62486,7 @@
 	<key>DrawBottomLineForHorizontalTabBar</key>
 	<true/>
 	<key>EnableDivisionView</key>
-	<false/>
+	<true/>
 	<key>EnableRendezvous</key>
 	<false/>
 	<key>FlashTabBarInFullscreen</key>
@@ -62506,6 +62510,24 @@
 		<dict>
 			<key>Action</key>
 			<integer>2</integer>
+			<key>Label</key>
+			<string></string>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6a-0x100000-0x26</key>
+		<dict>
+			<key>Action</key>
+			<integer>8</integer>
+			<key>Label</key>
+			<string></string>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6b-0x100000-0x28</key>
+		<dict>
+			<key>Action</key>
+			<integer>9</integer>
 			<key>Label</key>
 			<string></string>
 			<key>Text</key>
@@ -62600,7 +62622,7 @@
 	<key>HideScrollbar</key>
 	<false/>
 	<key>HideTab</key>
-	<false/>
+	<true/>
 	<key>HideTabNumber</key>
 	<false/>
 	<key>HighVisibility</key>
@@ -62820,12 +62842,16 @@
 			</dict>
 			<key>Ansi 8 Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.40000000596046448</real>
+				<real>0.51939369733668972</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.40000000596046448</real>
+				<real>0.51940059661865234</real>
 				<key>Red Component</key>
-				<real>0.40000000596046448</real>
+				<real>0.5193877092806467</real>
 			</dict>
 			<key>Ansi 9 Color</key>
 			<dict>
@@ -62880,12 +62906,14 @@
 			<real>10</real>
 			<key>Blend</key>
 			<real>0.086233248885389399</real>
+			<key>Blink Allowed</key>
+			<true/>
 			<key>Blinking Cursor</key>
 			<false/>
 			<key>Blur</key>
 			<false/>
 			<key>Blur Radius</key>
-			<real>11.843245988039625</real>
+			<real>11.958018855458683</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -62902,7 +62930,7 @@
 			<key>Close Sessions On End</key>
 			<true/>
 			<key>Columns</key>
-			<integer>170</integer>
+			<integer>189</integer>
 			<key>Command</key>
 			<string></string>
 			<key>Cursor Boost</key>
@@ -62955,6 +62983,8 @@
 			<key>Description</key>
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
+			<true/>
+			<key>Draw Powerline Glyphs</key>
 			<true/>
 			<key>Flashing Bell</key>
 			<false/>
@@ -63049,6 +63079,24 @@
 					<integer>11</integer>
 					<key>Text</key>
 					<string>0x7f</string>
+				</dict>
+				<key>0x68-0x100000-0x4</key>
+				<dict>
+					<key>Action</key>
+					<integer>2</integer>
+					<key>Label</key>
+					<string></string>
+					<key>Text</key>
+					<string></string>
+				</dict>
+				<key>0x6c-0x100000-0x25</key>
+				<dict>
+					<key>Action</key>
+					<integer>0</integer>
+					<key>Label</key>
+					<string></string>
+					<key>Text</key>
+					<string></string>
 				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
@@ -63376,7 +63424,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SFMonoNerdFontComplete-Medium 16</string>
+			<string>Input-Regular 15</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Open Toolbelt</key>
@@ -63392,28 +63440,36 @@
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
-			<integer>52</integer>
+			<integer>57</integer>
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
 			<integer>0</integer>
 			<key>Selected Text Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.32549020648002625</real>
+				<real>1</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.32549020648002625</real>
+				<real>1</real>
 				<key>Red Component</key>
-				<real>0.32549020648002625</real>
+				<real>1</real>
 			</dict>
 			<key>Selection Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.88627451658248901</real>
+				<real>0.085549075464996349</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.75686275959014893</real>
+				<real>0.69190168380737305</real>
 				<key>Red Component</key>
-				<real>0.66274511814117432</real>
+				<real>0.30475466605642204</real>
 			</dict>
 			<key>Send Code When Idle</key>
 			<false/>
@@ -63424,7 +63480,7 @@
 			<key>Silence Bell</key>
 			<false/>
 			<key>Smart Cursor Color</key>
-			<false/>
+			<true/>
 			<key>Smart Selection Rules</key>
 			<array>
 				<dict>
@@ -63646,6 +63702,19 @@
 			</dict>
 			<key>Sync Title</key>
 			<false/>
+			<key>Tab Color</key>
+			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
+				<key>Blue Component</key>
+				<real>0.6777191162109375</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
+				<key>Green Component</key>
+				<real>0.6777191162109375</real>
+				<key>Red Component</key>
+				<real>0.6777191162109375</real>
+			</dict>
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
@@ -63653,13 +63722,13 @@
 			<key>Thin Strokes</key>
 			<integer>0</integer>
 			<key>Title Components</key>
-			<integer>4</integer>
+			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>
-			<integer>9</integer>
+			<integer>8</integer>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -64439,7 +64508,7 @@
 	<key>SeparateWindowTitlePerTab</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowNewOutputIndicator</key>
 	<false/>
 	<key>ShowPaneTitles</key>
@@ -64461,13 +64530,13 @@
 	<key>TabTitlesUseSmartTruncation</key>
 	<true/>
 	<key>TabViewType</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>TabsHaveCloseButton</key>
 	<false/>
 	<key>TerminalMargin</key>
-	<integer>10</integer>
+	<integer>12</integer>
 	<key>TerminalVMargin</key>
-	<integer>7</integer>
+	<integer>12</integer>
 	<key>UnderlineCursorHeight</key>
 	<real>4</real>
 	<key>UseBorder</key>

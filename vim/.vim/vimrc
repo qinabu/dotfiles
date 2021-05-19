@@ -1,8 +1,29 @@
-" Based on
-" https://raw.githubusercontent.com/nickjj/dotfiles/master/.vimrc
-" https://github.com/wincent/wincent/tree/aa3a322e3a911dabe0ef398ebb1fd7c77209b8ac/roles/dotfiles/files/.vim
-"
 " My Help {{{
+"
+" NAVIGATION & WINDOWS & COMMANDS
+" C-hjkl- move to window            // C-wC-h...
+" L-hjkl- move to window
+" L-v   - PARTIAL mappting to ^w
+
+" L-L   - previous buffer           // C-^
+" L-/   - clear search highlight    // :noh
+" L-;   - command line              // :
+" jj    - ESC insert / command      // <C-c>
+
+" L-oo  - "Only One maximized"      // :MaximizerToggle!
+" L-oO  - "Only One window"         // :only
+
+" L-qq  - "Quit window"             // :quit
+" L-qw  - "Quit and Write"          // :wq
+" L-qb  - "Quit Buffer"             // :bdelete
+" L-qc  - "Quit c quickfix"         // :cclose
+" L-ql  - "Quit l location list"    // :lclose
+" L-qp  - "Quit p preview window"   // :pclose
+" L-qa  - "Quit All"                // :qall
+" L-qe  - "Quit & Exit w/o save"    // :qall!
+
+" L-c   - "c Quickfix toggle"
+" L-n   - "n locatioN list toggle"
 "
 " VIM & VIEW
 " L-ve  - "Vim Edit vimrc"          // :edit $MYVIMRC
@@ -20,46 +41,34 @@
 " L-or  - "Option Relative numbers" // :setlocal relativenumber!
 " L-ol  - "Option List mode"        // :setlocal list!
 " L-ow  - "Option Wrap"             // :setlocal nowrap!
+" L-oc  - "Option ColorColumns"     // ToggleColorColumn()
+" L-oz  - "Option Zen mode"         // :Goyo
+" L-of  - "Option Focus mode"       // :Limelight!!
 
 " EDIT
 " L-w   - "Write"                   // :write
-" K     - "K-Up move"    visual     // :visual
-" J     - "J-Down move"  visual     // :visual
-" jj    - STOP   insert & command   // <esc>
+" Enter - repeat last macro
+"
+" K     - "K-Up move selected"      // :visual
+" J     - "J-Down move selected"    // :visual
+" L-es  - "Edit Spelling mistake"
+" L-er  - "Edit Rename"             // <plug>(lsp-rename)
+" TODO: finish
+" L-ee  - "Edit symbol / selection" // Search next: n/N. Repeat: .
+" L-eE  - "Edit symbol / selection" // Substitute
 "
 " FIND
 " L-ff  - "Find File"               // :FZF
 " L-fd  - "Find Directory"          // :Fern
 " L-fs  - "Find Symbol"             // :Vista
-" L-gd  - "Go to Definition"
-" L-gr  - "Go to References"
-" L-gR  - "Go to References last"
-"
+" L-fc  - "Find symbol under Cursor"// CtrlSF
 
-" NAVIGATION & WINDOWS
-" C-hjkl- move to window            // C-wC-h...
-
-" L-L   - previous buffer           // C-^
-" L-/   - clear search highlight    // :noh
-" L-;   - command line              // :
-" jk/kj - exit insert / command mode// <C-c>
-
-" L-oO  - "Only One window"         // :only
-" L-oo  - "Only one maximized"      // :MaximizerToggle!
-
-" L-qq  - "Quit window"             // :quit
-" L-qw  - "Quit and Write"          // :wq
-" L-qb  - "Quit Buffer"             // :bdelete
-" L-qc  - "Quit c quickfix"         // :cclose
-" L-ql  - "Quit l location list"    // :lclose
-" L-qp  - "Quit p preview window"   // :pclose
-" L-qa  - "Quit All"                // :qall
-" L-qe  - "Quit & Exit"             // :qall!
-
-" L-c   - "c quickfix toggle"
-" L-l   - "i location list toggle"
-"
 " }}}
+
+" Based on
+" https://raw.githubusercontent.com/nickjj/dotfiles/master/.vimrc
+" https://github.com/wincent/wincent/tree/aa3a322e3a911dabe0ef398ebb1fd7c77209b8ac/roles/dotfiles/files/.vim
+" ./vimrc-lightline.vim
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -79,14 +88,14 @@ call plug#begin('~/.vim/plugged')
 " Plug 'rakr/vim-one'
 
 " Gruvbox Community theme (morhetz/gruvbox).
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'gruvbox-community/gruvbox'
 " Plug 'cormacrelf/vim-colors-github'
 " Plug 'freeo/vim-kalisi'
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
 " Plug 'chriskempson/base16-vim'
 " Plug 'rakr/vim-one'
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 " Plug 'rainglow/vim'
 " Plug 'swalladge/paper.vim'
 Plug 'humanoid-colors/vim-humanoid-colorscheme'
@@ -117,10 +126,9 @@ Plug 'szw/vim-maximizer'
 
 " Navigate and manipulate files in a tree view.
 Plug 'lambdalisue/fern.vim'
- 
-" Plug 'lambdalisue/fern-mapping-mark-children.vim'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" Plug 'lambdalisue/nerdfont.vim'
+" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-git-status.vim'
 
 " Helpers for moving and manipulating files / directories.
 " Plug 'tpope/vim-eunuch'
@@ -178,17 +186,6 @@ Plug 'tpope/vim-fugitive'
 " Show git file changes in the gutter.
 " Plug 'mhinz/vim-signify'
 Plug 'airblade/vim-gitgutter'
-" Plug 'rhysd/git-messenger.vim'
-" let g:git_messenger_no_default_mappings = v:true
-" let g:git_messenger_close_on_cursor_moved = v:false
-" let g:git_messenger_always_into_popup = v:false
-" let g:git_messenger_into_popup_after_show = v:true
-" let g:git_messenger_into_popup_after_show = v:false
-" nnoremap <Leader>gm <Plug>(git-messenger-into-popup)
-" nmap <Leader>gm <Plug>(git-messenger)
-
-" * Dim paragraphs above and below the active paragraph.
-" Plug 'junegunn/limelight.vim'
 
 " * Distraction free writing by removing UI elements and centering
 " everything.
@@ -197,15 +194,11 @@ Plug 'airblade/vim-gitgutter'
 " A bunch of useful language related snippets (ultisnips is the engine).
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" * Automatically show Vim's complete menu while typing.
-" Plug 'vim-scripts/AutoComplPop'
-
 " Run test suites for various languages.
 Plug 'janko/vim-test'
 " Build and test dispatcher.
-Plug 'tpope/vim-dispatch' "{{{
-        let g:dispatch_no_maps = 1
-"}}}
+Plug 'tpope/vim-dispatch'
+
 " Languages and file types.
 " Plug 'cakebaker/scss-syntax.vim'
 " Plug 'chr4/nginx.vim'
@@ -242,20 +235,16 @@ Plug 'fatih/vim-go'
 " Toggle functions for quickfix and location list.
 Plug 'milkypostman/vim-togglelist'
 
-" LSP & Autocomplete {{{
+" LSP & Autocomplete { {{
 
 Plug 'prabirshrestha/async.vim'
-" Language Server Protocol.
-Plug 'prabirshrestha/vim-lsp'
-" Configurator for vim-lsp.
-Plug 'mattn/vim-lsp-settings'
-" Completion menu.
 Plug 'prabirshrestha/asyncomplete.vim'
-" Completion menu for vim-lsp.
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 
-let g:asyncomplete_auto_popup       = v:true
-let g:asyncomplete_auto_completeopt = v:true
+let g:asyncomplete_auto_popup       = 1
+let g:asyncomplete_auto_completeopt = 0
 
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
@@ -263,14 +252,30 @@ inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
 
 
-" }}}
+" } }}
 
-" Debug Adapter Protocol for vim.
+" Debug Adapter Protocol for vim (.dotfiles/vim/.vim/vimspector-config/).
 Plug 'puremourning/vimspector'
 " Document inspector.
 Plug 'liuchengxu/vista.vim'
 
+" Distraction-free writing in Vim.
+Plug 'junegunn/goyo.vim'
+" * Dim paragraphs above and below the active paragraph.
+Plug 'junegunn/limelight.vim'
+
+
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+
 call plug#end()
+
+" Basic functions
+
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 " let g:fubitive_domain_pattern = 'stash\.msk\.avito\.ru'
 " let g:fugitive_bitbucketservers_domains = ['stash.msk.avito.ru']
@@ -291,86 +296,37 @@ endif
 " syntax on
 syntax on
 
-" Set the color scheme.
-" colorscheme gruvbox
-" let g:gruvbox_transparent_bg = 1
-let g:gruvbox_contrast_light = 'high'
-let g:gruvbox_termcolors = 16
+function! s:patch_humanoid_colors()
+        highlight cursorline ctermbg=White guibg=White
+        highlight cursorlinenr cterm=none gui=none
+        highlight label cterm=none gui=none
+        highlight function cterm=bold gui=bold ctermfg=16 guifg=#010000
+        highlight operator cterm=none gui=none ctermfg=16 guifg=#010000
+        highlight string ctermfg=29 guifg=#00875f
+        highlight keyword ctermfg=25 guifg=#005faf
+        highlight number ctermfg=124 guifg=#af0000
+        highlight float ctermfg=124 guifg=#af0000
+        highlight boolean ctermfg=32 guifg=#0087d7
+        highlight type ctermfg=131 guifg=#af5f5f
+
+        highlight link conditional label
+        highlight link goConditional label
+
+        highlight goTypeName ctermfg=168 guifg=#d75f5f
+
+        " Spellingkmistakes will be colored up red.
+        highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+
+        " lsp
+        highlight lspReference ctermbg=Yellow guibg=Yellow
+endfunction
+autocmd! ColorScheme humanoid call s:patch_humanoid_colors()
+
 set background=light
-" colorscheme gruvbox
-" autocmd VimEnter * hi Normal ctermbg=NONE guibg=NONE
 colorscheme humanoid
-
-highlight cursorline ctermbg=White guibg=White
-highlight cursorlinenr cterm=none gui=none
-highlight label cterm=none gui=none
-highlight function cterm=bold gui=bold ctermfg=16 guifg=#010000
-highlight operator cterm=none gui=none ctermfg=16 guifg=#010000
-highlight string ctermfg=29 guifg=#00875f
-highlight keyword ctermfg=25 guifg=#005faf
-highlight number ctermfg=124 guifg=#af0000
-highlight float ctermfg=124 guifg=#af0000
-highlight boolean ctermfg=32 guifg=#0087d7
-highlight type ctermfg=131 guifg=#af5f5f
-
-highlight link conditional label
-highlight link goConditional label
-
-highlight goTypeName ctermfg=168 guifg=#d75f5f
-" highlight link goTypeName Label
-
-" colorscheme two-firewatch
-" colorscheme paper
-" let g:solarized_contrast = "high"
-" let g:solarized_bold = 1
-" let g:solarized_termcolors = 256
-" let g:solarized_degrade = 1
-" set background=light
-" colorscheme solarized
-
-" Specific colorscheme settings (must come before setting your colorscheme).
-" if !exists('g:gruvbox_contrast_light')
-"   let g:gruvbox_contrast_light='hard'
-" endif
-
-" Specific colorscheme settings (must come after setting your colorscheme).
-" if (g:colors_name == 'gruvbox')
-"   if (&background == 'dark')
-"      hi CursorLine guibg=#2a2f2a
-"      hi Visual cterm=NONE ctermfg=NONE ctermbg=237 guibg=#3a4f3a
-" "     hi IncSearch term=reverse cterm=reverse ctermfg=208 ctermbg=235 gui=reverse guifg=#fe8019 guibg=#282828
-" "     hi Search    term=reverse cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
-" "     hi IncSearch cterm=NONE ctermfg=0 ctermbg=70 guibg=#5fd700
-"    else
-"      hi Visual cterm=NONE ctermfg=NONE ctermbg=228 guibg=#f2e5bc
-"      hi CursorLine cterm=NONE ctermfg=NONE ctermbg=228 guibg=#f2e5bc
-"      hi ColorColumn cterm=NONE ctermfg=NONE ctermbg=228 guibg=#f2e5bc
-"   endif
-" endif
-
-" Spelling mistakes will be colored up red.
-hi SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
-hi SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
-hi SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
-hi SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
-
-" TODO: compatibility with CtrlFS
-" let s:matchid = 0
-" highlight HlCurrentWord cterm=NONE ctermfg=NONE ctermbg=68 guibg=#4f3a3a
-" function! HlCurrentWordFunc()
-"         if s:matchid > 0
-"             call matchdelete(s:matchid)
-"             let s:matchid = 0
-"         endif
-"         let w = expand('<cword>')
-"         if strlen(w) > 0
-"                let s:matchid = matchadd('HlCurrentWord', '\V\C' . escape(w, '/\') . '')
-"         endif
-" endfunction
-" augroup highlight_current_word
-"   au!
-"   au CursorHold * :call HlCurrentWordFunc()
-" augroup END
 
 " Status line
 " ---------------------
@@ -378,17 +334,17 @@ hi SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
 " Heavily inspired by: 
 " https://github.com/junegunn/dotfiles/blob/master/vimrc
 function! s:statusline_expr()
-  let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
-  let ro  = "%{&readonly ? '[RO] ' : ''}"
-  let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
-  let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
-  let sep = ' %= '
-  let pos = ' %-12(%l : %c%V%)'
-  let pct = ' %P '
-  " let fn  = '%{pathshorten(expand("%:."))}'
-  let fn  = '%{expand("%:.")}'
+        let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
+        let ro  = "%{&readonly ? '[RO] ' : ''}"
+        let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
+        let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
+        let sep = ' %= '
+        let pos = ' %-12(%l : %c%V%)'
+        let pct = ' %P '
+        " let fn  = '%{pathshorten(expand("%:."))}'
+        let fn  = '%{expand("%:.")}'
 
-  return '[%n:%{mode()}] '.fn.':%l %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
+        return '[%n:%{mode()}] '.fn.':%l %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
 endfunction
 
 let &statusline = s:statusline_expr()
@@ -399,6 +355,7 @@ let &statusline = s:statusline_expr()
 " set mouse=a
 " set colorcolumn=80
 
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 let mapleader=" "
 let maplocalleader=" "
 
@@ -409,7 +366,7 @@ set autoread
 set backspace=indent,eol,start
 set backupdir=/tmp//,.
 set clipboard=unnamed
-set complete+=kspell
+" set complete+=kspell
 " set completeopt=menuone,longest
 set completeopt=menuone,noinsert,noselect,preview
 " set cursorline
@@ -448,7 +405,7 @@ set splitbelow
 set splitright
 set tabstop=8
 set textwidth=0
-set timeoutlen=1000
+set timeoutlen=1500
 set ttimeout
 set ttimeoutlen=0
 set ttyfast
@@ -465,18 +422,19 @@ set nolist
 " Basic mappings
 " ---------------------
 
+" Partial mapping L-v to CTRL-w
+nnoremap <Leader>v <C-w>
+
 " Command line.
 nnoremap <Leader>; :
-" cnoremap jk <C-c>
-" cnoremap kj <C-c>
-cnoremap jj <C-c>
 
-" Exit from insert mode using the least used pair of letters.
-" inoremap jk <C-c>
-" inoremap kj <C-c>
+" Exit from insert and command mode.
+cnoremap jj <C-c>
 inoremap jj <C-c>
+inoremap оо <C-c>
 
 " Seamlessly treat visual lines as actual lines when moving around.
+
 noremap j gj
 noremap k gk
 noremap <Down> gj
@@ -490,20 +448,20 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-j> <C-w><C-j>
 
+nnoremap <Leader>l <C-w><C-l>
+nnoremap <Leader>h <C-w><C-h>
+nnoremap <Leader>k <C-w><C-k>
+nnoremap <Leader>j <C-w><C-j>
+
 tnoremap <C-l> <C-w><C-l>
 tnoremap <C-h> <C-w><C-h>
 tnoremap <C-k> <C-w><C-k>
 tnoremap <C-j> <C-w><C-j>
 
-augroup fern-custom
-  autocmd! *
-  autocmd FileType fern nnoremap <buffer> <C-l> <C-w><C-l>
-  autocmd FileType fern nnoremap <buffer> <C-h> <C-w><C-h>
-  autocmd FileType fern nnoremap <buffer> <C-k> <C-w><C-k>
-  autocmd FileType fern nnoremap <buffer> <C-j> <C-w><C-j>
-  autocmd FileType fern nnoremap <buffer> . <Plug>(fern-action-hidden)
-augroup END
+nnoremap <silent> <Leader>oO :only<CR>
+nnoremap <silent> <Leader>oo :MaximizerToggle<CR>
 
+" Quit commands.
 nnoremap <silent> <Leader>qq :quit<CR>
 nnoremap <silent> <Leader>qw :wq<CR>
 nnoremap <silent> <Leader>qb :bdelete<CR>
@@ -513,14 +471,13 @@ nnoremap <silent> <Leader>qp :pclose<CR>
 nnoremap <silent> <Leader>qa :qall<CR>
 nnoremap <silent> <Leader>qe :qall!<CR>
 
-nnoremap <silent> <Leader>oO :only<CR>
-nnoremap <silent> <Leader>oo :MaximizerToggle!<CR>
-
+" Write buffer.
 nnoremap <Leader>w :write<cr>
 
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+" Quickfix jumps.
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [q :cprevious<CR>
 
@@ -529,7 +486,7 @@ nmap Q q
 
 " Repeat last macro if in a normal buffer.
 nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
-nnoremap <A-j> k
+" nnoremap <A-j> k
 
 " Command line. Pretty useful with Caps Lock as Esc.
 " nnoremap <Tab> :
@@ -545,23 +502,31 @@ nnoremap <silent> <Leader><Leader> <C-^>
 
 " Press * to search for the term under the cursor or a visual selection and
 " then press a key below to replace all instances of it in the current file.
-nnoremap <Leader>r :%s///g<Left><Left>
-nnoremap <Leader>rc :%s///gc<Left><Left><Left>
+" nnoremap <Leader>r :%s///g<Left><Left>
+" nnoremap <Leader>rc :%s///gc<Left><Left><Left>
 
+" nnoremap <Leader>eE :%s///g<Left><Left>
+" nnoremap <expr> <Leader>eE ':%s/\V' .. escape(expand('<cword>'), '/\') .. '//g<Left><Left>'
+nnoremap <Leader>eE :%s///g<Left><Left>
 " The same as above but instead of acting on the whole file it will be
 " restricted to the previously visually selected range. You can do that by
 " pressing *, visually selecting the range you want it to apply to and then
 " press a key below to replace all instances of it in the current selection.
-xnoremap <Leader>r :s///g<Left><Left>
-xnoremap <Leader>rc :s///gc<Left><Left><Left>
+" xnoremap <Leader>r :s///g<Left><Left>
+" xnoremap <Leader>rc :s///gc<Left><Left><Left>
+xnoremap <Leader>eE :s///g<Left><Left>
 
 " Type a replacement term and press . to repeat the replacement again. Useful
 " for replacing a few instances of the term (comparable to multiple cursors).
-nnoremap <silent> cs :let @/='\<'.expand('<cword>').'\>'<CR>cgn
-xnoremap <silent> cs "sy:let @/=@s<CR>cgn
+" nnoremap <silent> cs :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+" xnoremap <silent> cs "sy:let @/=@s<CR>cgn
+
+" nnoremap <silent> <Leader>ee :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+nnoremap <silent> <Leader>ee *Ncgn
+xnoremap <silent> <Leader>ee "sy:let @/=@s<CR>cgn
 
 " As above, only easier.
-nnoremap c* *Ncgn
+" nnoremap c* *Ncgn
 
 " Format paragraph (selected or not) to 80 character lines.
 " nnoremap <Leader>g gqap
@@ -601,14 +566,23 @@ nnoremap <Leader>ol :setlocal list!<CR>
 " Toggle nowrap.
 nnoremap <Leader>ow :setlocal nowrap!<CR>
 
-" function ToggleColorColumn() {
+" Toggle zen mode.
+nnoremap <silent> <leader>oz :Goyo<cr>
 
-" }
-" nnoremap <Leader>oc :setlocal nowrap!<CR>
+" Toggle focus mode.
+nnoremap <silent> <leader>of :Limelight!!<cr>
+
+
+
+" Toggle colorcolun.
+function ToggleColorColumn()
+        if &colorcolumn | setlocal colorcolumn= | else | setlocal colorcolumn=80,100,120 | endif
+endfunction
+nnoremap <silent> <Leader>oc :call ToggleColorColumn()<CR>
 
 " Automatically fix the last misspelled word and jump back to where you were.
 "   Taken from this talk: https://www.youtube.com/watch?v=lwD8G1P52Sk
-nnoremap <leader>sp :normal! mz[s1z=`z<CR>
+nnoremap <leader>es :normal! mz[s1z=`z<CR>
 " noremap <F7> :set list!<CR>
 " inoremap <F7> <C-o>:set list!<CR>
 " cnoremap <F7> <C-c>:set list!<CR>
@@ -643,7 +617,9 @@ vnoremap J :m '>+1<CR>gv=gv
 autocmd VimResized * wincmd =
 
 " Update a buffer's contents on focus if it changed outside of Vim.
-au FocusGained,BufEnter * :checktime
+" au FocusGained,BufEnter * :checktime
+" autocmd! FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
 
 " Unset paste on InsertLeave.
 autocmd InsertLeave * silent! set nopaste
@@ -717,21 +693,31 @@ command! -bang Profile call s:profile(<bang>0)
 " Plugin settings, mappings and autocommands
 " ---------------------
 
+" 'airblade/vim-gitgutter'
+" .....................
+
+let g:gitgutter_map_keys = 0
+
+" tpope/vim-dispatch
+" .....................
+let g:dispatch_no_maps = 1
+
 " junegunn/fzf.vim
 " .....................
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse'
 
-let g:fzf_layout = { 'down': '35%' }
-let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_preview_window = ['up:right:50%', 'ctrl-/']
+" let g:fzf_layout = { 'down': '35%' }
+" let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
+let g:fzf_preview_window = ['up:right:55%', 'ctrl-/']
 let g:fzf_action = {
         \ 'ctrl-t': 'tab split',
         \ 'ctrl-s': 'split',
         \ 'ctrl-v': 'vsplit',
         \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
 let g:fzf_colors =
-        \ { 'fg':      ['fg', 'Normal'],
+        \ {'fg':     ['fg', 'Normal'],
         \ 'bg':      ['bg', 'Normal'],
         \ 'hl':      ['fg', 'Comment'],
         \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
@@ -746,8 +732,6 @@ let g:fzf_colors =
         \ 'header':  ['fg', 'Comment'] }
 
 
-" Launch fzf with CTRL+P.
-" ?
 noremap <silent> <Leader>ff :Files<CR>
 
 " Map a few common things to do with FZF.
@@ -766,8 +750,8 @@ nnoremap <silent> <Leader>fg :Rg<CR>
 "         \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
 "         \   fzf#vim#with_preview(), <bang>0)
 
-command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+" command! -bang -nargs=? -complete=dir Files
+"         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 function! RipgrepFzf(query, fullscreen)
         let command_fmt = 'rg --no-column --line-number --no-heading --color=always --smart-case -- %s || true'
@@ -780,19 +764,16 @@ endfunction
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 
-
-
 " dyng/ctrlsf.vim
 " .....................
 
-let g:ctrlsf_context = '-B 2 -A 1'
+let g:ctrlsf_context = '-B 3 -A 3'
 " let g:ctrlsf_auto_preview = 1
 let g:ctrlsf_compact_winsize = '30%'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_focus = { "at" : "start" }
 
-nmap <leader>sf <Plug>CtrlSFCCwordExec
-" :CtrlSF<CR>
+nnoremap <leader>fc <Plug>CtrlSFCCwordExec
 
 " lambdalisue/fern.vim
 " .....................
@@ -821,13 +802,13 @@ let g:loaded_netrwFileHandlers = 1
 " let g:fern#disable_default_mappings = 1
 
 " Use symbols.
-let g:fern#renderer = "nerdfont"
+" let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=25<CR>
-noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
+noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR>
+" noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 
-function! FernInit() abort
+function! s:FernInit() abort
   setlocal nonumber
   setlocal norelativenumber
   nmap <buffer><expr>
@@ -851,11 +832,22 @@ function! FernInit() abort
   nmap <buffer> v <Plug>(fern-action-open:vsplit)
   nmap <buffer><nowait> < <Plug>(fern-action-leave)
   nmap <buffer><nowait> > <Plug>(fern-action-enter)
+
+  nmap <buffer> <C-l> <C-w><C-l>
+  nmap <buffer> <C-h> <C-w><C-h>
+  nmap <buffer> <C-k> <C-w><C-k>
+  nmap <buffer> <C-j> <C-w><C-j>
+  nmap <Leader>l <C-w><C-l>
+  nmap <Leader>h <C-w><C-h>
+  nmap <Leader>k <C-w><C-k>
+  nmap <Leader>j <C-w><C-j>
+
+  nmap . <Plug>(fern-action-hidden-toggle)
 endfunction
 
 augroup FernGroup
   autocmd!
-  autocmd FileType fern call FernInit()
+  autocmd FileType fern call s:FernInit()
 augroup END
 
 " unblevable/quick-scope
@@ -902,8 +894,8 @@ augroup END
 " Konfekt/FastFold
 " .....................
 
-let g:fastfold_savehook=0
-let g:fastfold_fold_command_suffixes=[]
+" let g:fastfold_savehook=0
+" let g:fastfold_fold_command_suffixes=[]
 
 " junegunn/limelight.vim
 " .....................
@@ -967,44 +959,6 @@ let g:go_highlight_types = 1
 let g:go_auto_type_info = 1
 
 
-" ale
-" .....................
-
-" let g:ale_completion_enabled = 1
-" set omnifunc=ale#completion#OmniFunc
-let g:ale_linters = {
-  \ 'go': ['gobuild', 'gofmt', 'golangci-lint', 'gometalinter', 'gopls', 'gosimple', 'gotype', 'govet', 'revive'],
-  \}
-
-let g:ale_completion_symbols = {
-  \ 'text': '',
-  \ 'method': '',
-  \ 'function': '',
-  \ 'constructor': '',
-  \ 'field': '',
-  \ 'variable': '',
-  \ 'class': '',
-  \ 'interface': '',
-  \ 'module': '',
-  \ 'property': '',
-  \ 'unit': 'unit',
-  \ 'value': 'val',
-  \ 'enum': '',
-  \ 'keyword': 'keyword',
-  \ 'snippet': '',
-  \ 'color': 'color',
-  \ 'file': '',
-  \ 'reference': 'ref',
-  \ 'folder': '',
-  \ 'enum member': '',
-  \ 'constant': '',
-  \ 'struct': '',
-  \ 'event': 'event',
-  \ 'operator': '',
-  \ 'type_parameter': 'type param',
-  \ '<default>': 'v'
-  \ }
-
 " justinmk/vim-sneak
 " .....................
 
@@ -1018,7 +972,8 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_preview_float = 1
-let g:lsp_hover_conceal = 0
+let g:lsp_hover_conceal = 1
+" let g:lsp_preview_autoclose = 1
 
 function! s:on_lsp_buffer_enabled() abort
     " setlocal omnifunc=lsp#complete
@@ -1029,7 +984,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> gy <plug>(lsp-type-definition)
     nmap <buffer> <leader>er <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
@@ -1052,13 +1007,15 @@ augroup END
 " liuchengxu/vista.vim
 " .....................
 
+let g:vista_sidebar_width = 50
 let g:vista_close_on_jump = 1
 let g:vista_disable_statusline = 1
 let g:vista_highlight_whole_line = 1
 let g:vista_executive_for = {
         \ 'go': 'vim_lsp',
-        \ 'python': 'vim_lsp',
+        \ 'php': 'vim_lsp',
         \ 'vim': 'vim_lsp',
+        \ 'python': 'vim_lsp',
         \ }
 
 noremap <silent> <Leader>fs :Vista!!<CR>
@@ -1070,13 +1027,22 @@ noremap <silent> <Leader>fs :Vista!!<CR>
 " milkypostman/vim-togglelist
 " .....................
 
-nnoremap <script> <silent> <leader>i :call ToggleLocationList()<CR>
+let g:toggle_list_no_mappings = 1
 nnoremap <script> <silent> <leader>c :call ToggleQuickfixList()<CR>
+nnoremap <script> <silent> <leader>n :call ToggleLocationList()<CR>
 
 " puremourning/vimspector
 " .....................
 
+let g:vimspector_sidebar_width = 60
 let g:vimspector_base_dir = expand( '$HOME/.vim/vimspector-config' )
+let g:vimspector_sign_priority = {
+        \    'vimspectorBP':         998,
+        \    'vimspectorBPCond':     997,
+        \    'vimspectorBPDisabled': 996,
+        \    'vimspectorPC':         999,
+        \ }
+
 function! GotoWindow(id)
   :call win_gotoid(a:id)
 endfun
@@ -1084,40 +1050,148 @@ function! AddToWatch()
   let word = expand("<cexpr>")
   call vimspector#AddWatch(word)
 endfunction
-let g:vimspector_sidebar_width = 60
-nnoremap <leader>da :call vimspector#Launch()<CR>
+
+nnoremap <leader>dd :call vimspector#Launch()<CR>
+nnoremap <leader>dD :call vimspector#Restart()<CR>
+nnoremap <leader>dq :call vimspector#Reset()<CR>
+
+nnoremap <leader>dr :call vimspector#Continue()<CR>
+nnoremap <leader>dh :call vimspector#RunToCursor()<CR>
+nnoremap <leader>dk :call vimspector#StepOut()<CR>
+nnoremap <leader>dj :call vimspector#StepInto()<CR>
+nnoremap <leader>dl :call vimspector#StepOver()<CR>
+
+nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
+" nnoremap <leader>dB :call vimspector#ToggleConditionalBreakpoint()<CR>
+nnoremap <leader>da :call AddToWatch()<CR>
+nnoremap <Leader>di <Plug>VimspectorBalloonEval
+nnoremap <leader>dx :call vimspector#ClearBreakpoints()<CR>
+
 nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
 nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
 nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
 nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
 nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
-nnoremap <leader>di :call AddToWatch()<CR>
-nnoremap <leader>dx :call vimspector#Reset()<CR>
-nnoremap <leader>dX :call vimspector#ClearBreakpoints()<CR>
-" nnoremap <S-k> :call vimspector#StepOut()<CR>
-" nnoremap <S-l> :call vimspector#StepInto()<CR>
-" nnoremap <S-j> :call vimspector#StepOver()<CR>
-nnoremap <leader>d_ :call vimspector#Restart()<CR>
-nnoremap <leader>dn :call vimspector#Continue()<CR>
-nnoremap <leader>drc :call vimspector#RunToCursor()<CR>
-nnoremap <leader>dh :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <leader>de :call vimspector#ToggleConditionalBreakpoint()<CR>
-let g:vimspector_sign_priority = {
-  \    'vimspectorBP':         998,
-  \    'vimspectorBPCond':     997,
-  \    'vimspectorBPDisabled': 996,
-  \    'vimspectorPC':         999,
-  \ }
+
+" L-dd  "Debug start"
+" L-dD  "Debug restart with the same config"
+" L-dq  "Debug Quit"
+
+" L-dr  "Debug Run"
+" L-dh  "Debug Here / Run to cursor"
+" L-dj  "Debug Into"
+" L-dk  "Debug Out"
+" L-dl  "Debug Over"
+
+" L-db  "Debug Breakpoint"
+" L-da  "Debug Add to watch the symbol"
+" L-dx  "Debug clear breakpoints"
+" L-di  "Debug Inspect"
+        " L-dB  "Debug Conditional Breakpoint"
+
+" L-dc  "Debug Code window"
+" L-dv  "Debug Variables window"
+" L-dw  "Debug Watch window"
+" L-ds  "Debug Stack trace window"
+" L-do  "Debug Output window"
 
 " tpope/vim-dispatch
 " .....................
 
 " tpope/vim-fugitive
-"
+" .....................
 nnoremap <Leader>vb :Gblame<CR>
 nnoremap <Leader>vd :Gdiffsplit<CR>
 nnoremap <Leader>vD :Git difftool<CR>
 nnoremap <Leader>vg :Git<CR>
+
+" junegunn/goyo.vim
+" .....................
+let g:goyo_width = 120
+
+" itchyny/lightline.vim
+" mengelbrecht/lightline-bufferline
+" .....................
+" let g:lightline = {}
+" let g:lightline.colorscheme = '16color'
+" let g:lightline.colorscheme = 'one'
+"
+
+      " \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+      "
+" let g:lightline.component = {
+"     \ 'mode': '%{lightline#mode()}',
+"     \ 'absolutepath': '%F',
+"     \ 'relativepath': '%f',
+"     \ 'filename': '%t',
+"     \ 'modified': '%M',
+"     \ 'bufnum': '%n',
+"     \ 'paste': '%{&paste?"PASTE":""}',
+"     \ 'readonly': '%R',
+"     \ 'charvalue': '%b',
+"     \ 'charvaluehex': '%B',
+"     \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
+"     \ 'fileformat': '%{&ff}',
+"     \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
+"     \ 'percent': '%3p%%',
+"     \ 'percentwin': '%P',
+"     \ 'spell': '%{&spell?&spelllang:""}',
+"     \ 'lineinfo': '%3l:%-2c',
+"     \ 'line': '%l',
+"     \ 'column': '%c',
+"     \ 'close': '%999X X ',
+"     \ 'winnr': '%{winnr()}' }
+" autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+
+let g:lightline = {}
+let g:lightline.colorscheme = 'one'
+" let g:lightline.subseparator = { 'left': '◇', 'right': '◇' }
+let g:lightline.subseparator = { 'left': '│', 'right': '│'}
+let g:lightline.active = {}
+let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
+let g:lightline.active.right = [ [ 'gitbranch' ] ]
+" let g:lightline.active.right = [ [ 'functionName', 'gitbranch' ] ]
+let g:lightline.inactive = {}
+let g:lightline.inactive.left = [ [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
+let g:lightline.inactive.right = [ [ 'gitbranch' ] ]
+let g:lightline.tabline = {}
+let g:lightline.tabline.left = [ ['buffers'] ]
+let g:lightline.tabline.right = [ ['close'] ]
+let g:lightline.tabline.right = [ ]
+let g:lightline.component_expand = {}
+let g:lightline.component_expand.buffers = 'lightline#bufferline#buffers'
+" let g:lightline.component_expand.functionName = 'NearestMethodOrFunction'
+let g:lightline.component_function = {}
+let g:lightline.component_function.gitbranch = 'FugitiveHead'
+let g:lightline.component_type = {}
+let g:lightline.component_type.buffers = 'tabsel'
+
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+
+nnoremap <Leader>1 :call lightline#bufferline#go(1)<cr>
+nnoremap <Leader>2 :call lightline#bufferline#go(2)<cr>
+nnoremap <Leader>3 :call lightline#bufferline#go(3)<cr>
+nnoremap <Leader>4 :call lightline#bufferline#go(4)<cr>
+nnoremap <Leader>5 :call lightline#bufferline#go(5)<cr>
+nnoremap <Leader>6 :call lightline#bufferline#go(6)<cr>
+nnoremap <Leader>7 :call lightline#bufferline#go(7)<cr>
+nnoremap <Leader>8 :call lightline#bufferline#go(8)<cr>
+nnoremap <Leader>9 :call lightline#bufferline#go(9)<cr>
+nnoremap <Leader>0 :call lightline#bufferline#go(10)<cr>
+nnoremap <Leader>[ :bprevious<cr>
+nnoremap <Leader>] :bnext<cr>
+
+set noshowmode
+set showtabline=2
+
+let g:lightline#bufferline#filename_modifier = ':.'
+let g:lightline#bufferline#show_number = 2
+let g:lightline#bufferline#number_map = {
+\ 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴',
+\ 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹'}
+
+" let s:p.normal.left = [ ['#0000ff', '#ffffff', 21, 231, 'bold' ], [ '#ffffff', '#0000ff', 231, 21 ] ]
+" let g:lightline#colorscheme#landscape#palette = s:p
 
 " prabirshrestha/asyncomplete-lsp.vim
 " ---

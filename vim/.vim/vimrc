@@ -227,6 +227,8 @@ Plug 'tpope/vim-dispatch'
 " Plug 'roxma/vim-hug-neovim-rpc'
 
 Plug 'fatih/vim-go'
+" go get -u github.com/cweill/gotests/...
+Plug 'buoto/gotests-vim'
 
 " Plug 'dense-analysis/ale'
 
@@ -485,7 +487,7 @@ nnoremap <silent> [q :cprevious<CR>
 nmap Q q
 
 " Repeat last macro if in a normal buffer.
-nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
+" nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
 " nnoremap <A-j> k
 
 " Command line. Pretty useful with Caps Lock as Esc.
@@ -779,10 +781,10 @@ nnoremap <leader>fc <Plug>CtrlSFCCwordExec
 " .....................
 
 " Disable netrw.
-let g:loaded_netrw  = 1
-let g:loaded_netrwPlugin = 1
-let g:loaded_netrwSettings = 1
-let g:loaded_netrwFileHandlers = 1
+" let g:loaded_netrw  = 1
+" let g:loaded_netrwPlugin = 1
+" let g:loaded_netrwSettings = 1
+" let g:loaded_netrwFileHandlers = 1
 
 " augroup my-fern-hijack
 "   autocmd!
@@ -842,7 +844,7 @@ function! s:FernInit() abort
   nmap <Leader>k <C-w><C-k>
   nmap <Leader>j <C-w><C-j>
 
-  nmap . <Plug>(fern-action-hidden-toggle)
+  " nmap . <Plug>(fern-action-hidden-toggle)
 endfunction
 
 augroup FernGroup

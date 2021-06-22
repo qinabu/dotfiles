@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+[[ "$1" =~ ^(-h|--help)$ ]] && { cat <<EOF
+note some text      : add note
+note -v [ days ]    : view last days
+note -d             : output directory
+note -l             : ls filenames
+note                : open $EDITOR
+EOF
+} && exit
+
+color=""
+reset=""
+# terminal stdout
+if [[ -t 1 ]]; then
+        color="\033[1;32m"
+        reset="\033[0m"
+fi
+directory="${NOTES_DIRECTORY:-$HOME/.local/notes}"
+directory="${directory%/}"
+
+day() {
+        local days=$1
+        date -d "${days} days ago" "+%Y-%m-%d-%a"
+}
+
+filename() {
+        local days=$1
+        echo "${directory}/$(day ${days}).txt"
+}
+
+show() {
+        local days=$1
+        today=$([[ $days -eq 0 ]] && echo " *")
+        echo -e "${color}$(day $days)${today}${reset}"
+        cat "$(filename $days)" 2>&- || echo "~"
+        echo
+}
+
+# view last days
+if [[ "$1" == "-v" ]]; then
+        days="${2:-3}" # 3 days by default
+        int=$(printf "%d" "$days")
+        abs=${int#-}
+        {
+                for (( i=$abs ; $i >= 0 ; i-- )) do 
+                        show $i
+                done
+        } # | ${PAGER:-less}
+        exit
+fi
+
+# output directory
+if [[ "$1" == "-d" ]]; then
+        echo "$directory"
+        exit
+fi
+
+# ls filenames
+if [[ "$1" == "-l" ]]; then
+        ls -d -1 "$directory/"*
+        exit
+fi
+
+# add note
+if [[ $# -gt 0 ]]; then
+        text="$@"
+        echo "* $text" >> "$(filename 0)"
+        show 0
+        exit
+fi
+
+# open vim
+[[ "$EDITOR" =~ ^vim ]] && $EDITOR "$(filename 0)" -c ':normal G' && exit
+
+# open $EDITOR
+$EDITOR "$(filename 0)"
+

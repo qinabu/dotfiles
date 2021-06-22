@@ -1,0 +1,60 @@
+{
+  "configurations": {
+    "Launch PyTest": {
+      "adapter": "debugpy",
+      "variables": {
+          "python": {
+                "shell": "/bin/bash -c 'if [ -z \"${dollar}VIRTUAL_ENV\" ]; then echo $$(which python3); else echo \"${dollar}VIRTUAL_ENV/bin/python\"; fi'"
+          },
+          "pwd": {
+                "shell": "/bin/bash -c 'echo \"${dollar}PWD\"'"
+          }
+      },
+      "configuration": {
+        "type": "vscode-python",
+        "request": "launch",
+        "cwd": "${pwd}",
+        "python": ["${python}", "-E"],
+        "args": ["-m", "pytest", "${file}"],
+        "env": {
+                "PYTHONPATH": "${pwd}"
+        },
+        "justMyCode": true,
+        "stopOnEntry": false,
+        "console": "integratedTerminal",
+        "module": "pytest",
+        "pytestEnabled": true,
+        "pytestPath": "tests",
+        "pytestArgs": ["-s"]
+      }
+    },
+    "debug this file": {
+      "adapter": "debugpy",
+      "variables": {
+        "Python": {
+          "shell": "/bin/sh -c 'if [ -z \"${dollar}VIRTUAL_ENV\" ]; then echo $$(which python3); else echo \"${dollar}VIRTUAL_ENV/bin/python\"; fi'"
+        },
+          "pwd": {
+                "shell": "/bin/bash -c 'echo \"${dollar}PWD\"'"
+          }
+      },
+      "configuration": {
+        "type": "python",
+        "autoselect": false,
+        "request": "launch",
+        "cwd": "${pwd}",
+        "stopOnEntry": false,
+        "justMyCode": false,
+        "python": "$Python",
+        "program": "${file}",
+        "args": [ "*${CommandLineArgs}" ]
+      },
+      "breakpoints": {
+        "exception": {
+          "caught": "N",
+          "uncaught": "Y"
+        }
+      }
+    }
+  }
+}

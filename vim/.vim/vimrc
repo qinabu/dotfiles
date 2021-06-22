@@ -83,27 +83,13 @@ endif
 
 " Specify a directory for plugins.
 call plug#begin('~/.vim/plugged')
-
-" Atom One Dark / Light theme.
-" Plug 'rakr/vim-one'
-
-" Gruvbox Community theme (morhetz/gruvbox).
+Plug 'habamax/vim-gruvbit'
 " Plug 'morhetz/gruvbox'
-" Plug 'gruvbox-community/gruvbox'
-" Plug 'cormacrelf/vim-colors-github'
-" Plug 'freeo/vim-kalisi'
-" Plug 'sonph/onehalf', { 'rtp': 'vim' }
-" Plug 'chriskempson/base16-vim'
-" Plug 'rakr/vim-one'
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'rainglow/vim'
-" Plug 'swalladge/paper.vim'
+Plug 'noahfrederick/vim-noctu'
 Plug 'humanoid-colors/vim-humanoid-colorscheme'
-" Plug 'rakr/vim-two-firewatch'
 
 " Jump to any location specified by two characters.
 Plug 'justinmk/vim-sneak'
-" Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
 
 " Integrate fzf with Vim.
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -114,41 +100,9 @@ Plug 'dyng/ctrlsf.vim'
 
 Plug 'szw/vim-maximizer'
 
-" Better manage Vim sessions.
-" Plug 'tpope/vim-obsession'
-
-" Zoom in and out of a specific split pane (similar to tmux).
-" Plug 'dhruvasagar/vim-zoom'
-
-" Pass focus events from tmux to Vim (useful for autoread and
-" linting tools).
-" Plug 'tmux-plugins/vim-tmux-focus-events'
-
 " Navigate and manipulate files in a tree view.
 Plug 'lambdalisue/fern.vim'
-" Plug 'lambdalisue/nerdfont.vim'
-" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-git-status.vim'
-
-" Helpers for moving and manipulating files / directories.
-" Plug 'tpope/vim-eunuch'
-
-" Run a diff on 2 directories.
-" Plug 'will133/vim-dirdiff'
-
-" Run a diff on 2 blocks of text.
-" Plug 'AndrewRadev/linediff.vim'
-
-" Add spelling errors to the quickfix list
-" (vim-ingo-library is a dependency).
-" Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-SpellCheck'
-
-" Briefly highlight which text was yanked.
-" Plug 'machakann/vim-highlightedyank'
-
-" Highlight which character to jump to when using horizontal
-" movement keys.
-" Plug 'unblevable/quick-scope'
 
 " Modify * to also work with visual selections.
 Plug 'nelstrom/vim-visual-star-search'
@@ -156,105 +110,40 @@ Plug 'nelstrom/vim-visual-star-search'
 " Automatically clear search highlights after you move your cursor.
 Plug 'haya14busa/is.vim'
 
-" Handle multi-file find and replace.
-" Plug 'mhinz/vim-grepper'
-
-" Better display unwanted whitespace.
-" Plug 'ntpeters/vim-better-whitespace'
-
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
-
-" Automatically set 'shiftwidth' + 'expandtab' (indention) based
-" on file type.
-" Plug 'tpope/vim-sleuth'
-
-" * A number of useful motions for the quickfix list, pasting and more.
-" Plug 'tpope/vim-unimpaired'
-
-" Drastically improve insert mode performance in files with folds.
-" Plug 'Konfekt/FastFold'
 
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 " A git wrapper.
 Plug 'tpope/vim-fugitive'
-" Plug 'borissov/fugitive-bitbucketserver'
-" Plug 'tommcdo/vim-fubitive'
 
 " Show git file changes in the gutter.
 " Plug 'mhinz/vim-signify'
 Plug 'airblade/vim-gitgutter'
 
-" * Distraction free writing by removing UI elements and centering
-" everything.
-" Plug 'junegunn/goyo.vim'
-
-" A bunch of useful language related snippets (ultisnips is the engine).
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 " Run test suites for various languages.
 Plug 'janko/vim-test'
+
 " Build and test dispatcher.
 Plug 'tpope/vim-dispatch'
 
-" Languages and file types.
-" Plug 'cakebaker/scss-syntax.vim'
-" Plug 'chr4/nginx.vim'
-" Plug 'chrisbra/csv.vim'
-" Plug 'ekalinin/dockerfile.vim'
-" Plug 'elixir-editors/vim-elixir'
-" Plug 'Glench/Vim-Jinja2-Syntax'
-" Plug 'godlygeek/tabular' | Plug 'tpope/vim-markdown'
-" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
-" Plug 'jvirtanen/vim-hcl'
-" Plug 'lifepillar/pgsql.vim'
-" Plug 'othree/html5.vim'
-" Plug 'pangloss/vim-javascript'
-" Plug 'PotatoesMaster/i3-vim-syntax'
-" Plug 'stephpy/vim-yaml'
-" Plug 'tmux-plugins/vim-tmux'
-" Plug 'tpope/vim-git'
-" Plug 'tpope/vim-liquid'
-" Plug 'tpope/vim-rails'
-" Plug 'vim-python/python-syntax'
-" Plug 'vim-ruby/vim-ruby'
-" Plug 'wgwoods/vim-systemd-syntax'
-
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
-
+" Golang extended support
 Plug 'fatih/vim-go'
-" go get -u github.com/cweill/gotests/...
+
+" GoTests generator: go get -u github.com/cweill/gotests/...
 Plug 'buoto/gotests-vim'
-
-" Plug 'dense-analysis/ale'
-
-"Plug 'itchyny/vim-cursorword'
 
 " Toggle functions for quickfix and location list.
 Plug 'milkypostman/vim-togglelist'
 
-" LSP & Autocomplete { {{
-
+" LSP & Autocomplete
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
-let g:asyncomplete_auto_popup       = 1
-let g:asyncomplete_auto_completeopt = 0
-
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
-inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
-
-
-" } }}
 
 " Debug Adapter Protocol for vim (.dotfiles/vim/.vim/vimspector-config/).
 Plug 'puremourning/vimspector'
@@ -271,6 +160,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
 call plug#end()
+
 
 " Basic functions
 
@@ -316,7 +206,7 @@ function! s:patch_humanoid_colors()
 
         highlight goTypeName ctermfg=168 guifg=#d75f5f
 
-        " Spellingkmistakes will be colored up red.
+        " Spelling mistakes will be colored up red.
         highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
         highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
         highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
@@ -327,8 +217,41 @@ function! s:patch_humanoid_colors()
 endfunction
 autocmd! ColorScheme humanoid call s:patch_humanoid_colors()
 
-set background=light
-colorscheme humanoid
+function! s:patch_gruvbox_colors()
+        " Spelling mistakes will be colored up red.
+        highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+         
+        highlight lspReference ctermbg=241 guibg=#665c54
+endfunction
+autocmd! ColorScheme gruvbox call s:patch_gruvbox_colors()
+
+function! s:patch_gruvbit_colors()
+        " lsp
+        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=240 guibg=#585858
+        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=94 guibg=#875F00
+        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=89 guibg=#87005F
+        " highlight lspReference ctermfg=222 guifg=#FFD787 ctermbg=89 guibg=#87005F
+        "
+        " Selection
+        highlight Visual ctermbg=40 guibg=#00F700 ctermfg=232 guifg=#080808 
+
+        " Spelling mistakes will be colored up red.
+        highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
+        highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+endfunction
+autocmd! ColorScheme gruvbit call s:patch_gruvbit_colors()
+
+" set background=light
+let g:gruvbit_transp_bg = v:true
+set background=dark
+" colorscheme humanoid
+" colorscheme gruvbox
+colorscheme gruvbit
 
 " Status line
 " ---------------------
@@ -431,9 +354,9 @@ nnoremap <Leader>v <C-w>
 nnoremap <Leader>; :
 
 " Exit from insert and command mode.
-cnoremap jj <C-c>
-inoremap jj <C-c>
-inoremap оо <C-c>
+" cnoremap jj <C-c>
+" inoremap jj <C-c>
+" inoremap оо <C-c>
 
 " Seamlessly treat visual lines as actual lines when moving around.
 
@@ -769,13 +692,15 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 " dyng/ctrlsf.vim
 " .....................
 
-let g:ctrlsf_context = '-B 3 -A 3'
 " let g:ctrlsf_auto_preview = 1
+
+let g:ctrlsf_context = '-B 3 -A 3'
 let g:ctrlsf_compact_winsize = '30%'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_focus = { "at" : "start" }
 
-nnoremap <leader>fc <Plug>CtrlSFCCwordExec
+nmap <silent> <leader>fc <Plug>CtrlSFCwordExec
+nmap <silent> <leader>fC <Plug>CtrlSFPrompt
 
 " lambdalisue/fern.vim
 " .....................
@@ -806,7 +731,7 @@ nnoremap <leader>fc <Plug>CtrlSFCCwordExec
 " Use symbols.
 " let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR>
+noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 " noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 
@@ -1146,7 +1071,8 @@ let g:goyo_width = 120
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'one'
+let g:lightline.colorscheme = 'gruvbox'
+let g:lightline.colorscheme = 'gruvbit'
 " let g:lightline.subseparator = { 'left': '◇', 'right': '◇' }
 let g:lightline.subseparator = { 'left': '│', 'right': '│'}
 let g:lightline.active = {}
@@ -1197,4 +1123,52 @@ let g:lightline#bufferline#number_map = {
 
 " prabirshrestha/asyncomplete-lsp.vim
 " ---
+let g:asyncomplete_auto_popup       = 1
+let g:asyncomplete_auto_completeopt = 0
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
+
+
+
+function! s:init_lynx()
+  nnoremap <nowait><buffer> <C-F> i<PageDown><C-\><C-N>
+  tnoremap <nowait><buffer> <C-F> <PageDown>
+
+  nnoremap <nowait><buffer> <C-B> i<PageUp><C-\><C-N>
+  tnoremap <nowait><buffer> <C-B> <PageUp>
+
+  nnoremap <nowait><buffer> <C-D> i:DOWN_HALF<CR><C-\><C-N>
+  tnoremap <nowait><buffer> <C-D> :DOWN_HALF<CR>
+
+  nnoremap <nowait><buffer> <C-U> i:UP_HALF<CR><C-\><C-N>
+  tnoremap <nowait><buffer> <C-U> :UP_HALF<CR>
+
+  nnoremap <nowait><buffer> <C-N> i<Delete><C-\><C-N>
+  tnoremap <nowait><buffer> <C-N> <Delete>
+
+  nnoremap <nowait><buffer> <C-P> i<Insert><C-\><C-N>
+  tnoremap <nowait><buffer> <C-P> <Insert>
+
+  nnoremap <nowait><buffer> u     i<Left><C-\><C-N>
+  nnoremap <nowait><buffer> U     i<C-U><C-\><C-N>
+  nnoremap <nowait><buffer> <CR>  i<CR><C-\><C-N>
+  nnoremap <nowait><buffer> gg    i:HOME<CR><C-\><C-N>
+  nnoremap <nowait><buffer> G     i:END<CR><C-\><C-N>
+  nnoremap <nowait><buffer> zl    i:SHIFT_LEFT<CR><C-\><C-N>
+  nnoremap <nowait><buffer> zL    i:SHIFT_LEFT<CR><C-\><C-N>
+  nnoremap <nowait><buffer> zr    i:SHIFT_RIGHT<CR><C-\><C-N>
+  nnoremap <nowait><buffer> zR    i:SHIFT_RIGHT<CR><C-\><C-N>
+  nnoremap <nowait><buffer> gh    i:HELP<CR><C-\><C-N>
+  nnoremap <nowait><buffer> cow   i:LINEWRAP_TOGGLE<CR><C-\><C-N>
+
+  tnoremap <buffer> <C-C> <C-G><C-\><C-N>
+  nnoremap <buffer> <C-C> i<C-G><C-\><C-N>
+endfunction
+command! -nargs=1 Web       vnew|call term_start('lynx -scrollbar '.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
+command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckduckgo.com/?q='.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
+
+
 " vim:foldmethod=marker

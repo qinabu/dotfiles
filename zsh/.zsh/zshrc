@@ -11,4 +11,18 @@ for file in ~/.zsh/*.zsh; do
         source $file
 done
 
+# vim mode
+bindkey -v
+bindkey -M viins '^?' backward-delete-char
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins '^P' up-history
+bindkey "^I" fzf-completion
+bindkey "^R" fzf-history-widget
+bindkey "^T" fzf-file-widget
+bindkey "^[c" fzf-cd-widget
+bindkey -M viins '^N' down-history
+
+setopt share_history
+
+PATH=$PATH:~/.zsh/scripts
 source ~/.profile

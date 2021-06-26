@@ -37,6 +37,11 @@ show() {
         echo
 }
 
+now() {
+        local h=$(date +%H)
+        printf "%$([[ $h -gt 0 && $h -lt 13 ]] && echo 'x' || echo 'X')%s" $(date '+%I %M')
+}
+
 # view last days
 if [[ "$1" == "-v" ]]; then
         days="${2:-3}" # 3 days by default
@@ -65,7 +70,7 @@ fi
 # add note
 if [[ $# -gt 0 ]]; then
         text="$@"
-        echo "* $text" >> "$(filename 0)"
+        echo "* $(now): $text" >> "$(filename 0)"
         show 0
         exit
 fi

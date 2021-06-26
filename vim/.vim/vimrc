@@ -383,6 +383,10 @@ tnoremap <C-h> <C-w><C-h>
 tnoremap <C-k> <C-w><C-k>
 tnoremap <C-j> <C-w><C-j>
 
+" scroll by one line
+noremap <ScrollWheelUp>   1<C-Y>
+noremap <ScrollWheelDown> 1<C-E>
+
 nnoremap <silent> <Leader>oO :only<CR>
 nnoremap <silent> <Leader>oo :MaximizerToggle<CR>
 
@@ -910,6 +914,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gn <plug>(lsp-next-reference)
+    nmap <buffer> gp <plug>(lsp-previous-reference)
     nmap <buffer> gi <plug>(lsp-implementation)
     nmap <buffer> gy <plug>(lsp-type-definition)
     nmap <buffer> <leader>er <plug>(lsp-rename)

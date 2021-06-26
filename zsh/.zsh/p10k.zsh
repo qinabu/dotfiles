@@ -1575,7 +1575,8 @@
   typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
 
   function prompt_hextime() {
-          p10k segment -f 14 -t $(printf '%X%s' $(date '+%I %M'))
+          local h=$(date +%H)
+          p10k segment -f 14 -t $(printf "%$([[ $h -gt 0 && $h -le 12 ]] && echo 'x' || echo 'X')%s" $(date '+%I %M'))
   }
 
   # If p10k is already loaded, reload configuration.

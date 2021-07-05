@@ -108,7 +108,7 @@ Plug 'lambdalisue/fern-git-status.vim'
 Plug 'nelstrom/vim-visual-star-search'
 
 " Automatically clear search highlights after you move your cursor.
-Plug 'haya14busa/is.vim'
+" Plug 'haya14busa/is.vim'
 
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
@@ -159,7 +159,15 @@ Plug 'junegunn/limelight.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
+Plug 'prabirshrestha/asyncomplete.vim'
+if has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+endif
+
 call plug#end()
+
 
 
 " Basic functions
@@ -230,7 +238,7 @@ autocmd! ColorScheme gruvbox call s:patch_gruvbox_colors()
 
 function! s:patch_gruvbit_colors()
         " lsp
-        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=240 guibg=#585858
+        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=239 guibg=#4E4E4E
         " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=94 guibg=#875F00
         " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=89 guibg=#87005F
         " highlight lspReference ctermfg=222 guifg=#FFD787 ctermbg=89 guibg=#87005F
@@ -248,6 +256,8 @@ autocmd! ColorScheme gruvbit call s:patch_gruvbit_colors()
 
 " set background=light
 let g:gruvbit_transp_bg = v:true
+let g:limelight_conceal_termfg = 238
+let g:limelight_conceal_guifg = '#444444'
 set background=dark
 " colorscheme humanoid
 " colorscheme gruvbox
@@ -284,7 +294,7 @@ set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNO
 let mapleader=" "
 let maplocalleader=" "
 
-set lazyredraw
+" set lazyredraw
 set updatetime=100
 set autoindent
 set autoread
@@ -316,7 +326,7 @@ set noswapfile
 set number relativenumber
 set regexpengine=1
 set ruler
-set scrolloff=3
+set scrolloff=2
 set shiftwidth=8
 set shortmess+=c
 set showcmd
@@ -368,10 +378,10 @@ inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
 " Navigate around splits with a single key combo.
-nnoremap <C-l> <C-w><C-l>
-nnoremap <C-h> <C-w><C-h>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-j> <C-w><C-j>
+" nnoremap <C-l> <C-w><C-l>
+" nnoremap <C-h> <C-w><C-h>
+" nnoremap <C-k> <C-w><C-k>
+" nnoremap <C-j> <C-w><C-j>
 
 nnoremap <Leader>l <C-w><C-l>
 nnoremap <Leader>h <C-w><C-h>
@@ -452,7 +462,7 @@ xnoremap <Leader>eE :s///g<Left><Left>
 
 " nnoremap <silent> <Leader>ee :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 nnoremap <silent> <Leader>ee *Ncgn
-xnoremap <silent> <Leader>ee "sy:let @/=@s<CR>cgn
+xnoremap <Leader>ee "sy:let @/='\V'.@s<CR>cgn
 
 " As above, only easier.
 " nnoremap c* *Ncgn
@@ -466,10 +476,10 @@ noremap x "_x
 noremap X "_x
 
 " Prevent selecting and pasting from overwriting what you originally copied.
-xnoremap p pgvy
+" xnoremap p pgvy
 
 " Keep cursor at the bottom of the visual selection after you yank it.
-vmap y ygv<Esc>
+" vmap y ygv<Esc>
 
 " Edit Vim config file in a new tab.
 nnoremap <Leader>ve :edit $MYVIMRC<CR>
@@ -703,8 +713,9 @@ let g:ctrlsf_compact_winsize = '30%'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_focus = { "at" : "start" }
 
-nmap <silent> <leader>fc <Plug>CtrlSFCwordExec
-nmap <silent> <leader>fC <Plug>CtrlSFPrompt
+nnoremap <silent> <leader>fc <Plug>CtrlSFCwordExec
+" nnoremap <silent> <leader>fC <Plug>CtrlSFPrompt
+" vnoremap <silent> <leader>fc <Plug>CtrlSFVwordExec
 
 " lambdalisue/fern.vim
 " .....................
@@ -735,7 +746,7 @@ nmap <silent> <leader>fC <Plug>CtrlSFPrompt
 " Use symbols.
 " let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
+noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=32<CR><C-w>=
 " noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 
@@ -768,10 +779,10 @@ function! s:FernInit() abort
   nmap <buffer> <C-h> <C-w><C-h>
   nmap <buffer> <C-k> <C-w><C-k>
   nmap <buffer> <C-j> <C-w><C-j>
-  nmap <Leader>l <C-w><C-l>
-  nmap <Leader>h <C-w><C-h>
-  nmap <Leader>k <C-w><C-k>
-  nmap <Leader>j <C-w><C-j>
+  " nmap <Leader>l <C-w><C-l>
+  " nmap <Leader>h <C-w><C-h>
+  " nmap <Leader>k <C-w><C-k>
+  " nmap <Leader>j <C-w><C-j>
 
   " nmap . <Plug>(fern-action-hidden-toggle)
 endfunction
@@ -840,12 +851,6 @@ let g:limelight_conceal_ctermfg=244
 " let g:mkdp_refresh_slow=1
 " let g:mkdp_markdown_css=fnameescape($HOME).'/.local/lib/github-markdown-css/github-markdown.css'
 
-" SirVer/ultisnips
-" .....................
-
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
 " janko/vim-test
 " .....................
 
@@ -869,6 +874,7 @@ nmap <silent> <Leader>tf :TestFile<CR>
 nmap <silent> <Leader>ts :TestSuite<CR>
 nmap <silent> <Leader>tl :TestLast<CR>
 nmap <silent> <Leader>tv :TestVisit<CR>
+nmap <silent> <Leader>tt :if &filetype == "go" <bar> GoCoverageToggle endif <cr>
 
 " fatih/vim-go
 " .....................
@@ -914,11 +920,11 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gn <plug>(lsp-next-reference)
-    nmap <buffer> gp <plug>(lsp-previous-reference)
     nmap <buffer> gi <plug>(lsp-implementation)
     nmap <buffer> gy <plug>(lsp-type-definition)
     nmap <buffer> <leader>er <plug>(lsp-rename)
+    nmap <buffer> <leader>n <plug>(lsp-next-reference)
+    nmap <buffer> <leader>p <plug>(lsp-previous-reference)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
@@ -962,7 +968,7 @@ noremap <silent> <Leader>fs :Vista!!<CR>
 
 let g:toggle_list_no_mappings = 1
 nnoremap <script> <silent> <leader>c :call ToggleQuickfixList()<CR>
-nnoremap <script> <silent> <leader>n :call ToggleLocationList()<CR>
+nnoremap <script> <silent> <leader>C :call ToggleLocationList()<CR>
 
 " puremourning/vimspector
 " .....................
@@ -1133,8 +1139,8 @@ let g:asyncomplete_auto_popup       = 1
 let g:asyncomplete_auto_completeopt = 0
 
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+" inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
 
 
@@ -1176,5 +1182,22 @@ endfunction
 command! -nargs=1 Web       vnew|call term_start('lynx -scrollbar '.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
 command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckduckgo.com/?q='.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
 
+
+" SirVer/ultisnips
+" .....................
+
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+if has('python3')
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
+endif
 
 " vim:foldmethod=marker

@@ -8,6 +8,8 @@
 	<false/>
 	<key>AlertsIndicateShortcuts</key>
 	<false/>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>BadgeFont</key>
 	<string>SF Mono</string>
 	<key>ColoredSelectedTabOutlineStrength</key>
@@ -62485,12 +62487,16 @@
 	<true/>
 	<key>DisableTabBarTooltips</key>
 	<true/>
+	<key>DoubleReportScrollWheel</key>
+	<false/>
 	<key>DrawBottomLineForHorizontalTabBar</key>
 	<true/>
 	<key>EnableDivisionView</key>
 	<true/>
 	<key>EnableRendezvous</key>
 	<false/>
+	<key>FastTrackpad</key>
+	<true/>
 	<key>FlashTabBarInFullscreen</key>
 	<true/>
 	<key>FocusFollowsMouse</key>
@@ -62680,7 +62686,7 @@
 	<key>HideTab</key>
 	<true/>
 	<key>HideTabNumber</key>
-	<true/>
+	<false/>
 	<key>HighVisibility</key>
 	<false/>
 	<key>Hotkey</key>
@@ -62730,6 +62736,8 @@
 			<string>~/Projects</string>
 			<key>AWDS Window Option</key>
 			<string>Yes</string>
+			<key>Allow Title Reporting</key>
+			<true/>
 			<key>Allow Title Setting</key>
 			<true/>
 			<key>Ambiguous Double Width</key>
@@ -62830,13 +62838,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.63873869180679321</real>
+				<real>0.72577325010925786</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.82989895343780518</real>
+				<real>0.892945726028326</real>
 				<key>Red Component</key>
-				<real>0.90061241388320923</real>
+				<real>0.95818376541137695</real>
 			</dict>
 			<key>Ansi 2 Color</key>
 			<dict>
@@ -62882,39 +62890,39 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.45103743672370911</real>
+				<real>0.56764922657217587</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.29604318737983704</real>
+				<real>0.41514638489751821</real>
 				<key>Red Component</key>
-				<real>0.62685638666152954</real>
+				<real>0.74980545043945312</real>
 			</dict>
 			<key>Ansi 6 Color</key>
 			<dict>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.51752607345565593</real>
+				<real>0.5612870266848482</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.61568635702133179</real>
+				<real>0.66774749755859375</real>
 				<key>Red Component</key>
-				<real>0.40784317255020142</real>
+				<real>0.44232954212790038</real>
 			</dict>
 			<key>Ansi 7 Color</key>
 			<dict>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.44320183992385864</real>
+				<real>0.63381376207213536</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.5310559868812561</real>
+				<real>0.73464790402601088</real>
 				<key>Red Component</key>
-				<real>0.5926094651222229</real>
+				<real>0.80667209625244141</real>
 			</dict>
 			<key>Ansi 8 Color</key>
 			<dict>
@@ -63026,13 +63034,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.63873869180679321</real>
+				<real>0.92296062611503182</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.82989895343780518</real>
+				<real>0.98284244537353516</real>
 				<key>Red Component</key>
-				<real>0.90061241388320923</real>
+				<real>0.44253362738231772</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -63052,13 +63060,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.11759774386882782</real>
+				<real>0.0</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.11759573966264725</real>
+				<real>0.0</real>
 				<key>Red Component</key>
-				<real>0.11759927868843079</real>
+				<real>0.0</real>
 			</dict>
 			<key>Cursor Type</key>
 			<integer>2</integer>
@@ -63491,6 +63499,10 @@
 			<real>0.0</real>
 			<key>Mouse Reporting</key>
 			<true/>
+			<key>Mouse Reporting allow clicks and drags</key>
+			<true/>
+			<key>Mouse Reporting allow mouse wheel</key>
+			<true/>
 			<key>Name</key>
 			<string>Gruv</string>
 			<key>Non Ascii Font</key>
@@ -63498,7 +63510,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SFMonoNerdFontComplete-Medium 16</string>
+			<string>SFMonoNerdFontComplete-Regular 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Open Toolbelt</key>
@@ -63554,7 +63566,7 @@
 			<key>Silence Bell</key>
 			<false/>
 			<key>Smart Cursor Color</key>
-			<true/>
+			<false/>
 			<key>Smart Selection Rules</key>
 			<array>
 				<dict>
@@ -65651,6 +65663,10 @@
 	<true/>
 	<key>PromptOnQuitEvenIfThereAreNoWindows</key>
 	<true/>
+	<key>ProportionalScrollWheelReporting</key>
+	<true/>
+	<key>SensitiveScrollWheel</key>
+	<true/>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
 	<key>SeparateWindowTitlePerTab</key>
@@ -65689,6 +65705,11 @@
 	<integer>12</integer>
 	<key>TerminalVMargin</key>
 	<integer>12</integer>
+	<key>ToolbeltTools</key>
+	<array>
+		<string>Jobs</string>
+		<string>Actions</string>
+	</array>
 	<key>UnderlineCursorHeight</key>
 	<real>4</real>
 	<key>Use background pattern indicator</key>
@@ -65698,6 +65719,8 @@
 	<key>UseCustomTabBarFontSize</key>
 	<true/>
 	<key>UseLionStyleFullscreen</key>
+	<false/>
+	<key>UseSystemCursorWhenPossible</key>
 	<false/>
 	<key>UseVirtualKeyCodesForDetectingDigits</key>
 	<false/>

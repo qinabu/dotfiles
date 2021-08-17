@@ -3,3 +3,4 @@ mafredri/zsh-async
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
 romkatv/powerlevel10k
+# jeffreytse/zsh-vi-mode

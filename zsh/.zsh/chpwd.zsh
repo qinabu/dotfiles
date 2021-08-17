@@ -1,19 +1,21 @@
-iterm_chpwd() 
-{
-        # [[ "$SHLVL" -lt 2 ]]
-        echo -n -e "\033]0;$(basename $PWD)\007"
-}
-
-# iterm_chpwd_reg()
-# {
-#         add-zsh-hook chpwd iterm_chpwd
-#         add-zsh-hook -d precmd iterm_chpwd_reg
-#         iterm_chpwd
-# }
-
 [[ $TERM_PROGRAM == "iTerm.app" ]] && {
-        # autoload -U add-zsh-hook iterm_chpwd
-        # add-zsh-hook precmd iterm_chpwd
+        iterm_chpwd() 
+        {
+                # [[ "$SHLVL" -lt 2 ]]
+                local d
+                [[ "$PWD" == "$HOME" ]] && d="~" || d=$(basename "$PWD")
+                printf "\033]0;${d}\007"
+        }
+
+        iterm_chpwd_unreg()
+        {
+                iterm_chpwd
+                add-zsh-hook -d precmd iterm_chpwd
+                add-zsh-hook -d preexec iterm_chpwd_unreg
+        }
+
+        autoload -Uz add-zsh-hook
         add-zsh-hook chpwd iterm_chpwd
-        iterm_chpwd
+        add-zsh-hook precmd iterm_chpwd
+        add-zsh-hook preexec iterm_chpwd_unreg
 }

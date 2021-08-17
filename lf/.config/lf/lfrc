@@ -1,0 +1,93 @@
+# KEYS ========================================================================
+
+# default ---------------------------------------------------------------------
+# cmd open &$OPENER "$f"
+map e $$EDITOR "$f"
+map i $$PAGER "$f"
+map w $$SHELL
+
+map zh set hidden!
+map zr set reverse!
+map zn set info
+map zs set info size
+map zt set info time
+map za set info size:time
+
+map sn :set sortby natural; set info
+map ss :set sortby size; set info size
+map st :set sortby time; set info time
+map sa :set sortby atime; set info atime
+map sc :set sortby ctime; set info ctime
+map se :set sortby ext; set info
+
+map gh cd ~
+# map <space> :toggle; down
+# ---
+
+# custom ----------------------------------------------------------------------
+map <right>
+map f
+
+map <esc> quit
+
+map <space> :toggle
+map C ${{
+        $EDITOR ~/.config/lf/lfrc && \
+        lf -remote "send $id :source ~/.config/lf/lfrc" && \
+        lf -remote "send $id echo Updated!"
+}}
+map . set hidden!
+map o $open $f
+
+map gh cd ~
+map ga cd ~/Projects/go/src/go.avito.ru
+map gp cd ~/Projects
+map gn cd ~/Documents/Notes
+map gd cd ~/Downloads
+map g. cd ~/.dotfiles
+map gv cd ~/.vim
+map gG cd /usr/local/Cellar/go
+
+map E vim-directory
+
+map fp find-project
+map fd find-directory
+map ff find-file
+
+# COMMANDS ====================================================================
+cmd open
+
+cmd vim-directory ${{
+        lf -remote "send $id cd \"$PWD\""
+        cd "$PWD" && vim -c ':Fern .'
+}}
+
+cmd find-file ${{
+        res=$(fd '' "$PWD" | fzf --reverse)
+        [ $? -ne 0 ] && exit 0
+        cmd="select"
+        [ -d "$res" ] && cmd="cd"
+        lf -remote "send $id select \"$res\""
+}}
+
+cmd find-directory ${{
+        dir=$(fd -t d '' "$PWD" | fzf --reverse)
+        [ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+        
+}}
+
+cmd find-project ${{
+        dir=$(fd -d 2 -t d '' ~/Projects ~/Projects/go/src/go.avito.ru | fzf --reverse)
+        [ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+}}
+
+cmd on-cd ${{
+        [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"
+}}
+# OPTIONS =====================================================================
+set color256
+set autoquit on
+#set hidden
+set ratios 1:3:8
+set promptfmt "\033[36;1m%d\033[0m\033[1m%f\033[0m"
+set previewer ~/.config/lf/preview.sh

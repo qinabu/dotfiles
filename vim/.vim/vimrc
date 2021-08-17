@@ -83,10 +83,16 @@ endif
 
 " Specify a directory for plugins.
 call plug#begin('~/.vim/plugged')
+
+" Color theme.
 Plug 'habamax/vim-gruvbit'
+" Color theme for lightline.
+Plug 'ajmwagar/vim-deus'
+
+" Plug 'junegunn/seoul256.vim'
 " Plug 'morhetz/gruvbox'
-Plug 'noahfrederick/vim-noctu'
-Plug 'humanoid-colors/vim-humanoid-colorscheme'
+" Plug 'noahfrederick/vim-noctu'
+" Plug 'humanoid-colors/vim-humanoid-colorscheme'
 
 " Jump to any location specified by two characters.
 Plug 'justinmk/vim-sneak'
@@ -98,6 +104,7 @@ Plug 'junegunn/fzf.vim'
 " Search and edit tool.
 Plug 'dyng/ctrlsf.vim'
 
+" Expand current window.
 Plug 'szw/vim-maximizer'
 
 " Navigate and manipulate files in a tree view.
@@ -113,11 +120,19 @@ Plug 'nelstrom/vim-visual-star-search'
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
 
+" Surround operations.
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
-" A git wrapper.
+" Git UI.
 Plug 'tpope/vim-fugitive'
+" GBrowse for github.
+Plug 'tpope/vim-rhubarb'
+" :{range}GBrowse for bitbucket.
+if !exists('fubitive_loaded')
+Plug 'tommcdo/vim-fubitive'
+let fubitive_loaded = v:true
+endif
 
 " Show git file changes in the gutter.
 " Plug 'mhinz/vim-signify'
@@ -144,25 +159,28 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
-" Debug Adapter Protocol for vim (.dotfiles/vim/.vim/vimspector-config/).
-Plug 'puremourning/vimspector'
 " Document inspector.
 Plug 'liuchengxu/vista.vim'
 
-" Distraction-free writing in Vim.
+" Debug Adapter Protocol for vim (.dotfiles/vim/.vim/vimspector-config/).
+Plug 'puremourning/vimspector'
+
+" (zen mode) Distraction-free writing in Vim.
 Plug 'junegunn/goyo.vim'
-" * Dim paragraphs above and below the active paragraph.
+" (focus mode) Dim paragraphs above and below the active paragraph.
 Plug 'junegunn/limelight.vim'
 
-
+" Status line.
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
-Plug 'prabirshrestha/asyncomplete.vim'
+" Snippets.
 if has('python3')
+    " The best snippets plugin.
     Plug 'SirVer/ultisnips'
+    " Snippets set.
     Plug 'honza/vim-snippets'
+    " Asyncomplete integration.
     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 
@@ -172,13 +190,15 @@ call plug#end()
 
 " Basic functions
 
+if exists('*vista#RunForNearestMethodOrFunction')
 function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+endif
 
-" let g:fubitive_domain_pattern = 'stash\.msk\.avito\.ru'
-" let g:fugitive_bitbucketservers_domains = ['stash.msk.avito.ru']
+let g:fubitive_domain_pattern = 'stash\.msk\.avito\.ru'
+        
 "  Color settings
 " ---------------------
 
@@ -196,55 +216,57 @@ endif
 " syntax on
 syntax on
 
-function! s:patch_humanoid_colors()
-        highlight cursorline ctermbg=White guibg=White
-        highlight cursorlinenr cterm=none gui=none
-        highlight label cterm=none gui=none
-        highlight function cterm=bold gui=bold ctermfg=16 guifg=#010000
-        highlight operator cterm=none gui=none ctermfg=16 guifg=#010000
-        highlight string ctermfg=29 guifg=#00875f
-        highlight keyword ctermfg=25 guifg=#005faf
-        highlight number ctermfg=124 guifg=#af0000
-        highlight float ctermfg=124 guifg=#af0000
-        highlight boolean ctermfg=32 guifg=#0087d7
-        highlight type ctermfg=131 guifg=#af5f5f
+" function! s:patch_humanoid_colors()
+"         highlight cursorline ctermbg=White guibg=White
+"         highlight cursorlinenr cterm=none gui=none
+"         highlight label cterm=none gui=none
+"         highlight function cterm=bold gui=bold ctermfg=16 guifg=#010000
+"         highlight operator cterm=none gui=none ctermfg=16 guifg=#010000
+"         highlight string ctermfg=29 guifg=#00875f
+"         highlight keyword ctermfg=25 guifg=#005faf
+"         highlight number ctermfg=124 guifg=#af0000
+"         highlight float ctermfg=124 guifg=#af0000
+"         highlight boolean ctermfg=32 guifg=#0087d7
+"         highlight type ctermfg=131 guifg=#af5f5f
 
-        highlight link conditional label
-        highlight link goConditional label
+"         highlight link conditional label
+"         highlight link goConditional label
 
-        highlight goTypeName ctermfg=168 guifg=#d75f5f
+"         highlight goTypeName ctermfg=168 guifg=#d75f5f
 
-        " Spelling mistakes will be colored up red.
-        highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+"         " Spelling mistakes will be colored up red.
+"         highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
 
-        " lsp
-        highlight lspReference ctermbg=Yellow guibg=Yellow
-endfunction
-autocmd! ColorScheme humanoid call s:patch_humanoid_colors()
+"         " lsp
+"         highlight lspReference ctermbg=Yellow guibg=Yellow
+" endfunction
+" autocmd! ColorScheme humanoid call s:patch_humanoid_colors()
 
-function! s:patch_gruvbox_colors()
-        " Spelling mistakes will be colored up red.
-        highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
-        highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+" function! s:patch_gruvbox_colors()
+"         " Spelling mistakes will be colored up red.
+"         highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
+"         highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
          
-        highlight lspReference ctermbg=241 guibg=#665c54
-endfunction
-autocmd! ColorScheme gruvbox call s:patch_gruvbox_colors()
+"         highlight lspReference ctermbg=241 guibg=#665c54
+" endfunction
+" autocmd! ColorScheme gruvbox call s:patch_gruvbox_colors()
 
 function! s:patch_gruvbit_colors()
+        " Syntax
+        highlight Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
+        highlight goField cterm=none gui=none guifg=#bdae93 ctermfg=248
         " lsp
-        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=239 guibg=#4E4E4E
-        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=94 guibg=#875F00
-        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=89 guibg=#87005F
-        " highlight lspReference ctermfg=222 guifg=#FFD787 ctermbg=89 guibg=#87005F
-        "
+        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=23 guibg=#005F5F
+
         " Selection
-        highlight Visual ctermbg=40 guibg=#00F700 ctermfg=232 guifg=#080808 
+        highlight Visual ctermbg=128 guibg=#AF00D7 ctermfg=253 guifg=#DADADA
+        highlight Search ctermbg=90 guibg=#870087 ctermfg=253 guifg=#DADADA
+        highlight IncSearch ctermbg=163 guibg=#D700AF ctermfg=253 guifg=#DADADA
 
         " Spelling mistakes will be colored up red.
         highlight SpellBad cterm=underline ctermfg=203 guifg=#ff5f5f
@@ -258,31 +280,35 @@ autocmd! ColorScheme gruvbit call s:patch_gruvbit_colors()
 let g:gruvbit_transp_bg = v:true
 let g:limelight_conceal_termfg = 238
 let g:limelight_conceal_guifg = '#444444'
+let g:seoul256_background = 234
+let g:deus_termcolors=256
 set background=dark
-" colorscheme humanoid
-" colorscheme gruvbox
-colorscheme gruvbit
+try
+    colorscheme gruvbit
+catch
+    echo ""
+endtry
 
 " Status line
 " ---------------------
 
 " Heavily inspired by: 
 " https://github.com/junegunn/dotfiles/blob/master/vimrc
-function! s:statusline_expr()
-        let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
-        let ro  = "%{&readonly ? '[RO] ' : ''}"
-        let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
-        let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
-        let sep = ' %= '
-        let pos = ' %-12(%l : %c%V%)'
-        let pct = ' %P '
-        " let fn  = '%{pathshorten(expand("%:."))}'
-        let fn  = '%{expand("%:.")}'
+" Pluginless statusline.
+" function! s:statusline_expr()
+"         let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
+"         let ro  = "%{&readonly ? '[RO] ' : ''}"
+"         let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
+"         let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
+"         let sep = ' %= '
+"         let pos = ' %-12(%l : %c%V%)'
+"         let pct = ' %P '
+"         " let fn  = '%{pathshorten(expand("%:."))}'
+"         let fn  = '%{expand("%:.")}'
 
-        return '[%n:%{mode()}] '.fn.':%l %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
-endfunction
-
-let &statusline = s:statusline_expr()
+"         return '[%n:%{mode()}] '.fn.':%l %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
+" endfunction
+" let &statusline = s:statusline_expr()
 
 " Basic Settings
 " ---------------------
@@ -290,11 +316,33 @@ let &statusline = s:statusline_expr()
 " set mouse=a
 " set colorcolumn=80
 
-set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+" set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+set keymap=russian-jcukenmac
+set iminsert=0
+set imsearch=0
+imap <C-l> <C-^>
+cmap <C-l> <C-^>
+" nnoremap <C-l> <C-^>
+
+" Cursor color. 
+highlight Cursor guifg=NONE guibg=Green
+highlight lCursor guifg=NONE guibg=Cyan
+if $TERM_PROGRAM == "iTerm.app"
+        " According to deus colorscheme of lightline.
+        let s:cursor_normal_color = "a6d684"
+        let s:cursor_insert_color = "61afef"
+
+        let &t_SI = "\<Esc>]Pl" . s:cursor_insert_color . "\x7"
+        let &t_EI = "\<Esc>]Pl" . s:cursor_normal_color. "\x7"
+endif
+
+
 let mapleader=" "
 let maplocalleader=" "
 
 " set lazyredraw
+set nopaste
+set noesckeys
 set updatetime=100
 set autoindent
 set autoread
@@ -340,9 +388,9 @@ set splitbelow
 set splitright
 set tabstop=8
 set textwidth=0
+set timeout
 set timeoutlen=1500
-set ttimeout
-set ttimeoutlen=0
+set ttimeoutlen=10
 set ttyfast
 set undodir=/tmp
 set undofile
@@ -362,6 +410,9 @@ nnoremap <Leader>v <C-w>
 
 " Command line.
 nnoremap <Leader>; :
+
+" Keep cursor on the same position. :h `^
+inoremap <silent> <Esc> <Esc>`^
 
 " Exit from insert and command mode.
 " cnoremap jj <C-c>
@@ -413,12 +464,21 @@ nnoremap <silent> <Leader>qe :qall!<CR>
 " Write buffer.
 nnoremap <Leader>w :write<cr>
 
+" Command line.
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+cnoremap <C-b> <S-Left>
+cnoremap <C-f> <S-Right>
+
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+
+cnoremap <C-d> <Del>
+
 " Quickfix jumps.
-nnoremap <silent> ]q :cnext<CR>
-nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]j :cnext<CR>
+nnoremap <silent> [j :cprevious<CR>
 
 " Avoid unintentional switches to Ex mode.
 nmap Q q
@@ -511,6 +571,8 @@ nnoremap <silent> <leader>oz :Goyo<cr>
 " Toggle focus mode.
 nnoremap <silent> <leader>of :Limelight!!<cr>
 
+" Toggle highlight cursorline.
+nnoremap <silent> <leader>oh :set cursorline!<cr>
 
 
 " Toggle colorcolun.
@@ -561,7 +623,7 @@ autocmd VimResized * wincmd =
 autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
 
 " Unset paste on InsertLeave.
-autocmd InsertLeave * silent! set nopaste
+" autocmd InsertLeave * silent! set nopaste
 
 " Make sure all types of requirements.txt files get syntax highlighting.
 autocmd BufNewFile,BufRead requirements*.txt set ft=python
@@ -644,7 +706,8 @@ let g:dispatch_no_maps = 1
 " junegunn/fzf.vim
 " .....................
 
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse'
+" let $FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git --exclude 'vendor/' "
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#171717'
 
 " let g:fzf_layout = { 'down': '35%' }
 " let g:fzf_layout = { 'window': 'enew' }
@@ -655,28 +718,13 @@ let g:fzf_action = {
         \ 'ctrl-s': 'split',
         \ 'ctrl-v': 'vsplit',
         \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
-let g:fzf_colors =
-        \ {'fg':     ['fg', 'Normal'],
-        \ 'bg':      ['bg', 'Normal'],
-        \ 'hl':      ['fg', 'Comment'],
-        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-        \ 'hl+':     ['fg', 'Statement'],
-        \ 'info':    ['fg', 'PreProc'],
-        \ 'border':  ['fg', 'Ignore'],
-        \ 'prompt':  ['fg', 'Conditional'],
-        \ 'pointer': ['fg', 'Exception'],
-        \ 'marker':  ['fg', 'Keyword'],
-        \ 'spinner': ['fg', 'Label'],
-        \ 'header':  ['fg', 'Comment'] }
-
-
-noremap <silent> <Leader>ff :Files<CR>
 
 " Map a few common things to do with FZF.
+nnoremap <silent> <Leader>ff :Files<CR>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
 nnoremap <silent> <Leader>fl :Lines<CR>
-nnoremap <silent> <Leader>fg :Rg<CR>
+nnoremap <silent> <Leader>fG :Rg<CR>
+nnoremap <silent> <Leader>fg :RgLimited<CR>
 
 " Allow passing optional flags into the Rg command.
 "   Example: :Rg myterm -g '*.md'
@@ -702,6 +750,15 @@ endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
+function! RipgrepFzfLimited(query, fullscreen)
+        let command_fmt = 'rg --no-column --line-number --no-heading --color=always -g "!vendor/" -g "!venv/" -- %s || true'
+        let initial_command = printf(command_fmt, shellescape(a:query))
+        let reload_command = printf(command_fmt, '{q}')
+        let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+        call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RgLimited call RipgrepFzfLimited(<q-args>, <bang>0)
 
 " dyng/ctrlsf.vim
 " .....................
@@ -760,7 +817,8 @@ function! s:FernInit() abort
         \   "\<Plug>(fern-action-expand)",
         \   "\<Plug>(fern-action-collapse)",
         \ )
-  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)<Esc><Bar>:FernDo close<CR>
+  " nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)<Esc><Bar>:FernDo close<CR>
+  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)<Bar>:FernDo close<CR>
   nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
   nmap <buffer> n <Plug>(fern-action-new-path)
   nmap <buffer> d <Plug>(fern-action-remove)
@@ -920,20 +978,28 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gR <plug>(lsp-document-symbol)
     nmap <buffer> gi <plug>(lsp-implementation)
     nmap <buffer> gy <plug>(lsp-type-definition)
     nmap <buffer> <leader>er <plug>(lsp-rename)
     nmap <buffer> <leader>n <plug>(lsp-next-reference)
     nmap <buffer> <leader>p <plug>(lsp-previous-reference)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]e <plug>(lsp-next-error)
+    nmap <buffer> [e <plug>(lsp-previous-error)
     nmap <buffer> K <plug>(lsp-hover)
     inoremap <buffer> <expr><c-f> lsp#scroll(+4)
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-    let g:lsp_format_sync_timeout = 1000
+    " let g:lsp_format_sync_timeout = 1000
+    let g:lsp_format_sync_timeout = -1
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
     
+   " set foldmethod=expr
+    "   \ foldexpr=lsp#ui#vim#folding#foldexpr()
+    "   \ foldtext=lsp#ui#vim#folding#foldtext()
+
     " refer to doc to add more commands
 endfunction
 
@@ -1082,22 +1148,35 @@ let g:goyo_width = 120
 "     \ 'winnr': '%{winnr()}' }
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#smart_path = 1
+let g:lightline#bufferline#unnamed      = '[New]'
+
+
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
 let g:lightline.colorscheme = 'gruvbit'
+let g:lightline.colorscheme = 'deus'
 " let g:lightline.subseparator = { 'left': '◇', 'right': '◇' }
 let g:lightline.subseparator = { 'left': '│', 'right': '│'}
 let g:lightline.active = {}
-let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
-let g:lightline.active.right = [ [ 'gitbranch' ] ]
+" let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
+let g:lightline.active.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'lineinfo', 'readonly', 'modified' ] ]
+let g:lightline.active.right = [ ['clock'], ['lang'],  [ 'gitbranch' ] ]
 " let g:lightline.active.right = [ [ 'functionName', 'gitbranch' ] ]
 let g:lightline.inactive = {}
-let g:lightline.inactive.left = [ [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
-let g:lightline.inactive.right = [ [ 'gitbranch' ] ]
+" let g:lightline.inactive.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'line', 'readonly', 'modified' ] ]
+let g:lightline.inactive.left = [ [ 'mode', 'paste' ], [ 'relativepath' ], [ 'lineinfo', 'readonly', 'modified' ] ]
+let g:lightline.inactive.right = [ ['iclock'], ['lang'], [ 'gitbranch' ]  ]
 let g:lightline.tabline = {}
-let g:lightline.tabline.left = [ ['buffers'] ]
-let g:lightline.tabline.right = [ ['close'] ]
-let g:lightline.tabline.right = [ ]
+let g:lightline.tabline.left = [ [] ]
+let g:lightline.tabline.right = [ [], ['buffers'] ]
+" let g:lightline.tabline.right = [ ['close'] ]
+let g:lightline.component = {}
+let g:lightline.component.iclock= ''
+let g:lightline.component.clock = '%{strftime("%H:%M")}'
+let g:lightline.component.lang = '%{&iminsert ? "ru" : "en"}'
 let g:lightline.component_expand = {}
 let g:lightline.component_expand.buffers = 'lightline#bufferline#buffers'
 " let g:lightline.component_expand.functionName = 'NearestMethodOrFunction'
@@ -1105,21 +1184,25 @@ let g:lightline.component_function = {}
 let g:lightline.component_function.gitbranch = 'FugitiveHead'
 let g:lightline.component_type = {}
 let g:lightline.component_type.buffers = 'tabsel'
+let g:lightline.component_visible_condition = {}
+let g:lightline.component_visible_condition.im = '&iminsert'
 
-autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+if exists('*lightline#update')
+    autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+endif
 
-nnoremap <Leader>1 :call lightline#bufferline#go(1)<cr>
-nnoremap <Leader>2 :call lightline#bufferline#go(2)<cr>
-nnoremap <Leader>3 :call lightline#bufferline#go(3)<cr>
-nnoremap <Leader>4 :call lightline#bufferline#go(4)<cr>
-nnoremap <Leader>5 :call lightline#bufferline#go(5)<cr>
-nnoremap <Leader>6 :call lightline#bufferline#go(6)<cr>
-nnoremap <Leader>7 :call lightline#bufferline#go(7)<cr>
-nnoremap <Leader>8 :call lightline#bufferline#go(8)<cr>
-nnoremap <Leader>9 :call lightline#bufferline#go(9)<cr>
-nnoremap <Leader>0 :call lightline#bufferline#go(10)<cr>
-nnoremap <Leader>[ :bprevious<cr>
-nnoremap <Leader>] :bnext<cr>
+nnoremap <silent> <Leader>1 :call lightline#bufferline#go(1)<cr>
+nnoremap <silent> <Leader>2 :call lightline#bufferline#go(2)<cr>
+nnoremap <silent> <Leader>3 :call lightline#bufferline#go(3)<cr>
+nnoremap <silent> <Leader>4 :call lightline#bufferline#go(4)<cr>
+nnoremap <silent> <Leader>5 :call lightline#bufferline#go(5)<cr>
+nnoremap <silent> <Leader>6 :call lightline#bufferline#go(6)<cr>
+nnoremap <silent> <Leader>7 :call lightline#bufferline#go(7)<cr>
+nnoremap <silent> <Leader>8 :call lightline#bufferline#go(8)<cr>
+nnoremap <silent> <Leader>9 :call lightline#bufferline#go(9)<cr>
+nnoremap <silent> <Leader>0 :call lightline#bufferline#go(10)<cr>
+nnoremap <silent> <Leader>[ :bprevious<cr>
+nnoremap <silent> <Leader>] :bnext<cr>
 
 set noshowmode
 set showtabline=2
@@ -1188,8 +1271,8 @@ command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckdu
 
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-if has('python3')
+" if has('python3')
+" if exists('*asyncomplete#register_source')
     let g:UltiSnipsExpandTrigger="<tab>"
     let g:UltiSnipsJumpForwardTrigger="<tab>"
     let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -1198,6 +1281,7 @@ if has('python3')
         \ 'allowlist': ['*'],
         \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
         \ }))
-endif
+" endif
+" endif
 
 " vim:foldmethod=marker

@@ -1,0 +1,12 @@
+snippet err "if err != nil"
+if err != nil {
+	${1}
+}
+endsnippet
+
+
+snippet errf "if err != nil"
+if err != nil {
+	${1}fmt.Errorf("${2}: %w",${3} err)
+}
+endsnippet

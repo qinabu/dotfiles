@@ -10,6 +10,10 @@
 	<false/>
 	<key>AlertsIndicateShortcuts</key>
 	<false/>
+	<key>AllowDragOfTabIntoNewWindow</key>
+	<false/>
+	<key>AllowInteractiveSwipeBetweenTabs</key>
+	<false/>
 	<key>AlternateMouseScroll</key>
 	<true/>
 	<key>BadgeFont</key>
@@ -62486,15 +62490,17 @@
 	<key>DimOnlyText</key>
 	<false/>
 	<key>DisableFullscreenTransparency</key>
-	<true/>
+	<false/>
 	<key>DisableTabBarTooltips</key>
 	<true/>
+	<key>DoubleClickTabToEdit</key>
+	<false/>
 	<key>DoubleReportScrollWheel</key>
 	<false/>
 	<key>DrawBottomLineForHorizontalTabBar</key>
 	<true/>
 	<key>EnableDivisionView</key>
-	<true/>
+	<false/>
 	<key>EnableRendezvous</key>
 	<false/>
 	<key>FastTrackpad</key>
@@ -62615,10 +62621,28 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0x6a-0x80000-0x26</key>
+		<dict>
+			<key>Action</key>
+			<integer>49</integer>
+			<key>Label</key>
+			<string></string>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x6b-0x100000-0x28</key>
 		<dict>
 			<key>Action</key>
 			<integer>9</integer>
+			<key>Label</key>
+			<string></string>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6b-0x80000-0x28</key>
+		<dict>
+			<key>Action</key>
+			<integer>50</integer>
 			<key>Label</key>
 			<string></string>
 			<key>Text</key>
@@ -62751,7 +62775,7 @@
 	<key>HideTab</key>
 	<true/>
 	<key>HideTabNumber</key>
-	<false/>
+	<true/>
 	<key>HighVisibility</key>
 	<false/>
 	<key>Hotkey</key>
@@ -62812,13 +62836,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.11759774386882782</real>
+				<real>0.15294117647058825</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.11759573966264725</real>
+				<real>0.15294117647058825</real>
 				<key>Red Component</key>
-				<real>0.11759927868843079</real>
+				<real>0.15294117647058825</real>
 			</dict>
 			<key>Ansi 1 Color</key>
 			<dict>
@@ -62864,13 +62888,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.6718218177331593</real>
+				<real>0.6705882352941176</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.73054313659667969</real>
+				<real>0.72941176470588232</real>
 				<key>Red Component</key>
-				<real>0.46632340758606006</real>
+				<real>0.46274509803921571</real>
 			</dict>
 			<key>Ansi 13 Color</key>
 			<dict>
@@ -62942,13 +62966,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.60788536071777344</real>
+				<real>0.60784313725490191</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.59447605838170636</real>
+				<real>0.59215686274509804</real>
 				<key>Red Component</key>
-				<real>0.30841239119050939</real>
+				<real>0.30588235294117649</real>
 			</dict>
 			<key>Ansi 5 Color</key>
 			<dict>
@@ -63030,6 +63054,8 @@
 				<key>Red Component</key>
 				<real>0.11759927868843079</real>
 			</dict>
+			<key>Background Image Location</key>
+			<string>/Users/alex/Pictures/Backs/space-trees-one.jpeg</string>
 			<key>Background Image Mode</key>
 			<integer>2</integer>
 			<key>Badge Color</key>
@@ -63058,7 +63084,7 @@
 			<key>Badge Top Margin</key>
 			<real>10</real>
 			<key>Blend</key>
-			<real>0.086233248885389399</real>
+			<real>0.31777522701243455</real>
 			<key>Blink Allowed</key>
 			<true/>
 			<key>Blinking Cursor</key>
@@ -63575,7 +63601,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SFMonoNerdFontComplete-Regular 17</string>
+			<string>SFMonoNerdFontComplete-Regular 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Open Toolbelt</key>
@@ -63853,6 +63879,19 @@
 			</dict>
 			<key>Sync Title</key>
 			<false/>
+			<key>Tab Color</key>
+			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
+				<key>Blue Component</key>
+				<real>0.12941176470588237</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
+				<key>Green Component</key>
+				<real>0.12941176470588237</real>
+				<key>Red Component</key>
+				<real>0.12941176470588237</real>
+			</dict>
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
@@ -63865,6 +63904,19 @@
 			<real>0.0</real>
 			<key>Triggers</key>
 			<array/>
+			<key>Underline Color</key>
+			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
+				<key>Blue Component</key>
+				<real>0.12941176470588237</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
+				<key>Green Component</key>
+				<real>0.12941176470588237</real>
+				<key>Red Component</key>
+				<real>0.12941176470588237</real>
+			</dict>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>
@@ -64689,7 +64741,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Iosevka-Fixed 17</string>
+			<string>Input-Regular 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Open Toolbelt</key>
@@ -66914,7 +66966,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>6</integer>
+	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>

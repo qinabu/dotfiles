@@ -19,8 +19,9 @@ case "$1" in
 	image "$1" "$2" "$3" "$4" "$5"
 	;;
     # *.pdf) pdftotext "$1" -;;
-    *) bat -f -n -r ":$2" --theme gruvbox-dark "$1";;
+    # *) bat -f -n -r ":$2" --theme gruvbox-dark "$1";;
     # *) bat -f -n -r ":$2" --theme bas16 "$1";;
+    *) chroma "$1";;
 esac
 
 # Set the path of a previewer file to filter the content of regular files for

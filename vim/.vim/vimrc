@@ -107,6 +107,10 @@ Plug 'dyng/ctrlsf.vim'
 " Expand current window.
 Plug 'szw/vim-maximizer'
 
+" Resize & move windows.
+let g:winresizer_start_key = '<Leader>vV'
+Plug 'simeji/winresizer'
+
 " Navigate and manipulate files in a tree view.
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -178,8 +182,10 @@ Plug 'mengelbrecht/lightline-bufferline'
 if has('python3')
     " The best snippets plugin.
     Plug 'SirVer/ultisnips'
-    " Snippets set.
+    " Snippets set: common.
     Plug 'honza/vim-snippets'
+    " Golang snippets: ife*.
+    Plug 'nametake/vim-goiferr-snippets', {'for': 'go'}
     " Asyncomplete integration.
     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
@@ -198,11 +204,17 @@ autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 endif
 
 let g:fubitive_domain_pattern = 'stash\.msk\.avito\.ru'
+
+" Encrease numberwidth for the only window in a row.
+function! ChangeNumberWidth() abort
+        if winnr('h') == winnr() && winnr('l') == winnr() | setlocal numberwidth=14 | else | setlocal numberwidth=4 | endif
+endfunction
+autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter * call ChangeNumberWidth()
         
 "  Color settings
 " ---------------------
 
-" non-break-space
+" non-beak-space
 set fillchars+=vert: 
 " highlight VertSplit cterm=NONE ctermfg=Green ctermbg=NONE guibg=#000000 guifg=#000000
 hi VertSplit gui=reverse
@@ -259,9 +271,16 @@ syntax on
 function! s:patch_gruvbit_colors()
         " Syntax
         highlight Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
-        highlight goField cterm=none gui=none guifg=#bdae93 ctermfg=248
+        " highlight goField cterm=none gui=none guifg=#bdae93 ctermfg=248
+        highlight goField cterm=none gui=none guifg=#B2B2B2 ctermfg=247
+        " highlight goField cterm=none gui=none guifg=#D7875F ctermfg=273
+        highlight clear MatchParen
+        highlight MatchParen cterm=bold guibg=#AF5F00 ctermbg=130
+
         " lsp
-        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=23 guibg=#005F5F
+        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=23 guibg=#005F5F
+        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=22 guibg=#005F00
+        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=22 guibg=#004F00
 
         " Selection
         highlight Visual ctermbg=128 guibg=#AF00D7 ctermfg=253 guifg=#DADADA
@@ -273,6 +292,9 @@ function! s:patch_gruvbit_colors()
         highlight SpellLocal cterm=underline ctermfg=203 guifg=#ff5f5f
         highlight SpellRare cterm=underline ctermfg=203 guifg=#ff5f5f
         highlight SpellCap cterm=underline ctermfg=203 guifg=#ff5f5f
+
+        highlight DiffAdd cterm=bold ctermfg=121 gui=bold guifg=#8ec07c
+        highlight DiffDelete cterm=bold ctermfg=203 gui=bold guifg=#ff5f5f
 endfunction
 autocmd! ColorScheme gruvbit call s:patch_gruvbit_colors()
 
@@ -296,6 +318,7 @@ endtry
 " https://github.com/junegunn/dotfiles/blob/master/vimrc
 " Pluginless statusline.
 " function! s:statusline_expr()
+nnoremap <Leader>w :write<cr>
 "         let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
 "         let ro  = "%{&readonly ? '[RO] ' : ''}"
 "         let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
@@ -371,7 +394,8 @@ set noerrorbells visualbell t_vb=
 set noshiftround
 set nostartofline
 set noswapfile
-set number relativenumber
+" set number relativenumber
+set number
 set regexpengine=1
 set ruler
 set scrolloff=2
@@ -389,7 +413,7 @@ set splitright
 set tabstop=8
 set textwidth=0
 set timeout
-set timeoutlen=1500
+set timeoutlen=2000
 set ttimeoutlen=10
 set ttyfast
 set undodir=/tmp
@@ -410,6 +434,8 @@ nnoremap <Leader>v <C-w>
 
 " Command line.
 nnoremap <Leader>; :
+" Repeat last command line.
+nnoremap <Leader>' @:
 
 " Keep cursor on the same position. :h `^
 inoremap <silent> <Esc> <Esc>`^
@@ -463,6 +489,7 @@ nnoremap <silent> <Leader>qe :qall!<CR>
 
 " Write buffer.
 nnoremap <Leader>w :write<cr>
+nnoremap <Leader>W :wall<cr>
 
 " Command line.
 cnoremap <C-a> <Home>
@@ -477,8 +504,10 @@ cnoremap <C-p> <Up>
 cnoremap <C-d> <Del>
 
 " Quickfix jumps.
-nnoremap <silent> ]j :cnext<CR>
-nnoremap <silent> [j :cprevious<CR>
+nnoremap <silent> ]c :cnext<CR>
+nnoremap <silent> [c :cprevious<CR>
+nnoremap <silent> <Leader>. :cnext<CR>
+nnoremap <silent> <Leader>, :cprevious<CR>
 
 " Avoid unintentional switches to Ex mode.
 nmap Q q
@@ -506,14 +535,14 @@ nnoremap <silent> <Leader><Leader> <C-^>
 
 " nnoremap <Leader>eE :%s///g<Left><Left>
 " nnoremap <expr> <Leader>eE ':%s/\V' .. escape(expand('<cword>'), '/\') .. '//g<Left><Left>'
-nnoremap <Leader>eE :%s///g<Left><Left>
+nnoremap <Leader>eE :%s//g<Left><Left>
 " The same as above but instead of acting on the whole file it will be
 " restricted to the previously visually selected range. You can do that by
 " pressing *, visually selecting the range you want it to apply to and then
 " press a key below to replace all instances of it in the current selection.
 " xnoremap <Leader>r :s///g<Left><Left>
 " xnoremap <Leader>rc :s///gc<Left><Left><Left>
-xnoremap <Leader>eE :s///g<Left><Left>
+xnoremap <Leader>eE :s//g<Left><Left>
 
 " Type a replacement term and press . to repeat the replacement again. Useful
 " for replacing a few instances of the term (comparable to multiple cursors).
@@ -539,7 +568,7 @@ noremap X "_x
 " xnoremap p pgvy
 
 " Keep cursor at the bottom of the visual selection after you yank it.
-" vmap y ygv<Esc>
+vmap y ygv<Esc>
 
 " Edit Vim config file in a new tab.
 nnoremap <Leader>ve :edit $MYVIMRC<CR>
@@ -557,13 +586,15 @@ nnoremap <leader>vu :PlugUpdate<cr>
 nnoremap <Leader>os :setlocal spell!<CR>
 
 " Toggle relative line numbers and regular line numbers.
-nnoremap <Leader>or :setlocal relativenumber!<CR>
+nnoremap <Leader>on :setlocal relativenumber!<CR>
+nnoremap <Leader>oN :setlocal number!<CR>
 
 " Toggle visually showing all whitespace characters.
 nnoremap <Leader>ol :setlocal list!<CR>
 
 " Toggle nowrap.
 nnoremap <Leader>ow :setlocal nowrap!<CR>
+nnoremap <silent> <Leader>oW :if &fo =~ 't' <bar> set fo-=t <bar> :echomsg "No wrap writing" <bar> else <bar> set fo+=t <bar> :echomsg "Wrap writing" <bar> endif<CR>
 
 " Toggle zen mode.
 nnoremap <silent> <leader>oz :Goyo<cr>
@@ -658,8 +689,8 @@ autocmd FileType make setlocal noexpandtab
 " Add all TODO items to the quickfix list relative to where you opened Vim.
 function! s:todo() abort
   let entries = []
-  for cmd in ['git grep -niIw -e TODO -e FIXME 2> /dev/null',
-            \ 'grep -rniIw -e TODO -e FIXME . 2> /dev/null']
+  for cmd in ['git grep -niIw -e TODO -e FIXME -e XXX 2> /dev/null',
+            \ 'grep -rniIw -e TODO -e FIXME -e XXX . 2> /dev/null']
     let lines = split(system(cmd), '\n')
     if v:shell_error != 0 | continue | endif
     for line in lines
@@ -707,7 +738,8 @@ let g:dispatch_no_maps = 1
 " .....................
 
 " let $FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git --exclude 'vendor/' "
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#171717'
+" let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#272727 --preview "chroma {}"'
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#272727'
 
 " let g:fzf_layout = { 'down': '35%' }
 " let g:fzf_layout = { 'window': 'enew' }
@@ -803,7 +835,8 @@ nnoremap <silent> <leader>fc <Plug>CtrlSFCwordExec
 " Use symbols.
 " let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=32<CR><C-w>=
+" noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=32<CR><C-w>=
+noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=28<CR><C-w>=
 " noremap <silent> <Leader>fD <Plug>(fern-action-reveal)
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=30<CR><C-w>=
 
@@ -927,11 +960,11 @@ let g:limelight_conceal_ctermfg=244
 " let test#strategy='vimterminal'
 let test#strategy='dispatch'
 
-nmap <silent> <Leader>tn :TestNearest<CR>
-nmap <silent> <Leader>tf :TestFile<CR>
-nmap <silent> <Leader>ts :TestSuite<CR>
-nmap <silent> <Leader>tl :TestLast<CR>
-nmap <silent> <Leader>tv :TestVisit<CR>
+nmap <silent> <Leader>tn :TestNearest -v<CR>
+nmap <silent> <Leader>tf :TestFile -v<CR>
+nmap <silent> <Leader>ts :TestSuite -v<CR>
+nmap <silent> <Leader>tl :TestLast -v<CR>
+nmap <silent> <Leader>tv :TestVisit -v<CR>
 nmap <silent> <Leader>tt :if &filetype == "go" <bar> GoCoverageToggle endif <cr>
 
 " fatih/vim-go
@@ -989,6 +1022,11 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> ]e <plug>(lsp-next-error)
     nmap <buffer> [e <plug>(lsp-previous-error)
     nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> <Leader>ac <plug>(lsp-code-action-sync)
+    vmap <buffer> <Leader>ac <plug>(lsp-code-action-sync)
+    " vmap <buffer> <Leadej>ac <plug>(lsp-code-action)
+    nmap <buffer> <Leader>al <plug>(lsp-code-lens)
+    vmap <buffer> <Leader>al <plug>(lsp-code-lens)
     inoremap <buffer> <expr><c-f> lsp#scroll(+4)
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
@@ -1012,6 +1050,7 @@ augroup END
 " liuchengxu/vista.vim
 " .....................
 
+let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 50
 let g:vista_close_on_jump = 1
 let g:vista_disable_statusline = 1
@@ -1106,7 +1145,7 @@ nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
 " tpope/vim-fugitive
 " .....................
 nnoremap <Leader>vb :Gblame<CR>
-nnoremap <Leader>vd :Gdiffsplit<CR>
+nnoremap <Leader>vd :Gvdiffsplit<CR>
 nnoremap <Leader>vD :Git difftool<CR>
 nnoremap <Leader>vg :Git<CR>
 
@@ -1147,12 +1186,6 @@ let g:goyo_width = 120
 "     \ 'close': '%999X X ',
 "     \ 'winnr': '%{winnr()}' }
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
-
-let g:lightline#bufferline#show_number  = 1
-let g:lightline#bufferline#shorten_path = 1
-let g:lightline#bufferline#smart_path = 1
-let g:lightline#bufferline#unnamed      = '[New]'
-
 
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
@@ -1207,7 +1240,13 @@ nnoremap <silent> <Leader>] :bnext<cr>
 set noshowmode
 set showtabline=2
 
-let g:lightline#bufferline#filename_modifier = ':.'
+let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#smart_path = 0
+let g:lightline#bufferline#right_aligned = 1
+let g:lightline#bufferline#unnamed      = '[New]'
+
+
+" let g:lightline#bufferline#filename_modifier = ':.'
 let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#number_map = {
 \ 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴',
@@ -1271,17 +1310,18 @@ command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckdu
 
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" if has('python3')
+if has('python3')
 " if exists('*asyncomplete#register_source')
     let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+    let g:UltiSnipsJumpForwardTrigger="<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    let g:UltiSnipsEditSplit="vertical"
     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
         \ 'name': 'ultisnips',
         \ 'allowlist': ['*'],
         \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
         \ }))
 " endif
-" endif
+endif
 
 " vim:foldmethod=marker

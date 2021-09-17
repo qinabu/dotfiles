@@ -27,6 +27,7 @@ map gh cd ~
 # custom ----------------------------------------------------------------------
 map <right>
 map f
+map D :delete
 
 map <esc> quit
 
@@ -58,8 +59,13 @@ map ff find-file
 cmd open
 
 cmd vim-directory ${{
-        lf -remote "send $id cd \"$PWD\""
-        cd "$PWD" && vim -c ':Fern .'
+        a="$PWD/venv/bin/activate"
+        lf -remote "send $id cd $PWD"
+        if [[ -e "$a" ]]; then
+                source "$a" && cd "$PWD" && vim -c ':Fern .' 
+        else
+                cd "$PWD" && vim -c ':Fern .'
+        fi
 }}
 
 cmd find-file ${{

@@ -87,7 +87,7 @@ call plug#begin('~/.vim/plugged')
 " Color theme.
 Plug 'habamax/vim-gruvbit'
 " Color theme for lightline.
-Plug 'ajmwagar/vim-deus'
+" Plug 'ajmwagar/vim-deus'
 
 " Plug 'junegunn/seoul256.vim'
 " Plug 'morhetz/gruvbox'
@@ -311,29 +311,7 @@ catch
     echo ""
 endtry
 
-" Status line
-" ---------------------
-
-" Heavily inspired by: 
-" https://github.com/junegunn/dotfiles/blob/master/vimrc
-" Pluginless statusline.
-" function! s:statusline_expr()
-nnoremap <Leader>w :write<cr>
-"         let mod = "%{&modified ? '[+] ' : !&modifiable ? '[-] ' : ''}"
-"         let ro  = "%{&readonly ? '[RO] ' : ''}"
-"         let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
-"         let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
-"         let sep = ' %= '
-"         let pos = ' %-12(%l : %c%V%)'
-"         let pct = ' %P '
-"         " let fn  = '%{pathshorten(expand("%:."))}'
-"         let fn  = '%{expand("%:.")}'
-
-"         return '[%n:%{mode()}] '.fn.':%l %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
-" endfunction
-" let &statusline = s:statusline_expr()
-
-" Basic Settings
+" Basic Options
 " ---------------------
 
 " set mouse=a
@@ -389,6 +367,11 @@ set matchpairs+=<:> " Use % to jump between pairs
 set mmp=5000
 set modelines=2
 set mouse=n
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 set nocompatible
 set noerrorbells visualbell t_vb=
 set noshiftround
@@ -425,9 +408,12 @@ set wildmode=full
 set nowrap
 set listchars=tab:▹\ ,space:∙,eol:¬
 set nolist
+set nojoinspaces
 
 " Basic mappings
 " ---------------------
+
+nnoremap <Leader>w :write<cr>
 
 " Partial mapping L-v to CTRL-w
 nnoremap <Leader>v <C-w>
@@ -471,8 +457,8 @@ tnoremap <C-k> <C-w><C-k>
 tnoremap <C-j> <C-w><C-j>
 
 " scroll by one line
-noremap <ScrollWheelUp>   1<C-Y>
-noremap <ScrollWheelDown> 1<C-E>
+noremap <ScrollWheelUp>   <C-Y>
+noremap <ScrollWheelDown> <C-E>
 
 nnoremap <silent> <Leader>oO :only<CR>
 nnoremap <silent> <Leader>oo :MaximizerToggle<CR>
@@ -562,7 +548,7 @@ xnoremap <Leader>ee "sy:let @/='\V'.@s<CR>cgn
 
 " Prevent x from overriding what's in the clipboard.
 noremap x "_x
-noremap X "_x
+noremap X "_X
 
 " Prevent selecting and pasting from overwriting what you originally copied.
 " xnoremap p pgvy
@@ -625,22 +611,6 @@ nnoremap <leader>es :normal! mz[s1z=`z<CR>
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 
-" Convert the selected text's title case using the external tcc script.
-"   Requires: https://github.com/nickjj/title-case-converter
-" vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
-
-" Navigate the complete menu items like CTRL+n / CTRL+p would.
-" inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
-" inoremap <expr> <Up> pumvisible() ? "<C-p>" : "<Up>"
-
-" Select the complete menu item like CTRL+y would.
-" inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
-" inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
-" inoremap <expr> <Tab> pumvisible() ? "<C-y>" :"<Tab>"
-
-
-" Cancel the complete menu item like CTRL+e would.
-" inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
 
 " Basic autocommands
 " ---------------------
@@ -665,23 +635,6 @@ autocmd BufNewFile,BufRead .*aliases set ft=sh
 " Ensure tabs don't get converted to spaces in Makefiles.
 autocmd FileType make setlocal noexpandtab
 
-" Only show the cursor line in the active buffer.
-" augroup CursorLineForCurrentWindow
-"     au!
-"     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"     au WinLeave * setlocal nocursorline
-" augroup END
-
-" Mappings to make Vim more friendly towards presenting slides.
-" autocmd BufNewFile,BufRead *.vpm call SetVimPresentationMode()
-" function SetVimPresentationMode()
-"   nnoremap <buffer> <Right> :n<CR>
-"   nnoremap <buffer> <Left> :N<CR>
-" 
-"   if !exists('#goyo')
-"     Goyo
-"   endif
-" endfunction
 
 " Basic commands
 " ---------------------
@@ -741,9 +694,10 @@ let g:dispatch_no_maps = 1
 " let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#272727 --preview "chroma {}"'
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --reverse --color bg:#272727,preview-bg:#272727'
 
-" let g:fzf_layout = { 'down': '35%' }
+let g:fzf_layout = { 'down': '60%' }
 " let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
+" let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
+" let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6 } }
 let g:fzf_preview_window = ['up:right:55%', 'ctrl-/']
 let g:fzf_action = {
         \ 'ctrl-t': 'tab split',
@@ -757,20 +711,7 @@ nnoremap <silent> <Leader><Enter> :Buffers<CR>
 nnoremap <silent> <Leader>fl :Lines<CR>
 nnoremap <silent> <Leader>fG :Rg<CR>
 nnoremap <silent> <Leader>fg :RgLimited<CR>
-
-" Allow passing optional flags into the Rg command.
-"   Example: :Rg myterm -g '*.md'
-" command! -bang -nargs=* Rg
-"   \ call fzf#vim#grep(
-"   \ "rg --column --line-number --no-heading --color=always --smart-case " .
-"   \ <q-args>, 1, fzf#vim#with_preview(), <bang>0)
-" command! -bang -nargs=* Rg
-"         \ call fzf#vim#grep(
-"         \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-"         \   fzf#vim#with_preview(), <bang>0)
-
-" command! -bang -nargs=? -complete=dir Files
-"         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+nnoremap <silent> <Leader>fm :Maps<CR>
 
 function! RipgrepFzf(query, fullscreen)
         let command_fmt = 'rg --no-column --line-number --no-heading --color=always --smart-case -- %s || true'
@@ -802,9 +743,9 @@ let g:ctrlsf_compact_winsize = '30%'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_focus = { "at" : "start" }
 
-nnoremap <silent> <leader>fc <Plug>CtrlSFCwordExec
-" nnoremap <silent> <leader>fC <Plug>CtrlSFPrompt
-" vnoremap <silent> <leader>fc <Plug>CtrlSFVwordExec
+nmap <leader>fc <Plug>CtrlSFCwordExec
+vmap <leader>fc <Plug>CtrlSFVwordExec
+nmap <leader>fC <Plug>CtrlSFPrompt
 
 " lambdalisue/fern.vim
 " .....................
@@ -883,64 +824,12 @@ augroup FernGroup
   autocmd FileType fern call s:FernInit()
 augroup END
 
-" unblevable/quick-scope
-" .....................
-
-" Trigger a highlight in the appropriate direction when pressing these keys.
-" let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
-
-" Only underline the highlights instead of using custom colors.
-" highlight QuickScopePrimary gui=underline cterm=underline
-" highlight QuickScopeSecondary gui=underline cterm=underline
-
-" mhinz/vim-grepper
-" .....................
-
-" let g:grepper={}
-" let g:grepper.tools=["rg"]
-
-" xmap gr <plug>(GrepperOperator)
-
-" " After searching for text, press this mapping to do a project wide find and
-" " replace. It's similar to <leader>r except this one applies to all matches
-" " across all files instead of just the current file.
-" nnoremap <Leader>R
-"   \ :let @s='\<'.expand('<cword>').'\>'<CR>
-"   \ :Grepper -cword -noprompt<CR>
-"   \ :cfdo %s/<C-r>s//g \| update
-"   \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
-" " The same as above except it works with a visual selection.
-" xmap <Leader>R
-"     \ "sy
-"     \ gvgr
-"     \ :cfdo %s/<C-r>s//g \| update
-"      \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
-" ntpeters/vim-better-whitespace
-" .....................
-
-" let g:strip_whitespace_confirm=0
-" let g:strip_whitelines_at_eof=1
-" let g:strip_whitespace_on_save=1
-
-" Konfekt/FastFold
-" .....................
-
-" let g:fastfold_savehook=0
-" let g:fastfold_fold_command_suffixes=[]
 
 " junegunn/limelight.vim
 " .....................
 
 let g:limelight_conceal_ctermfg=244
 
-" iamcco/markdown-preview.nvim
-" .....................
-
-" let g:mkdp_auto_close=0
-" let g:mkdp_refresh_slow=1
-" let g:mkdp_markdown_css=fnameescape($HOME).'/.local/lib/github-markdown-css/github-markdown.css'
 
 " janko/vim-test
 " .....................
@@ -965,7 +854,11 @@ nmap <silent> <Leader>tf :TestFile -v<CR>
 nmap <silent> <Leader>ts :TestSuite -v<CR>
 nmap <silent> <Leader>tl :TestLast -v<CR>
 nmap <silent> <Leader>tv :TestVisit -v<CR>
-nmap <silent> <Leader>tt :if &filetype == "go" <bar> GoCoverageToggle endif <cr>
+" autocmd FileType go nmap <Leader>tt <Plug>(go-coverage-toggle)
+nnoremap <leader>tt :if &filetype == "go" <bar> execute ":GoCoverageToggle" <bar> endif <CR>
+" nmap <silent> <Leader>tt :if &filetype == "go" <bar> :GoCoverageToggle<CR> <bar> endif<CR>
+
+" nnoremap <silent> <Leader>oW :if &fo =~ 't' <bar> set fo-=t <bar> :echomsg "No wrap writing" <bar> else <bar> set fo+=t <bar> :echomsg "Wrap writing" <bar> endif<CR>
 
 " fatih/vim-go
 " .....................
@@ -1000,7 +893,10 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_preview_float = 1
-let g:lsp_hover_conceal = 1
+let g:lsp_hover_conceal = 2
+let g:lsp_document_highlight_enabled = 1
+let g:lsp_document_highlight_delay = 200
+let g:lsp_semantic_enabled = 1
 " let g:lsp_preview_autoclose = 1
 
 function! s:on_lsp_buffer_enabled() abort
@@ -1022,8 +918,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> ]e <plug>(lsp-next-error)
     nmap <buffer> [e <plug>(lsp-previous-error)
     nmap <buffer> K <plug>(lsp-hover)
-    nmap <buffer> <Leader>ac <plug>(lsp-code-action-sync)
-    vmap <buffer> <Leader>ac <plug>(lsp-code-action-sync)
+    nmap <buffer> <Leader>ac <plug>(lsp-code-action)
+    vmap <buffer> <Leader>ac <plug>(lsp-code-action)
     " vmap <buffer> <Leadej>ac <plug>(lsp-code-action)
     nmap <buffer> <Leader>al <plug>(lsp-code-lens)
     vmap <buffer> <Leader>al <plug>(lsp-code-lens)
@@ -1063,10 +959,6 @@ let g:vista_executive_for = {
         \ }
 
 noremap <silent> <Leader>fs :Vista!!<CR>
-
-" prabirshrestha/asyncomplete-lsp.vim
-"
-" autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " milkypostman/vim-togglelist
 " .....................
@@ -1144,7 +1036,7 @@ nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
 
 " tpope/vim-fugitive
 " .....................
-nnoremap <Leader>vb :Gblame<CR>
+nnoremap <Leader>vb :Git blame<CR>
 nnoremap <Leader>vd :Gvdiffsplit<CR>
 nnoremap <Leader>vD :Git difftool<CR>
 nnoremap <Leader>vg :Git<CR>
@@ -1156,36 +1048,6 @@ let g:goyo_width = 120
 " itchyny/lightline.vim
 " mengelbrecht/lightline-bufferline
 " .....................
-" let g:lightline = {}
-" let g:lightline.colorscheme = '16color'
-" let g:lightline.colorscheme = 'one'
-"
-
-      " \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-      "
-" let g:lightline.component = {
-"     \ 'mode': '%{lightline#mode()}',
-"     \ 'absolutepath': '%F',
-"     \ 'relativepath': '%f',
-"     \ 'filename': '%t',
-"     \ 'modified': '%M',
-"     \ 'bufnum': '%n',
-"     \ 'paste': '%{&paste?"PASTE":""}',
-"     \ 'readonly': '%R',
-"     \ 'charvalue': '%b',
-"     \ 'charvaluehex': '%B',
-"     \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
-"     \ 'fileformat': '%{&ff}',
-"     \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
-"     \ 'percent': '%3p%%',
-"     \ 'percentwin': '%P',
-"     \ 'spell': '%{&spell?&spelllang:""}',
-"     \ 'lineinfo': '%3l:%-2c',
-"     \ 'line': '%l',
-"     \ 'column': '%c',
-"     \ 'close': '%999X X ',
-"     \ 'winnr': '%{winnr()}' }
-" autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 
 let g:lightline = {}
 let g:lightline.colorscheme = 'gruvbox'
@@ -1265,46 +1127,6 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
 inoremap <expr> <Cr>    pumvisible() ? "<C-y>" : "<Cr>"
 
-
-
-function! s:init_lynx()
-  nnoremap <nowait><buffer> <C-F> i<PageDown><C-\><C-N>
-  tnoremap <nowait><buffer> <C-F> <PageDown>
-
-  nnoremap <nowait><buffer> <C-B> i<PageUp><C-\><C-N>
-  tnoremap <nowait><buffer> <C-B> <PageUp>
-
-  nnoremap <nowait><buffer> <C-D> i:DOWN_HALF<CR><C-\><C-N>
-  tnoremap <nowait><buffer> <C-D> :DOWN_HALF<CR>
-
-  nnoremap <nowait><buffer> <C-U> i:UP_HALF<CR><C-\><C-N>
-  tnoremap <nowait><buffer> <C-U> :UP_HALF<CR>
-
-  nnoremap <nowait><buffer> <C-N> i<Delete><C-\><C-N>
-  tnoremap <nowait><buffer> <C-N> <Delete>
-
-  nnoremap <nowait><buffer> <C-P> i<Insert><C-\><C-N>
-  tnoremap <nowait><buffer> <C-P> <Insert>
-
-  nnoremap <nowait><buffer> u     i<Left><C-\><C-N>
-  nnoremap <nowait><buffer> U     i<C-U><C-\><C-N>
-  nnoremap <nowait><buffer> <CR>  i<CR><C-\><C-N>
-  nnoremap <nowait><buffer> gg    i:HOME<CR><C-\><C-N>
-  nnoremap <nowait><buffer> G     i:END<CR><C-\><C-N>
-  nnoremap <nowait><buffer> zl    i:SHIFT_LEFT<CR><C-\><C-N>
-  nnoremap <nowait><buffer> zL    i:SHIFT_LEFT<CR><C-\><C-N>
-  nnoremap <nowait><buffer> zr    i:SHIFT_RIGHT<CR><C-\><C-N>
-  nnoremap <nowait><buffer> zR    i:SHIFT_RIGHT<CR><C-\><C-N>
-  nnoremap <nowait><buffer> gh    i:HELP<CR><C-\><C-N>
-  nnoremap <nowait><buffer> cow   i:LINEWRAP_TOGGLE<CR><C-\><C-N>
-
-  tnoremap <buffer> <C-C> <C-G><C-\><C-N>
-  nnoremap <buffer> <C-C> i<C-G><C-\><C-N>
-endfunction
-command! -nargs=1 Web       vnew|call term_start('lynx -scrollbar '.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
-command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckduckgo.com/?q='.shellescape(substitute(<q-args>,'#','%23','g')))|call <SID>init_lynx()
-
-
 " SirVer/ultisnips
 " .....................
 
@@ -1312,9 +1134,11 @@ command! -nargs=1 Websearch vnew|call term_start('lynx -scrollbar https://duckdu
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 if has('python3')
 " if exists('*asyncomplete#register_source')
+    " let g:UltiSnipsJumpForwardTrigger="<c-j>"
+    " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
     let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpForwardTrigger="<c-j>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
     let g:UltiSnipsEditSplit="vertical"
     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
         \ 'name': 'ultisnips',

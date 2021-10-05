@@ -62888,13 +62888,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.6705882352941176</real>
+				<real>0.75936365127563477</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.72941176470588232</real>
+				<real>0.78145122528076172</real>
 				<key>Red Component</key>
-				<real>0.46274509803921571</real>
+				<real>0.49575936794281006</real>
 			</dict>
 			<key>Ansi 13 Color</key>
 			<dict>
@@ -62992,13 +62992,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.5612870266848482</real>
+				<real>0.52301216125488281</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
 				<real>0.66774749755859375</real>
 				<key>Red Component</key>
-				<real>0.44232954212790038</real>
+				<real>0.44232955574989319</real>
 			</dict>
 			<key>Ansi 7 Color</key>
 			<dict>
@@ -63054,8 +63054,6 @@
 				<key>Red Component</key>
 				<real>0.11759927868843079</real>
 			</dict>
-			<key>Background Image Location</key>
-			<string>/Users/alex/Pictures/Backs/space-trees-one.jpeg</string>
 			<key>Background Image Mode</key>
 			<integer>2</integer>
 			<key>Badge Color</key>
@@ -63655,7 +63653,7 @@
 			<key>Show Status Bar</key>
 			<false/>
 			<key>Silence Bell</key>
-			<false/>
+			<true/>
 			<key>Smart Cursor Color</key>
 			<false/>
 			<key>Smart Selection Rules</key>
@@ -66966,7 +66964,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>7</integer>
+	<integer>5</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>

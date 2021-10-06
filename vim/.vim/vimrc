@@ -166,6 +166,9 @@ Plug 'mattn/vim-lsp-settings'
 " Document inspector.
 Plug 'liuchengxu/vista.vim'
 
+" Linting.
+" Plug 'vim-syntastic/syntastic'
+
 " Debug Adapter Protocol for vim (.dotfiles/vim/.vim/vimspector-config/).
 Plug 'puremourning/vimspector'
 
@@ -960,6 +963,11 @@ let g:vista_executive_for = {
 
 noremap <silent> <Leader>fs :Vista!!<CR>
 
+" vim-syntastic/syntastic
+" .....................
+
+let g:syntastic_go_checkers = ["golangci_lint"]
+
 " milkypostman/vim-togglelist
 " .....................
 
@@ -1037,8 +1045,8 @@ nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
 " tpope/vim-fugitive
 " .....................
 nnoremap <Leader>vb :Git blame<CR>
-nnoremap <Leader>vd :Gvdiffsplit<CR>
-nnoremap <Leader>vD :Git difftool<CR>
+nnoremap <Leader>vD :Gvdiffsplit<CR>
+nnoremap <Leader>vd :Git difftool<CR>
 nnoremap <Leader>vg :Git<CR>
 
 " junegunn/goyo.vim

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+go list -f '{{if not .Indirect}}{{.}}{{end}}' -m -mod=mod all | tail -n +2

@@ -86,6 +86,7 @@ call plug#begin('~/.vim/plugged')
 
 " Color theme.
 Plug 'habamax/vim-gruvbit'
+" Plug 'rakr/vim-one'
 " Color theme for lightline.
 " Plug 'ajmwagar/vim-deus'
 
@@ -112,6 +113,7 @@ let g:winresizer_start_key = '<Leader>vV'
 Plug 'simeji/winresizer'
 
 " Navigate and manipulate files in a tree view.
+let g:fern#disable_viewer_spinner = 1
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 
@@ -156,6 +158,9 @@ Plug 'buoto/gotests-vim'
 
 " Toggle functions for quickfix and location list.
 Plug 'milkypostman/vim-togglelist'
+
+" Editable quickfix and locaion list.
+" Plug 'itchyny/vim-qfedit'
 
 " LSP & Autocomplete
 Plug 'prabirshrestha/async.vim'
@@ -307,9 +312,11 @@ let g:limelight_conceal_termfg = 238
 let g:limelight_conceal_guifg = '#444444'
 let g:seoul256_background = 234
 let g:deus_termcolors=256
-set background=dark
 try
+    set background=dark
     colorscheme gruvbit
+    " set background=light
+    " colorscheme one
 catch
     echo ""
 endtry
@@ -686,6 +693,8 @@ command! -bang Profile call s:profile(<bang>0)
 
 let g:gitgutter_map_keys = 0
 
+nmap <Leader>au <Plug>(GitGutterUndoHunk)
+
 " tpope/vim-dispatch
 " .....................
 let g:dispatch_no_maps = 1
@@ -702,6 +711,14 @@ let g:fzf_layout = { 'down': '60%' }
 " let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
 " let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6 } }
 let g:fzf_preview_window = ['up:right:55%', 'ctrl-/']
+
+function! s:delete_buffers(lines)
+  execute 'echom' 'test message'
+  execute 'echom' join(map(a:lines, {_, line -> split(line)[0]}))
+  execute 'bdelete' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+        " \ 'ctrl-w': function('s:delete_buffers'),
 let g:fzf_action = {
         \ 'ctrl-t': 'tab split',
         \ 'ctrl-s': 'split',
@@ -745,6 +762,7 @@ let g:ctrlsf_context = '-B 3 -A 3'
 let g:ctrlsf_compact_winsize = '30%'
 let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_focus = { "at" : "start" }
+let g:ctrlsf_populate_qflist = 1
 
 nmap <leader>fc <Plug>CtrlSFCwordExec
 vmap <leader>fc <Plug>CtrlSFVwordExec
@@ -778,6 +796,7 @@ nmap <leader>fC <Plug>CtrlSFPrompt
 
 " Use symbols.
 " let g:fern#renderer = "nerdfont"
+
 
 " noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=32<CR><C-w>=
 noremap <silent> <Leader>fd :Fern . -drawer -reveal=% -toggle -width=28<CR><C-w>=
@@ -856,7 +875,7 @@ nmap <silent> <Leader>tn :TestNearest -v<CR>
 nmap <silent> <Leader>tf :TestFile -v<CR>
 nmap <silent> <Leader>ts :TestSuite -v<CR>
 nmap <silent> <Leader>tl :TestLast -v<CR>
-nmap <silent> <Leader>tv :TestVisit -v<CR>
+nmap <silent> <Leader>tv :TestVisit<CR>
 " autocmd FileType go nmap <Leader>tt <Plug>(go-coverage-toggle)
 nnoremap <leader>tt :if &filetype == "go" <bar> execute ":GoCoverageToggle" <bar> endif <CR>
 " nmap <silent> <Leader>tt :if &filetype == "go" <bar> :GoCoverageToggle<CR> <bar> endif<CR>
@@ -1006,7 +1025,7 @@ nnoremap <leader>dj :call vimspector#StepInto()<CR>
 nnoremap <leader>dl :call vimspector#StepOver()<CR>
 
 nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
-" nnoremap <leader>dB :call vimspector#ToggleConditionalBreakpoint()<CR>
+nnoremap <leader>dB :call vimspector#ToggleAdvancedBreakpoint()<CR>
 nnoremap <leader>da :call AddToWatch()<CR>
 nnoremap <Leader>di <Plug>VimspectorBalloonEval
 nnoremap <leader>dx :call vimspector#ClearBreakpoints()<CR>
@@ -1044,10 +1063,12 @@ nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
 
 " tpope/vim-fugitive
 " .....................
+nnoremap <Leader>vg :Git<CR>
 nnoremap <Leader>vb :Git blame<CR>
+nnoremap <Leader>vB :.GBrowse<CR>
 nnoremap <Leader>vD :Gvdiffsplit<CR>
 nnoremap <Leader>vd :Git difftool<CR>
-nnoremap <Leader>vg :Git<CR>
+nnoremap <Leader>vl :Gclog<CR>
 
 " junegunn/goyo.vim
 " .....................
@@ -1075,6 +1096,9 @@ let g:lightline.inactive.right = [ ['iclock'], ['lang'], [ 'gitbranch' ]  ]
 let g:lightline.tabline = {}
 let g:lightline.tabline.left = [ [] ]
 let g:lightline.tabline.right = [ [], ['buffers'] ]
+let g:lightline.tabline = {} " off
+" set showtabline=2
+set showtabline=0
 " let g:lightline.tabline.right = [ ['close'] ]
 let g:lightline.component = {}
 let g:lightline.component.iclock= ''
@@ -1108,7 +1132,6 @@ nnoremap <silent> <Leader>[ :bprevious<cr>
 nnoremap <silent> <Leader>] :bnext<cr>
 
 set noshowmode
-set showtabline=2
 
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#smart_path = 0

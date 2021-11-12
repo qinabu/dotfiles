@@ -116,6 +116,7 @@ Plug 'simeji/winresizer'
 let g:fern#disable_viewer_spinner = 1
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
+Plug 'yuki-yano/fern-preview.vim'
 
 " Modify * to also work with visual selections.
 Plug 'nelstrom/vim-visual-star-search'
@@ -198,6 +199,10 @@ if has('python3')
     Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 
+Plug 'flazz/vim-colorschemes'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-colorscheme-switcher'
+
 call plug#end()
 
 
@@ -213,11 +218,12 @@ endif
 
 let g:fubitive_domain_pattern = 'stash\.msk\.avito\.ru'
 
-" Encrease numberwidth for the only window in a row.
-function! ChangeNumberWidth() abort
-        if winnr('h') == winnr() && winnr('l') == winnr() | setlocal numberwidth=14 | else | setlocal numberwidth=4 | endif
+" Encrease foldcolumn for the only window in a row.
+function! ChangeFoldColumn() abort
+        if winnr('h') == winnr() && winnr('l') == winnr() | setlocal foldcolumn=12 | else | setlocal foldcolumn=0 | endif
 endfunction
-autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter * call ChangeNumberWidth()
+
+autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter,TerminalWinOpen * call ChangeFoldColumn() | " WinLeave,
         
 "  Color settings
 " ---------------------
@@ -277,6 +283,7 @@ syntax on
 " autocmd! ColorScheme gruvbox call s:patch_gruvbox_colors()
 
 function! s:patch_gruvbit_colors()
+        highlight clear VertSplit
         " Syntax
         highlight Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
         " highlight goField cterm=none gui=none guifg=#bdae93 ctermfg=248
@@ -352,6 +359,7 @@ let mapleader=" "
 let maplocalleader=" "
 
 " set lazyredraw
+set numberwidth=4
 set nopaste
 set noesckeys
 set updatetime=100
@@ -388,7 +396,7 @@ set noshiftround
 set nostartofline
 set noswapfile
 " set number relativenumber
-set number
+" set number
 set regexpengine=1
 set ruler
 set scrolloff=2
@@ -443,12 +451,12 @@ inoremap <silent> <Esc> <Esc>`^
 
 " Seamlessly treat visual lines as actual lines when moving around.
 
-noremap j gj
-noremap k gk
-noremap <Down> gj
-noremap <Up> gk
-inoremap <Down> <C-o>gj
-inoremap <Up> <C-o>gk
+noremap <silent> j gj
+noremap <silent> k gk
+noremap <silent> <Down> gj
+noremap <silent> <Up> gk
+inoremap <silent> <Down> <C-o>gj
+inoremap <silent> <Up> <C-o>gk
 
 " Navigate around splits with a single key combo.
 " nnoremap <C-l> <C-w><C-l>
@@ -589,7 +597,7 @@ nnoremap <Leader>oN :setlocal number!<CR>
 nnoremap <Leader>ol :setlocal list!<CR>
 
 " Toggle nowrap.
-nnoremap <Leader>ow :setlocal nowrap!<CR>
+nnoremap <Leader>ow :setlocal nowrap! linebreak!<CR>
 nnoremap <silent> <Leader>oW :if &fo =~ 't' <bar> set fo-=t <bar> :echomsg "No wrap writing" <bar> else <bar> set fo+=t <bar> :echomsg "Wrap writing" <bar> endif<CR>
 
 " Toggle zen mode.
@@ -839,6 +847,10 @@ function! s:FernInit() abort
   " nmap <Leader>j <C-w><C-j>
 
   " nmap . <Plug>(fern-action-hidden-toggle)
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
 endfunction
 
 augroup FernGroup
@@ -917,9 +929,12 @@ let g:lsp_diagnostics_enabled = 1
 let g:lsp_preview_float = 1
 let g:lsp_hover_conceal = 2
 let g:lsp_document_highlight_enabled = 1
-let g:lsp_document_highlight_delay = 200
+let g:lsp_document_highlight_delay = 100
 let g:lsp_semantic_enabled = 1
 " let g:lsp_preview_autoclose = 1
+
+" let g:lsp_preview_keep_focus = 0
+" let g:lsp_preview_float = 0
 
 function! s:on_lsp_buffer_enabled() abort
     " setlocal omnifunc=lsp#complete
@@ -1068,11 +1083,14 @@ nnoremap <Leader>vb :Git blame<CR>
 nnoremap <Leader>vB :.GBrowse<CR>
 nnoremap <Leader>vD :Gvdiffsplit<CR>
 nnoremap <Leader>vd :Git difftool<CR>
-nnoremap <Leader>vl :Gclog<CR>
+nnoremap <Leader>vl :0Gclog<CR>
+nnoremap <Leader>vL :Gclog<CR>
 
 " junegunn/goyo.vim
 " .....................
-let g:goyo_width = 120
+" let g:goyo_width = 120
+let g:goyo_width = '70%'
+let g:goyo_height = '95%'
 
 " itchyny/lightline.vim
 " mengelbrecht/lightline-bufferline

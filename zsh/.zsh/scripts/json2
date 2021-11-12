@@ -1,0 +1,8 @@
+#!/bin/bash
+# json2 rolls out json object or list like xml2 using jq
+# jq: https://github.com/stedolan/jq
+
+[[ $1 == "-h" || $1 == "--help" ]] && echo "usage: json2 (file.json | < json) > out" && exit
+
+cat "${1:-/dev/stdin}" | jq -r 'if type=="array" or type=="object" then paths(scalars) as $p | @text "/\($p | map(tostring) | join("/"))=\(getpath($p))" else . end'
+

@@ -10,3 +10,9 @@ if err != nil {
 	${1}fmt.Errorf("${2}: %w",${3} err)
 }
 endsnippet
+
+
+snippet debug "print + scanln"
+fmt.Printf("here ${1}\n"${2});
+fmt.Scanln()
+endsnippet

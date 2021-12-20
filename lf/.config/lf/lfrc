@@ -40,6 +40,12 @@ map C ${{
 map . set hidden!
 map o $open $f
 
+map apu !git pull
+map apoh !git push -u origin head
+map al $tig
+map aal $tig --all
+map as !{{clear; git status --short --branch}}
+
 map gh cd ~
 map ga cd ~/Projects/go/src/go.avito.ru
 map gp cd ~/Projects

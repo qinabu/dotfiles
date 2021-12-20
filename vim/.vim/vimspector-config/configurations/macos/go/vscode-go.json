@@ -8,7 +8,8 @@
         "type": "go",
         "program": "${fileDirname}",
         "args": [ "*${CommandLineArgs}" ],
-        "dlvToolPath": "$HOME/Projects/go/bin/dlv"
+        "dlvToolPath": "$HOME/Projects/go/bin/dlv",
+        "cwd": "${CurrentWorkingDirectory}"
       }
     },
     "Run": {
@@ -19,7 +20,8 @@
         "type": "go",
         "program": "${file}",
         "args": [ "*${CommandLineArgs}" ],
-        "dlvToolPath": "$HOME/Projects/go/bin/dlv"
+        "dlvToolPath": "$HOME/Projects/go/bin/dlv",
+        "cwd": "${CurrentWorkingDirectory}"
       }
     }
   }

@@ -203,6 +203,8 @@ Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-colorscheme-switcher'
 
+Plug 'justinmk/vim-dirvish'
+
 call plug#end()
 
 
@@ -223,7 +225,10 @@ function! ChangeFoldColumn() abort
         if winnr('h') == winnr() && winnr('l') == winnr() | setlocal foldcolumn=12 | else | setlocal foldcolumn=0 | endif
 endfunction
 
-autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter,TerminalWinOpen * call ChangeFoldColumn() | " WinLeave,
+" autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter,TerminalWinOpen * call ChangeFoldColumn() | " WinLeave,
+if !has('nvim')
+        autocmd VimEnter,WinEnter,WinLeave,WinNew,BufWinEnter * call ChangeFoldColumn() | " WinLeave,
+endif
         
 "  Color settings
 " ---------------------
@@ -295,7 +300,8 @@ function! s:patch_gruvbit_colors()
         " lsp
         " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=23 guibg=#005F5F
         " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=22 guibg=#005F00
-        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=22 guibg=#004F00
+        " highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=22 guibg=#004F00
+        highlight lspReference ctermfg=229 guifg=#FFFFAF ctermbg=19 guibg=#0000AF
 
         " Selection
         highlight Visual ctermbg=128 guibg=#AF00D7 ctermfg=253 guifg=#DADADA
@@ -361,7 +367,9 @@ let maplocalleader=" "
 " set lazyredraw
 set numberwidth=4
 set nopaste
-set noesckeys
+if !has('nvim')
+  set noesckeys
+end
 set updatetime=100
 set autoindent
 set autoread
@@ -385,10 +393,12 @@ set matchpairs+=<:> " Use % to jump between pairs
 set mmp=5000
 set modelines=2
 set mouse=n
-if has("mouse_sgr")
-    set ttymouse=sgr
-else
-    set ttymouse=xterm2
+if !has('nvim')
+  if has("mouse_sgr")
+      set ttymouse=sgr
+  else
+      set ttymouse=xterm2
+  end
 end
 set nocompatible
 set noerrorbells visualbell t_vb=
@@ -432,6 +442,7 @@ set nojoinspaces
 " ---------------------
 
 nnoremap <Leader>w :write<cr>
+nnoremap <Leader>s :write<cr>
 
 " Partial mapping L-v to CTRL-w
 nnoremap <Leader>v <C-w>
@@ -482,14 +493,13 @@ nnoremap <silent> <Leader>oO :only<CR>
 nnoremap <silent> <Leader>oo :MaximizerToggle<CR>
 
 " Quit commands.
+nnoremap <silent> <Esc><Esc> :quit<CR>
 nnoremap <silent> <Leader>qq :quit<CR>
 nnoremap <silent> <Leader>qw :wq<CR>
 nnoremap <silent> <Leader>qb :bdelete<CR>
-nnoremap <silent> <Leader>qc :cclose<CR>
-nnoremap <silent> <Leader>ql :lclose<CR>
-nnoremap <silent> <Leader>qp :pclose<CR>
+nnoremap <silent> <Leader>qB :bdelete!<CR>
 nnoremap <silent> <Leader>qa :qall<CR>
-nnoremap <silent> <Leader>qe :qall!<CR>
+nnoremap <silent> <Leader>qA :qall!<CR>
 
 " Write buffer.
 nnoremap <Leader>w :write<cr>
@@ -508,8 +518,8 @@ cnoremap <C-p> <Up>
 cnoremap <C-d> <Del>
 
 " Quickfix jumps.
-nnoremap <silent> ]c :cnext<CR>
-nnoremap <silent> [c :cprevious<CR>
+" nnoremap <silent> ]c :cnext<CR>
+" nnoremap <silent> [c :cprevious<CR>
 nnoremap <silent> <Leader>. :cnext<CR>
 nnoremap <silent> <Leader>, :cprevious<CR>
 
@@ -567,6 +577,9 @@ xnoremap <Leader>ee "sy:let @/='\V'.@s<CR>cgn
 " Prevent x from overriding what's in the clipboard.
 noremap x "_x
 noremap X "_X
+
+" Prevent swap " register value with replaced text.
+" vnoremap p "_dP
 
 " Prevent selecting and pasting from overwriting what you originally copied.
 " xnoremap p pgvy
@@ -702,6 +715,10 @@ command! -bang Profile call s:profile(<bang>0)
 let g:gitgutter_map_keys = 0
 
 nmap <Leader>au <Plug>(GitGutterUndoHunk)
+nmap <Leader>av <Plug>(GitGutterPreviewHunk)
+
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
 
 " tpope/vim-dispatch
 " .....................
@@ -944,7 +961,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gR <plug>(lsp-document-symbol)
+    nmap <buffer> gR <plug>(lsp-call-hierarchy-outgoing)
     nmap <buffer> gi <plug>(lsp-implementation)
     nmap <buffer> gy <plug>(lsp-type-definition)
     nmap <buffer> <leader>er <plug>(lsp-rename)
@@ -954,6 +971,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> [d <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]e <plug>(lsp-next-error)
     nmap <buffer> [e <plug>(lsp-previous-error)
+    nmap <buffer> ]w <plug>(lsp-next-warning)
+    nmap <buffer> [w <plug>(lsp-previous-warning)
     nmap <buffer> K <plug>(lsp-hover)
     nmap <buffer> <Leader>ac <plug>(lsp-code-action)
     vmap <buffer> <Leader>ac <plug>(lsp-code-action)
@@ -1089,7 +1108,7 @@ nnoremap <Leader>vL :Gclog<CR>
 " junegunn/goyo.vim
 " .....................
 " let g:goyo_width = 120
-let g:goyo_width = '70%'
+let g:goyo_width = '60%'
 let g:goyo_height = '95%'
 
 " itchyny/lightline.vim

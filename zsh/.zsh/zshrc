@@ -38,4 +38,5 @@ bindkey "^U" backward-kill-line
 setopt share_history
 
 PATH=$PATH:~/.zsh/scripts
+PATH=$PATH:~/.local/bin
 source ~/.profile

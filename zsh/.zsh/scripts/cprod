@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+exec curl -sq http://prod.k.avito.ru/service-$*

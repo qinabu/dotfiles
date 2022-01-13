@@ -100,6 +100,6 @@ cmd on-cd ${{
 set color256
 set autoquit on
 #set hidden
-set ratios 1:3:8
+set ratios 2:3:8
 set promptfmt "\033[36;1m%d\033[0m\033[1m%f\033[0m"
 set previewer ~/.config/lf/preview.sh

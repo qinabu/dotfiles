@@ -62499,6 +62499,8 @@
 	<false/>
 	<key>DrawBottomLineForHorizontalTabBar</key>
 	<true/>
+	<key>DrawOutlineAroundCursor</key>
+	<true/>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>EnableRendezvous</key>
@@ -62767,6 +62769,8 @@
 	<key>HTMLTabTitles</key>
 	<false/>
 	<key>HapticFeedbackForEsc</key>
+	<false/>
+	<key>HdrCursor</key>
 	<false/>
 	<key>HideActivityIndicator</key>
 	<true/>
@@ -63123,13 +63127,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.52088349660237632</real>
+				<real>0.87629055976867676</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.83944034576416016</real>
+				<real>0.7639923095703125</real>
 				<key>Red Component</key>
-				<real>0.65433298746744795</real>
+				<real>0.0</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -63599,7 +63603,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>CascadiaMono-SemiLight 16</string>
+			<string>CascadiaMono-Regular 15</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Open Toolbelt</key>
@@ -66847,6 +66851,8 @@
 	<integer>1</integer>
 	<key>OptimumTabWidth</key>
 	<integer>300</integer>
+	<key>OscColorReport16Bits</key>
+	<false/>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
 	<key>PerPaneBackgroundImage</key>
@@ -66894,6 +66900,8 @@
 	<true/>
 	<key>ProportionalScrollWheelReporting</key>
 	<true/>
+	<key>RightCommand</key>
+	<integer>1</integer>
 	<key>SensitiveScrollWheel</key>
 	<true/>
 	<key>SeparateStatusBarsPerPane</key>
@@ -66936,6 +66944,8 @@
 	<integer>12</integer>
 	<key>TerminalVMargin</key>
 	<integer>12</integer>
+	<key>TimeBetweenBlinks</key>
+	<real>0.30000001192092896</real>
 	<key>ToolbeltTools</key>
 	<array>
 		<string>Actions</string>
@@ -66955,7 +66965,7 @@
 	<key>UseVirtualKeyCodesForDetectingDigits</key>
 	<false/>
 	<key>VerticalBarCursorWidth</key>
-	<real>3</real>
+	<real>4</real>
 	<key>VisualIndicatorForEsc</key>
 	<true/>
 	<key>WindowNumber</key>

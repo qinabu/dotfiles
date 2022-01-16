@@ -41,7 +41,7 @@ function M.bootstrap()
 
 	-- UI
 	vim.opt.fillchars = 'vert: '
-	vim.opt.background = 'dark'
+	-- vim.opt.background = 'dark'
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'a'
 	vim.opt.laststatus = 2 -- status line

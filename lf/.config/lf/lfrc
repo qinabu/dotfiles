@@ -51,11 +51,11 @@ map ga cd ~/Projects/go/src/go.avito.ru
 map gp cd ~/Projects
 map gn cd ~/Documents/Notes
 map gd cd ~/Downloads
-map g. cd ~/.dotfiles
+map g. ${{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
 map gv cd ~/.vim
 map gG cd /usr/local/Cellar/go
 
-map E vim-directory
+map E edit-directory
 
 map fp find-project
 map fd find-directory
@@ -64,13 +64,13 @@ map ff find-file
 # COMMANDS ====================================================================
 cmd open
 
-cmd vim-directory ${{
+cmd edit-directory ${{
         a="$PWD/venv/bin/activate"
         lf -remote "send $id cd $PWD"
         if [[ -e "$a" ]]; then
-                source "$a" && cd "$PWD" && vim -c ':Fern .' 
+                source "$a" && cd "$PWD" && $EDITOR
         else
-                cd "$PWD" && vim -c ':Fern .'
+                cd "$PWD" && $EDITOR
         fi
 }}
 

@@ -88,6 +88,15 @@ function M.gruvbit()
         ]];
 end
 
+function M.everforest()
+	-- -- vim.g.everforest_diagnostic_text_highlight = 1
+	vim.g.everforest_current_word = 'grey background'
+	vim.g.everforest_transparent_background = 1
+	vim.g.everforest_enable_italic = 0
+	vim.g.everforest_disable_italic_comment = 1
+	vim.cmd [[colorscheme everforest]]
+end
+
 function M.sneak()
 	vim.g['sneak#use_ic_scs'] = 1
 	vim.g['sneak#label'] = 1
@@ -186,6 +195,7 @@ end
 
 function M.nvim_ts_hint_textobject()
 	require("tsht").config.hint_keys = { "a", "s", "d", "f", "j", "k", "l", "g", "h"}
+	require("keys").nvim_ts_hint_textobject()
 end
 
 return M

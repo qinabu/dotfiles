@@ -107,6 +107,7 @@ function M.config()
 		['virtual_text'] = false,
 		['severity_sort'] = true,
 	})
+	vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 end
 
 return M

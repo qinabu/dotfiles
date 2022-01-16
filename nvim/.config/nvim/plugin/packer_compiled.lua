@@ -109,6 +109,18 @@ _G.packer_plugins = {
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  everforest = {
+    config = { 'require("configs").everforest()' },
+    loaded = true,
+    path = "/Users/alex/.local/share/nvim/site/pack/packer/start/everforest",
+    url = "https://github.com/sainnhe/everforest"
+  },
+  ["gitsigns.nvim"] = {
+    config = { "\27LJ\2\n¾\5\0\0\5\0\n\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0005\4\5\0=\4\6\0035\4\a\0=\4\b\3=\3\t\2B\0\2\1K\0\1\0\fkeymaps\tn [c\1\2\1\0001&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'\texpr\2\tn ]c\1\2\1\0001&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'\texpr\2\1\0\r\fnoremap\2\nn ghR#<cmd>Gitsigns reset_buffer<CR>\nv ghr\29:Gitsigns reset_hunk<CR>\nn ghb9<cmd>lua require\"gitsigns\".blame_line{full=true}<CR>\nn ghr!<cmd>Gitsigns reset_hunk<CR>\nn ghS#<cmd>Gitsigns stage_buffer<CR>\nn ghu&<cmd>Gitsigns undo_stage_hunk<CR>\nn ghU)<cmd>Gitsigns reset_buffer_index<CR>\nv ghs\29:Gitsigns stage_hunk<CR>\to ih#:<C-U>Gitsigns select_hunk<CR>\nn ghs!<cmd>Gitsigns stage_hunk<CR>\tx ih#:<C-U>Gitsigns select_hunk<CR>\nn ghp#<cmd>Gitsigns preview_hunk<CR>\1\0\1\23current_line_blame\2\nsetup\rgitsigns\frequire\0" },
+    loaded = true,
+    path = "/Users/alex/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
   ["lsp-status.nvim"] = {
     loaded = true,
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/lsp-status.nvim",
@@ -149,6 +161,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-treesitter-context"] = {
+    config = { 'require("keys").nvim_ts_hint_textobject()' },
     loaded = true,
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/romgrk/nvim-treesitter-context"
@@ -169,13 +182,22 @@ _G.packer_plugins = {
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/playground",
     url = "https://github.com/nvim-treesitter/playground"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/Users/alex/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/Users/alex/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/vim-commentary",
     url = "https://github.com/tpope/vim-commentary"
   },
   ["vim-gruvbit"] = {
-    config = { 'require("configs").gruvbit()' },
     loaded = true,
     path = "/Users/alex/.local/share/nvim/site/pack/packer/start/vim-gruvbit",
     url = "https://github.com/habamax/vim-gruvbit"
@@ -198,30 +220,38 @@ time([[Defining packer_plugins]], false)
 time([[Config for nvim-lsp-installer]], true)
 require("lsp-config").config()
 time([[Config for nvim-lsp-installer]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require("configs").nvim_tree()
-time([[Config for nvim-tree.lua]], false)
--- Config for: nvim-ts-hint-textobject
-time([[Config for nvim-ts-hint-textobject]], true)
-require("configs").nvim_ts_hint_textobject()
-time([[Config for nvim-ts-hint-textobject]], false)
 -- Config for: vim-sneak
 time([[Config for vim-sneak]], true)
 require("configs").sneak()
 time([[Config for vim-sneak]], false)
--- Config for: vim-gruvbit
-time([[Config for vim-gruvbit]], true)
-require("configs").gruvbit()
-time([[Config for vim-gruvbit]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require("cmp-config").config()
-time([[Config for nvim-cmp]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\2\n¾\5\0\0\5\0\n\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0005\4\5\0=\4\6\0035\4\a\0=\4\b\3=\3\t\2B\0\2\1K\0\1\0\fkeymaps\tn [c\1\2\1\0001&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'\texpr\2\tn ]c\1\2\1\0001&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'\texpr\2\1\0\r\fnoremap\2\nn ghR#<cmd>Gitsigns reset_buffer<CR>\nv ghr\29:Gitsigns reset_hunk<CR>\nn ghb9<cmd>lua require\"gitsigns\".blame_line{full=true}<CR>\nn ghr!<cmd>Gitsigns reset_hunk<CR>\nn ghS#<cmd>Gitsigns stage_buffer<CR>\nn ghu&<cmd>Gitsigns undo_stage_hunk<CR>\nn ghU)<cmd>Gitsigns reset_buffer_index<CR>\nv ghs\29:Gitsigns stage_hunk<CR>\to ih#:<C-U>Gitsigns select_hunk<CR>\nn ghs!<cmd>Gitsigns stage_hunk<CR>\tx ih#:<C-U>Gitsigns select_hunk<CR>\nn ghp#<cmd>Gitsigns preview_hunk<CR>\1\0\1\23current_line_blame\2\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require("configs").nvim_tree()
+time([[Config for nvim-tree.lua]], false)
+-- Config for: everforest
+time([[Config for everforest]], true)
+require("configs").everforest()
+time([[Config for everforest]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require("configs").nvim_treesitter()
 time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require("cmp-config").config()
+time([[Config for nvim-cmp]], false)
+-- Config for: nvim-ts-hint-textobject
+time([[Config for nvim-ts-hint-textobject]], true)
+require("configs").nvim_ts_hint_textobject()
+time([[Config for nvim-ts-hint-textobject]], false)
+-- Config for: nvim-treesitter-context
+time([[Config for nvim-treesitter-context]], true)
+require("keys").nvim_ts_hint_textobject()
+time([[Config for nvim-treesitter-context]], false)
 if should_profile then save_profiles() end
 
 end)

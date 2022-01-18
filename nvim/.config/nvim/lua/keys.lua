@@ -141,5 +141,26 @@ function M.lsp()
 
 end
 
+function M.telescope()
+	map('n', '<leader>ft', ':Telescope<cr>', NS)
+	map('n', '<leader>ff', ':Telescope find_files<cr>', NS)
+end
+
+function M.dap()
+	-- map('n', '<leader>t', ':lua require("dap-go").debug_test()<cr>', NS)
+
+	map('n', '<leader>td', ':lua require("dap").run_last()<cr>', NS)
+	map('n', '<leader>tD', ':lua require("dap").continue()<cr>', NS)
+
+	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
+	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
+	map('n', '<leader>[', ':lua require("dap").step_out()<cr>', NS)
+
+	map('n', '<leader>tb', ':lua require("dap").toggle_breakpoint()<cr>', NS)
+	map('n', '<leader>tB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<cr>', NS)
+	map('n', '<leader>tl', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', NS)
+	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
+end
+
 return M
 

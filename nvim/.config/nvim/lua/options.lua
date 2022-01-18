@@ -4,9 +4,9 @@ function M.bootstrap()
 	-- Basic
 	vim.opt.clipboard = "unnamedplus"
 	vim.opt.paste = false
-
+-- привет
 	vim.opt.encoding = "utf-8"
-	vim.opt.spelllang = "en_us,ru_yo"
+	vim.cmd[[set spelllang=en_us,ru_yo]]
 	vim.opt.maxmempattern = 5000
 
 	vim.opt.path:append("**")

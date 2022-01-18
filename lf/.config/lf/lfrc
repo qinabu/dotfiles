@@ -97,7 +97,7 @@ cmd on-cd ${{
         [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"
 }}
 # OPTIONS =====================================================================
-set color256
+# set color256
 set autoquit on
 #set hidden
 set ratios 2:3:8

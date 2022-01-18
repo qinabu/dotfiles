@@ -96,8 +96,7 @@ function M.config()
 		end
 
 
-
-		vim.cmd [[ autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync() ]]
+		vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 
 		server:setup(opts)
 	end)
@@ -107,7 +106,7 @@ function M.config()
 		['virtual_text'] = false,
 		['severity_sort'] = true,
 	})
-	vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+	-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 end
 
 return M

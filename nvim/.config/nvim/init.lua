@@ -1,9 +1,13 @@
 local packer_installed = require('configs').packer_install()
 
-require('configs').bootstrap()
-require('options').bootstrap()
-require('keys').bootstrap()
+require('configs').bootstrap() -- ./lua/configs.lua
+require('options').bootstrap() -- ./lua/options.lua
+require('keys').bootstrap()    -- ./lua/keys.lua
 
+-- ./lua/lsp-config.lua
+-- ./lua/telescope_config.lua
+-- ./lua/cmp-config.lua
+-- ./lua/dap-config.lua
 require('packer').startup({function(use)
 	use {'wbthomason/packer.nvim', opt = false }
 
@@ -30,7 +34,8 @@ require('packer').startup({function(use)
 		config = 'require("configs").nvim_tree()',
 	}
 	use {'nvim-telescope/telescope.nvim',
-		requires = { {'nvim-lua/plenary.nvim'} }
+		requires = { {'nvim-lua/plenary.nvim'} },
+		config = 'require("telescope_config").config()',
 	}
 
 	-- TODO
@@ -105,26 +110,28 @@ require('packer').startup({function(use)
 
 	-- [[ VCS ]]
 	use {'lewis6991/gitsigns.nvim',
-		requires = { 'nvim-lua/plenary.nvim' },
+		requires = { {'nvim-lua/plenary.nvim'} },
 		config = function () require('gitsigns').setup({
 			current_line_blame = true,
 			keymaps = {
 				-- Default keymap options
 				noremap = true,
 
-				['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'"},
-				['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'"},
+				['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'"},
+				['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'"},
 
 				['n ghs'] = '<cmd>Gitsigns stage_hunk<CR>',
 				['v ghs'] = ':Gitsigns stage_hunk<CR>',
-				['n ghu'] = '<cmd>Gitsigns undo_stage_hunk<CR>',
 				['n ghr'] = '<cmd>Gitsigns reset_hunk<CR>',
-				['v ghr'] = ':Gitsigns reset_hunk<CR>',
-				['n ghR'] = '<cmd>Gitsigns reset_buffer<CR>',
-				['n ghp'] = '<cmd>Gitsigns preview_hunk<CR>',
-				['n ghb'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
+          			['v ghr'] = ':Gitsigns reset_hunk<CR>',
+				['n ghu'] = '<cmd>Gitsigns undo_stage_hunk<CR>',
+
 				['n ghS'] = '<cmd>Gitsigns stage_buffer<CR>',
 				['n ghU'] = '<cmd>Gitsigns reset_buffer_index<CR>',
+				['n ghR'] = '<cmd>Gitsigns reset_buffer<CR>',
+
+				['n ghp'] = '<cmd>Gitsigns preview_hunk<CR>',
+				['n ghb'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
 
 				-- Text objects
 				['o ih'] = ':<C-U>Gitsigns select_hunk<CR>',
@@ -133,6 +140,14 @@ require('packer').startup({function(use)
 		}) end
 
 	}
+
+	-- [[ DAP ]]
+	use {'mfussenegger/nvim-dap',
+		requires = { {'leoluz/nvim-dap-go'} },
+		config = 'require("dap-config").config()'
+	}
+
+
 
 	-- Sync the first lauch
 	if packer_installed then

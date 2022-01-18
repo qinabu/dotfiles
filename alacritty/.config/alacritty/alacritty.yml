@@ -14,14 +14,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+# env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  # TERM: screen-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -176,13 +176,12 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Tomorrow Night)
+# Colors (everforest)
 colors:
   # Default colors
   primary:
     # background: '#282727'
-    background: '#232222'
-    foreground: '#ebdab1'
+    # foreground: '#ebdab1'
 
     # Bright and dim foreground colors
     #
@@ -196,6 +195,7 @@ colors:
   # everforest theme: https://github.com/sainnhe/everforest/wiki
   primary:
     # background: '#2b3339'
+    background: '#232222'
     foreground: '#d3c6aa'
   normal:
     black:   '#4b565c'
@@ -226,7 +226,7 @@ colors:
     # text: CellBackground
     # cursor: CellForeground
     text: '#000000'
-    cursor: '#00ffff'
+    cursor: '#00ffaf'
 
   # Vi mode cursor colors
   #

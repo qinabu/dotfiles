@@ -76,6 +76,7 @@ function M.bootstrap()
 end
 
 function M.gruvbit()
+	vim.g.termguicolors = true
         vim.cmd [[
                 let g:gruvbit_transp_bg = v:true
                 colorscheme gruvbit
@@ -90,11 +91,15 @@ end
 
 function M.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
+	vim.g.termguicolors = true
 	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_transparent_background = 1
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
-	vim.cmd [[colorscheme everforest]]
+	vim.cmd [[
+	hi CurrentWord ctermbg=235 guibg=#262626
+	colorscheme everforest
+	]]
 end
 
 function M.sneak()
@@ -120,6 +125,7 @@ function M.nvim_tree()
 	}
 
 	vim.g.nvim_tree_icons = {
+		['disable_netrw'] = false,
 		['default'] = '',
 		['symlink'] = '=',
 		['git'] = {

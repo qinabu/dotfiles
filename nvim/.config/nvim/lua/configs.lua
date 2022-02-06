@@ -156,6 +156,7 @@ function M.nvim_tree()
 
 	local map = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup{
+		['disable_netrw'] = false,
 		['diagnostics'] = {
 			['enable'] = false,
 			['show_on_dirs'] = false,
@@ -168,8 +169,11 @@ function M.nvim_tree()
 		},
 		['view'] = {
 			['hide_root_folder'] = true,
+			['auto_resize'] = false,
 			['mappings'] = {
 				['list'] = {
+					{ ['key'] = ']h', cb = map('next_git_item') },
+					{ ['key'] = '[h', cb = map('prev_git_item') },
 					{ ['key'] = 'l', cb = map('edit') },
 					{ ['key'] = 'h', cb = map('close_node') },
 					{ ['key'] = 'd', cb = nil },
@@ -187,6 +191,7 @@ function M.nvim_tree()
 		},
 		['update_focused_file'] = {
 			['enabled'] = true,
+			['upate_cwd'] = true,
 		},
 	}
 end
@@ -194,7 +199,7 @@ end
 function M.nvim_treesitter()
 	require('nvim-treesitter.configs').setup {
 		['highlight'] = {
-			['enable'] = true
+			['enable'] = false
 		}
 	}
 end
@@ -202,6 +207,16 @@ end
 function M.nvim_ts_hint_textobject()
 	require("tsht").config.hint_keys = { "a", "s", "d", "f", "j", "k", "l", "g", "h"}
 	require("keys").nvim_ts_hint_textobject()
+end
+
+function M.ctrlsf()
+	vim.g.ctrlsf_context = '-B 3 -A 3'
+	vim.g.ctrlsf_compact_winsize = '30%'
+	vim.g.ctrlsf_winsize = '30%'
+	-- vim.g.ctrlsf_auto_focus = { "at" : "start" }
+	vim.g.ctrlsf_populate_qflist = 1
+
+	require("keys").ctrlsf()
 end
 
 return M

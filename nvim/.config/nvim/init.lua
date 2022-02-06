@@ -5,7 +5,7 @@ require('options').bootstrap() -- ./lua/options.lua
 require('keys').bootstrap()    -- ./lua/keys.lua
 
 -- ./lua/lsp-config.lua
--- ./lua/telescope_config.lua
+-- ./lua/telescope-config.lua
 -- ./lua/cmp-config.lua
 -- ./lua/dap-config.lua
 require('packer').startup({function(use)
@@ -34,8 +34,19 @@ require('packer').startup({function(use)
 		config = 'require("configs").nvim_tree()',
 	}
 	use {'nvim-telescope/telescope.nvim',
-		requires = { {'nvim-lua/plenary.nvim'} },
-		config = 'require("telescope_config").config()',
+		requires = {
+			{'nvim-lua/plenary.nvim'},
+			{'nvim-telescope/telescope-fzf-native.nvim'},
+			{'nvim-telescope/telescope-file-browser.nvim'}
+			-- {'nvim-telescope/telescope-frecency.nvim'},
+			-- {'tami5/sqlite.lua'},
+		},
+		config = 'require("telescope-config").config()',
+	}
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+	use {'simeji/winresizer',
+		config = 'require("keys").winresizer()'
 	}
 
 	-- TODO
@@ -46,6 +57,9 @@ require('packer').startup({function(use)
 	-- Fast jumps
 	use {'justinmk/vim-sneak',
 		config = 'require("configs").sneak()',
+	}
+	use {'dyng/ctrlsf.vim',
+		config = 'require("configs").ctrlsf()',
 	}
 	-- Comment / uncomment
 	use {'tpope/vim-commentary'}
@@ -109,6 +123,9 @@ require('packer').startup({function(use)
 
 
 	-- [[ VCS ]]
+	use {'tpope/vim-fugitive',
+		config = 'require("keys").fugitive()',
+	}
 	use {'lewis6991/gitsigns.nvim',
 		requires = { {'nvim-lua/plenary.nvim'} },
 		config = function () require('gitsigns').setup({

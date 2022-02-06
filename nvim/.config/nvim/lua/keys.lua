@@ -91,6 +91,36 @@ function M.bootstrap()
 
 	map('n', '<leader>ol', ':setlocal list!<cr>', NS)
 	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
+
+	-- quicklist & loclist
+	local close_lists = function ()
+		local found = false
+		for _, id in ipairs(vim.api.nvim_list_wins()) do
+			local t = vim.fn.win_gettype(vim.fn.win_id2win(id))
+			if t == 'quickfix' or t == 'loclist' then
+				vim.api.nvim_win_close(id, false)
+				found = true
+			end
+		end
+		return found
+	end
+
+	_G.QuickFix_toggle = function ()
+		if not close_lists() then
+			vim.cmd[[copen]]
+		end
+	end
+	_G.LocList_toggle = function ()
+		if not close_lists() then
+			local _, err = pcall(vim.cmd, [[lopen]])
+			if err then
+				print('loc list is empty')
+			end
+		end
+	end
+
+	map('n', '<leader>c', ':lua QuickFix_toggle()<cr>', NS)
+	map('n', '<leader>C', ':lua LocList_toggle()<cr>', NS)
 end
 
 function M.nvim_ts_hint_textobject()
@@ -123,15 +153,15 @@ function M.lsp()
 	-- edit actions
 	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS)
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
-	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting()<cr>', NS)
+	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync()<cr>', NS)
 
 	-- range_code_action
 	-- range_formatting
 
 	vim.cmd[[
-	autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-	autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-	autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references(); vim.lsp.buf.document_highlight()
+	autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)
+	autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)
+	autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)
 	]]
 
 	-- workspace / sources directories
@@ -144,13 +174,15 @@ end
 function M.telescope()
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files<cr>', NS)
+	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
+	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
 end
 
 function M.dap()
 	-- map('n', '<leader>t', ':lua require("dap-go").debug_test()<cr>', NS)
 
-	map('n', '<leader>td', ':lua require("dap").run_last()<cr>', NS)
-	map('n', '<leader>tD', ':lua require("dap").continue()<cr>', NS)
+	map('n', '<leader>tD', ':lua require("dap").run_last()<cr>', NS)
+	map('n', '<leader>td', ':lua require("dap").continue()<cr>', NS)
 
 	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
 	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
@@ -160,6 +192,41 @@ function M.dap()
 	map('n', '<leader>tB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<cr>', NS)
 	map('n', '<leader>tl', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', NS)
 	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
+end
+
+function M.winresizer()
+	vim.g.winresizer_start_key = '<c-w>W'
+end
+
+function M.ctrlsf()
+	map('n', '<leader>fc', '<Plug>CtrlSFCwordExec', {})
+	map('v', '<leader>fc', '<Plug>CtrlSFVwordExec', {})
+	map('n', '<leader>fC', '<Plug>CtrlSFPrompt', {})
+end
+
+function M.fugitive()
+	_G.Git_blame_toggle = function ()
+		local found = false
+		for _, id in ipairs(vim.api.nvim_list_wins()) do
+			if vim.bo[vim.fn.winbufnr(id)].filetype == 'fugitiveblame' then
+				vim.api.nvim_win_close(id, false)
+				found = true
+			end
+		end
+		if not found then
+			vim.cmd[[:Git blame]]
+			vim.cmd(vim.api.nvim_replace_termcodes('normal <c-w>p', true, true, true))
+		end
+	end
+
+	map('n', '<leader>gg', ':Git', NS)
+	map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
+	map('n', '<leader>gb', ':lua Git_blame_toggle()<cr>', NS)
+	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
+	map('n', '<leader>gd', ':Git difftool<cr>', NS)
+	map('n', '<leader>gD', ':Gvdiffsplit<cr>', NS)
+	map('n', '<leader>gl', ':0Gclog<cr>', NS)
+	map('n', '<leader>gL', ':Gclog<cr>', NS)
 end
 
 return M

@@ -15,9 +15,11 @@ wait
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
 SAVEHIST=100000000
+setopt share_history
 
 export KEYTIMEOUT=2 # 20ms
 KEYTIMEOUT=2
+
 # vim mode
 bindkey -v
 # bindkey -M viins '^?' backward-delete-char
@@ -30,13 +32,16 @@ bindkey "^R" fzf-history-widget
 bindkey "^T" fzf-file-widget
 bindkey "^[c" fzf-cd-widget
 
-
 bindkey "^W" backward-kill-word
 bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
 bindkey "^U" backward-kill-line
 
-setopt share_history
+# help
+unalias run-help
+autoload run-help
+alias help=run-help
 
+# PATH
 PATH=$PATH:~/.zsh/scripts
 PATH=$PATH:~/.local/bin
 source ~/.profile

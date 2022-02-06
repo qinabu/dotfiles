@@ -41,13 +41,29 @@ custom['gopls'] = function()
 	return {
 		['cmd'] = {"gopls", "serve"},
 		['settings'] = {
-			['gopls'] = {
+			['gopls'] = { -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 				['experimentalPostfixCompletions'] = true,
+				-- ['experimentalWorkspaceModule'] = true,
+				['templateExtensions'] = {'gotpl', 'gotmpl'},
+				-- ['buildFlags'] = {'integration'},
+				['gofumpt'] = true,
+				['staticcheck'] = true,
 				['analyses'] = {
 					['unusedparams'] = true,
 					['shadow'] = true,
+					['fieldalignment'] = true,
+					['nilness'] = true,
+					['unusedwrite'] = true,
 				},
-				['staticcheck'] = true,
+				['codelenses'] = {
+					['gc_details'] = true,
+					['generate'] = true,
+					['regenerate_cgo'] = true,
+					['test'] = true,
+					['tidy'] = true,
+					['vendor'] = true,
+					['upgrade_dependency'] = true,
+				},
 			},
 		},
 	}
@@ -80,8 +96,14 @@ function M.config()
 		end
 
 		local opts = {
+			-- Eatch buffer attach callback
 			['on_attach'] = function() -- function(client)
-				require('keys').lsp() -- map keys
+				-- map keys
+				require('keys').lsp()
+				-- format on save
+				pcall(vim.lsp.codelens.run)
+				vim.cmd[[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.formatting_sync)]]
+				vim.cmd[[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
 			end,
 			-- ['capabilities'] = capabilities,
 			['capabilities'] = require("cmp_nvim_lsp").update_capabilities(capabilities),
@@ -92,11 +114,10 @@ function M.config()
 
 		local custom_fn = custom[server.name] or nil
 		if custom_fn ~= nil then
+			-- print("enable "..server.name)
 			opts = vim.tbl_deep_extend('force', opts, custom_fn(server))
 		end
 
-
-		vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 
 		server:setup(opts)
 	end)

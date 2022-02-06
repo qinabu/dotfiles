@@ -2,6 +2,6 @@ mafredri/zsh-async
 # zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
-romkatv/powerlevel10k
+# romkatv/powerlevel10k
 # willghatch/zsh-snippets
 # jeffreytse/zsh-vi-mode

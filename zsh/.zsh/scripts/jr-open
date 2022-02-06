@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-exec open "https://jr.avito.ru/browse/${1:-}"

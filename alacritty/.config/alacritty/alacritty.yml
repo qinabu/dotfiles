@@ -202,7 +202,7 @@ colors:
   # everforest theme: https://github.com/sainnhe/everforest/wiki
   primary:
     # background: '#2b3339'
-    background: '#232222'
+    background: '#262525' #'#232222'
     foreground: '#d3c6aa'
   normal:
     black:   '#4b565c'
@@ -527,7 +527,7 @@ hints:
        enabled: true
        mods: Command
      binding:
-       key: U
+       key: J
        mods: Control|Shift
 
 # Mouse bindings

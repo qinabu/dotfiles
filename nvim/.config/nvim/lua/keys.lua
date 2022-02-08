@@ -25,13 +25,15 @@ function M.bootstrap()
 	map('n', '<leader>w', '<c-w>', N) -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
-	map('n', '<leader>h', '<c-w><c-h>', NS)
-	map('n', '<leader>l', '<c-w><c-l>', NS)
-	map('n', '<leader>j', '<c-w><c-j>', NS)
-	map('n', '<leader>k', '<c-w><c-k>', NS)
+	map('n', '<leader>h', '<c-w>h', NS)
+	map('n', '<leader>l', '<c-w>l', NS)
+	map('n', '<leader>j', '<c-w>j', NS)
+	map('n', '<leader>k', '<c-w>k', NS)
 
 	map('n', '<ScrollWheelUp>', '<c-y>', NS)
 	map('n', '<ScrollWheelDown>', '<c-e>', NS)
+
+	map('n', '<leader>p', '<c-^>', NS)
 
 	map('n', '<leader>.', ':cnext<cr>', NS)
 	map('n', '<leader>,', ':cprevious<cr>', NS)

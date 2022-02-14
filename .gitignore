@@ -4,3 +4,5 @@ vim/.vim/spell/
 vim/.vim/.netrwhist
 vim/.vim/vimspector-config/gadgets
 zsh/.zsh/plugins
+
+nvim/.config/nvim/spell/

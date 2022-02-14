@@ -103,15 +103,15 @@ setopt prompt_subst
 # actionformats
 #     " (%s)-[%b|%a]%u%c-" 
 
-zstyle ':vcs_info:*' stagedstr ' %F{6}s%f' # %c
-zstyle ':vcs_info:*' unstagedstr ' %F{4}u%f' # %u
+zstyle ':vcs_info:*' unstagedstr ' %F{1}~%f' # %u
+zstyle ':vcs_info:*' stagedstr ' %F{2}+%f' # %c
 zstyle ':vcs_info:*' actionformats '%F{2}%b %F{22}%a%f%u%c' # branch merge/rebase
 zstyle ':vcs_info:*' formats '%F{2}%b%f%u%c' # branch
 
 PS1=''
 PS1+='%(?||%K{88}%F{7} ${${pipestatus[@]}// /|} %f%k )' # last exit codes (requires set -o pipefail)
 PS1+='%F{3}%(5~|%-1~/../%3~|%4~)%f' # directory
-PS1+='${vcs_tags:+ }%F{5}${vcs_tags}%f${vcs_info_msg_0_:+ }${vcs_info_msg_0_} %F{243}❯%f ' # vcs_info
+PS1+='${vcs_tags:+ }%F{5}${vcs_tags}%f${vcs_info_msg_0_:+ }${vcs_info_msg_0_} %F{0}❯%f ' # vcs_info
 
 
 

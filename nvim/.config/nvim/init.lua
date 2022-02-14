@@ -7,7 +7,7 @@ require('keys').bootstrap()    -- ./lua/keys.lua
 -- ./lua/lsp-config.lua
 -- ./lua/telescope-config.lua
 -- ./lua/cmp-config.lua
--- ./lua/dap-config.lua
+-- ./lua/testing.lua
 require('packer').startup({function(use)
 	use {'wbthomason/packer.nvim', opt = false }
 
@@ -27,6 +27,9 @@ require('packer').startup({function(use)
 	}
 	use {'sainnhe/everforest',
 		config = 'require("configs").everforest()'
+	}
+	use {'nvim-lualine/lualine.nvim',
+		config = 'require("configs").lualine()',
 	}
 
 	-- File manager
@@ -128,42 +131,19 @@ require('packer').startup({function(use)
 	}
 	use {'lewis6991/gitsigns.nvim',
 		requires = { {'nvim-lua/plenary.nvim'} },
-		config = function () require('gitsigns').setup({
-			current_line_blame = true,
-			keymaps = {
-				-- Default keymap options
-				noremap = true,
-
-				['n ]h'] = { expr = true, "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'"},
-				['n [h'] = { expr = true, "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'"},
-
-				['n ghs'] = '<cmd>Gitsigns stage_hunk<CR>',
-				['v ghs'] = ':Gitsigns stage_hunk<CR>',
-				['n ghr'] = '<cmd>Gitsigns reset_hunk<CR>',
-          			['v ghr'] = ':Gitsigns reset_hunk<CR>',
-				['n ghu'] = '<cmd>Gitsigns undo_stage_hunk<CR>',
-
-				['n ghS'] = '<cmd>Gitsigns stage_buffer<CR>',
-				['n ghU'] = '<cmd>Gitsigns reset_buffer_index<CR>',
-				['n ghR'] = '<cmd>Gitsigns reset_buffer<CR>',
-
-				['n ghp'] = '<cmd>Gitsigns preview_hunk<CR>',
-				['n ghb'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
-
-				-- Text objects
-				['o ih'] = ':<C-U>Gitsigns select_hunk<CR>',
-				['x ih'] = ':<C-U>Gitsigns select_hunk<CR>'
-			},
-		}) end
-
+		config = 'require("configs").gitsigns()',
 	}
 
-	-- [[ DAP ]]
+	-- [[ Debug / Testings ]]
 	use {'mfussenegger/nvim-dap',
-		requires = { {'leoluz/nvim-dap-go'} },
-		config = 'require("dap-config").config()'
+		requires = {
+			{'vim-test/vim-test'},
+			{'nvim-treesitter/nvim-treesitter'},
+			{'theHamsta/nvim-dap-virtual-text'},
+			{'leoluz/nvim-dap-go'},
+		},
+		config = 'require("testing").testing()'
 	}
-
 
 
 	-- Sync the first lauch

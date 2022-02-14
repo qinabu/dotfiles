@@ -61,6 +61,11 @@ function M.bootstrap()
 	augroup end
 	]])
 
+	-- close terminal in case of zero exit code
+	-- vim.cmd[[
+	-- autocmd TermClose * if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif
+	-- ]]
+
 	-- Left padding for only vertical window
 	--[[
 	_G.change_fold_column = function()
@@ -217,6 +222,47 @@ function M.ctrlsf()
 	vim.g.ctrlsf_populate_qflist = 1
 
 	require("keys").ctrlsf()
+end
+
+function M.lualine()
+	require('lualine').setup {
+		options = {
+			icons_enabled = false,
+			theme = 'everforest',
+			section_separators = { left = '▘', right = '▗' },
+			component_separators = { left = '▞', right = '▞' },
+		},
+		sections = {
+			lualine_a = {{'mode', fmt = function(str) return str:sub(1,1):lower() end }},
+			lualine_b = {'branch', 'diff'},
+			lualine_c = {'filename', '%l'},
+			lualine_x = {'diagnostics', 'filesize', 'filetype'},
+			lualine_y = {'progress'},
+			lualine_z = {},
+		},
+		inactive_sections = {
+			lualine_a = {},
+			lualine_b = {'filename'},
+			lualine_c = {'%l'},
+			lualine_x = {},
+			lualine_y = {},
+			lualine_z = {}
+		},
+		extensions = {'quickfix'},
+	}
+end
+
+function M.gitsigns()
+	require('gitsigns').setup({
+		current_line_blame = true,
+		current_line_blame_opts = {
+			virt_text = true,
+			virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+			delay = 1000,
+			ignore_whitespace = false,
+		},
+	})
+	require("keys").gitsigns()
 end
 
 return M

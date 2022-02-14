@@ -2,6 +2,7 @@ local M = {}
 
 local map = vim.api.nvim_set_keymap
 
+local NSE = { noremap = true, silent = true, expr = true }
 local NS = { noremap = true, silent = true }
 local N = { noremap = true }
 
@@ -20,6 +21,11 @@ function M.bootstrap()
 
 	map('n', '<leader><leader>,', ':edit $MYVIMRC<CR>', NS)
 	map('n', '<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', NS)
+
+	-- Lang (see keymap)
+	map('i', '<c-l>', '<c-^>', NS)
+	map('c', '<c-l>', '<c-^>', NS)
+	map('n', '<c-l>', 'i<c-^><esc>', NS)
 
 	-- Navigation
 	map('n', '<leader>w', '<c-w>', N) -- Window modification prefix
@@ -178,13 +184,16 @@ function M.telescope()
 	map('n', '<leader>ff', ':Telescope find_files<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
+	map('n', '<leader>fs', ':Telescope lsp_document_symbols<cr>', NS)
+	map('n', '<leader>fS', ':Telescope lsp_dynamic_workspace_symbols<cr>', NS)
 end
 
-function M.dap()
-	-- map('n', '<leader>t', ':lua require("dap-go").debug_test()<cr>', NS)
+function M.testing()
+	-- DAP
+	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)
 
-	map('n', '<leader>tD', ':lua require("dap").run_last()<cr>', NS)
 	map('n', '<leader>td', ':lua require("dap").continue()<cr>', NS)
+	map('n', '<leader>tD', ':lua require("dap").run_last()<cr>', NS)
 
 	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
 	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
@@ -192,8 +201,14 @@ function M.dap()
 
 	map('n', '<leader>tb', ':lua require("dap").toggle_breakpoint()<cr>', NS)
 	map('n', '<leader>tB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<cr>', NS)
-	map('n', '<leader>tl', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', NS)
+	map('n', '<leader>tL', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', NS)
 	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
+
+	-- VIM-TEST
+	map('n', '<leader>tt', ':TestNearest<cr>', NS)
+	map('n', '<leader>tT', ':TestFile<cr>', NS)
+	map('n', '<leader>tl', ':TestLast<cr>', NS)
+	map('n', '<leader>tv', ':TestVisit<cr>', NS)
 end
 
 function M.winresizer()
@@ -221,7 +236,7 @@ function M.fugitive()
 		end
 	end
 
-	map('n', '<leader>gg', ':Git', NS)
+	map('n', '<leader>gg', ':Git<cr>', NS)
 	map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
 	map('n', '<leader>gb', ':lua Git_blame_toggle()<cr>', NS)
 	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
@@ -229,6 +244,39 @@ function M.fugitive()
 	map('n', '<leader>gD', ':Gvdiffsplit<cr>', NS)
 	map('n', '<leader>gl', ':0Gclog<cr>', NS)
 	map('n', '<leader>gL', ':Gclog<cr>', NS)
+end
+
+function M.gitsigns()
+	-- JUMP
+	-- next / pref hunk
+	map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
+	map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns pref_hunk<cr>'", NSE)
+
+	-- HUNK
+	-- stage
+	map('n', 'ghs', '<cmd>Gitsigns stage_hunk<cr>', NS)
+	map('v', 'ghs', ':Gitsigns stage_hunk<cr>', NS)
+	-- unstage
+	map('v', 'ghu', '<cmd>Gitsigns undo_stage_hunk<CR>', NS)
+	-- reset
+	map('n', 'ghr', '<cmd>Gitsigns reset_hunk<cr>', NS)
+	map('v', 'ghr', ':Gitsigns reset_hunk<cr>', NS)
+
+	-- BUFFER
+	-- stage
+	map('n', 'ghS', '<cmd>Gitsigns stage_buffer<CR>', NS)
+	-- unstage
+	map('n', 'ghU', '<cmd>Gitsigns reset_buffer_index<CR>', NS)
+	-- reset
+	map('n', 'ghR', '<cmd>Gitsigns reset_buffer<CR>', NS)
+
+	-- BLAME
+	map('n', 'ghp', '<cmd>Gitsigns preview_hunk<CR>', NS)
+	map('n', 'ghb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', NS)
+
+	-- TEXT OBJECT: in hunk
+	map('o', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
+	map('x', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
 end
 
 return M

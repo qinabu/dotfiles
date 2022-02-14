@@ -4,10 +4,17 @@ function M.bootstrap()
 	-- Basic
 	vim.opt.clipboard = "unnamedplus"
 	vim.opt.paste = false
--- привет
 	vim.opt.encoding = "utf-8"
 	vim.cmd[[set spelllang=en_us,ru_yo]]
 	vim.opt.maxmempattern = 5000
+
+	vim.opt.keymap = "russian-jcukenmac" -- <c-l> for change language
+	vim.opt.iminsert = 0
+	vim.opt.imsearch = 0
+
+	vim.opt.autoread = true
+	-- Update a buffer's contents on focus if it changed outside of Vim.
+	vim.cmd[[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
 
 	vim.opt.path:append("**")
 	vim.opt.backupdir = "/tmp/nvim/,."
@@ -40,6 +47,7 @@ function M.bootstrap()
 	vim.opt.spell = false
 
 	-- UI
+	vim.opt.showmode = false
 	vim.opt.fillchars = 'vert: '
 	-- vim.opt.background = 'dark'
 	vim.opt.termguicolors = true

@@ -244,6 +244,9 @@ function M.fugitive()
 	map('n', '<leader>gD', ':Gvdiffsplit<cr>', NS)
 	map('n', '<leader>gl', ':0Gclog<cr>', NS)
 	map('n', '<leader>gL', ':Gclog<cr>', NS)
+
+	map('n', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr', NS)
+	map('v', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>', NS)
 end
 
 function M.gitsigns()

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+fd -d2 -td '' --change-newer-than "$(date +%Y-%m-%d -d '1 day ago')" --changed-before "$(date +%Y-%m-%d)" ~/Projects ~/Projects/go/src/go.avito.ru

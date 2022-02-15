@@ -48,7 +48,7 @@ function M.bootstrap()
 
 	-- UI
 	vim.opt.showmode = false
-	vim.opt.fillchars = 'vert: '
+	vim.opt.fillchars = 'vert:▞,eob: '
 	-- vim.opt.background = 'dark'
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'a'

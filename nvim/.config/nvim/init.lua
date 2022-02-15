@@ -127,7 +127,11 @@ require('packer').startup({function(use)
 
 	-- [[ VCS ]]
 	use {'tpope/vim-fugitive',
-		config = 'require("keys").fugitive()',
+		requires = {
+			{'nvim-lua/plenary.nvim'},
+			{'ruifm/gitlinker.nvim'},
+		},
+		config = 'require("configs").fugitive()',
 	}
 	use {'lewis6991/gitsigns.nvim',
 		requires = { {'nvim-lua/plenary.nvim'} },

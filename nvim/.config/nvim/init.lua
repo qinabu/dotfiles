@@ -15,16 +15,6 @@ local function unpackPacker(use)
 	-- [[ UI ]] --
 	-- Window size toggler :MaximizerToggle
 	use { 'szw/vim-maximizer' }
-	-- use {'baskerville/bubblegum', config = function()
-	-- 	vim.g.colors_name = 'bubblegum-256-dark'
-	-- end}
-	-- use {'junegunn/seoul256.vim',
-	-- 	config = 'require("configs").seoul256()',
-	-- }
-	-- Gruvbit colorscheme based on gruvbox
-	use { 'habamax/vim-gruvbit',
-		-- config = 'require("configs").gruvbit()',
-	}
 	use { 'sainnhe/everforest', config = 'require("configs").everforest()' }
 	use { 'nvim-lualine/lualine.nvim',
 		requires = { { 'stevearc/aerial.nvim' } },
@@ -50,7 +40,7 @@ local function unpackPacker(use)
 	use { 'nvim-lua/lsp-status.nvim' }
 
 
-	-- [[ Edit ]]
+	-- [[ EDIT ]]
 	-- Fast jumps
 	use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' }
 	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' }
@@ -65,7 +55,7 @@ local function unpackPacker(use)
 	-- LSP servers installer
 	use { 'williamboman/nvim-lsp-installer',
 		requires = {
-			{ "hrsh7th/cmp-nvim-lsp" },
+			{ 'hrsh7th/cmp-nvim-lsp' },
 			{ 'stevearc/aerial.nvim' },
 		},
 		config = 'require("lsp-config").config()',
@@ -77,15 +67,15 @@ local function unpackPacker(use)
 	-- use { "folke/trouble.nvim" }
 
 
-	-- [[ Completion ]] --
+	-- [[ COMPLETION ]] --
 	use { "hrsh7th/nvim-cmp",
 		requires = {
-			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "hrsh7th/cmp-nvim-lua" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "hrsh7th/cmp-path" },
-			{ "hrsh7th/cmp-cmdline" },
-			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
+			{ 'hrsh7th/cmp-nvim-lsp' },
+			{ 'hrsh7th/cmp-nvim-lua' },
+			{ 'hrsh7th/cmp-buffer' },
+			{ 'hrsh7th/cmp-path' },
+			{ 'hrsh7th/cmp-cmdline' },
+			{ 'hrsh7th/cmp-nvim-lsp-document-symbol' },
 
 			-- [[ Snippets ]] --
 			{ 'L3MON4D3/LuaSnip' },
@@ -95,7 +85,7 @@ local function unpackPacker(use)
 	}
 
 
-	-- [[ Languages ]] --
+	-- [[ LANGUAGES ]] --
 	-- https://tree-sitter.github.io/tree-sitter/
 	use { 'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate',
@@ -111,7 +101,7 @@ local function unpackPacker(use)
 
 	-- use {'nvim-treesitter/nvim-treesitter-textobjects'}
 	-- use {'theHamsta/nvim-dap-virtual-text'}
-	use { 'rafcamlet/nvim-luapad' }
+	-- use { 'rafcamlet/nvim-luapad' }
 
 
 	-- [[ VCS ]]
@@ -127,7 +117,7 @@ local function unpackPacker(use)
 		config = 'require("configs").gitsigns()',
 	}
 
-	-- [[ Debug / Testings ]]
+	-- [[ DEBUG / TESTINGS ]]
 	use { 'mfussenegger/nvim-dap',
 		requires = {
 			{ 'vim-test/vim-test' },
@@ -159,7 +149,7 @@ require('packer').startup({
 	unpackPacker,
 	['config'] = {
 		['log'] = {
-			['level'] = 'warn'
+			['level'] = 'error'
 		},
 	},
 })
@@ -167,3 +157,4 @@ require('packer').startup({
 require('configs').bootstrap()
 require('options').bootstrap()
 require('keys').bootstrap()
+--

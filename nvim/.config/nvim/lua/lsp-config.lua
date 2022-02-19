@@ -18,10 +18,11 @@ custom['sumneko_lua'] = function()
 					['version'] = 'LuaJIT',
 					-- Setup your lua path
 					-- ['path'] = runtime_path,
+					['path'] = vim.split(package.path, ';'),
 				},
 				['diagnostics'] = {
 					-- Get the language server to recognize the `vim` global
-					['globals'] = {'vim'},
+					['globals'] = { 'vim' },
 				},
 				['workspace'] = {
 					-- Make the server aware of Neovim runtime files
@@ -39,16 +40,17 @@ end
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
 custom['gopls'] = function()
 	return {
-		['cmd'] = {"gopls", "serve"},
+		['cmd'] = { "gopls", "serve" },
 		['settings'] = {
 			['gopls'] = { -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 				['experimentalPostfixCompletions'] = true,
 				-- ['experimentalWorkspaceModule'] = true,
-				['templateExtensions'] = {'gotpl', 'gotmpl'},
+				['templateExtensions'] = { 'gotpl', 'gotmpl' },
 				-- ['buildFlags'] = {'integration'},
 				['gofumpt'] = true,
 				['staticcheck'] = true,
 				['analyses'] = {
+					-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
 					['unusedparams'] = true,
 					['shadow'] = true,
 					['fieldalignment'] = true,
@@ -96,15 +98,6 @@ function M.config()
 		end
 
 		local opts = {
-			-- Eatch buffer attach callback
-			['on_attach'] = function() -- function(client)
-				-- map keys
-				require('keys').lsp()
-				-- format on save
-				pcall(vim.lsp.codelens.run)
-				vim.cmd[[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.formatting_sync)]]
-				vim.cmd[[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
-			end,
 			-- ['capabilities'] = capabilities,
 			['capabilities'] = require("cmp_nvim_lsp").update_capabilities(capabilities),
 			['flags'] = {
@@ -117,9 +110,36 @@ function M.config()
 			-- print("enable "..server.name)
 			opts = vim.tbl_deep_extend('force', opts, custom_fn(server))
 		end
+		opts['on_attach'] = function(client, bufnr) -- function(client)
+			-- map keys
+			require('keys').lsp()
+			-- aerial code navigator
+			require("aerial").on_attach(client, bufnr)
+			-- format on save
+			-- if client.supports_method('textDocument/documentHighlight') then
+			-- P(client.resolved_capabilities)
+			if client.resolved_capabilities.document_highlight then
+				vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
+				vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
+				-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
+			end
+			if client.resolved_capabilities.document_highlight then
+				vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.formatting_sync)]]
+			end
+			if client.resolved_capabilities.code_lens then
+				pcall(vim.lsp.codelens.run)
+				vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
+			end
+		end
 
 
 		server:setup(opts)
+		require("aerial").setup({
+			on_attach = function()
+				require("keys").aerial()
+			end,
+			default_bindings = true,
+		})
 	end)
 
 	-- diagnostic config
@@ -127,8 +147,6 @@ function M.config()
 		['virtual_text'] = false,
 		['severity_sort'] = true,
 	})
-	-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 end
 
 return M
-

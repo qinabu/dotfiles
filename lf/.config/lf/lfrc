@@ -94,7 +94,7 @@ cmd find-project ${{
 }}
 
 cmd on-cd ${{
-        [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"
+        [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
 }}
 # OPTIONS =====================================================================
 # set color256

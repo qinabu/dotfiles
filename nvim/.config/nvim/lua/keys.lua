@@ -7,7 +7,7 @@ local NS = { noremap = true, silent = true }
 local N = { noremap = true }
 
 function M.bootstrap()
-	vim.g.mapleader=" "
+	vim.g.mapleader = " "
 	vim.api.nvim_set_keymap('', '<space>', '<nop>', NS)
 
 	-- Vim
@@ -55,7 +55,7 @@ function M.bootstrap()
 	map('n', '<leader>oN', ':setlocal relativenumber!<cr>', NS)
 
 	-- Command line
-	map('n', '<leader>;', ':', N)  -- Command line
+	map('n', '<leader>;', ':', N) -- Command line
 	map('n', "<leader>'", '@:', N) -- Repeat last command
 
 	map('c', '<c-a>', '<home>', N)
@@ -101,7 +101,7 @@ function M.bootstrap()
 	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
 
 	-- quicklist & loclist
-	local close_lists = function ()
+	local close_lists = function()
 		local found = false
 		for _, id in ipairs(vim.api.nvim_list_wins()) do
 			local t = vim.fn.win_gettype(vim.fn.win_id2win(id))
@@ -113,12 +113,12 @@ function M.bootstrap()
 		return found
 	end
 
-	_G.QuickFix_toggle = function ()
+	_G.QuickFix_toggle = function()
 		if not close_lists() then
-			vim.cmd[[copen]]
+			vim.cmd [[copen]]
 		end
 	end
-	_G.LocList_toggle = function ()
+	_G.LocList_toggle = function()
 		if not close_lists() then
 			local _, err = pcall(vim.cmd, [[lopen]])
 			if err then
@@ -155,22 +155,16 @@ function M.lsp()
 	map('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>', NS)
 	map('n', 'gy', ':lua vim.lsp.buf.type_definition()<cr>', NS)
 
-	map('n', 'ghi',':lua vim.lsp.buf.incoming_calls()<cr>', NS)
-	map('n', 'gho',':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
+	map('n', 'ghi', ':lua vim.lsp.buf.incoming_calls()<cr>', NS)
+	map('n', 'gho', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
 
 	-- edit actions
-	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS)
+	-- map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
-	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync()<cr>', NS)
+	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync();print("Formatted")<cr>', N)
 
 	-- range_code_action
 	-- range_formatting
-
-	vim.cmd[[
-	autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)
-	autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)
-	autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)
-	]]
 
 	-- workspace / sources directories
 	-- map('n', '<leader>wa', ':lua vim.lsp.buf.add_workspace_folder()<cr>', NS)
@@ -180,12 +174,17 @@ function M.lsp()
 end
 
 function M.telescope()
+	map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
+	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
+
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
 	map('n', '<leader>fs', ':Telescope lsp_document_symbols<cr>', NS)
-	map('n', '<leader>fS', ':Telescope lsp_dynamic_workspace_symbols<cr>', NS)
+	map('n', '<leader>fw', ':Telescope lsp_dynamic_workspace_symbols<cr>', NS)
+	map('n', '<leader>fb', ':Telescope buffers<cr>', NS)
+	map('n', '<leader>fm', ':Telescope marks<cr>', NS)
 end
 
 function M.testing()
@@ -222,7 +221,7 @@ function M.ctrlsf()
 end
 
 function M.fugitive()
-	_G.Git_blame_toggle = function ()
+	_G.Git_blame_toggle = function()
 		local found = false
 		for _, id in ipairs(vim.api.nvim_list_wins()) do
 			if vim.bo[vim.fn.winbufnr(id)].filetype == 'fugitiveblame' then
@@ -231,7 +230,7 @@ function M.fugitive()
 			end
 		end
 		if not found then
-			vim.cmd[[:Git blame]]
+			vim.cmd [[:Git blame]]
 			vim.cmd(vim.api.nvim_replace_termcodes('normal <c-w>p', true, true, true))
 		end
 	end
@@ -245,11 +244,14 @@ function M.fugitive()
 	map('n', '<leader>gl', ':0Gclog<cr>', NS)
 	map('n', '<leader>gL', ':Gclog<cr>', NS)
 
-	map('n', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr', NS)
+	map('n', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>', NS)
 	map('v', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>', NS)
 end
 
 function M.gitsigns()
+	-- Toggle line blame
+	map('n', '<leader>ob', ':Gitsigns toggle_current_line_blame<cr>', NS)
+
 	-- JUMP
 	-- next / pref hunk
 	map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
@@ -282,5 +284,66 @@ function M.gitsigns()
 	map('x', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
 end
 
-return M
+function M.aerial()
+	-- Toggle the aerial window with <leader>a
+	-- map('n', '<leader>9', ':AerialToggle left<cr>', NS)
+	map('n', '<leader>0', ':AerialToggle left<cr>', NS)
+	-- Jump forwards/backwards with '{' and '}'
+	map('n', '(', ':AerialPrev<cr>', NS)
+	map('n', ')', ':AerialNext<cr>', NS)
+	-- Jump up the tree with '[[' or ']]'
+	-- map('n', '[[', ':AerialPrevUp<cr>', NS)
+	-- map('n', ']]', ':AerialNextUp<cr>', NS)
+end
 
+function M.telekasten()
+
+	map('n', '<leader>nn', ':lua require("telekasten").panel()<cr>', NS)
+
+	-- add note
+	map('n', '<leader>nA', ':lua require("telekasten").new_note()<cr>', NS)
+	map('n', '<leader>na', ':lua require("telekasten").new_templated_note()<cr>', NS)
+
+	-- find
+	map('n', '<leader>nf', ':lua require("telekasten").find_notes()<cr>', NS)
+	map('n', '<leader>nF', ':lua require("telekasten").search_notes()<cr>', NS)
+
+	-- today
+	map('n', '<leader>nt', ':lua require("telekasten").goto_today()<cr>', NS)
+	map('n', '<leader>nd', ':lua require("telekasten").find_daily_notes()<cr>', NS)
+
+	-- week
+	map('n', '<leader>nw', ':lua require("telekasten").goto_thisweek()<cr>', NS)
+	map('n', '<leader>nW', ':lua require("telekasten").find_weekly_notes()<cr>', NS)
+
+	-- todo toggle
+	map('n', '<leader>nx', ':lua require("telekasten").toggle_todo()<cr>', NS)
+
+	-- links & tags
+	map('n', '<leader>nl', ':lua require("telekasten").follow_link()<cr>', NS)
+	map('n', '<leader>ny', ':lua require("telekasten").yank_notelink()<cr>', NS)
+	map('n', '<leader>nb', ':lua require("telekasten").show_backlinks()<cr>', NS)
+	map('n', '<leader>nr', ':lua require("telekasten").find_friends()<cr>', NS)
+	map('n', '<leader>n[', ':lua require("telekasten").show_tags()<cr>', NS)
+
+	-- calendar
+	map('n', '<leader>nc', ':lua require("telekasten").show_calendar()<cr>', NS)
+	map('n', '<leader>nC', ':CalendarT<cr>', NS)
+
+	-- map('n', '<leader>zI', ':lua require("telekasten").insert_img_link({ i=true })<cr>', NS)
+	-- map('n', '<leader>zp', ':lua require("telekasten").preview_img()<cr>', NS)
+	-- map('n', '<leader>zm', ':lua require("telekasten").browse_media()<cr>', NS)
+
+	-- map('n', '<leader>zi', ':lua require("telekasten").paste_img_and_link()<cr>', NS)
+	-- " we could define [[ in **insert mode** to call insert link
+	-- " inoremap [[ <ESC>:lua require('telekasten').insert_link()<cr>', NS)
+	-- " alternatively: leader [
+
+	-- insert link
+	-- map('i', '<c-[>', '<ESC>:lua require("telekasten").insert_link({ i=true })<cr>>', NS)
+	-- map('i', '<c-t>', '<cmd>lua require("telekasten").show_tags({i = true})<cr>', NS)
+	--
+	-- map('i', '<leader>nx', '<ESC>:lua require("telekasten").toggle_todo({ i=true })<cr>', NS)
+end
+
+return M

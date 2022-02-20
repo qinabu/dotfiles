@@ -5,20 +5,22 @@ function M.config()
 		['defaults'] = {},
 		['extensions'] = {
 			['fzf'] = {
-				['fuzzy'] = true,                    -- false will only do exact matching
-				['override_generic_sorter'] = true,  -- override the generic sorter
-				['override_file_sorter'] = true,     -- override the file sorter
-				['case_mode'] = "smart_case",        -- or "ignore_case" or "respect_case"
-							       -- the default case_mode is "smart_case"
+				['fuzzy'] = true, -- false will only do exact matching
+				['override_generic_sorter'] = true, -- override the generic sorter
+				['override_file_sorter'] = true, -- override the file sorter
+				['case_mode'] = "smart_case", -- or "ignore_case" or "respect_case"
+				-- the default case_mode is "smart_case"
 			},
 			['file_browser'] = {
 				['theme'] = "ivy",
 				['mappings'] = {
 					["i"] = {
-					  -- your custom insert mode mappings
+						['<c-n>'] = require('telescope.actions').results_scrolling_down,
+						['<c-p>'] = require('telescope.actions').results_scrolling_up,
 					},
 					["n"] = {
-					  -- your custom normal mode mappings
+						['<c-n>'] = require('telescope.actions').results_scrolling_down,
+						['<c-p>'] = require('telescope.actions').results_scrolling_up,
 					},
 				},
 				['dir_icon'] = '░',

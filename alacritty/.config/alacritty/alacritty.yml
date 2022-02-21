@@ -110,19 +110,15 @@ window:
 
 # Font configuration
 font:
-  # Normal (roman) font face
+  size: 19.0
   normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux/BSD) monospace
-    #   - (Windows) Consolas 4
-    family: Cascadia Code
-
-    # The `style` can be specified to pick a specific face.
-    # style: SemiLight
     style: Regular
+    family: Fantasque Sans Mono
+    # family: Consolas
+    # family: Cascadia Code
+    # family: SF Mono
+    # family: Ubuntu Mono
+
 
   # Bold font face
   #bold:
@@ -156,9 +152,6 @@ font:
 
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
-
-  # Point size
-  size: 16.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -236,7 +229,7 @@ colors:
     # text: CellBackground
     # cursor: CellForeground
     text: '#000000'
-    cursor: '#00ffaf'
+    cursor: '#ff8fe5'
 
   # Vi mode cursor colors
   #
@@ -763,7 +756,12 @@ hints:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
+key_bindings:
+  # mac
+  # https://github.com/alacritty/alacritty/issues/2688
+  - { key: Tab, mods: Control, chars: "\x1b[27;5;9~" }       # 5 is ctrl, 9 is tab
+  - { key: Tab, mods: Control|Shift, chars: "\x1b[27;6;9~" } # 6 is ctrl+shift, 9 is tab
+
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

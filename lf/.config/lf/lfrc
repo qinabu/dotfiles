@@ -32,7 +32,7 @@ map D :delete
 map <esc> quit
 
 map <space> :toggle
-map C ${{
+map , ${{
         $EDITOR ~/.config/lf/lfrc && \
         lf -remote "send $id :source ~/.config/lf/lfrc" && \
         lf -remote "send $id echo Updated!"
@@ -74,6 +74,12 @@ cmd edit-directory ${{
         fi
 }}
 
+cmd mkdir %{{
+    IFS=" "
+    mkdir -p -- "$*"
+    lf -remote "send $id select \"$*\""
+}}
+
 cmd find-file ${{
         res=$(fd '' "$PWD" | fzf --reverse)
         [ $? -ne 0 ] && exit 0
@@ -85,7 +91,6 @@ cmd find-file ${{
 cmd find-directory ${{
         dir=$(fd -t d '' "$PWD" | fzf --reverse)
         [ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
-        
 }}
 
 cmd find-project ${{

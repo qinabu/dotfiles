@@ -20,7 +20,7 @@ function M.bootstrap()
 	-- map('n', '<leader><esc>B', ':bdelete!<cr>', N)
 
 	map('n', '<leader><leader>,', ':edit $MYVIMRC<CR>', NS)
-	map('n', '<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', NS)
+	map('n', '<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', N)
 
 	-- Lang (see keymap)
 	map('i', '<c-l>', '<c-^>', NS)
@@ -235,7 +235,8 @@ function M.fugitive()
 		end
 	end
 
-	map('n', '<leader>gg', ':Git<cr>', NS)
+	-- map('n', '<leader>gg', ':Git<cr>', NS)
+	map('n', '<leader>gg', ':if buflisted(bufname(".git/index")) <cr> :bd .git/index <cr> :else <cr> :Git <cr> :endif <cr>', NS)
 	map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
 	map('n', '<leader>gb', ':lua Git_blame_toggle()<cr>', NS)
 	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
@@ -321,6 +322,8 @@ function M.telekasten()
 
 	-- links & tags
 	map('n', '<leader>nl', ':lua require("telekasten").follow_link()<cr>', NS)
+	map('n', '<leader>ni', ':lua require("telekasten").insert_link()<cr>', NS)
+
 	map('n', '<leader>ny', ':lua require("telekasten").yank_notelink()<cr>', NS)
 	map('n', '<leader>nb', ':lua require("telekasten").show_backlinks()<cr>', NS)
 	map('n', '<leader>nr', ':lua require("telekasten").find_friends()<cr>', NS)
@@ -344,6 +347,10 @@ function M.telekasten()
 	-- map('i', '<c-t>', '<cmd>lua require("telekasten").show_tags({i = true})<cr>', NS)
 	--
 	-- map('i', '<leader>nx', '<ESC>:lua require("telekasten").toggle_todo({ i=true })<cr>', NS)
+end
+
+function M.zen_mode()
+	map('n', '<leader>oz', ':ZenMode<cr>', NS)
 end
 
 return M

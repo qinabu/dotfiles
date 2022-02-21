@@ -20,6 +20,7 @@ local function unpackPacker(use)
 		requires = { { 'stevearc/aerial.nvim' } },
 		config = 'require("configs").lualine()',
 	}
+	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
 
 	-- File manager
 	use { 'kyazdani42/nvim-tree.lua', config = 'require("configs").nvim_tree()' }

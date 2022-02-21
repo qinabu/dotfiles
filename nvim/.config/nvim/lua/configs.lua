@@ -105,8 +105,10 @@ function M.everforest()
 	colorscheme everforest
 	hi clear VertSplit
 	hi! VertSplit guifg=#3c3836
-	hi CurrentWord ctermbg=238 guibg=#444444
+	hi CurrentWord ctermbg=240 guibg=#585858
 	hi link CursorLineSign CursorLineNr
+	hi CursorLine guibg=#3b3737
+	hi CursorLineNr guibg=#3b3737
 	]]
 end
 
@@ -197,10 +199,13 @@ function M.nvim_tree()
 		['filters'] = {
 			['dotfiles'] = true,
 		},
-		['update_focused_file'] = {
-			['enabled'] = true,
-			['upate_cwd'] = true,
+		['git'] = {
+			['ignore'] = false,
 		},
+		-- ['update_focused_file'] = {
+		-- 	['enabled'] = true,
+		-- 	['upate_cwd'] = true,
+		-- },
 	}
 end
 
@@ -243,7 +248,7 @@ function M.lualine()
 		sections = {
 			lualine_a = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
 			lualine_b = { 'branch', 'diff' },
-			lualine_c = { 'filename', '%l', { 'aerial', ['sep'] = '::' } },
+			lualine_c = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			lualine_x = { 'diagnostics', 'filesize', 'filetype' },
 			lualine_y = { 'progress' },
 			lualine_z = {},
@@ -262,6 +267,13 @@ end
 
 function M.gitsigns()
 	require('gitsigns').setup({
+		signs = {
+			add          = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+			change       = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+			delete       = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+			topdelete    = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+			changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+		},
 		current_line_blame = false,
 		current_line_blame_opts = {
 			virt_text = true,
@@ -354,7 +366,7 @@ function M.telekasten()
 			-- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
 			['weeknm'] = 4,
 			-- use monday as first day of week: 1 .. true, 0 .. false
-			['calendar_monday'] = 2,
+			['calendar_monday'] = 1,
 			-- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
 			['calendar_mark'] = 'left-fit',
 		},
@@ -428,6 +440,15 @@ function M.telekasten()
 	-- autocmd WinNew.lua source $MYVIMRC | PackerCompile
 	-- augroup end
 	-- ]])
+end
+
+function M.zen_mode()
+	require("zen-mode").setup {
+		gitsigns = { enabled = true },
+		tmux = { enabled = true },
+		-- https://github.com/folke/zen-mode.nvim#%EF%B8%8F-configuration
+	}
+	require("keys").zen_mode()
 end
 
 return M

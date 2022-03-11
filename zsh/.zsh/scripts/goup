@@ -2,4 +2,4 @@
 
 set -e -o pipefail
 
-go list -f '{{if not .Indirect}}{{.}}{{end}}' -m -mod=mod -u all | tail -n +2
+go list -f '{{if not (or .Main .Indirect)}}{{.}}{{end}}' -m -mod=mod all | while read -r name ver; do go list -m -mod=mod -u "$name"; done

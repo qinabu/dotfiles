@@ -2,6 +2,6 @@
 
 set -e -o pipefail
 
-go list -f '{{if not .Indirect}}{{.}}{{end}}' -m -mod=mod -u all | tail -n +2 | while read -r -a a; do
-        [[ -n "${a[2]}" ]] && echo "[[[ ${a[0]} ]]]" && go get -v "${a[0]}@latest"
+go list -f '{{if not (or .Main .Indirect)}}{{.}}{{end}}' -m -mod=mod all | while read -r name ver; do
+	go list -m -mod=mod -u "$name" | ( read -r name old new; [[ -n "$new" ]] && go get -v "$name@latest" || true )
 done

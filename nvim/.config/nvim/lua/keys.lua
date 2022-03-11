@@ -39,7 +39,7 @@ function M.bootstrap()
 	map('n', '<ScrollWheelUp>', '<c-y>', NS)
 	map('n', '<ScrollWheelDown>', '<c-e>', NS)
 
-	map('n', '<leader>p', '<c-^>', NS)
+	map('n', '<leader>p', '<c-^>zz', NS)
 
 	map('n', '<leader>.', ':cnext<cr>', NS)
 	map('n', '<leader>,', ':cprevious<cr>', NS)
@@ -256,7 +256,7 @@ function M.gitsigns()
 	-- JUMP
 	-- next / pref hunk
 	map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
-	map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns pref_hunk<cr>'", NSE)
+	map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", NSE)
 
 	-- HUNK
 	-- stage

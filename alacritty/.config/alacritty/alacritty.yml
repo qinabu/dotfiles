@@ -756,12 +756,8 @@ hints:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-key_bindings:
-  # mac
-  # https://github.com/alacritty/alacritty/issues/2688
-  - { key: Tab, mods: Control, chars: "\x1b[27;5;9~" }       # 5 is ctrl, 9 is tab
-  - { key: Tab, mods: Control|Shift, chars: "\x1b[27;6;9~" } # 6 is ctrl+shift, 9 is tab
 
+key_bindings:
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
@@ -851,6 +847,13 @@ key_bindings:
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
   # (macOS only)
+  # https://github.com/alacritty/alacritty/issues/2688
+  - { key: Tab, mods: Control, chars: "\x1b[27;5;9~" }       # 5 is ctrl, 9 is tab
+  - { key: Tab, mods: Control|Shift, chars: "\x1b[27;6;9~" } # 6 is ctrl+shift, 9 is tab
+
+  # - { key: H, mods: Command, chars: "\x1b[27;9;27~" } # 9 is cmd, 27 is h
+  # - { key: L, mods: Command, chars: "\x1b[27;9;31~" } # 9 is cmd, 31 is l
+
   #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
   #- { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory          }
   #- { key: Key0,           mods: Command,                    action: ResetFontSize         }

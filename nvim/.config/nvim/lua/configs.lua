@@ -178,8 +178,10 @@ function M.nvim_tree()
 			},
 		},
 		['view'] = {
-			['hide_root_folder'] = true,
+			['hide_root_folder'] = false,
 			['auto_resize'] = false,
+			['signcolumn'] = 'no',
+			['update_cwd'] = true,
 			['mappings'] = {
 				['list'] = {
 					{ ['key'] = ']h', cb = map('next_git_item') },
@@ -200,12 +202,15 @@ function M.nvim_tree()
 			['dotfiles'] = true,
 		},
 		['git'] = {
+			['enable'] = true,
 			['ignore'] = false,
 		},
-		-- ['update_focused_file'] = {
-		-- 	['enabled'] = true,
-		-- 	['upate_cwd'] = true,
-		-- },
+		['update_cwd'] = true,
+		['update_focused_file'] = {
+			['enable'] = true,
+			['update_cwd'] = true,
+			['ignore_list'] = {},
+		},
 	}
 end
 
@@ -238,30 +243,30 @@ function M.lualine()
 	everforest.normal.c.red = '#e67e80'
 
 	require('lualine').setup {
-		options = {
-			icons_enabled = false,
-			theme = everforest,
-			section_separators = { left = '▘', right = '▗' },
-			-- component_separators = { left = '▞', right = '▞' },
-			component_separators = '',
+		['options'] = {
+			['icons_enabled'] = false,
+			['theme'] = 'everforest',
+			['section_separators'] = { left = '▘', right = '▗' },
+			-- component_separators'] = { left = '▞', right = '▞' },
+			['component_separators'] = '',
 		},
-		sections = {
-			lualine_a = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
-			lualine_b = { 'branch', 'diff' },
-			lualine_c = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
-			lualine_x = { 'diagnostics', 'filesize', 'filetype' },
-			lualine_y = { 'progress' },
-			lualine_z = {},
+		['sections'] = {
+			['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
+			['lualine_b'] = { 'branch', 'diff' },
+			['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
+			['lualine_x'] = { 'diagnostics', 'filesize', 'filetype' },
+			['lualine_y'] = { 'progress' },
+			['lualine_z'] = {},
 		},
-		inactive_sections = {
-			lualine_a = {},
-			lualine_b = { 'filename' },
-			lualine_c = { '%l' },
-			lualine_x = {},
-			lualine_y = {},
-			lualine_z = {}
+		['inactive_sections'] = {
+			['lualine_a'] = {},
+			['lualine_b'] = { 'filename' },
+			['lualine_c'] = { '%l' },
+			['lualine_x'] = {},
+			['lualine_y'] = {},
+			['lualine_z'] = {}
 		},
-		extensions = { 'quickfix' },
+		['extensions'] = { 'quickfix' },
 	}
 end
 

@@ -3,7 +3,5 @@
 set -e -o pipefail
 
 go list -f '{{if not .Indirect}}{{.}}{{end}}' -m -mod=mod -u all | tail -n +2 | while read -r -a a; do
-        [[ -n "${a[2]}" ]] && \
-                echo "[[[ ${a[0]} ]]]" && \
-                go get -v "${a[0]}@latest"
+        [[ -n "${a[2]}" ]] && echo "[[[ ${a[0]} ]]]" && go get -v "${a[0]}@latest"
 done

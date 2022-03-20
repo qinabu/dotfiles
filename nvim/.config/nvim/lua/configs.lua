@@ -340,7 +340,7 @@ function M.telekasten()
 	require('telekasten').setup({
 		['home'] = home,
 		['take_over_my_home'] = true,
-		['auto_set_filetype'] = true,
+		['auto_set_filetype'] = false,
 		['dailies'] = home .. '/' .. 'daily',
 		['weeklies'] = home .. '/' .. 'weekly',
 		['templates'] = home .. '/' .. 'templates',

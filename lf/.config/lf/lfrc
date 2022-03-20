@@ -47,6 +47,7 @@ map aal $tig --all
 map as !{{clear; git status --short --branch}}
 
 map gh cd ~
+map gm cd ~/.local/mind
 map ga cd ~/Projects/go/src/go.avito.ru
 map gp cd ~/Projects
 map gn cd ~/Documents/Notes

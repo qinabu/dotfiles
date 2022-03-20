@@ -134,6 +134,7 @@ zstyle ':completion:*' completer _expand _complete _files _correct _approximate
 
 PATH=$PATH:~/.zsh/scripts
 PATH=$PATH:~/.local/bin
+PATH=$PATH:/usr/local/go/bin
 
 
 

@@ -189,6 +189,8 @@ end
 
 function M.testing()
 	-- DAP
+	map('n', '<leader>tq', ':lua require("dap").close()<cr>', NS)
+
 	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)
 
 	map('n', '<leader>td', ':lua require("dap").continue()<cr>', NS)
@@ -211,7 +213,7 @@ function M.testing()
 end
 
 function M.winresizer()
-	vim.g.winresizer_start_key = '<c-w>W'
+	vim.g.winresizer_start_key = '<leader>wW'
 end
 
 function M.ctrlsf()

@@ -283,8 +283,8 @@ function M.gitsigns()
 	map('n', 'ghb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', NS)
 
 	-- TEXT OBJECT: in hunk
-	map('o', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
-	map('x', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
+	-- map('o', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
+	-- map('x', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS) -- breaks selection left-right
 end
 
 function M.aerial()

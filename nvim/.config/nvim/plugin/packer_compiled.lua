@@ -299,10 +299,26 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: vim-sneak
-time([[Config for vim-sneak]], true)
-require("configs").sneak()
-time([[Config for vim-sneak]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require("testing").testing()
+time([[Config for nvim-dap]], false)
+-- Config for: telekasten.nvim
+time([[Config for telekasten.nvim]], true)
+require("configs").telekasten()
+time([[Config for telekasten.nvim]], false)
+-- Config for: zen-mode.nvim
+time([[Config for zen-mode.nvim]], true)
+require("configs").zen_mode()
+time([[Config for zen-mode.nvim]], false)
+-- Config for: nvim-lsp-installer
+time([[Config for nvim-lsp-installer]], true)
+require("lsp-config").config()
+time([[Config for nvim-lsp-installer]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require("telescope-config").config()
+time([[Config for telescope.nvim]], false)
 -- Config for: ctrlsf.vim
 time([[Config for ctrlsf.vim]], true)
 require("configs").ctrlsf()
@@ -311,14 +327,14 @@ time([[Config for ctrlsf.vim]], false)
 time([[Config for nvim-tree.lua]], true)
 require("configs").nvim_tree()
 time([[Config for nvim-tree.lua]], false)
--- Config for: everforest
-time([[Config for everforest]], true)
-require("configs").everforest()
-time([[Config for everforest]], false)
--- Config for: winresizer
-time([[Config for winresizer]], true)
-require("keys").winresizer()
-time([[Config for winresizer]], false)
+-- Config for: vim-fugitive
+time([[Config for vim-fugitive]], true)
+require("configs").fugitive()
+time([[Config for vim-fugitive]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require("configs").nvim_treesitter()
+time([[Config for nvim-treesitter]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 require("configs").gitsigns()
@@ -327,42 +343,26 @@ time([[Config for gitsigns.nvim]], false)
 time([[Config for nvim-treesitter-context]], true)
 require("keys").nvim_ts_hint_textobject()
 time([[Config for nvim-treesitter-context]], false)
--- Config for: zen-mode.nvim
-time([[Config for zen-mode.nvim]], true)
-require("configs").zen_mode()
-time([[Config for zen-mode.nvim]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require("configs").lualine()
-time([[Config for lualine.nvim]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require("telescope-config").config()
-time([[Config for telescope.nvim]], false)
 -- Config for: nvim-ts-hint-textobject
 time([[Config for nvim-ts-hint-textobject]], true)
 require("configs").nvim_ts_hint_textobject()
 time([[Config for nvim-ts-hint-textobject]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require("testing").testing()
-time([[Config for nvim-dap]], false)
--- Config for: vim-fugitive
-time([[Config for vim-fugitive]], true)
-require("configs").fugitive()
-time([[Config for vim-fugitive]], false)
--- Config for: telekasten.nvim
-time([[Config for telekasten.nvim]], true)
-require("configs").telekasten()
-time([[Config for telekasten.nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require("configs").nvim_treesitter()
-time([[Config for nvim-treesitter]], false)
--- Config for: nvim-lsp-installer
-time([[Config for nvim-lsp-installer]], true)
-require("lsp-config").config()
-time([[Config for nvim-lsp-installer]], false)
+-- Config for: vim-sneak
+time([[Config for vim-sneak]], true)
+require("configs").sneak()
+time([[Config for vim-sneak]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require("configs").lualine()
+time([[Config for lualine.nvim]], false)
+-- Config for: winresizer
+time([[Config for winresizer]], true)
+require("keys").winresizer()
+time([[Config for winresizer]], false)
+-- Config for: everforest
+time([[Config for everforest]], true)
+require("configs").everforest()
+time([[Config for everforest]], false)
 -- Config for: nvim-cmp
 time([[Config for nvim-cmp]], true)
 require("cmp-config").config()

@@ -81,6 +81,7 @@ local function unpackPacker(use)
 			-- [[ Snippets ]] --
 			{ 'L3MON4D3/LuaSnip' },
 			{ 'saadparwaiz1/cmp_luasnip' },
+			{ 'honza/vim-snippets' }, -- snippet collection
 		},
 		config = 'require("cmp-config").config()'
 	}

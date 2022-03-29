@@ -92,7 +92,8 @@ function M.bootstrap()
 	map('n', 'Q', 'q', N)
 
 	-- Searching
-	map('n', '<leader>/', ":let @/=''<cr>", NS)
+	-- map('n', '<leader>/', ":let @/=''<cr>", NS)
+	map('n', '<leader>/', ":noh<cr>", NS)
 
 	-- Options toggling
 	map('n', '<leader>os', ':setlocal spell!<cr>', NS)
@@ -189,12 +190,12 @@ end
 
 function M.testing()
 	-- DAP
-	map('n', '<leader>tq', ':lua require("dap").close()<cr>', NS)
+	map('n', '<leader>tq', ':lua require("dap").close()<cr>:DapVirtualTextDisable<cr>', NS)
 
 	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)
 
-	map('n', '<leader>td', ':lua require("dap").continue()<cr>', NS)
-	map('n', '<leader>tD', ':lua require("dap").run_last()<cr>', NS)
+	map('n', '<leader>td', ':DapVirtualTextEnable<cr>:lua require("dap").continue()<cr>', NS)
+	map('n', '<leader>tD', ':DapVirtualTextEnable<cr>:lua require("dap").run_last()<cr>', NS)
 
 	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
 	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
@@ -206,7 +207,7 @@ function M.testing()
 	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
 
 	-- VIM-TEST
-	map('n', '<leader>tt', ':TestNearest<cr>', NS)
+	map('n', '<leader>tt', ':TestNearest -v<cr>', NS)
 	map('n', '<leader>tT', ':TestFile<cr>', NS)
 	map('n', '<leader>tl', ':TestLast<cr>', NS)
 	map('n', '<leader>tv', ':TestVisit<cr>', NS)

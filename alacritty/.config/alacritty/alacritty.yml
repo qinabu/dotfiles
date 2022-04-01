@@ -179,7 +179,7 @@ font:
 # Colors (everforest)
 colors:
   # Default colors
-  primary:
+  # primary:
     # background: '#282727'
     # foreground: '#ebdab1'
 
@@ -194,30 +194,30 @@ colors:
 
   # everforest theme: https://github.com/sainnhe/everforest/wiki
   primary:
-    # background: '#2b3339'
-    # background: '#262525'
-    # background: '#282626'
-    # background: '#363131'
-    background: '#383232'
-    foreground: '#d3c6aa'
+    background: '#383232' # out of theme - brown
+    foreground: '#d3c6aa' # bright
   normal:
-    black:   '#4b565c'
-    red:     '#e67e80'
-    green:   '#a7c080'
-    yellow:  '#dbbc7f'
-    blue:    '#7fbbb3'
-    magenta: '#d699b6'
-    cyan:    '#83c092'
-    white:   '#d3c6aa'
+    black:   '#2b2727' # '#2d3438' # 0 (darker)
+    white:   '#b3a891' # 7 (darker)
+
+    red:     '#e67e80' # 1
+    green:   '#a7c080' # 2
+    yellow:  '#dbbc7f' # 3
+    blue:    '#7fbbb3' # 4 
+    magenta: '#d699b6' # 5 
+    cyan:    '#83c092' # 6
+
   bright:
-    black:   '#4b565c'
-    red:     '#e67e80'
-    green:   '#a7c080'
-    yellow:  '#dbbc7f'
-    blue:    '#7fbbb3'
-    magenta: '#d699b6'
-    cyan:    '#83c092'
-    white:   '#d3c6aa'
+    black:   '#5c4b4b'  #'#4b565c' # 8
+    white:   '#d3c6aa' # 15
+
+    red:     '#e67e80' # 9
+    green:   '#a7c080' # 10
+    yellow:  '#dbbc7f' # 11
+    blue:    '#7fbbb3' # 12
+    magenta: '#d699b6' # 13
+    cyan:    '#83c092' # 14
+
 
   # Cursor colors
   #

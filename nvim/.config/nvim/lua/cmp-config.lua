@@ -21,25 +21,33 @@ function M.config()
 				['select'] = true,
 			},
 			['<tab>'] = cmp.mapping(function(fallback)
-				if cmp.visible() then
+				if luasnip ~= nil then
+					if luasnip.in_snippet() and luasnip.jumpable(1) then
+						luasnip.jump(1)
+					elseif luasnip.expand_or_jumpable() then
+						luasnip.expand_or_jump()
+					else
+						fallback()
+					end
+				elseif cmp.visible() then
 					cmp.select_next_item()
-				elseif luasnip ~= nil and luasnip.in_snipet() and luasnip.jumpable(1) then
-					luasnip.jump(1)
-				elseif luasnip ~= nil and luasnip.in_snipet() and luasnip.expand_or_jumpable() then
-					luasnip.expand_or_jump()
 				else
 					fallback()
 				end
 			end, { "i", "s" }),
-			['<s-tab>'] = function(fallback)
-				if cmp.visible() then
+			['<s-tab>'] = cmp.mapping(function(fallback)
+				if luasnip ~= nil then
+					if luasnip.in_snippet() and luasnip.jumpable(-1) then
+						luasnip.jump(-1)
+					else
+						fallback()
+					end
+				elseif cmp.visible() then
 					cmp.select_prev_item()
-				elseif luasnip ~= nil and luasnip.jumpable(-1) then
-					luasnip.jump(-1)
 				else
 					fallback()
 				end
-			end,
+			end, { "i", "s" }),
 		},
 		['sources'] = {
 			{ ['name'] = 'nvim_lsp' },

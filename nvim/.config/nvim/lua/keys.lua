@@ -214,7 +214,7 @@ function M.testing()
 end
 
 function M.winresizer()
-	vim.g.winresizer_start_key = '<leader>wW'
+	vim.g.winresizer_start_key = '<leader>we'
 end
 
 function M.ctrlsf()

@@ -1,5 +1,10 @@
 local M = {}
 
+local function has_words_before()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 function M.config()
 	-- load snippets
 	require("luasnip.loaders.from_snipmate").lazy_load()
@@ -21,45 +26,72 @@ function M.config()
 				['select'] = true,
 			},
 			['<tab>'] = cmp.mapping(function(fallback)
-				if luasnip ~= nil then
-					if luasnip.in_snippet() and luasnip.jumpable(1) then
-						luasnip.jump(1)
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					else
-						fallback()
-					end
-				elseif cmp.visible() then
+				if not luasnip.in_snippet() and luasnip.expand_or_jumpable() then
+					luasnip.expand_or_jump()
+				elseif cmp.visible() and not luasnip.in_snippet() then
 					cmp.select_next_item()
+				-- elseif luasnip.expand_or_jumpable() then
+				-- 	if luasnip.in_snippet() and luasnip.jumpable(1) then
+				-- 		luasnip.jump(1)
+				-- 	end
+				-- 	luasnip.expand_or_jump()
+				elseif has_words_before() then
+					cmp.complete()
 				else
 					fallback()
 				end
 			end, { "i", "s" }),
-			['<s-tab>'] = cmp.mapping(function(fallback)
-				if luasnip ~= nil then
-					if luasnip.in_snippet() and luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					else
-						fallback()
-					end
-				elseif cmp.visible() then
+			-- ['<tab>'] = cmp.mapping(function(fallback)
+			-- 	if luasnip ~= nil then
+			-- 		if luasnip.in_snippet() and luasnip.jumpable(1) then
+			-- 			luasnip.jump(1)
+			-- 		elseif luasnip.expand_or_jumpable() then
+			-- 			luasnip.expand_or_jump()
+			-- 		else
+			-- 			fallback()
+			-- 		end
+			-- 	elseif cmp.visible() then
+			-- 		cmp.select_next_item()
+			-- 	else
+			-- 		fallback()
+			-- 	end
+			-- end, { "i", "s" }),
+			["<s-tab>"] = cmp.mapping(function(fallback)
+				if cmp.visible() then
 					cmp.select_prev_item()
+				elseif luasnip.jumpable(-1) then
+					luasnip.jump(-1)
 				else
 					fallback()
 				end
 			end, { "i", "s" }),
+			-- ['<s-tab>'] = cmp.mapping(function(fallback)
+			-- 	if luasnip ~= nil then
+			-- 		if luasnip.in_snippet() and luasnip.jumpable(-1) then
+			-- 			luasnip.jump(-1)
+			-- 		else
+			-- 			fallback()
+			-- 		end
+			-- 	elseif cmp.visible() then
+			-- 		cmp.select_prev_item()
+			-- 	else
+			-- 		fallback()
+			-- 	end
+			-- end, { "i", "s" }),
 		},
 		['sources'] = {
 			{ ['name'] = 'nvim_lsp' },
-			-- { ['name'] = 'luasnip' },
+			{ ['name'] = 'nvim_lua' },
 			{ ['name'] = 'buffer' },
 			{ ['name'] = 'nvim_lua' },
+			-- { ['name'] = 'luasnip' },
 		},
+		['history'] = false,
 	}
 
 	if luasnip ~= nil then
 		config['snippet'] = {
-			expand = function(args)
+			['expand'] = function(args)
 				luasnip.lsp_expand(args.body)
 			end,
 		}
@@ -67,6 +99,23 @@ function M.config()
 	end
 
 	cmp.setup(config)
+
+	-- `/` cmdline setup.
+	cmp.setup.cmdline('/', {
+		sources = {
+			{ name = 'buffer' }
+		}
+	})
+
+	-- `:` cmdline setup.
+	cmp.setup.cmdline(':', {
+		sources = cmp.config.sources({
+			{ name = 'path' }
+		}, {
+			{ name = 'cmdline' }
+		})
+	})
+
 end
 
 return M

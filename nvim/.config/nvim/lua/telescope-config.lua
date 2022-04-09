@@ -2,7 +2,14 @@ local M = {}
 
 function M.config()
 	local opts = {
-		['defaults'] = {},
+		['defaults'] = {
+			['layout_strategy'] = 'bottom_pane',
+			['layout_config'] = {
+				['bottom_pane'] = {
+					['height'] = 0.7,
+				}
+			},
+		},
 		['extensions'] = {
 			['fzf'] = {
 				['fuzzy'] = true, -- false will only do exact matching
@@ -12,23 +19,22 @@ function M.config()
 				-- the default case_mode is "smart_case"
 			},
 			['file_browser'] = {
-				['theme'] = "ivy",
-				['mappings'] = {
-					["i"] = {
-						['<c-n>'] = require('telescope.actions').results_scrolling_down,
-						['<c-p>'] = require('telescope.actions').results_scrolling_up,
-					},
-					["n"] = {
-						['<c-n>'] = require('telescope.actions').results_scrolling_down,
-						['<c-p>'] = require('telescope.actions').results_scrolling_up,
-					},
-				},
+				-- ['theme'] = "ivy",
+				-- ['mappings'] = {
+				-- 	["i"] = {
+				-- 		['<c-n>'] = require('telescope.actions').results_scrolling_down,
+				-- 		['<c-p>'] = require('telescope.actions').results_scrolling_up,
+				-- 	},
+				-- 	["n"] = {
+				-- 		['<c-n>'] = require('telescope.actions').results_scrolling_down,
+				-- 		['<c-p>'] = require('telescope.actions').results_scrolling_up,
+				-- 	},
+				-- },
 				['dir_icon'] = '░',
 				['grouped'] = true,
 				['depth'] = 1,
 			},
 		},
-		['layout_strategy'] = 'bottom_pane'
 	}
 	opts['defaults'] = vim.tbl_deep_extend('force', opts['defaults'], require('telescope.themes').get_ivy())
 

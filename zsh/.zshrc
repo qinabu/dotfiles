@@ -8,6 +8,8 @@ autoload -U add-zsh-hook
 autoload run-help
 autoload -Uz vcs_info
 autoload -U compinit
+autoload -z edit-command-line
+zle -N edit-command-line
 
 ### HISTORY
 
@@ -21,6 +23,8 @@ setopt share_history
 ### VIM MODE
 
 bindkey -v
+bindkey -M vicmd '^E' edit-command-line
+bindkey -M viins '^E' edit-command-line
 # bindkey -M viins '^?' backward-delete-char
 bindkey -M viins '^H' backward-delete-char
 bindkey -M viins '^P' up-history

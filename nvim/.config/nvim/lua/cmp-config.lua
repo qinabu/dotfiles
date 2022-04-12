@@ -23,7 +23,7 @@ function M.config()
 			['<c-e>'] = cmp.mapping.close(),
 			['<cr>'] = cmp.mapping.confirm {
 				['behavior'] = cmp.ConfirmBehavior.Replace,
-				['select'] = true,
+				['select'] = false,
 			},
 			['<tab>'] = cmp.mapping(function(fallback)
 				if not luasnip.in_snippet() and luasnip.expand_or_jumpable() then

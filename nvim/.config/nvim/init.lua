@@ -40,6 +40,12 @@ local function unpackPacker(use)
 	-- TODO
 	use { 'nvim-lua/lsp-status.nvim' }
 
+	use { 'sindrets/diffview.nvim',
+		requires = {
+			{ 'nvim-lua/plenary.nvim' },
+		},
+	}
+
 
 	-- [[ EDIT ]]
 	-- Fast jumps

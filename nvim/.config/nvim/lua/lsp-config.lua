@@ -120,7 +120,7 @@ function M.config()
 			-- P(client.resolved_capabilities)
 			if client.resolved_capabilities.document_highlight then
 				vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
-				vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
+				-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 				-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 			end
 			if client.resolved_capabilities.document_highlight then

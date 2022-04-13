@@ -5,16 +5,13 @@ local packer_installed = require('configs').packer_install()
 -- ./lua/keys.lua
 
 -- ./lua/lsp-config.lua
--- ./lua/telescope-config.lua
 -- ./lua/cmp-config.lua
--- ./lua/testing.lua
 
 local function unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
-	-- Window size toggler :MaximizerToggle
-	use { 'szw/vim-maximizer' }
+	use { 'szw/vim-maximizer' } -- Window size toggler :MaximizerToggle
 	use { 'sainnhe/everforest', config = 'require("configs").everforest()' }
 	use { 'nvim-lualine/lualine.nvim',
 		requires = { { 'stevearc/aerial.nvim' } },
@@ -22,23 +19,19 @@ local function unpackPacker(use)
 	}
 	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
 
-	-- File manager
 	use { 'kyazdani42/nvim-tree.lua', config = 'require("configs").nvim_tree()' }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
 			{ 'nvim-telescope/telescope-fzf-native.nvim' },
-			{ 'nvim-telescope/telescope-file-browser.nvim' }
-			-- {'nvim-telescope/telescope-frecency.nvim'},
-			-- {'tami5/sqlite.lua'},
+			{ 'nvim-telescope/telescope-file-browser.nvim' },
+			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 		},
-		config = 'require("telescope-config").config()',
+		config = 'require("configs").telescope()',
 	}
-	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 	use { 'simeji/winresizer', config = 'require("keys").winresizer()' }
 
-	-- TODO
-	use { 'nvim-lua/lsp-status.nvim' }
+	use { 'nvim-lua/lsp-status.nvim' } -- TODO: diff colors
 
 	use { 'sindrets/diffview.nvim',
 		requires = {
@@ -84,23 +77,23 @@ local function unpackPacker(use)
 			{ 'hrsh7th/cmp-cmdline' },
 			{ 'hrsh7th/cmp-nvim-lsp-document-symbol' },
 
-			-- [[ Snippets ]] --
-			{ 'L3MON4D3/LuaSnip' },
+			{ 'L3MON4D3/LuaSnip' }, -- Snippets
 			{ 'saadparwaiz1/cmp_luasnip' },
-			{ 'honza/vim-snippets' }, -- snippet collection
+			{ 'honza/vim-snippets' }, -- Snippet collection
 		},
 		config = 'require("cmp-config").config()'
 	}
 
 
-	-- [[ LANGUAGES ]] --
-	-- https://tree-sitter.github.io/tree-sitter/
+	-- [[ LANGUAGES ]] -- https://tree-sitter.github.io/tree-sitter/
 	use { 'nvim-treesitter/nvim-treesitter',
+		requires = {
+			{ 'nvim-treesitter/playground' }, -- :TSPlaygroundToggle
+			{ 'nvim-treesitter/nvim-treesitter-textobjects' }, -- TODO: keys
+		},
 		run = ':TSUpdate',
-		config = 'require("configs").nvim_treesitter()',
+		config = 'require("configs").treesitter()',
 	}
-	-- :TSPlaygroundToggle
-	use { 'nvim-treesitter/playground' }
 	-- Shows function name on the top
 	use { 'romgrk/nvim-treesitter-context', config = 'require("keys").nvim_ts_hint_textobject()' }
 	-- Region selection: m
@@ -133,7 +126,7 @@ local function unpackPacker(use)
 			{ 'theHamsta/nvim-dap-virtual-text' },
 			{ 'leoluz/nvim-dap-go' },
 		},
-		config = 'require("testing").testing()'
+		config = 'require("configs").dap()'
 	}
 
 

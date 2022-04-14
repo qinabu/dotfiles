@@ -5,20 +5,22 @@ local packer_installed = require('configs').packer_install()
 -- ./lua/keys.lua
 
 -- ./lua/lsp-config.lua
--- ./lua/cmp-config.lua
 
 local function unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
-	use { 'szw/vim-maximizer' } -- Window size toggler :MaximizerToggle
 	use { 'sainnhe/everforest', config = 'require("configs").everforest()' }
+	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
+	use { 'szw/vim-maximizer' } -- Window size toggler :MaximizerToggle
+	use { 'simeji/winresizer', config = 'require("keys").winresizer()' }
 	use { 'nvim-lualine/lualine.nvim',
-		requires = { { 'stevearc/aerial.nvim' } },
+		requires = {
+			{ 'stevearc/aerial.nvim' },
+			{ 'nvim-lua/lsp-status.nvim' }, -- TODO: diff colors
+		},
 		config = 'require("configs").lualine()',
 	}
-	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
-
 	use { 'kyazdani42/nvim-tree.lua', config = 'require("configs").nvim_tree()' }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
@@ -29,43 +31,28 @@ local function unpackPacker(use)
 		},
 		config = 'require("configs").telescope()',
 	}
-	use { 'simeji/winresizer', config = 'require("keys").winresizer()' }
-
-	use { 'nvim-lua/lsp-status.nvim' } -- TODO: diff colors
-
-	use { 'sindrets/diffview.nvim',
-		requires = {
-			{ 'nvim-lua/plenary.nvim' },
-		},
-	}
-
 
 	-- [[ EDIT ]]
-	-- Fast jumps
-	use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' }
-	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' }
-	-- Comment / uncomment
-	use { 'tpope/vim-commentary' }
+	use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps
+	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' } -- find & replace
+	use { 'tpope/vim-commentary' } -- comments
 	use { 'tpope/vim-surround' }
 	use { 'tpope/vim-repeat' }
 
-
 	-- [[ LSP ]] --
-	use { 'neovim/nvim-lspconfig' }
-	-- LSP servers installer
-	use { 'williamboman/nvim-lsp-installer',
+	use { 'neovim/nvim-lspconfig',
 		requires = {
 			{ 'hrsh7th/cmp-nvim-lsp' },
 			{ 'stevearc/aerial.nvim' },
+			{ 'williamboman/nvim-lsp-installer' },
 		},
 		config = 'require("lsp-config").config()',
 	}
 
-
-	-- [[ Lint ]]
+	-- [[ LINT ]]
 	-- use { "tami5/lspsaga.nvim" }
 	-- use { "folke/trouble.nvim" }
-
+	-- use { 'mfussenegger/nvim-lint', config = 'require("configs").lint()' }
 
 	-- [[ COMPLETION ]] --
 	use { 'hrsh7th/nvim-cmp',
@@ -81,15 +68,14 @@ local function unpackPacker(use)
 			{ 'saadparwaiz1/cmp_luasnip' },
 			{ 'honza/vim-snippets' }, -- Snippet collection
 		},
-		config = 'require("cmp-config").config()'
+		config = 'require("configs").cmp()'
 	}
-
 
 	-- [[ LANGUAGES ]] -- https://tree-sitter.github.io/tree-sitter/
 	use { 'nvim-treesitter/nvim-treesitter',
 		requires = {
 			{ 'nvim-treesitter/playground' }, -- :TSPlaygroundToggle
-			{ 'nvim-treesitter/nvim-treesitter-textobjects' }, -- TODO: keys
+			{ 'nvim-treesitter/nvim-treesitter-textobjects' },
 			{ 'romgrk/nvim-treesitter-context' },
 			{ 'mfussenegger/nvim-ts-hint-textobject' }, -- Scope selection by m
 		},
@@ -97,9 +83,6 @@ local function unpackPacker(use)
 		config = 'require("configs").treesitter()',
 	}
 
-
-	-- use {'nvim-treesitter/nvim-treesitter-textobjects'}
-	-- use {'theHamsta/nvim-dap-virtual-text'}
 	-- use { 'rafcamlet/nvim-luapad' }
 
 
@@ -114,6 +97,11 @@ local function unpackPacker(use)
 	use { 'lewis6991/gitsigns.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' } },
 		config = 'require("configs").gitsigns()',
+	}
+	use { 'sindrets/diffview.nvim',
+		requires = {
+			{ 'nvim-lua/plenary.nvim' },
+		},
 	}
 
 	-- [[ DEBUG / TESTINGS ]]

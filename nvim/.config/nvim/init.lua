@@ -90,14 +90,12 @@ local function unpackPacker(use)
 		requires = {
 			{ 'nvim-treesitter/playground' }, -- :TSPlaygroundToggle
 			{ 'nvim-treesitter/nvim-treesitter-textobjects' }, -- TODO: keys
+			{ 'romgrk/nvim-treesitter-context' },
+			{ 'mfussenegger/nvim-ts-hint-textobject' }, -- Scope selection by m
 		},
 		run = ':TSUpdate',
 		config = 'require("configs").treesitter()',
 	}
-	-- Shows function name on the top
-	use { 'romgrk/nvim-treesitter-context', config = 'require("keys").nvim_ts_hint_textobject()' }
-	-- Region selection: m
-	use { 'mfussenegger/nvim-ts-hint-textobject', config = 'require("configs").nvim_ts_hint_textobject()' }
 
 
 	-- use {'nvim-treesitter/nvim-treesitter-textobjects'}

@@ -222,10 +222,10 @@ function M.treesitter()
 		['incremental_selection'] = {
 			['enable'] = true,
 			['keymaps'] = {
-				['node_incremental'] = "L",
+				['node_incremental'] = ".", -- >
 				-- ['init_selection'] = "gnn",
 				-- ['scope_incremental'] = "grc",
-				['node_decremental'] = "H",
+				['node_decremental'] = ",", -- <
 				-- ['node_incremental'] = "grn",
 				-- ['scope_incremental'] = "grc",
 				-- ['node_decremental'] = "grm",
@@ -291,9 +291,7 @@ function M.treesitter()
 		},
 
 	}
-end
 
-function M.nvim_ts_hint_textobject()
 	require("tsht").config.hint_keys = { "a", "s", "d", "f", "j", "k", "l", "g", "h" }
 	require("keys").nvim_ts_hint_textobject()
 end

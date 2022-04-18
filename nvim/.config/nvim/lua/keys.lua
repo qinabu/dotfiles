@@ -179,7 +179,7 @@ function M.telescope()
 	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
 
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
-	map('n', '<leader>ff', ':Telescope find_files<cr>', NS)
+	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
 	map('n', '<leader>fs', ':Telescope lsp_document_symbols<cr>', NS)

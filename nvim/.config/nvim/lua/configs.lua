@@ -534,6 +534,8 @@ function M.telescope()
 					['height'] = 0.7,
 				}
 			},
+			['file_ignore_patterns'] = { '^./.git/' },
+			['hidden'] = true,
 		},
 		['extensions'] = {
 			['fzf'] = {

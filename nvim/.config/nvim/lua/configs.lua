@@ -103,13 +103,30 @@ function M.everforest()
 	vim.g.everforest_disable_italic_comment = 1
 	vim.cmd [[
 	colorscheme everforest
+	hi! DiffDelete guifg=#e67e80 ctermfg=167
+	hi! DiffChange guifg=#83c092 ctermfg=108
+	hi! DiffAdd guifg=#a7c080 ctermfg=142
 	hi clear VertSplit
-	hi! VertSplit guifg=#3c3836
+	"hi! VertSplit guifg=#3c3836
+	hi! VertSplit guifg=#544f4c
 	hi CurrentWord ctermbg=240 guibg=#585858
 	hi link CursorLineSign CursorLineNr
 	hi CursorLine guibg=#3b3737
 	hi CursorLineNr guibg=#3b3737
 	]]
+end
+
+function M.config()
+	vim.cmd [[
+                let g:gruvbit_transp_bg = v:true
+                colorscheme gruvbit
+                hi link LspReferenceText Visual
+                hi link LspReferenceRead Visual
+                hi link LspReferenceWrite Visual
+		hi! clear VertSplit
+        	hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
+                hi! link Special Tag
+        ]];
 end
 
 function M.sneak()
@@ -308,8 +325,8 @@ end
 
 function M.lualine()
 
-	local everforest = require('lualine.themes.gruvbox')
-	everforest.normal.c.red = '#e67e80'
+	-- local everforest = require('lualine.themes.everforest')
+	-- everforest.normal.c.red = '#e67e80'
 
 	require('lualine').setup {
 		['options'] = {
@@ -318,6 +335,7 @@ function M.lualine()
 			['section_separators'] = { left = '▘', right = '▗' },
 			-- component_separators'] = { left = '▞', right = '▞' },
 			['component_separators'] = '',
+			['globalstatus'] = true,
 		},
 		['sections'] = {
 			['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },

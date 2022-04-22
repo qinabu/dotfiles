@@ -39,7 +39,7 @@ function M.bootstrap()
 	map('n', '<ScrollWheelUp>', '<c-y>', NS)
 	map('n', '<ScrollWheelDown>', '<c-e>', NS)
 
-	map('n', '<leader>p', '<c-^>zz', NS)
+	map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
 
 	map('n', '<leader>.', ':cnext<cr>', NS)
 	map('n', '<leader>,', ':cprevious<cr>', NS)
@@ -240,7 +240,7 @@ function M.fugitive()
 
 	-- map('n', '<leader>gg', ':Git<cr>', NS)
 	map('n', '<leader>gg', ':if buflisted(bufname(".git/index")) <cr> :bd .git/index <cr> :else <cr> :Git <cr> :endif <cr>', NS)
-	map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
+	-- map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
 	map('n', '<leader>gb', ':lua Git_blame_toggle()<cr>', NS)
 	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
 	map('n', '<leader>gd', ':Git difftool<cr>', NS)

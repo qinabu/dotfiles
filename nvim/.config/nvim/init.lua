@@ -1,11 +1,13 @@
-local packer_installed = require('configs').packer_install()
-
 -- ./lua/configs.lua
 -- ./lua/options.lua
 -- ./lua/keys.lua
-
 -- ./lua/lsp-config.lua
 
+require('configs').bootstrap()
+require('options').bootstrap()
+require('keys').bootstrap()
+
+local packer_installed = require('configs').packer_install()
 local function unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
@@ -140,8 +142,3 @@ require('packer').startup({
 		},
 	},
 })
-
-require('configs').bootstrap()
-require('options').bootstrap()
-require('keys').bootstrap()
---

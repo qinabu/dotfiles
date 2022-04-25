@@ -71,6 +71,17 @@ custom['gopls'] = function()
 	}
 end
 
+custom['yamlls'] = function()
+	return {
+		['settings'] = {
+			['schemas'] = {
+				['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = { '/*.k8s.yaml' },
+				-- { ['kubernetes'] } = { '*.yaml' },
+			},
+		},
+	}
+end
+
 function M.config()
 	-- lsp isntall
 	require("nvim-lsp-installer").on_server_ready(function(server)

@@ -196,27 +196,50 @@ colors:
   primary:
     background: '#383232' # out of theme - brown
     foreground: '#d3c6aa' # bright
+
+  # Normal colors
   normal:
-    black:   '#2b2727' # '#2d3438' # 0 (darker)
-    white:   '#b3a891' # 7 (darker)
+    black:   '0x7a8478'
+    red:     '0xe67e80'
+    green:   '0xa7c080'
+    yellow:  '0xdbbc7f'
+    blue:    '0x7fbbb3'
+    magenta: '0xd699b6'
+    cyan:    '0x83c092'
+    white:   '0xeee8d5'
 
-    red:     '#e67e80' # 1
-    green:   '#a7c080' # 2
-    yellow:  '#dbbc7f' # 3
-    blue:    '#7fbbb3' # 4 
-    magenta: '#d699b6' # 5 
-    cyan:    '#83c092' # 6
-
+  # Bright colors
   bright:
-    black:   '#5c4b4b'  #'#4b565c' # 8
-    white:   '#d3c6aa' # 15
+    black:   '0x859289'
+    red:     '0xf85552'
+    green:   '0x8da101'
+    yellow:  '0xdfa000'
+    blue:    '0x3a94c5'
+    magenta: '0xdf69ba'
+    cyan:    '0x35a77c'
+    white:   '0xfdf6e3'
 
-    red:     '#e67e80' # 9
-    green:   '#a7c080' # 10
-    yellow:  '#dbbc7f' # 11
-    blue:    '#7fbbb3' # 12
-    magenta: '#d699b6' # 13
-    cyan:    '#83c092' # 14
+  # normal:
+  #   black:   '#2b2727' # '#2d3438' # 0 (darker)
+  #   white:   '#b3a891' # 7 (darker)
+
+  #   red:     '#e67e80' # 1
+  #   green:   '#a7c080' # 2
+  #   yellow:  '#dbbc7f' # 3
+  #   blue:    '#7fbbb3' # 4 
+  #   magenta: '#d699b6' # 5 
+  #   cyan:    '#83c092' # 6
+
+  # bright:
+  #   black:   '#5c4b4b'  #'#4b565c' # 8
+  #   white:   '#d3c6aa' # 15
+
+  #   red:     '#e67e80' # 9
+  #   green:   '#a7c080' # 10
+  #   yellow:  '#dbbc7f' # 11
+  #   blue:    '#7fbbb3' # 12
+  #   magenta: '#d699b6' # 13
+  #   cyan:    '#83c092' # 14
 
 
   # Cursor colors

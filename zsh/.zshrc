@@ -161,7 +161,8 @@ lfcd () {
 }
 bindkey -M viins -s '^f' 'lfcd\n'  # zsh
 bindkey -s '^f' 'lfcd\n'  # zsh
+bindkey -s '^l' 'lfcd\n'  # zsh
 
 
 
-source ~/.profile
+source ~/.profile &>/dev/null || true

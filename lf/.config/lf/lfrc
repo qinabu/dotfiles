@@ -1,3 +1,13 @@
+map a push :create<space>
+cmd create ${{
+	[ -n "$1" ] && {
+		[ "${1: -1}" = "/" ] \
+		&& mkdir -p "$1" \
+		|| touch "$1"
+
+		lf -remote "send $id select \"${1%%/*}\""
+	}
+}}
 # KEYS ========================================================================
 
 # default ---------------------------------------------------------------------
@@ -28,6 +38,7 @@ map gh cd ~
 map <right>
 map f
 map D :delete
+map H :doc
 
 map <esc> quit
 
@@ -59,6 +70,7 @@ map gG cd /usr/local/Cellar/go
 map E edit-directory
 
 map fp find-project
+map <c-k> find-project
 map fd find-directory
 map ff find-file
 
@@ -102,6 +114,7 @@ cmd find-project ${{
 cmd on-cd ${{
         [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
 }}
+
 # OPTIONS =====================================================================
 # set color256
 set autoquit on

@@ -156,8 +156,8 @@ function M.lsp()
 	map('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>', NS)
 	map('n', 'gy', ':lua vim.lsp.buf.type_definition()<cr>', NS)
 
-	map('n', 'ghi', ':lua vim.lsp.buf.incoming_calls()<cr>', NS)
-	map('n', 'gho', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
+	map('n', 'gI', ':lua vim.lsp.buf.incoming_calls()<cr>', NS)
+	map('n', 'gO', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
 
 	-- edit actions
 	-- map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
@@ -181,6 +181,7 @@ function M.telescope()
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
+	map('n', '<leader>fh', ':Telescope git_status<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
 	map('n', '<leader>fr', ':Telescope file_browser path=%:p:h<cr>', NS)
 	map('n', '<leader>fs', ':Telescope lsp_document_symbols<cr>', NS)

@@ -159,9 +159,9 @@ lfcd () {
     fi
     clear
 }
-bindkey -M viins -s '^f' 'lfcd\n'  # zsh
-bindkey -s '^f' 'lfcd\n'  # zsh
-bindkey -s '^l' 'lfcd\n'  # zsh
+bindkey -M viins -s '^f' 'lfcd\n'
+# bindkey -s '^f' 'lfcd\n'
+bindkey -s '^k' 'lfcd\n'
 
 
 

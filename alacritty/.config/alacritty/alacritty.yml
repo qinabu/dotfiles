@@ -194,8 +194,10 @@ colors:
 
   # everforest theme: https://github.com/sainnhe/everforest/wiki
   primary:
-    background: '#383232' # out of theme - brown
-    foreground: '#d3c6aa' # bright
+    # background: '#383232' # out of theme - brown
+    background: '#3a3535' # out of theme - brown
+    # foreground: '#d3c6aa' # bright
+    foreground: '#d7cab4' # bright
 
   # Normal colors
   normal:
@@ -256,7 +258,8 @@ colors:
     # cursor: '#ff8fe5'
     # cursor: '#55dd00'
     # cursor: '#bab0ff'
-    cursor: '#d2ccff'
+    # cursor: '#d2ccff'
+    cursor: '#ff8ac0'
 
   # Vi mode cursor colors
   #

@@ -49,6 +49,7 @@ function M.bootstrap()
 	-- UI
 	vim.o.cursorline = true
 	vim.o.showmode = false
+	vim.o.showcmd = false
 	-- vim.o.fillchars = 'vert:▞,horiz:▞,eob: '
 	vim.o.fillchars = 'eob: '
 	-- vim.o.background = 'dark'
@@ -81,7 +82,7 @@ function M.bootstrap()
 	vim.o.timeoutlen = 2000
 	vim.o.ttimeoutlen = 10
 
-	vim.o.listchars = "tab:  ,space: ,eol: "
+	vim.o.listchars = "space: ,eol: ,tab:» ,trail:·,multispace:···•" -- ·-
 	vim.o.list = true
 
 	vim.diagnostic.config {

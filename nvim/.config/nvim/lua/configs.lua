@@ -80,25 +80,11 @@ function M.bootstrap()
 	]]
 end
 
--- function M.gruvbit()
--- 	vim.g.termguicolors = true
--- 	vim.cmd [[
---                 let g:gruvbit_transp_bg = v:true
---                 colorscheme gruvbit
---                 hi link LspReferenceText Pmenu
---                 hi link LspReferenceRead Pmenu
---                 hi link LspReferenceWrite Pmenu
--- 		hi! clear VertSplit
---         	hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
---                 hi! link Special Tag
---         ]];
--- end
-
 function M.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
 	vim.g.termguicolors = true
-	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_transparent_background = 1
+	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
 	vim.cmd [[
@@ -113,20 +99,21 @@ function M.everforest()
 	hi link CursorLineSign CursorLineNr
 	hi CursorLine guibg=#3b3737
 	hi CursorLineNr guibg=#3b3737
+	hi! Whitespace ctermfg=238 guifg=#4c4747
 	]]
 end
 
-function M.config()
+function M.gruvbit()
 	vim.cmd [[
-                let g:gruvbit_transp_bg = v:true
-                colorscheme gruvbit
-                hi link LspReferenceText Visual
-                hi link LspReferenceRead Visual
-                hi link LspReferenceWrite Visual
-		hi! clear VertSplit
-        	hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
-                hi! link Special Tag
-        ]];
+	let g:gruvbit_transp_bg = v:true
+	colorscheme gruvbit
+	hi link LspReferenceText Visual
+	hi link LspReferenceRead Visual
+	hi link LspReferenceWrite Visual
+	hi! clear VertSplit
+	hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
+	hi! link Special Tag
+	]];
 end
 
 function M.sneak()
@@ -153,15 +140,16 @@ function M.nvim_tree()
 
 	vim.g.nvim_tree_icons = {
 		['disable_netrw'] = false,
-		['default'] = '',
+		['default'] = ' ',
 		['symlink'] = '=',
 		['git'] = {
-			['unstaged'] = '[m]',
-			['staged'] = '[M]',
-			['unmerged'] = '[u]',
-			['renamed'] = '[➜]',
-			['untracked'] = '[u]',
-			['deleted'] = '[d]',
+			['unstaged'] = 'm',
+			['staged'] = 'M',
+			['unmerged'] = 'u',
+			['renamed'] = '➜',
+			['untracked'] = 'u',
+			['deleted'] = 'd',
+			['ignored'] = 'i',
 		},
 		['folder'] = {
 			['arrow_open'] = '-',
@@ -170,7 +158,7 @@ function M.nvim_tree()
 			['open'] = 'v',
 			['empty'] = '+',
 			['empty_open'] = '-',
-			['symlink'] = '*',
+			['symlink'] = '=',
 			['symlink_open'] = '-',
 		},
 		['lsp'] = {
@@ -198,7 +186,7 @@ function M.nvim_tree()
 			['hide_root_folder'] = false,
 			['auto_resize'] = false,
 			['signcolumn'] = 'no',
-			['update_cwd'] = true,
+			-- ['update_cwd'] = true,
 			['mappings'] = {
 				['list'] = {
 					{ ['key'] = ']h', cb = map('next_git_item') },
@@ -627,94 +615,125 @@ function M.cmp()
 	local cmp = require 'cmp'
 
 	local config = {
-		['mapping'] = {
-			['<c-p>'] = cmp.mapping.select_prev_item(),
-			['<c-n>'] = cmp.mapping.select_next_item(),
-			['<c-j>'] = cmp.mapping.scroll_docs(-4),
-			['<c-k>'] = cmp.mapping.scroll_docs(4),
-			['<c-space>'] = cmp.mapping.complete(),
-			['<c-e>'] = cmp.mapping.close(),
-			['<cr>'] = cmp.mapping.confirm {
-				['behavior'] = cmp.ConfirmBehavior.Replace,
-				['select'] = false,
-			},
-			['<tab>'] = cmp.mapping(function(fallback)
-				if not luasnip.in_snippet() and luasnip.expand_or_jumpable() then
-					luasnip.expand_or_jump()
-				elseif cmp.visible() and not luasnip.in_snippet() then
-					cmp.select_next_item()
-					-- elseif luasnip.expand_or_jumpable() then
-					-- 	if luasnip.in_snippet() and luasnip.jumpable(1) then
-					-- 		luasnip.jump(1)
-					-- 	end
-					-- 	luasnip.expand_or_jump()
-				elseif has_words_before() then
-					cmp.complete()
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
-			-- ['<tab>'] = cmp.mapping(function(fallback)
-			-- 	if luasnip ~= nil then
-			-- 		if luasnip.in_snippet() and luasnip.jumpable(1) then
-			-- 			luasnip.jump(1)
-			-- 		elseif luasnip.expand_or_jumpable() then
-			-- 			luasnip.expand_or_jump()
-			-- 		else
-			-- 			fallback()
-			-- 		end
-			-- 	elseif cmp.visible() then
-			-- 		cmp.select_next_item()
-			-- 	else
-			-- 		fallback()
-			-- 	end
-			-- end, { "i", "s" }),
-			["<s-tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item()
-				elseif luasnip.jumpable(-1) then
-					luasnip.jump(-1)
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
-			-- ['<s-tab>'] = cmp.mapping(function(fallback)
-			-- 	if luasnip ~= nil then
-			-- 		if luasnip.in_snippet() and luasnip.jumpable(-1) then
-			-- 			luasnip.jump(-1)
-			-- 		else
-			-- 			fallback()
-			-- 		end
-			-- 	elseif cmp.visible() then
-			-- 		cmp.select_prev_item()
-			-- 	else
-			-- 		fallback()
-			-- 	end
-			-- end, { "i", "s" }),
+		-- ['mapping'] = {
+		-- 	['<c-p>'] = cmp.mapping.select_prev_item(),
+		-- 	['<c-n>'] = cmp.mapping.select_next_item(),
+		-- 	['<c-j>'] = cmp.mapping.scroll_docs(-4),
+		-- 	['<c-k>'] = cmp.mapping.scroll_docs(4),
+		-- 	['<c-space>'] = cmp.mapping.complete(),
+		-- 	['<c-e>'] = cmp.mapping.close(),
+		-- 	['<cr>'] = cmp.mapping.confirm {
+		-- 		['behavior'] = cmp.ConfirmBehavior.Replace,
+		-- 		['select'] = false,
+		-- 	},
+		-- 	['<tab>'] = cmp.mapping(function(fallback)
+		-- 		if not luasnip.in_snippet() and luasnip.expand_or_jumpable() then
+		-- 			luasnip.expand_or_jump()
+		-- 		elseif cmp.visible() and not luasnip.in_snippet() then
+		-- 			cmp.select_next_item()
+		-- 			-- elseif luasnip.expand_or_jumpable() then
+		-- 			-- 	if luasnip.in_snippet() and luasnip.jumpable(1) then
+		-- 			-- 		luasnip.jump(1)
+		-- 			-- 	end
+		-- 			-- 	luasnip.expand_or_jump()
+		-- 			-- elseif has_words_before() then
+		-- 			-- 	cmp.complete()
+		-- 		else
+		-- 			fallback()
+		-- 		end
+		-- 	end, { "i", "s" }),
+		-- 	-- ['<tab>'] = cmp.mapping(function(fallback)
+		-- 	-- 	if luasnip ~= nil then
+		-- 	-- 		if luasnip.in_snippet() and luasnip.jumpable(1) then
+		-- 	-- 			luasnip.jump(1)
+		-- 	-- 		elseif luasnip.expand_or_jumpable() then
+		-- 	-- 			luasnip.expand_or_jump()
+		-- 	-- 		else
+		-- 	-- 			fallback()
+		-- 	-- 		end
+		-- 	-- 	elseif cmp.visible() then
+		-- 	-- 		cmp.select_next_item()
+		-- 	-- 	else
+		-- 	-- 		fallback()
+		-- 	-- 	end
+		-- 	-- end, { "i", "s" }),
+		-- 	["<s-tab>"] = cmp.mapping(function(fallback)
+		-- 		if cmp.visible() then
+		-- 			cmp.select_prev_item()
+		-- 		elseif luasnip.jumpable(-1) then
+		-- 			luasnip.jump(-1)
+		-- 		else
+		-- 			fallback()
+		-- 		end
+		-- 	end, { "i", "s" }),
+		-- 	-- ['<s-tab>'] = cmp.mapping(function(fallback)
+		-- 	-- 	if luasnip ~= nil then
+		-- 	-- 		if luasnip.in_snippet() and luasnip.jumpable(-1) then
+		-- 	-- 			luasnip.jump(-1)
+		-- 	-- 		else
+		-- 	-- 			fallback()
+		-- 	-- 		end
+		-- 	-- 	elseif cmp.visible() then
+		-- 	-- 		cmp.select_prev_item()
+		-- 	-- 	else
+		-- 	-- 		fallback()
+		-- 	-- 	end
+		-- 	-- end, { "i", "s" }),
+		-- },
+		['window'] = {
+			['completion'] = cmp.config.window.bordered(),
+			['documentation'] = cmp.config.window.bordered(),
 		},
-		['sources'] = {
+		['mapping'] = cmp.mapping.preset.insert({
+			['<C-b>'] = cmp.mapping.scroll_docs(-4),
+			['<C-f>'] = cmp.mapping.scroll_docs(4),
+			['<C-Space>'] = cmp.mapping.complete(),
+			['<C-e>'] = cmp.mapping.abort(),
+			['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		}),
+		['snippet'] = {
+			-- REQUIRED - you must specify a snippet engine
+			['expand'] = function(args)
+				-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+				require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+				-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+				-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+			end,
+		},
+		['sources'] = cmp.config.sources({
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
-			{ ['name'] = 'buffer' },
-			{ ['name'] = 'nvim_lua' },
-			-- { ['name'] = 'luasnip' },
-		},
+			{ ['name'] = 'luasnip' }, -- For luasnip users.
+			-- { name = 'vsnip' }, -- For vsnip users.
+			-- { name = 'ultisnips' }, -- For ultisnips users.
+			-- { name = 'snippy' }, -- For snippy users.
+		}, {
+			{ name = 'buffer' },
+		}),
+		-- ['sources'] = {
+		-- 	{ ['name'] = 'nvim_lsp' },
+		-- 	{ ['name'] = 'nvim_lua' },
+		-- 	{ ['name'] = 'buffer' },
+		-- 	-- { ['name'] = 'nvim_lua' },
+		-- 	{ ['name'] = 'luasnip' },
+		-- },
 		['history'] = false,
 	}
 
-	if luasnip ~= nil then
-		config['snippet'] = {
-			['expand'] = function(args)
-				luasnip.lsp_expand(args.body)
-			end,
-		}
-		table.insert(config['sources'], { ['name'] = 'luasnip' })
-	end
+	-- if luasnip ~= nil then
+	-- 	config['snippet'] = {
+	-- 		['expand'] = function(args)
+	-- 			luasnip.lsp_expand(args.body)
+	-- 		end,
+	-- 	}
+	-- 	table.insert(config['sources'], { ['name'] = 'luasnip' })
+	-- end
 
 	cmp.setup(config)
 
 	-- `/` cmdline setup.
 	cmp.setup.cmdline('/', {
+		mapping = cmp.mapping.preset.cmdline(),
 		sources = {
 			{ name = 'buffer' }
 		}
@@ -722,6 +741,7 @@ function M.cmp()
 
 	-- `:` cmdline setup.
 	cmp.setup.cmdline(':', {
+		mapping = cmp.mapping.preset.cmdline(),
 		sources = cmp.config.sources({
 			{ name = 'path' }
 		}, {

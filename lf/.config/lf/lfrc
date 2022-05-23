@@ -1,13 +1,3 @@
-map a push :create<space>
-cmd create ${{
-	[ -n "$1" ] && {
-		[ "${1: -1}" = "/" ] \
-		&& mkdir -p "$1" \
-		|| touch "$1"
-
-		lf -remote "send $id select \"${1%%/*}\""
-	}
-}}
 # KEYS ========================================================================
 
 # default ---------------------------------------------------------------------
@@ -56,6 +46,16 @@ map apoh !git push -u origin head
 map al $tig
 map aal $tig --all
 map as !{{clear; git status --short --branch}}
+map ac push :create<space>
+cmd create ${{
+	[ -n "$1" ] && {
+		[ "${1: -1}" = "/" ] \
+		&& mkdir -p "$1" \
+		|| touch "$1"
+
+		lf -remote "send $id select \"${1%%/*}\""
+	}
+}}
 
 map gh cd ~
 map gm cd ~/.local/mind

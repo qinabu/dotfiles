@@ -29,7 +29,8 @@ local function unpackPacker(use)
 			{ 'nvim-lua/plenary.nvim' },
 			{ 'nvim-telescope/telescope-fzf-native.nvim' },
 			{ 'nvim-telescope/telescope-file-browser.nvim' },
-			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+			{ 'nvim-telescope/telescope-ui-select.nvim' },
 		},
 		config = 'require("configs").telescope()',
 	}
@@ -104,6 +105,7 @@ local function unpackPacker(use)
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
 		},
+		config = 'require("configs").diffview()',
 	}
 
 	-- [[ DEBUG / TESTINGS ]]

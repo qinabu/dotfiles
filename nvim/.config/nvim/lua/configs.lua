@@ -97,8 +97,10 @@ function M.everforest()
 	hi! VertSplit guifg=#544f4c
 	hi CurrentWord ctermbg=240 guibg=#585858
 	hi link CursorLineSign CursorLineNr
-	hi CursorLine guibg=#3b3737
-	hi CursorLineNr guibg=#3b3737
+	hi CursorLine guibg=#413c3c
+	hi CursorLineNr guibg=#413c3c
+	"hi CursorLine guibg=#3b3737
+	"hi CursorLineNr guibg=#3b3737
 	hi! Whitespace ctermfg=238 guifg=#4c4747
 	]]
 end
@@ -122,58 +124,49 @@ function M.sneak()
 end
 
 function M.nvim_tree()
-	--vim.g.nvim_tree_indent_markers = 1
-	vim.g.nvim_tree_highlight_opened_files = 1
-	vim.g.nvim_tree_git_hl = 1
-
-	vim.g.nvim_tree_root_folder_modifier = ':~:.'
-	vim.g.nvim_tree_add_trailing = 1
-
-	vim.g.nvim_tree_special_files = {}
-
-	vim.g.nvim_tree_show_icons = {
-		['git'] = 0,
-		['files'] = 0,
-		['folders'] = 0,
-		['folder_arrows'] = 0,
-	}
-
-	vim.g.nvim_tree_icons = {
-		['disable_netrw'] = false,
-		['default'] = ' ',
-		['symlink'] = '=',
-		['git'] = {
-			['unstaged'] = 'm',
-			['staged'] = 'M',
-			['unmerged'] = 'u',
-			['renamed'] = '➜',
-			['untracked'] = 'u',
-			['deleted'] = 'd',
-			['ignored'] = 'i',
-		},
-		['folder'] = {
-			['arrow_open'] = '-',
-			['arrow_closed'] = '+',
-			['default'] = '>',
-			['open'] = 'v',
-			['empty'] = '+',
-			['empty_open'] = '-',
-			['symlink'] = '=',
-			['symlink_open'] = '-',
-		},
-		['lsp'] = {
-			['hint'] = 'H',
-			['info'] = 'I',
-			['warning'] = 'W',
-			['error'] = 'E',
-		}
-	}
-
 	local map = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {
+		['renderer'] = {
+			['highlight_opened_files'] = 'all',
+			['highlight_git'] = true,
+			['root_folder_modifier'] = ':~:.',
+			['add_trailing'] = true,
+			['special_files'] = {},
+			['icons'] = {
+				['show'] = {
+					['git'] = false,
+					['file'] = false,
+					['folder'] = false,
+					['folder_arrow'] = false,
+				},
+				['glyphs'] = {
+					['default'] = ' ',
+					['symlink'] = '=',
+					['git'] = {
+						['unstaged'] = 'm',
+						['staged'] = 'M',
+						['unmerged'] = 'u',
+						['renamed'] = '➜',
+						['untracked'] = 'u',
+						['deleted'] = 'd',
+						['ignored'] = 'i',
+					},
+					['folder'] = {
+						['arrow_open'] = '-',
+						['arrow_closed'] = '+',
+						['default'] = '>',
+						['open'] = 'v',
+						['empty'] = '+',
+						['empty_open'] = '-',
+						['symlink'] = '=',
+						['symlink_open'] = '-',
+					},
+				},
+			},
+		},
 		['disable_netrw'] = false,
 		['diagnostics'] = {
-			['enable'] = false,
+			['enable'] = true,
 			['show_on_dirs'] = false,
 			['icons'] = {
 				['hint'] = 'H',
@@ -210,7 +203,7 @@ function M.nvim_tree()
 			['enable'] = true,
 			['ignore'] = false,
 		},
-		-- ['update_cwd'] = true,
+		['update_cwd'] = false,
 		['update_focused_file'] = {
 			['enable'] = true,
 			['update_cwd'] = true,
@@ -567,6 +560,25 @@ function M.telescope()
 				['grouped'] = true,
 				['depth'] = 1,
 			},
+			['ui-select'] = {
+				require("telescope.themes").get_dropdown {
+					-- even more opts
+				}
+
+				-- pseudo code / specification for writing custom displays, like the one
+				-- for "codeactions"
+				-- specific_opts = {
+				--   [kind] = {
+				--     make_indexed = function(items) -> indexed_items, width,
+				--     make_displayer = function(widths) -> displayer
+				--     make_display = function(displayer) -> function(e)
+				--     make_ordinal = function(e) -> string
+				--   },
+				--   -- for example to disable the custom builtin "codeactions" display
+				--      do the following
+				--   codeactions = false,
+				-- }
+			},
 		},
 	}
 	opts['defaults'] = vim.tbl_deep_extend('force', opts['defaults'], require('telescope.themes').get_ivy())
@@ -574,6 +586,7 @@ function M.telescope()
 	require('telescope').setup(opts)
 	require('telescope').load_extension('fzf')
 	require('telescope').load_extension('file_browser')
+	require('telescope').load_extension('ui-select')
 
 	require('keys').telescope()
 end
@@ -749,6 +762,16 @@ function M.cmp()
 		})
 	})
 
+end
+
+function M.diffview()
+	require("diffview").setup({
+		['use_icons'] = false,
+		['icons'] = {
+			['folder_closed'] = "-",
+			['folder_open'] = "+",
+		},
+	})
 end
 
 return M

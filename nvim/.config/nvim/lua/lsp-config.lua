@@ -51,11 +51,13 @@ custom['gopls'] = function()
 				['staticcheck'] = true,
 				['analyses'] = {
 					-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
-					['unusedparams'] = true,
-					['shadow'] = true,
-					['fieldalignment'] = true,
-					['nilness'] = true,
-					['unusedwrite'] = true,
+					-- disabled by default:
+					['unusedparams'] = true, --
+					['shadow'] = true, --
+					['fieldalignment'] = true, --
+					['nilness'] = true, --
+					['unusedwrite'] = true, --
+					['useany'] = true, --
 				},
 				['codelenses'] = {
 					['gc_details'] = true,

@@ -123,14 +123,41 @@ PS1+='${vcs_tags:+ }%F{5}${vcs_tags}%f${vcs_info_msg_0_:+ }${vcs_info_msg_0_} %F
 
 compinit
 
-# matches case insensitive for lowercase
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# setopt MENU_COMPLETE
 
-# pasting with tabs doesn't perform completion
-zstyle ':completion:*' insert-tab pending
+# # matches case insensitive for lowercase
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# default to file completion
-zstyle ':completion:*' completer _expand _complete _files _correct _approximate
+# # pasting with tabs doesn't perform completion
+# zstyle ':completion:*' insert-tab pending
+
+# # default to file completion
+# # zstyle ':completion:*' completer _expand_alias _expand _complete _files _correct _approximate
+# zstyle ':completion:*' _expand_alias _expand _complete _correct _approximate
+
+# # zstyle ':completion:*' verbose yes
+# # zstyle ':completion:*' squeeze-slashes true
+# zstyle ':completion:*' complete-options true
+
+
+## menu-style
+zstyle ':completion:*' menu select
+autoload -Uz compinit && compinit
+zstyle ':completion:*' special-dirs true
+# case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# Tab completion colors
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# add new installed packages into completions
+zstyle ':completion:*' rehash true
+# Use better completion for the kill command
+#zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;34'
+#zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# use completion cache
+zstyle ':completion::complete:*' use-cache true
+
+zstyle ':completion:*' _expand_alias _expand _complete _correct _approximate
+
 
 
 

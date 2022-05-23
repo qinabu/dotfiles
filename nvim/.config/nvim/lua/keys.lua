@@ -160,7 +160,7 @@ function M.lsp()
 	map('n', 'gO', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
 
 	-- edit actions
-	-- map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
+	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
 	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync();print("Formatted")<cr>', N)
 
@@ -210,8 +210,8 @@ function M.testing()
 
 	-- VIM-TEST
 	map('n', '<leader>tt', ':TestNearest -v<cr>', NS)
-	map('n', '<leader>tT', ':TestFile<cr>', NS)
-	map('n', '<leader>tl', ':TestLast<cr>', NS)
+	map('n', '<leader>tT', ':TestFile -v<cr>', NS)
+	map('n', '<leader>tl', ':TestLast -v<cr>', NS)
 	map('n', '<leader>tv', ':TestVisit<cr>', NS)
 end
 

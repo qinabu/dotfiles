@@ -1,8 +1,7 @@
-# source ~/.zsh/zshrc
-
-### COMMON
-
 set -o pipefail
+
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=UTF-8
 
 autoload -U add-zsh-hook
 autoload run-help
@@ -103,9 +102,9 @@ add-zsh-hook -Uz precmd vcs_info_tags
 setopt prompt_subst
 
 # formats
-#     " (%s)-[%b]%u%c-" 
+# " (%s)-[%b]%u%c-" 
 # actionformats
-#     " (%s)-[%b|%a]%u%c-" 
+# " (%s)-[%b|%a]%u%c-" 
 
 zstyle ':vcs_info:*' unstagedstr ' %F{1}*%f' # %u
 zstyle ':vcs_info:*' stagedstr ' %F{2}+%f' # %c
@@ -160,31 +159,22 @@ zstyle ':completion:*' _expand_alias _expand _complete _correct _approximate
 
 
 
-
-### PATH
-
-PATH=$PATH:~/.zsh/scripts
-PATH=$PATH:~/.local/bin
-PATH=$PATH:/usr/local/go/bin
-
-
-
 ### LF browser
 
 lfcd () {
-    f=~/.cache/lfcd
-    touch "$f"
-    lf -last-dir-path="$f" "$@"
-    if [ -f "$f" ]; then
-        d="$(cat "$f")"
-        # rm -f "$f"
-        if [ -d "$d" ]; then
-            if [ "$d" != "$(pwd)" ]; then
-                cd "$d"
-            fi
-        fi
-    fi
-    clear
+	f=~/.cache/lfcd
+	touch "$f"
+	lf -last-dir-path="$f" "$@"
+	if [ -f "$f" ]; then
+		d="$(cat "$f")"
+		# rm -f "$f"
+		if [ -d "$d" ]; then
+			if [ "$d" != "$(pwd)" ]; then
+				cd "$d"
+			fi
+		fi
+	fi
+	clear
 }
 bindkey -M viins -s '^f' 'lfcd\n'
 # bindkey -s '^f' 'lfcd\n'
@@ -192,4 +182,83 @@ bindkey -s '^k' 'lfcd\n'
 
 
 
+### PATH
+
+[[ -z "$PATH_" ]] && {
+	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+	export PATH="/usr/local/opt/curl/bin:$PATH"
+
+	export PATH=$PATH:/usr/local/sbin
+	export PATH=$PATH:~/.zsh/scripts
+	export PATH=$PATH:~/.local/bin
+
+	export GOPATH=$HOME/Projects/go/
+	export PATH=$PATH:~/Projects/go/bin
+
+	export PATH_=1
+}
+
+alias s="git status --short"
+
+
+
+# EDITOR
+export EDITOR=nvim
+export PAGER=less
+
+
+
+# ALIASES
+alias ls="gls --group-directories-first"
+alias ll="gls --group-directories-first -l -F -X"
+alias la="gls --group-directories-first -l -F -X -A"
+alias -g less="less -i"
+alias -g LL="|less -i"
+alias v="vim"
+alias n="nvim"
+
+git_reset() { [[ -n "$@" ]] && git reset $@; }
+git_fetch() { [[ -n "$@" ]] && git fetch $@; }
+git_checkout() {
+	[[ -n "$@" ]] && git checkout "$@" || {
+		local b=$(git branch --all | fzf | sed 's#^[\* ]*##')
+		[[ -z "$b" ]] && return 0
+		echo "$b" | grep "^remotes/" > /dev/null && {
+			local rb=$(sed 's#^remotes/##' <<< "$b")
+			local lb=$(sed 's#^remotes/[^/]*/##' <<< "$b")
+			git checkout -b "$lb" --track "$rb"
+		} || {
+			git checkout "$b"
+		}
+	}
+}
+
+alias s="git status --short --branch"
+alias a="git add"
+alias c="git commit"
+alias ca="git commit --amend --no-edit"
+alias cae="git commit --amend"
+alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
+alias d="git diff"
+alias p="git push"
+alias pu="git pull"
+alias poh="p origin head"
+alias b="git branch -vv --sort '-committerdate'"
+alias t="git tag | sort -Vr"
+alias re="git tag -l release* | sort -r"
+alias r=git_reset
+alias f=git_fetch
+alias ch=git_checkout
+
+alias al="tig --all"
+alias l="tig"
+alias lmy="git log --oneline --author=\$(git config user.email) --stat"
+
+alias k="kubectl"
+alias evald='eval $(minikube docker-env)'
+
+
+
+# PROFILE
 source ~/.profile &>/dev/null || true
+

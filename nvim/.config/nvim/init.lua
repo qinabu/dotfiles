@@ -23,7 +23,9 @@ local function unpackPacker(use)
 		},
 		config = 'require("configs").lualine()',
 	}
-	use { 'kyazdani42/nvim-tree.lua', config = 'require("configs").nvim_tree()' }
+	use { 'kyazdani42/nvim-tree.lua',
+		requires = { { 'nyngwang/NeoRoot.lua' } },
+		config = 'require("configs").nvim_tree()' }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
@@ -128,6 +130,8 @@ local function unpackPacker(use)
 		},
 		config = 'require("configs").telekasten()',
 	}
+
+	use { 'justinmk/vim-dirvish' }
 
 
 	-- Sync the first lauch

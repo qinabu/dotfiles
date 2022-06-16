@@ -179,7 +179,6 @@ function M.nvim_tree()
 			['hide_root_folder'] = false,
 			['auto_resize'] = false,
 			['signcolumn'] = 'no',
-			-- ['update_cwd'] = true,
 			['mappings'] = {
 				['list'] = {
 					{ ['key'] = ']h', cb = map('next_git_item') },
@@ -203,6 +202,10 @@ function M.nvim_tree()
 			['enable'] = true,
 			['ignore'] = false,
 		},
+		['hijack_directories'] = {
+			['enable'] = false,
+		},
+		['respect_buf_cwd'] = true,
 		['update_cwd'] = false,
 		['update_focused_file'] = {
 			['enable'] = true,
@@ -525,6 +528,7 @@ function M.zen_mode()
 end
 
 function M.telescope()
+	local actions = require("telescope.actions")
 	local opts = {
 		['defaults'] = {
 			['layout_strategy'] = 'bottom_pane',
@@ -535,6 +539,14 @@ function M.telescope()
 			},
 			['file_ignore_patterns'] = { '^./.git/' },
 			['hidden'] = true,
+			['mappings'] = {
+				['i'] = {
+					['<C-h>'] = actions.which_key
+				},
+				['n'] = {
+					['<C-h>'] = actions.which_key
+				},
+			},
 		},
 		['extensions'] = {
 			['fzf'] = {
@@ -546,19 +558,22 @@ function M.telescope()
 			},
 			['file_browser'] = {
 				-- ['theme'] = "ivy",
-				-- ['mappings'] = {
-				-- 	["i"] = {
-				-- 		['<c-n>'] = require('telescope.actions').results_scrolling_down,
-				-- 		['<c-p>'] = require('telescope.actions').results_scrolling_up,
-				-- 	},
-				-- 	["n"] = {
-				-- 		['<c-n>'] = require('telescope.actions').results_scrolling_down,
-				-- 		['<c-p>'] = require('telescope.actions').results_scrolling_up,
-				-- 	},
-				-- },
+				['mappings'] = {
+					-- ["i"] = {
+					-- 	['<c-n>'] = require('telescope.actions').results_scrolling_down,
+					-- 	['<c-p>'] = require('telescope.actions').results_scrolling_up,
+					-- },
+					["n"] = {
+						['h'] = require('telescope').extensions.file_browser.actions.goto_parent_dir,
+						['l'] = require('telescope.actions').select_default,
+					},
+				},
 				['dir_icon'] = '░',
 				['grouped'] = true,
 				['depth'] = 1,
+				['folder_browser'] = {
+					['files'] = true,
+				},
 			},
 			['ui-select'] = {
 				require("telescope.themes").get_dropdown {

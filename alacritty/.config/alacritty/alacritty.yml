@@ -110,7 +110,7 @@ window:
 
 # Font configuration
 font:
-  size: 19.0
+  size: 19.5
   normal:
     style: Regular
     family: Fantasque Sans Mono

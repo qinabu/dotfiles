@@ -155,6 +155,27 @@ function M.config()
 		})
 	end)
 
+	-- aerial
+	require("aerial").setup({
+		-- ['filter_kind'] = false, -- show all symbolls
+		-- :help SymbolKind
+		['filter_kind'] = {
+			"Class",
+			"Constructor",
+			"Enum",
+			"Function",
+			"Interface",
+			"interface", --
+			"Module",
+			"Method",
+			"Struct",
+		},
+
+		['highlight_on_hover'] = true,
+		['close_behavior'] = 'global',
+		['placement_editor_edge'] = true,
+	})
+
 	-- diagnostic config
 	vim.diagnostic.config({
 		['virtual_text'] = false,

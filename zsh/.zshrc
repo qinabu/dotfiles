@@ -214,6 +214,7 @@ alias ll="gls --group-directories-first -l -F -X"
 alias la="gls --group-directories-first -l -F -X -A"
 alias -g less="less -i"
 alias -g LL="|less -i"
+alias -g GG="|grep "
 alias v="vim"
 alias n="nvim"
 

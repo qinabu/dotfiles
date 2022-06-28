@@ -45,7 +45,8 @@ function M.bootstrap()
 	map('n', '<leader>,', ':cprevious<cr>', NS)
 	-- map('n', '.', ':cnext<cr>', NS)
 	-- map('n', ',', ':cprevious<cr>', NS)
-	-- map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
+	map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
+	-- map('n', '<leader>d', ':NvimTreeFindFile<cr>', NS)
 
 	-- Options
 	map('n', '<leader>oO', ':only<cr>', NS)
@@ -189,8 +190,8 @@ function M.telescope()
 	map('n', '<leader>fb', ':Telescope buffers<cr>', NS)
 	map('n', '<leader>fm', ':Telescope marks<cr>', NS)
 
-	map('n', '<leader>r', ':Telescope file_browser path=%:p:h<cr>', NS)
-	map('n', '<leader>d', ':Telescope file_browser<cr>', NS)
+	-- map('n', '<leader>r', ':Telescope file_browser path=%:p:h<cr>', NS)
+	-- map('n', '<leader>d', ':Telescope file_browser<cr>', NS)
 
 end
 

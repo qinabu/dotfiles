@@ -176,8 +176,8 @@ function M.nvim_tree()
 			},
 		},
 		['view'] = {
-			['hide_root_folder'] = false,
-			['auto_resize'] = false,
+			['hide_root_folder'] = true,
+			['auto_resize'] = true,
 			['signcolumn'] = 'no',
 			['mappings'] = {
 				['list'] = {
@@ -205,11 +205,11 @@ function M.nvim_tree()
 		['hijack_directories'] = {
 			['enable'] = false,
 		},
-		['respect_buf_cwd'] = true,
+		['respect_buf_cwd'] = false,
 		['update_cwd'] = false,
 		['update_focused_file'] = {
 			['enable'] = true,
-			['update_cwd'] = true,
+			['update_cwd'] = false,
 			['ignore_list'] = {},
 		},
 	}
@@ -324,7 +324,8 @@ function M.lualine()
 		['sections'] = {
 			['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
 			['lualine_b'] = { 'branch', 'diff' },
-			['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
+			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
+			['lualine_c'] = { '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			['lualine_x'] = { 'diagnostics', 'filesize', 'filetype' },
 			['lualine_y'] = { 'progress' },
 			['lualine_z'] = {},
@@ -534,7 +535,7 @@ function M.telescope()
 			['layout_strategy'] = 'bottom_pane',
 			['layout_config'] = {
 				['bottom_pane'] = {
-					['height'] = 0.7,
+					['height'] = 0.85,
 				}
 			},
 			['file_ignore_patterns'] = { '^./.git/' },

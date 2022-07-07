@@ -55,6 +55,8 @@ function M.bootstrap()
 
 	-- Reload init.lua on save
 	vim.cmd([[
+		packadd cfilter " :Cfilter[!] /{pat}/
+
 		augroup packer_user_config
 		autocmd!
 		autocmd BufWritePost init.lua source $MYVIMRC | PackerCompile
@@ -175,9 +177,13 @@ function M.nvim_tree()
 				['error'] = 'E',
 			},
 		},
+		['actions'] = {
+			['open_file'] = {
+				['resize_window'] = true,
+			},
+		},
 		['view'] = {
 			['hide_root_folder'] = true,
-			['auto_resize'] = true,
 			['signcolumn'] = 'no',
 			['mappings'] = {
 				['list'] = {
@@ -322,10 +328,15 @@ function M.lualine()
 			['globalstatus'] = true,
 		},
 		['sections'] = {
-			['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
+			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
+			['lualine_a'] = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
 			['lualine_b'] = { 'branch', 'diff' },
 			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
-			['lualine_c'] = { '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
+			['lualine_c'] = {
+				'%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
+				'%l',
+				{ 'aerial', ['sep'] = '::' }
+			},
 			['lualine_x'] = { 'diagnostics', 'filesize', 'filetype' },
 			['lualine_y'] = { 'progress' },
 			['lualine_z'] = {},

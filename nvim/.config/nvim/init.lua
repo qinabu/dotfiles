@@ -50,6 +50,8 @@ local function unpackPacker(use)
 			{ 'hrsh7th/cmp-nvim-lsp' },
 			{ 'stevearc/aerial.nvim' },
 			{ 'williamboman/nvim-lsp-installer' },
+			{ 'jubnzv/virtual-types.nvim' },
+			{ 'ray-x/lsp_signature.nvim' },
 		},
 		config = 'require("lsp-config").config()',
 	}

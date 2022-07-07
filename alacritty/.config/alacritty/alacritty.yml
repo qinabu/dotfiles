@@ -259,7 +259,8 @@ colors:
     # cursor: '#55dd00'
     # cursor: '#bab0ff'
     # cursor: '#d2ccff'
-    cursor: '#ff8ac0'
+    # cursor: '#ff8ac0'
+    cursor: '#68e3df'
 
   # Vi mode cursor colors
   #

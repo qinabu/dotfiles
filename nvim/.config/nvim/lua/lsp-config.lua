@@ -61,6 +61,7 @@ custom['gopls'] = function()
 				},
 				['codelenses'] = {
 					['gc_details'] = true,
+					-- ['gc_details'] = false,
 					['generate'] = true,
 					['regenerate_cgo'] = true,
 					['test'] = true,
@@ -86,6 +87,7 @@ end
 
 function M.config()
 	-- lsp isntall
+	-- TODO: change due to https://github.com/williamboman/nvim-lsp-installer/discussions/636
 	require("nvim-lsp-installer").on_server_ready(function(server)
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -123,11 +125,20 @@ function M.config()
 			-- print("enable "..server.name)
 			opts = vim.tbl_deep_extend('force', opts, custom_fn(server))
 		end
-		opts['on_attach'] = function(client, bufnr) -- function(client)
+		opts['on_attach'] = function(client, bufnr)
 			-- map keys
-			require('keys').lsp()
+			require("keys").lsp()
 			-- aerial code navigator
 			require("aerial").on_attach(client, bufnr)
+			-- type annotation in virtual text
+			require("virtualtypes").on_attach(client, bufnr)
+			-- signature helps
+			require("lsp_signature").on_attach({
+				bind = true,
+				handler_opts = {
+					border = "rounded"
+				}
+			}, bufnr)
 			-- format on save
 			-- if client.supports_method('textDocument/documentHighlight') then
 			-- P(client.resolved_capabilities)

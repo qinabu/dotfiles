@@ -164,6 +164,8 @@ function M.lsp()
 	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
 	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync();print("Formatted")<cr>', N)
+	map('n', '<leader>ec', ':lua vim.lsp.codelens.refresh();vim.lsp.codelens.run()<cr>', NS)
+
 
 	-- range_code_action
 	-- range_formatting
@@ -176,7 +178,7 @@ function M.lsp()
 end
 
 function M.telescope()
-	map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
+	-- map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
 	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
 
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
@@ -246,7 +248,8 @@ function M.fugitive()
 	end
 
 	-- map('n', '<leader>gg', ':Git<cr>', NS)
-	map('n', '<leader>gg', ':if buflisted(bufname(".git/index")) <cr> :bd .git/index <cr> :else <cr> :Git <cr> :endif <cr>', NS)
+	map('n', '<leader>gg', ':if buflisted(bufname(".git/index")) <cr> :bd .git/index <cr> :else <cr> :Git <cr> :endif <cr>'
+		, NS)
 	-- map('n', '<leader>gb', ':Git blame<cr><c-w>p', NS)
 	map('n', '<leader>gb', ':lua Git_blame_toggle()<cr>', NS)
 	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
@@ -255,8 +258,12 @@ function M.fugitive()
 	map('n', '<leader>gl', ':0Gclog<cr>', NS)
 	map('n', '<leader>gL', ':Gclog<cr>', NS)
 
-	map('n', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>', NS)
-	map('v', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>', NS)
+	map('n', '<leader>gy',
+		'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>'
+		, NS)
+	map('v', '<leader>gy',
+		'<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>'
+		, NS)
 end
 
 function M.gitsigns()

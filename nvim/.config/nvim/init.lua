@@ -51,6 +51,7 @@ local function unpackPacker(use)
 			{ 'stevearc/aerial.nvim' },
 			{ 'williamboman/nvim-lsp-installer' },
 			{ 'ray-x/lsp_signature.nvim' },
+			{ 'j-hui/fidget.nvim' },
 		},
 		config = 'require("lsp-config").config()',
 	}

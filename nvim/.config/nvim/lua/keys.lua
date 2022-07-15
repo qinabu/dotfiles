@@ -50,10 +50,17 @@ function M.bootstrap()
 
 	-- Options
 	map('n', '<leader>oO', ':only<cr>', NS)
-	map('n', '<leader>oo', ':MaximizerToggle<cr>', NS)
+	map('n', '<leader>oo', ':MaximizerToggle!<cr>', NS)
 
 	map('n', '<leader>on', ':setlocal number!<cr>', NS)
 	map('n', '<leader>oN', ':setlocal relativenumber!<cr>', NS)
+
+	map('n', '<leader>os', ':setlocal spell!<cr>', NS)
+
+	map('n', '<leader>ol', ':setlocal list!<cr>', NS)
+	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
+
+	map('n', '<leader>ot', ':lua vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4)<cr>', NS)
 
 	-- Command line
 	map('n', '<leader>;', ':', N) -- Command line
@@ -95,12 +102,6 @@ function M.bootstrap()
 	-- Searching
 	-- map('n', '<leader>/', ":let @/=''<cr>", NS)
 	map('n', '<leader>/', ":noh<cr>", NS)
-
-	-- Options toggling
-	map('n', '<leader>os', ':setlocal spell!<cr>', NS)
-
-	map('n', '<leader>ol', ':setlocal list!<cr>', NS)
-	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
 
 	-- quicklist & loclist
 	local close_lists = function()

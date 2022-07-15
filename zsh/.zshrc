@@ -174,7 +174,7 @@ lfcd () {
 			fi
 		fi
 	fi
-	clear
+	# clear
 }
 bindkey -M viins -s '^f' 'lfcd\n'
 # bindkey -s '^f' 'lfcd\n'
@@ -240,7 +240,7 @@ alias c="git commit"
 alias ca="git commit --amend --no-edit"
 alias cae="git commit --amend"
 alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
-alias d="git diff --stats -U"
+alias d="git diff --stat -U"
 alias p="git push"
 alias pu="git pull"
 alias poh="p origin head"

@@ -82,6 +82,33 @@ function M.bootstrap()
 	]]
 end
 
+function M.kanagawa()
+	-- Default options:
+	require('kanagawa').setup({
+		undercurl = true, -- enable undercurls
+		commentStyle = { italic = false },
+		functionStyle = {},
+		keywordStyle = { italic = false },
+		statementStyle = { bold = true },
+		typeStyle = {},
+		variablebuiltinStyle = { italic = false },
+		specialReturn = true, -- special highlight for the return keyword
+		specialException = true, -- special highlight for exception handling keywords
+
+		---
+		transparent = false, -- do not set background color
+
+		dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+		globalStatus = false, -- adjust window separators highlight for laststatus=3
+		terminalColors = true, -- define vim.g.terminal_color_{0,17}
+		colors = {},
+		overrides = {},
+	})
+
+	-- setup must be called before loading
+	vim.cmd("colorscheme kanagawa")
+end
+
 function M.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
 	vim.g.termguicolors = true
@@ -288,11 +315,11 @@ function M.treesitter()
 				},
 			},
 			['lsp_interop'] = {
-				['enable'] = true,
+				['enable'] = false,
 				['border'] = 'none',
 				['peek_definition_code'] = {
-					['K'] = "@function.outer",
-					['<c-k>'] = "@class.outer",
+					-- ['K'] = "@function.outer",
+					-- ['<c-k>'] = "@class.outer",
 				},
 			},
 		},
@@ -321,7 +348,8 @@ function M.lualine()
 	require('lualine').setup {
 		['options'] = {
 			['icons_enabled'] = false,
-			['theme'] = 'everforest',
+			-- ['theme'] = 'everforest',
+			['theme'] = 'auto',
 			['section_separators'] = { left = '▘', right = '▗' },
 			-- component_separators'] = { left = '▞', right = '▞' },
 			['component_separators'] = '',
@@ -330,14 +358,28 @@ function M.lualine()
 		['sections'] = {
 			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
 			['lualine_a'] = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
-			['lualine_b'] = { 'branch', 'diff' },
+			['lualine_b'] = { 'branch' },
 			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			['lualine_c'] = {
-				'%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
-				'%l',
-				{ 'aerial', ['sep'] = '::' }
+				'diff',
+				{ 'filename',
+					path = 1,
+					shorting_target = 25,
+					symbols = { modified = '*' }
+				},
+				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
+				'%l:%c/%v',
+				{ 'aerial', ['sep'] = '.' }
 			},
-			['lualine_x'] = { 'diagnostics', 'filesize', 'filetype' },
+			['lualine_x'] = {
+				{ 'diagnostics', diagnostics_color = {
+					error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
+					warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
+					info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
+					hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
+				}, },
+				'filesize',
+				'filetype' },
 			['lualine_y'] = { 'progress' },
 			['lualine_z'] = {},
 		},

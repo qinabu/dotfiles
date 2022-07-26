@@ -13,8 +13,10 @@ local function unpackPacker(use)
 
 	-- [[ UI ]] --
 	use { 'sainnhe/everforest', config = 'require("configs").everforest()' }
+	-- use { 'rebelot/kanagawa.nvim', config = 'require("configs").kanagawa()' }
 	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
 	use { 'szw/vim-maximizer' } -- Window size toggler :MaximizerToggle
+	use { 'itchyny/vim-qfedit' }
 	use { 'simeji/winresizer', config = 'require("keys").winresizer()' }
 	use { 'nvim-lualine/lualine.nvim',
 		requires = {

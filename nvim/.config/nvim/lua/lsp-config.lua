@@ -117,6 +117,8 @@ local custom = {
 			},
 		}
 	end,
+
+	['pyright'] = function() return {} end
 }
 
 

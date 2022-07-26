@@ -41,10 +41,6 @@ function M.bootstrap()
 
 	map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
 
-	map('n', '<leader>.', ':cnext<cr>', NS)
-	map('n', '<leader>,', ':cprevious<cr>', NS)
-	-- map('n', '.', ':cnext<cr>', NS)
-	-- map('n', ',', ':cprevious<cr>', NS)
 	map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
 	-- map('n', '<leader>d', ':NvimTreeFindFile<cr>', NS)
 
@@ -102,6 +98,9 @@ function M.bootstrap()
 	-- Searching
 	-- map('n', '<leader>/', ":let @/=''<cr>", NS)
 	map('n', '<leader>/', ":noh<cr>", NS)
+	map('n', '<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', NS)
+	map('n', '<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', NS)
+
 
 	-- quicklist & loclist
 	local close_lists = function()
@@ -132,6 +131,12 @@ function M.bootstrap()
 
 	map('n', '<leader>c', ':lua QuickFix_toggle()<cr>', NS)
 	map('n', '<leader>C', ':lua LocList_toggle()<cr>', NS)
+
+	map('n', '<leader>.', ':cnext<cr>', NS)
+	map('n', '<leader>,', ':cprevious<cr>', NS)
+
+	map('n', '<leader><', ':colder<cr>', NS)
+	map('n', '<leader>>', ':cnewer<cr>', NS)
 end
 
 function M.nvim_ts_hint_textobject()
@@ -143,7 +148,7 @@ end
 function M.lsp()
 	-- help / hint
 	map('n', 'K', ':lua vim.lsp.buf.hover()<cr>', NS)
-	map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<cr>', NS)
+	-- map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<cr>', NS)
 
 	-- diagnostics
 	map('n', 'gl', ':lua vim.diagnostic.open_float()<cr>', NS)

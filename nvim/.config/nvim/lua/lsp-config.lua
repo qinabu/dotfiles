@@ -138,8 +138,8 @@ function M.config()
 
 	-- diagnostic config
 	vim.diagnostic.config({
-		['virtual_text'] = false, -- true by default
-		['severity_sort'] = false, -- false by default
+		['virtual_text'] = false, -- default is true
+		['severity_sort'] = false, -- default is false
 	})
 
 	require("fidget").setup({

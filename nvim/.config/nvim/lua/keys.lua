@@ -61,6 +61,7 @@ function M.bootstrap()
 	-- Command line
 	map('n', '<leader>;', ':', N) -- Command line
 	map('n', "<leader>'", '@:', N) -- Repeat last command
+	-- map('n', '<leader><leader>;', ':!', N) -- Command terminal line
 
 	map('c', '<c-a>', '<home>', N)
 	map('c', '<c-d>', '<del>', N)

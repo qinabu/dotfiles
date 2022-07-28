@@ -1,3 +1,4 @@
+local serve_d = require "lspconfig.server_configurations.serve_d"
 local M = {}
 
 function M.packer_install()
@@ -362,6 +363,12 @@ function M.lualine()
 			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			['lualine_c'] = {
 				'diff',
+				{ 'diagnostics', diagnostics_color = {
+					error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
+					warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
+					info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
+					hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
+				}, },
 				{ 'filename',
 					path = 1,
 					shorting_target = 25,
@@ -372,12 +379,6 @@ function M.lualine()
 				{ 'aerial', ['sep'] = '.' }
 			},
 			['lualine_x'] = {
-				{ 'diagnostics', diagnostics_color = {
-					error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
-					warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
-					info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
-					hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
-				}, },
 				'filesize',
 				'filetype' },
 			['lualine_y'] = { 'progress' },
@@ -766,13 +767,21 @@ function M.cmp()
 			['completion'] = cmp.config.window.bordered(),
 			['documentation'] = cmp.config.window.bordered(),
 		},
+
 		['mapping'] = cmp.mapping.preset.insert({
 			['<C-b>'] = cmp.mapping.scroll_docs(-4),
 			['<C-f>'] = cmp.mapping.scroll_docs(4),
+			['<c-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+			['<c-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
 			['<C-Space>'] = cmp.mapping.complete(),
 			['<C-e>'] = cmp.mapping.abort(),
+			['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
+			['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i' }),
+			-- ['<c-p>'] = cmp.mapping(function(fallback) end),
+			-- ['<c-n>'] = cmp.mapping(function(fallback) end),
 			['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		}),
+
 		['snippet'] = {
 			-- REQUIRED - you must specify a snippet engine
 			['expand'] = function(args)
@@ -783,12 +792,12 @@ function M.cmp()
 			end,
 		},
 		['sources'] = cmp.config.sources({
+			{ ['name'] = 'luasnip' },
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
-			{ ['name'] = 'luasnip' }, -- For luasnip users.
-			-- { name = 'vsnip' }, -- For vsnip users.
-			-- { name = 'ultisnips' }, -- For ultisnips users.
-			-- { name = 'snippy' }, -- For snippy users.
+			-- { name = 'vsnip' },
+			-- { name = 'ultisnips' },
+			-- { name = 'snippy' },
 		}, {
 			{ name = 'buffer' },
 		}),
@@ -801,7 +810,7 @@ function M.cmp()
 		-- },
 		['history'] = false,
 	}
-
+	--
 	-- if luasnip ~= nil then
 	-- 	config['snippet'] = {
 	-- 		['expand'] = function(args)
@@ -815,7 +824,7 @@ function M.cmp()
 
 	-- `/` cmdline setup.
 	cmp.setup.cmdline('/', {
-		mapping = cmp.mapping.preset.cmdline(),
+		-- mapping = cmp.mapping.preset.cmdline(),
 		sources = {
 			{ name = 'buffer' }
 		}
@@ -823,7 +832,7 @@ function M.cmp()
 
 	-- `:` cmdline setup.
 	cmp.setup.cmdline(':', {
-		mapping = cmp.mapping.preset.cmdline(),
+		-- mapping = cmp.mapping.preset.cmdline(),
 		sources = cmp.config.sources({
 			{ name = 'path' }
 		}, {

@@ -271,6 +271,7 @@ function M.fugitive()
 	map('v', '<leader>gy',
 		'<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>'
 		, NS)
+	map('n', '<leader>gY', ":let @+=expand('%') .. ':' .. line('.')<cr>", NS)
 end
 
 function M.gitsigns()

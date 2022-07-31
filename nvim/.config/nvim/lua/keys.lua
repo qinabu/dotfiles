@@ -283,23 +283,18 @@ function M.gitsigns()
 	map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
 	map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", NSE)
 
-	-- HUNK
 	-- stage
 	map('n', 'ghs', '<cmd>Gitsigns stage_hunk<cr>', NS)
 	map('v', 'ghs', ':Gitsigns stage_hunk<cr>', NS)
+	map('n', 'ghS', '<cmd>Gitsigns stage_buffer<CR>', NS) -- buffer
 	-- unstage
+	map('n', 'ghu', '<cmd>Gitsigns undo_stage_hunk<cr>', NS)
 	map('v', 'ghu', '<cmd>Gitsigns undo_stage_hunk<CR>', NS)
+	map('n', 'ghU', '<cmd>Gitsigns reset_buffer_index<CR>', NS) -- buffer
 	-- reset
 	map('n', 'ghr', '<cmd>Gitsigns reset_hunk<cr>', NS)
 	map('v', 'ghr', ':Gitsigns reset_hunk<cr>', NS)
-
-	-- BUFFER
-	-- stage
-	map('n', 'ghS', '<cmd>Gitsigns stage_buffer<CR>', NS)
-	-- unstage
-	map('n', 'ghU', '<cmd>Gitsigns reset_buffer_index<CR>', NS)
-	-- reset
-	map('n', 'ghR', '<cmd>Gitsigns reset_buffer<CR>', NS)
+	map('n', 'ghR', '<cmd>Gitsigns reset_buffer<CR>', NS) -- buffer
 
 	-- BLAME
 	map('n', 'ghp', '<cmd>Gitsigns preview_hunk<CR>', NS)

@@ -1,7 +1,9 @@
--- ./lua/configs.lua
--- ./lua/options.lua
--- ./lua/keys.lua
--- ./lua/lsp-config.lua
+--[[
+./lua/configs.lua
+./lua/options.lua
+./lua/keys.lua
+./lua/lsp-config.lua
+]]
 
 require('configs').bootstrap()
 require('options').bootstrap()

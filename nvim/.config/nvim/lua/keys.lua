@@ -206,12 +206,14 @@ end
 
 function M.testing()
 	-- DAP
+	map('n', '<leader>ty', ':Telescope dap commands<cr>', NS)
 	map('n', '<leader>tq', ':lua require("dap").close()<cr>:DapVirtualTextDisable<cr>', NS)
 
 	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)
 
 	map('n', '<leader>td', ':DapVirtualTextEnable<cr>:lua require("dap").continue()<cr>', NS)
 	map('n', '<leader>tD', ':DapVirtualTextEnable<cr>:lua require("dap").run_last()<cr>', NS)
+	map('n', '<leader>tc', ':DapVirtualTextEnable<cr>:lua require("dap").run_to_cursor()<cr>', NS)
 
 	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
 	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)

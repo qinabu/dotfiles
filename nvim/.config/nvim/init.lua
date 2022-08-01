@@ -37,6 +37,7 @@ local function unpackPacker(use)
 			{ 'nvim-telescope/telescope-file-browser.nvim' },
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
 			{ 'nvim-telescope/telescope-ui-select.nvim' },
+			{ 'nvim-telescope/telescope-dap.nvim' },
 		},
 		config = 'require("configs").telescope()',
 	}
@@ -122,6 +123,7 @@ local function unpackPacker(use)
 			{ 'vim-test/vim-test' },
 			{ 'nvim-treesitter/nvim-treesitter' },
 			{ 'theHamsta/nvim-dap-virtual-text' },
+			{ 'nvim-telescope/telescope-dap.nvim' },
 			{ 'leoluz/nvim-dap-go' },
 		},
 		config = 'require("configs").dap()'

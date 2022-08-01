@@ -657,13 +657,14 @@ function M.telescope()
 	require('telescope').load_extension('fzf')
 	require('telescope').load_extension('file_browser')
 	require('telescope').load_extension('ui-select')
+	require('telescope').load_extension('ui-select')
 
 	require('keys').telescope()
 end
 
 function M.dap()
 	require("dap-go").setup()
-	require("nvim-dap-virtual-text").setup()
+	require("nvim-dap-virtual-text").setup({})
 	vim.g['test#strategy'] = 'neovim'
 
 	require('keys').testing()

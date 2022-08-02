@@ -23,7 +23,7 @@ local function unpackPacker(use)
 	use { 'nvim-lualine/lualine.nvim',
 		requires = {
 			{ 'stevearc/aerial.nvim' },
-			{ 'nvim-lua/lsp-status.nvim' }, -- TODO: diff colors
+			{ 'nvim-lua/lsp-status.nvim' },
 		},
 		config = 'require("configs").lualine()',
 	}
@@ -43,7 +43,8 @@ local function unpackPacker(use)
 	}
 
 	-- [[ EDIT ]]
-	use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps
+	-- use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps
+	use { 'phaazon/hop.nvim', config = 'require("configs").hop()' }
 	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' } -- find & replace
 	use { 'tpope/vim-commentary' } -- comments
 	use { 'tpope/vim-surround' }

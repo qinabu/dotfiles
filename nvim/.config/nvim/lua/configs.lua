@@ -153,6 +153,17 @@ function M.sneak()
 	vim.g['sneak#label'] = 1
 end
 
+function M.hop()
+	require 'hop'.setup({
+		branch = 'v2',
+		config = function()
+			require 'hop'.setup { keys = 'jfkduhgrieow' }
+		end
+	})
+	require("keys").hop()
+
+end
+
 function M.nvim_tree()
 	local map = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {

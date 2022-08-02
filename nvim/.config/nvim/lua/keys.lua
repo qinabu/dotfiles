@@ -140,6 +140,26 @@ function M.bootstrap()
 	map('n', '<leader>>', ':cnewer<cr>', NS)
 end
 
+function M.hop()
+	map('n', 's', ':HopChar2<cr>', NS)
+	map('n', 'S', ':HopWord<cr>', NS)
+	-- map('', 'f', ":lua require'hop'.hint_char1(" ..
+	-- 	"{ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true }" ..
+	-- 	")<cr>", {})
+
+	-- map('', 'F', ":lua require'hop'.hint_char1(" ..
+	-- 	"{ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true }" ..
+	-- 	")<cr>", {})
+
+	-- map('', 't', ":lua require'hop'.hint_char1(" ..
+	-- 	"{ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }" ..
+	-- 	")<cr>", {})
+
+	-- map('', 'T', ":lua require'hop'.hint_char1(" ..
+	-- 	"{ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }" ..
+	-- 	")<cr>", {})
+end
+
 function M.nvim_ts_hint_textobject()
 	-- mfussenegger/nvim-ts-hint-textobject
 	map('o', 'm', ':<c-u>lua require("tsht").nodes()<cr>', NS)

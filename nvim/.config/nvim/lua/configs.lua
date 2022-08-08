@@ -35,24 +35,24 @@ function M.bootstrap()
 	-- :O hi
 	vim.cmd [[
 	function! OutputSplitWindow(...)
-		" this function output the result of the Ex command into a split scratch buffer
-		let cmd = join(a:000, ' ')
-		let temp_reg = @"
-		redir @"
-		silent! execute cmd
-		redir END
-		let output = copy(@")
-		let @" = temp_reg
-		if empty(output)
-			echoerr "no output"
-		else
+	" this function output the result of the Ex command into a split scratch buffer
+	let cmd = join(a:000, ' ')
+	let temp_reg = @"
+	redir @"
+	silent! execute cmd
+	redir END
+	let output = copy(@")
+	let @" = temp_reg
+	if empty(output)
+		echoerr "no output"
+	else
 		new
 		setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
 		put! =output
 		endif
-	endfunction
-	command! -nargs=+ -complete=command O call OutputSplitWindow(<f-args>)
-	]]
+		endfunction
+		command! -nargs=+ -complete=command O call OutputSplitWindow(<f-args>)
+		]]
 
 	-- Reload init.lua on save
 	vim.cmd([[
@@ -62,7 +62,7 @@ function M.bootstrap()
 		autocmd!
 		autocmd BufWritePost init.lua source $MYVIMRC | PackerCompile
 		augroup end
-	]])
+		]])
 
 	-- close terminal in case of zero exit code
 	-- vim.cmd[[
@@ -71,16 +71,16 @@ function M.bootstrap()
 
 	-- Left padding for only vertical window
 	--[[
-	_G.change_fold_column = function()
+		_G.change_fold_column = function()
 		local nr = vim.fn.winnr()
 		local value = '0'
 		if vim.fn.winnr('h') == nr and vim.fn.winnr('l') == nr then
-			value = '9' -- max
+		value = '9' -- max
 		end
 		vim.opt_local.foldcolumn = value
-	end
-	vim.cmd[[autocmd VimEnter,WinEnter,WinClosed,WinLeave,WinNew,BufWinEnter * :lua change_fold_column()] ]
-	]]
+		end
+		vim.cmd[[autocmd VimEnter,WinEnter,WinClosed,WinLeave,WinNew,BufWinEnter * :lua change_fold_column()] ]
+		]]
 end
 
 function M.kanagawa()
@@ -118,34 +118,34 @@ function M.everforest()
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
 	vim.cmd [[
-	colorscheme everforest
-	hi! DiffDelete guifg=#e67e80 ctermfg=167
-	hi! DiffChange guifg=#83c092 ctermfg=108
-	hi! DiffAdd guifg=#a7c080 ctermfg=142
-	hi clear VertSplit
-	"hi! VertSplit guifg=#3c3836
-	hi! VertSplit guifg=#544f4c
-	hi CurrentWord ctermbg=240 guibg=#585858
-	hi link CursorLineSign CursorLineNr
-	hi CursorLine guibg=#413c3c
-	hi CursorLineNr guibg=#413c3c
-	"hi CursorLine guibg=#3b3737
-	"hi CursorLineNr guibg=#3b3737
-	hi! Whitespace ctermfg=238 guifg=#4c4747
-	]]
+		colorscheme everforest
+		hi! DiffDelete guifg=#e67e80 ctermfg=167
+		hi! DiffChange guifg=#83c092 ctermfg=108
+		hi! DiffAdd guifg=#a7c080 ctermfg=142
+		hi clear VertSplit
+		"hi! VertSplit guifg=#3c3836
+		hi! VertSplit guifg=#544f4c
+		hi CurrentWord ctermbg=240 guibg=#585858
+		hi link CursorLineSign CursorLineNr
+		hi CursorLine guibg=#413c3c
+		hi CursorLineNr guibg=#413c3c
+		"hi CursorLine guibg=#3b3737
+		"hi CursorLineNr guibg=#3b3737
+		hi! Whitespace ctermfg=238 guifg=#4c4747
+		]]
 end
 
 function M.gruvbit()
 	vim.cmd [[
-	let g:gruvbit_transp_bg = v:true
-	colorscheme gruvbit
-	hi link LspReferenceText Visual
-	hi link LspReferenceRead Visual
-	hi link LspReferenceWrite Visual
-	hi! clear VertSplit
-	hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
-	hi! link Special Tag
-	]];
+		let g:gruvbit_transp_bg = v:true
+		colorscheme gruvbit
+		hi link LspReferenceText Visual
+		hi link LspReferenceRead Visual
+		hi link LspReferenceWrite Visual
+		hi! clear VertSplit
+		hi Function cterm=bold gui=bold guifg=#83a598 ctermfg=109
+		hi! link Special Tag
+		]];
 end
 
 function M.sneak()
@@ -572,7 +572,7 @@ function M.telekasten()
 		hi link tkLink markdownLinkText
 		hi link tkHighlight Search
 		hi link tkTag markdownBold
-	]]
+		]]
 
 	require("keys").telekasten()
 
@@ -681,6 +681,40 @@ function M.dap()
 	require('keys').testing()
 end
 
+function M.neotest()
+	require("neotest").setup({
+		adapters = {
+			require("neotest-vim-test")({
+				ignore_filetypes = { "python", "go" },
+			}),
+			require("neotest-go")({
+				experimental = {
+					test_table = true,
+				},
+				args = { "-count=1", "-timeout=60s" }
+			}),
+			require("neotest-python")({
+				-- Extra arguments for nvim-dap configuration
+				dap = { justMyCode = false },
+				-- Command line arguments for runner
+				-- Can also be a function to return dynamic values
+				args = { "--log-level", "DEBUG" },
+				-- Runner to use. Will use pytest if available by default.
+				-- Can be a function to return dynamic value.
+				runner = "pytest",
+
+				-- Returns if a given file path is a test file.
+				-- NB: This function is called a lot so don't perform any heavy tasks within it.
+				-- is_test_file = function(file_path)
+				-- end,
+
+			})
+		}
+	})
+
+	require('keys').neotest()
+end
+
 function M.lint()
 	local lint = require('lint')
 	lint.linters_by_ft = vim.tbl_deep_extend('force', lint.linters_by_ft, {
@@ -693,7 +727,7 @@ function M.lint()
 		autocmd!
 		autocmd BufWritePost <buffer> lua require('lint').try_lint()
 		augroup end
-	]])
+		]])
 end
 
 function M.cmp()
@@ -821,6 +855,7 @@ function M.cmp()
 		-- 	{ ['name'] = 'luasnip' },
 		-- },
 		['history'] = false,
+		['preselect'] = cmp.PreselectMode.None
 	}
 	--
 	-- if luasnip ~= nil then

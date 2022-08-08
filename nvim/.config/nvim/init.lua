@@ -129,6 +129,20 @@ local function unpackPacker(use)
 		},
 		config = 'require("configs").dap()'
 	}
+	use {
+		'nvim-neotest/neotest',
+		requires = {
+			'mfussenegger/nvim-dap',
+			'nvim-neotest/neotest-go',
+			'nvim-neotest/neotest-python',
+			'nvim-neotest/neotest-vim-test',
+
+			'nvim-lua/plenary.nvim',
+			'nvim-treesitter/nvim-treesitter',
+			'antoinemadec/FixCursorHold.nvim'
+		},
+		config = 'require("configs").neotest()'
+	}
 
 
 	-- [[ NOTE TAKING ]]

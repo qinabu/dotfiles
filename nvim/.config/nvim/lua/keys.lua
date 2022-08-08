@@ -224,6 +224,14 @@ function M.telescope()
 
 end
 
+function M.neotest()
+	map('n', '<leader><leader>tt', ':lua require("neotest").run.run()<cr>', NS)
+	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
+	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
+	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
+
+end
+
 function M.testing()
 	-- DAP
 	map('n', '<leader>ty', ':Telescope dap commands<cr>', NS)

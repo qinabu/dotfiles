@@ -14,7 +14,7 @@ function M.bootstrap()
 	map('n', '<leader>q', ':qall<cr>', N)
 	map('n', '<leader>Q', ':qall!<cr>', N)
 
-	map('n', '<leader><esc>', ':quit<cr>', N)
+	map('n', '<leader><esc>', ':silent quit<cr>', N)
 
 	-- map('n', '<leader><esc>b', ':bdelete<cr>', N)
 	-- map('n', '<leader><esc>B', ':bdelete!<cr>', N)

@@ -73,6 +73,7 @@ local custom = {
 		return {
 			['on_attach'] = default_on_attach,
 			['cmd'] = { "gopls", "serve" },
+			-- ['root_dir'] = require('lspconfig/util').root_pattern("go.work", "go.mod", ".git"),
 			['settings'] = {
 				['gopls'] = { -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 					['experimentalPostfixCompletions'] = true,

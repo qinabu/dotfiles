@@ -69,6 +69,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["FixCursorHold.nvim"] = {
+    loaded = true,
+    path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
+    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -179,6 +184,27 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  neotest = {
+    config = { 'require("configs").neotest()' },
+    loaded = true,
+    path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/neotest",
+    url = "https://github.com/nvim-neotest/neotest"
+  },
+  ["neotest-go"] = {
+    loaded = true,
+    path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/neotest-go",
+    url = "https://github.com/nvim-neotest/neotest-go"
+  },
+  ["neotest-python"] = {
+    loaded = true,
+    path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/neotest-python",
+    url = "https://github.com/nvim-neotest/neotest-python"
+  },
+  ["neotest-vim-test"] = {
+    loaded = true,
+    path = "/Users/qinabu/.local/share/nvim/site/pack/packer/start/neotest-vim-test",
+    url = "https://github.com/nvim-neotest/neotest-vim-test"
   },
   ["nvim-cmp"] = {
     config = { 'require("configs").cmp()' },
@@ -348,54 +374,22 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: telekasten.nvim
-time([[Config for telekasten.nvim]], true)
-require("configs").telekasten()
-time([[Config for telekasten.nvim]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require("configs").lualine()
-time([[Config for lualine.nvim]], false)
--- Config for: vim-fugitive
-time([[Config for vim-fugitive]], true)
-require("configs").fugitive()
-time([[Config for vim-fugitive]], false)
--- Config for: everforest
-time([[Config for everforest]], true)
-require("configs").everforest()
-time([[Config for everforest]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require("configs").cmp()
-time([[Config for nvim-cmp]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require("configs").gitsigns()
-time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require("configs").nvim_tree()
-time([[Config for nvim-tree.lua]], false)
 -- Config for: nvim-dap
 time([[Config for nvim-dap]], true)
 require("configs").dap()
 time([[Config for nvim-dap]], false)
--- Config for: hop.nvim
-time([[Config for hop.nvim]], true)
-require("configs").hop()
-time([[Config for hop.nvim]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require("configs").telescope()
-time([[Config for telescope.nvim]], false)
--- Config for: diffview.nvim
-time([[Config for diffview.nvim]], true)
-require("configs").diffview()
-time([[Config for diffview.nvim]], false)
--- Config for: ctrlsf.vim
-time([[Config for ctrlsf.vim]], true)
-require("configs").ctrlsf()
-time([[Config for ctrlsf.vim]], false)
+-- Config for: telekasten.nvim
+time([[Config for telekasten.nvim]], true)
+require("configs").telekasten()
+time([[Config for telekasten.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require("configs").nvim_tree()
+time([[Config for nvim-tree.lua]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require("configs").cmp()
+time([[Config for nvim-cmp]], false)
 -- Config for: nvim-lspconfig
 time([[Config for nvim-lspconfig]], true)
 require("lsp-config").config()
@@ -404,14 +398,50 @@ time([[Config for nvim-lspconfig]], false)
 time([[Config for nvim-treesitter]], true)
 require("configs").treesitter()
 time([[Config for nvim-treesitter]], false)
--- Config for: zen-mode.nvim
-time([[Config for zen-mode.nvim]], true)
-require("configs").zen_mode()
-time([[Config for zen-mode.nvim]], false)
+-- Config for: diffview.nvim
+time([[Config for diffview.nvim]], true)
+require("configs").diffview()
+time([[Config for diffview.nvim]], false)
+-- Config for: everforest
+time([[Config for everforest]], true)
+require("configs").everforest()
+time([[Config for everforest]], false)
+-- Config for: hop.nvim
+time([[Config for hop.nvim]], true)
+require("configs").hop()
+time([[Config for hop.nvim]], false)
+-- Config for: vim-fugitive
+time([[Config for vim-fugitive]], true)
+require("configs").fugitive()
+time([[Config for vim-fugitive]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require("configs").gitsigns()
+time([[Config for gitsigns.nvim]], false)
 -- Config for: winresizer
 time([[Config for winresizer]], true)
 require("keys").winresizer()
 time([[Config for winresizer]], false)
+-- Config for: neotest
+time([[Config for neotest]], true)
+require("configs").neotest()
+time([[Config for neotest]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require("configs").lualine()
+time([[Config for lualine.nvim]], false)
+-- Config for: zen-mode.nvim
+time([[Config for zen-mode.nvim]], true)
+require("configs").zen_mode()
+time([[Config for zen-mode.nvim]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require("configs").telescope()
+time([[Config for telescope.nvim]], false)
+-- Config for: ctrlsf.vim
+time([[Config for ctrlsf.vim]], true)
+require("configs").ctrlsf()
+time([[Config for ctrlsf.vim]], false)
 if should_profile then save_profiles() end
 
 end)

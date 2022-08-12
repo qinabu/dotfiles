@@ -14,7 +14,7 @@ function M.bootstrap()
 	map('n', '<leader>q', ':qall<cr>', N)
 	map('n', '<leader>Q', ':qall!<cr>', N)
 
-	map('n', '<leader><esc>', ':quit<cr>', N)
+	map('n', '<leader><esc>', ':silent quit<cr>', N)
 
 	-- map('n', '<leader><esc>b', ':bdelete<cr>', N)
 	-- map('n', '<leader><esc>B', ':bdelete!<cr>', N)
@@ -222,6 +222,14 @@ function M.telescope()
 
 	-- map('n', '<leader>r', ':Telescope file_browser path=%:p:h<cr>', NS)
 	-- map('n', '<leader>d', ':Telescope file_browser<cr>', NS)
+
+end
+
+function M.neotest()
+	map('n', '<leader><leader>tt', ':lua require("neotest").run.run()<cr>', NS)
+	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
+	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
+	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
 
 end
 

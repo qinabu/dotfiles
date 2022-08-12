@@ -87,6 +87,7 @@ function M.bootstrap()
 
 	map('n', '<leader>ee', '*Ncgn', NS)
 	map('v', '<leader>ee', "\"sy:let @/='\\V'.@s<CR>cgn", NS)
+	map('v', '<leader>er', '"hy:%s/<C-r>h//gc<left><left><left>', N)
 
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)

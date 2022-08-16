@@ -165,6 +165,7 @@ end
 require('packer').startup({
 	unpackPacker,
 	['config'] = {
+		['enable'] = false,
 		['log'] = {
 			['level'] = 'error'
 		},

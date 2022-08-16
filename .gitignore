@@ -6,3 +6,4 @@ vim/.vim/vimspector-config/gadgets
 zsh/.zsh/plugins
 
 nvim/.config/nvim/spell/
+nvim/.config/nvim/plugin/packer_compiled.lua

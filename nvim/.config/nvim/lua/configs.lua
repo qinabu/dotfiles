@@ -391,7 +391,8 @@ function M.lualine()
 			},
 			['lualine_x'] = {
 				'filesize',
-				'filetype' },
+				'filetype'
+			},
 			['lualine_y'] = { 'progress' },
 			['lualine_z'] = {},
 		},
@@ -473,7 +474,7 @@ end
 function M.telekasten()
 	vim.g.calendar_no_mappings = 1
 
-	local home = vim.fn.expand("~/.local/mind")
+	local home = vim.fn.expand("~/GDrive/Mind")
 	require('telekasten').setup({
 		['home'] = home,
 		['take_over_my_home'] = true,

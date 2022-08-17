@@ -2,10 +2,11 @@
 
 image() {
 	if [ -n "$DISPLAY" ]; then
-		printf '{"action": "add", "identifier": "PREVIEW", "x": "%s", "y": "%s", "width": "%s", "height": "%s", "scaler": "contain", "path": "%s"}\n' "$4" "$5" "$(($2-1))" "$(($3-1))" "$1" > "$FIFO_UEBERZUG"
-		exit 1
+		exit 0
+		# printf '{"action": "add", "identifier": "PREVIEW", "x": "%s", "y": "%s", "width": "%s", "height": "%s", "scaler": "contain", "path": "%s"}\n' "$4" "$5" "$(($2-1))" "$(($3-1))" "$1" > "$FIFO_UEBERZUG"
+		# exit 1
 	else
-		timg -g"${2}x${3}" -ph  --compress "$1" 2>&-
+		exec timg -g"${2}x${3}" -ph  --compress "$1" 2>&-
 	fi
 }
 
@@ -21,7 +22,7 @@ case "$1" in
     # *.pdf) pdftotext "$1" -;;
     # *) bat -f -n -r ":$2" --theme gruvbox-dark "$1";;
     # *) bat -f -n -r ":$2" --theme bas16 "$1";;
-    *) chroma "$1";;
+    *) exec chroma "$1";;
 esac
 
 # Set the path of a previewer file to filter the content of regular files for

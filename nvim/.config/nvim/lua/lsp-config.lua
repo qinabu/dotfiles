@@ -119,7 +119,8 @@ local custom = {
 		}
 	end,
 
-	['pyright'] = function() return {} end
+	['pyright'] = function() return {} end,
+	['rust_analyzer'] = function() return {} end,
 }
 
 
@@ -132,6 +133,9 @@ function M.config()
 	for name, config in pairs(custom) do
 		local opts = config()
 		opts['capabilities'] = capabilities
+		if opts['on_attach'] == nil then
+			opts['on_attach'] = default_on_attach
+		end
 		lspconfig[name].setup(opts)
 	end
 

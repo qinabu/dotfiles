@@ -34,9 +34,9 @@ map <esc> quit
 
 map <space> :toggle
 map , ${{
-        $EDITOR ~/.config/lf/lfrc && \
-        lf -remote "send $id :source ~/.config/lf/lfrc" && \
-        lf -remote "send $id echo Updated!"
+	$EDITOR ~/.config/lf/lfrc && \
+	lf -remote "send $id :source ~/.config/lf/lfrc" && \
+	lf -remote "send $id echo Updated!"
 }}
 map . set hidden!
 map o $open $f
@@ -58,10 +58,8 @@ cmd create ${{
 }}
 
 map gh cd ~
-map gm cd ~/.local/mind
 map ga cd ~/Projects/go/src/go.avito.ru
 map gp cd ~/Projects
-map gn cd ~/Documents/Notes
 map gd cd ~/Downloads
 map g. ${{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
 map gv cd ~/.vim
@@ -78,41 +76,41 @@ map ff find-file
 cmd open
 
 cmd edit-directory ${{
-        a="$PWD/venv/bin/activate"
-        lf -remote "send $id cd $PWD"
-        if [[ -e "$a" ]]; then
-                source "$a" && cd "$PWD" && $EDITOR
-        else
-                cd "$PWD" && $EDITOR
-        fi
+	a="$PWD/venv/bin/activate"
+	lf -remote "send $id cd $PWD"
+	if [[ -e "$a" ]]; then
+		source "$a" && cd "$PWD" && $EDITOR
+	else
+		cd "$PWD" && $EDITOR
+	fi
 }}
 
 cmd mkdir %{{
-    IFS=" "
-    mkdir -p -- "$*"
-    lf -remote "send $id select \"$*\""
+	IFS=" "
+	mkdir -p -- "$*"
+	lf -remote "send $id select \"$*\""
 }}
 
 cmd find-file ${{
-        res=$(fd '' "$PWD" | fzf --reverse)
-        [ $? -ne 0 ] && exit 0
-        cmd="select"
-        [ -d "$res" ] && cmd="cd"
-        lf -remote "send $id select \"$res\""
+	res=$(fd '' "$PWD" | fzf --reverse)
+	[ $? -ne 0 ] && exit 0
+	cmd="select"
+	[ -d "$res" ] && cmd="cd"
+	lf -remote "send $id select \"$res\""
 }}
 
 cmd find-directory ${{
-        dir=$(fd -t d '' "$PWD" | fzf --reverse)
-        [ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+	dir=$(fd -t d '' "$PWD" | fzf --reverse)
+	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
 }}
 
 cmd find-project ${{
-        dir=$(fd -d 2 -t d '' ~/Projects ~/Projects/go/src/go.avito.ru | fzf --reverse)
-        [ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+	dir=$(fd -d 2 -t d '' ~/Projects ~/Projects/go/src/go.avito.ru | fzf --reverse)
+	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
 }}
 
 cmd on-cd ${{
-        [ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
+	[ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
 }}
 
 # OPTIONS =====================================================================

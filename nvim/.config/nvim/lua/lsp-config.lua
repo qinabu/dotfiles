@@ -143,7 +143,16 @@ function M.config()
 		lspconfig[name].setup(opts)
 	end
 
-	M.aerial()
+	require("aerial").setup({
+		['on_attach'] = function()
+			require("keys").aerial()
+		end,
+		['default_bindings'] = true,
+		-- ['filter_kind'] = false, -- show all symbolls
+		['highlight_on_hover'] = true,
+		['close_behavior'] = 'global',
+		['placement_editor_edge'] = false,
+	})
 
 	-- diagnostic config
 	vim.diagnostic.config({
@@ -159,32 +168,6 @@ function M.config()
 		['window'] = {
 			['blend'] = 0,
 		}
-	})
-end
-
-function M.aerial()
-	require("aerial").setup({
-		['on_attach'] = function()
-			require("keys").aerial()
-		end,
-		['default_bindings'] = true,
-		-- ['filter_kind'] = false, -- show all symbolls
-		-- :help SymbolKind
-		['filter_kind'] = {
-			"Class",
-			"Constructor",
-			"Enum",
-			"Function",
-			"Interface",
-			"interface", --
-			"Module",
-			"Method",
-			"Struct",
-		},
-
-		['highlight_on_hover'] = true,
-		['close_behavior'] = 'global',
-		['placement_editor_edge'] = false,
 	})
 end
 

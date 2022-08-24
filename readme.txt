@@ -10,5 +10,6 @@ fonts
 https://github.com/belluzj/fantasque-sans
 https://developer.apple.com/fonts/
 https://design.ubuntu.com/font/
+https://fonts.google.com/specimen/Source+Code+Pro
 https://github.com/microsoft/cascadia-code
 https://freefontsdownload.net/free-consolas-font-33098.htm

@@ -111,16 +111,19 @@ window:
 # Font configuration
 font:
   # size: 19.5
-  size: 18.5
+  # size: 14.5 # SF Mono
+  size: 16.5 # Fantasque Sans Mono
+  # size: 14.5 # Source Code Pro
   normal:
     style: Regular
     # style: Medium
     # style: Semibold
+    # family: SF Mono
     family: Fantasque Sans Mono
     # family: Consolas
     # family: Cascadia Code
-    # family: SF Mono
     # family: Ubuntu Mono
+    # family: Source Code Pro
 
   # Thin stroke font rendering (macOS only)
   #
@@ -130,15 +133,9 @@ font:
 
 
   # Bold font face
-  #bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
-
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
+  # bold:
+  #   family: SF Mono
+  #   style: Bold
 
   # Italic font face
   #italic:

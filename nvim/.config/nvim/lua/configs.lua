@@ -127,6 +127,7 @@ function M.everforest()
 		hi! VertSplit guifg=#544f4c
 		hi CurrentWord ctermbg=240 guibg=#585858
 		hi link CursorLineSign CursorLineNr
+		hi Co guibg=#413c3c
 		hi CursorLine guibg=#413c3c
 		hi CursorLineNr guibg=#413c3c
 		"hi CursorLine guibg=#3b3737
@@ -474,7 +475,7 @@ end
 function M.telekasten()
 	vim.g.calendar_no_mappings = 1
 
-	local home = vim.fn.expand("~/GDrive/Mind")
+	local home = vim.fn.expand("~/Mind")
 	require('telekasten').setup({
 		['home'] = home,
 		['take_over_my_home'] = true,

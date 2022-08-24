@@ -13,6 +13,10 @@ local function default_on_attach(client, bufnr)
 		hint_enable = false,
 		hint_prefix = '█ ',
 	}, bufnr)
+
+	-- aerial symbols
+	require("aerial").on_attach(client, bufnr)
+
 	-- format on save
 	-- if client.supports_method('textDocument/documentHighlight') then
 	-- P(client.resolved_capabilities)

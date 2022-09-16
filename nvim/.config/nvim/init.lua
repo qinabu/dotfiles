@@ -44,6 +44,7 @@ local function unpackPacker(use)
 	-- [[ EDIT ]]
 	-- use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps
 	use { 'phaazon/hop.nvim', config = 'require("configs").hop()' }
+	use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
 	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' } -- find & replace
 	use { 'tpope/vim-commentary' } -- comments
 	use { 'tpope/vim-surround' }
@@ -90,6 +91,7 @@ local function unpackPacker(use)
 			{ 'nvim-treesitter/nvim-treesitter-textobjects' },
 			{ 'romgrk/nvim-treesitter-context' },
 			{ 'mfussenegger/nvim-ts-hint-textobject' }, -- Scope selection by m
+			{ 'jubnzv/virtual-types.nvim' },
 		},
 		run = ':TSUpdate',
 		config = 'require("configs").treesitter()',

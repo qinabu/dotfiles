@@ -165,6 +165,11 @@ function M.hop()
 
 end
 
+function M.harpoon()
+	require("harpoon").setup({})
+	require("keys").harpoon()
+end
+
 function M.nvim_tree()
 	local map = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {
@@ -733,11 +738,15 @@ function M.lint()
 end
 
 function M.cmp()
-	local function has_words_before()
+	local has_words_before = function()
 		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 	end
 
+	local check_backspace = function()
+		local col = vim.fn.col '.' - 1
+		return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
+	end
 	-- load snippets
 	require("luasnip.loaders.from_snipmate").lazy_load()
 
@@ -815,19 +824,23 @@ function M.cmp()
 			['completion'] = cmp.config.window.bordered(),
 			['documentation'] = cmp.config.window.bordered(),
 		},
-
 		['mapping'] = cmp.mapping.preset.insert({
-			['<C-b>'] = cmp.mapping.scroll_docs(-4),
-			['<C-f>'] = cmp.mapping.scroll_docs(4),
+			-- command line selection
 			['<c-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
 			['<c-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
-			['<C-Space>'] = cmp.mapping.complete(),
-			['<C-e>'] = cmp.mapping.abort(),
+
+			-- insert mode selection
 			['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
 			['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i' }),
-			-- ['<c-p>'] = cmp.mapping(function(fallback) end),
-			-- ['<c-n>'] = cmp.mapping(function(fallback) end),
-			['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+			-- info scrolling like for telescope
+			['<C-u>'] = cmp.mapping.scroll_docs(-4),
+			['<C-d>'] = cmp.mapping.scroll_docs(4),
+
+			-- confimration
+			-- ['<C-Space>'] = cmp.mapping.complete(),
+			-- ['<C-e>'] = cmp.mapping.abort(),
+			['<cr>'] = cmp.mapping.confirm({ select = false }),
 		}),
 
 		['snippet'] = {
@@ -888,6 +901,8 @@ function M.cmp()
 			{ name = 'cmdline' }
 		})
 	})
+
+	require("keys").luasnip()
 
 end
 

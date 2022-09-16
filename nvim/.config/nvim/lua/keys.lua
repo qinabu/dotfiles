@@ -62,6 +62,8 @@ function M.bootstrap()
 	-- Command line
 	map('n', '<leader>;', ':', N) -- Command line
 	map('n', "<leader>'", '@:', N) -- Repeat last command
+	map('n', "<leader>1", ':!', N) -- Exec
+	map('n', "<leader>!", ':split term://', N) -- Exec
 	-- map('n', '<leader><leader>;', ':!', N) -- Command terminal line
 
 	map('c', '<c-a>', '<home>', N)
@@ -162,6 +164,11 @@ function M.hop()
 	-- 	")<cr>", {})
 end
 
+function M.harpoon()
+	map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
+	map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
+end
+
 function M.nvim_ts_hint_textobject()
 	-- mfussenegger/nvim-ts-hint-textobject
 	map('o', 'm', ':<c-u>lua require("tsht").nodes()<cr>', NS)
@@ -224,6 +231,85 @@ function M.telescope()
 	-- map('n', '<leader>r', ':Telescope file_browser path=%:p:h<cr>', NS)
 	-- map('n', '<leader>d', ':Telescope file_browser<cr>', NS)
 
+end
+
+function M.luasnip()
+	-- expand or jump
+	map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
+
+	-- select mode jumps
+	map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
+	map('s', '<s-tab>', '<cmd>lua require("luasnip").jump(-1)<cr>', {})
+
+	-- choose variants
+	map("i", "<C-n>", "<Plug>luasnip-next-choice", {})
+	map("s", "<C-n>", "<Plug>luasnip-next-choice", {})
+	map("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
+	map("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
+
+	map('i', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
+	map('s', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
+
+	map('i', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
+	map('s', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
+
+	-- 	vim.cmd [[
+	-- 	inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+	-- 	snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+	-- 	snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+	-- 	imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+	-- 	smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+	-- 	]]
+
+
+	-- local luasnip = require("luasnip")
+	-- local function keys_send(keys, mode)
+	-- 	local key = vim.api.nvim_replace_termcodes(keys, true, false, true)
+	-- 	vim.api.nvim_feedkeys(key, mode, false)
+	-- end
+
+	-- -- expand or jump
+	-- map('i', '<c-h>', '', { callback = function()
+	-- 	local ls = require("luasnip")
+	-- 	if ls.expand_or_jumpable() then
+	-- 		ls.expand_or_jump()
+	-- 	end
+	-- 	keys_send('<c-h>', 'i')
+	-- end })
+
+	-- -- insert mode jumps
+	-- map('i', '<tab>', '', { callback = function()
+	-- 	if luasnip.jumpable(1) then
+	-- 		luasnip.jump(1)
+	-- 		return
+	-- 	end
+	-- 	keys_send('<tab>', 'i')
+	-- end })
+	-- map('i', '<s-tab>', '', { callback = function()
+	-- 	if luasnip.jumpable(-1) then
+	-- 		luasnip.jump(-1)
+	-- 		return
+	-- 	end
+	-- 	keys_send('<s-tab>', 'i')
+	-- end })
+
+	-- -- select mode jumps
+	-- map('s', '<tab>', '', { callback = function()
+	-- 	if luasnip.jumpable(1) then
+	-- 		luasnip.jump(1)
+	-- 		return
+	-- 	end
+	-- 	keys_send('<tab>', 's')
+	-- end })
+	-- map('s', '<s-tab>', '', { callback = function()
+	-- 	if luasnip.jumpable(-1) then
+	-- 		luasnip.jump(-1)
+	-- 		return
+	-- 	end
+	-- 	keys_send('<s-tab>', 's')
+	-- end })
 end
 
 function M.neotest()

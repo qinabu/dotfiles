@@ -16,6 +16,7 @@ local function default_on_attach(client, bufnr)
 
 	-- aerial symbols
 	require("aerial").on_attach(client, bufnr)
+	require("virtualtypes").on_attach(client, bufnr)
 
 	-- format on save
 	-- if client.supports_method('textDocument/documentHighlight') then
@@ -30,7 +31,7 @@ local function default_on_attach(client, bufnr)
 	end
 	if client.resolved_capabilities.code_lens then
 		vim.schedule_wrap(vim.lsp.codelens.run)
-		-- vim.schedule_wrap(vim.lsp.codelens.refresh)
+		vim.schedule_wrap(vim.lsp.codelens.refresh)
 		vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
 	end
 end

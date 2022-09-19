@@ -151,7 +151,7 @@ function M.config()
 		['default_bindings'] = true,
 		-- ['filter_kind'] = false, -- show all symbolls
 		['highlight_on_hover'] = true,
-		['close_behavior'] = 'global',
+		-- ['close_behavior'] = 'global',
 		['placement_editor_edge'] = false,
 	})
 

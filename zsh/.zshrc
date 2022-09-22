@@ -221,6 +221,7 @@ alias ll="gls --group-directories-first -l -F -X"
 alias la="gls --group-directories-first -l -F -X -A"
 alias -g less="less -i"
 alias -g LL="|less -i"
+alias -g LLN="|less -i -N"
 alias -g GG="|grep "
 alias v="vim"
 alias n="nvim"
@@ -263,10 +264,13 @@ alias l="tig"
 alias lmy="git log --oneline --author=\$(git config user.email) --stat"
 
 alias k="kubectl"
+alias kx="kubectx"
 alias evald='eval $(minikube docker-env)'
 
 
 
-# PROFILE
+# PROFILE & envs
+export GPG_TTY=$(tty)
+
 source ~/.profile &>/dev/null || true
 

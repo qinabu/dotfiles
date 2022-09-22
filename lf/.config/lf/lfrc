@@ -105,7 +105,7 @@ cmd find-directory ${{
 }}
 
 cmd find-project ${{
-	dir=$(fd -d 2 -t d '' ~/Projects ~/Projects/go/src/go.avito.ru | fzf --reverse)
+	dir=$(fd -d 2 -t d '' ~/Projects | fzf --reverse)
 	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
 }}
 

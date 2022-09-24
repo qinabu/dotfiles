@@ -40,6 +40,10 @@ local function unpackPacker(use)
 		},
 		config = 'require("configs").telescope()',
 	}
+	use { 'lukas-reineke/indent-blankline.nvim',
+		requires = {
+			{ 'sainnhe/everforest' }
+		}, config = 'require("configs").indent()' }
 
 	-- [[ EDIT ]]
 	-- use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps

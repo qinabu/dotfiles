@@ -117,8 +117,8 @@ function M.everforest()
 	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
+	vim.cmd [[ colorscheme everforest ]]
 	vim.cmd [[
-		colorscheme everforest
 		hi! DiffDelete guifg=#e67e80 ctermfg=167
 		hi! DiffChange guifg=#83c092 ctermfg=108
 		hi! DiffAdd guifg=#a7c080 ctermfg=142
@@ -133,7 +133,17 @@ function M.everforest()
 		"hi CursorLine guibg=#3b3737
 		"hi CursorLineNr guibg=#3b3737
 		hi! Whitespace ctermfg=238 guifg=#4c4747
-		]]
+		"hi! Visual ctermfg=235 ctermbg=109 guifg=#2f383e guibg=#7fbbb3
+
+		hi link IndentBlanklineSpaceCharBlankline Whitespace
+		hi link IndentBlanklineChar         Whitespace
+		hi link IndentBlanklineSpaceChar    Whitespace
+		hi link IndentBlanklineContextChar  Whitespace
+		hi link IndentBlanklineContextStart Whitespace
+
+		hi ExtraWhitespace ctermbg=red guibg=red
+		match ExtraWhitespace /\s\+$/
+	]]
 end
 
 function M.gruvbit()
@@ -162,7 +172,18 @@ function M.hop()
 		end
 	})
 	require("keys").hop()
+end
 
+function M.indent()
+	require("indent_blankline").setup {
+		enabled = true,
+		blankline_char = '┆',
+		-- filetype = { 'yaml', 'yml' },
+		show_current_context = true,
+		show_current_context_start = true,
+		context_char_blankline = '┆',
+	}
+	require("keys").indent()
 end
 
 function M.harpoon()

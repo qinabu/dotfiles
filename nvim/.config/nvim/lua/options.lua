@@ -83,8 +83,12 @@ function M.bootstrap()
 	vim.o.timeoutlen = 2000
 	vim.o.ttimeoutlen = 10
 
-	vim.o.listchars = "space: ,eol: ,tab:» ,trail:·,multispace:···•" -- ·-
-	vim.o.list = false
+	-- vim.o.listchars = "space: ,eol: ,tab:» ,trail:·,multispace:···•" -- ·-
+	-- vim.o.list = false
+
+	-- indent-blankline.nvim oriented
+	vim.o.listchars = "space: ,eol: ,tab:  ,trail:·,multispace:···•" -- ·-
+	vim.o.list = true
 
 	vim.diagnostic.config {
 		['float'] = true,

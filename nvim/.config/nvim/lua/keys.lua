@@ -165,8 +165,8 @@ function M.hop()
 end
 
 function M.harpoon()
-	map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
-	map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
+	-- map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
+	-- map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
 end
 
 function M.nvim_ts_hint_textobject()
@@ -489,6 +489,10 @@ end
 
 function M.zen_mode()
 	map('n', '<leader>oz', ':ZenMode<cr>', NS)
+end
+
+function M.indent()
+	map('n', '<leader>oi', ':IndentBlanklineToggle<cr>', NS)
 end
 
 return M

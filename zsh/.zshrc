@@ -25,15 +25,27 @@ setopt share_history
 bindkey -v
 bindkey -M vicmd '^E' edit-command-line
 bindkey -M viins '^E' edit-command-line
-# bindkey -M viins '^?' backward-delete-char
-bindkey -M viins '^H' backward-delete-char
-bindkey -M viins '^P' up-history
-bindkey -M viins '^N' down-history
-bindkey -M viins "^?" backward-delete-char
 
 bindkey "^W" backward-kill-word
 bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
 bindkey "^U" backward-kill-line
+
+bindkey -M viins '^A' beginning-of-line
+# bindkey -M viins '^E' end-of-line # edit in $EDITOR
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins "^?" backward-delete-char
+bindkey -M viins '^P' up-history
+bindkey -M viins '^N' down-history
+bindkey -M viins '^D' delete-char-or-list
+bindkey -M viins '^B' backward-char
+bindkey -M viins '^F' forward-char
+bindkey -M viins '^K' kill-line
+bindkey -M viins '^R' history-incremental-search-backward
+bindkey -M viins '^S' history-incremental-search-forward
+bindkey -M viins '^U' backward-kill-line
+bindkey -M viins '^W' backward-kill-word
+bindkey -M viins '^Y' yank
+bindkey -M viins '^_' undo
 
 export KEYTIMEOUT=2 # 20ms
 export VI_MODE_SET_CURSOR=true

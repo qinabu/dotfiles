@@ -111,17 +111,17 @@ window:
 # Font configuration
 font:
   # size: 19.5
-  # size: 14.5 # SF Mono
-  size: 16.5 # Fantasque Sans Mono
+  size: 14.5 # SF Mono
+  # size: 16.5 # Fantasque Sans Mono
   # size: 14.5 # Source Code Pro
   normal:
     style: Regular
     # style: Medium
     # style: Semibold
     # family: SF Mono
-    family: Fantasque Sans Mono
+    # family: Fantasque Sans Mono
     # family: Consolas
-    # family: Cascadia Code
+    family: Cascadia Code
     # family: Ubuntu Mono
     # family: Source Code Pro
 
@@ -230,8 +230,8 @@ colors:
   #   red:     '#e67e80' # 1
   #   green:   '#a7c080' # 2
   #   yellow:  '#dbbc7f' # 3
-  #   blue:    '#7fbbb3' # 4 
-  #   magenta: '#d699b6' # 5 
+  #   blue:    '#7fbbb3' # 4
+  #   magenta: '#d699b6' # 5
   #   cyan:    '#83c092' # 6
 
   # bright:

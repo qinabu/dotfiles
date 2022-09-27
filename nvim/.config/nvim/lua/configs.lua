@@ -177,8 +177,9 @@ end
 function M.indent()
 	require("indent_blankline").setup {
 		enabled = true,
-		blankline_char = '┆',
-		-- filetype = { 'yaml', 'yml' },
+		char_list = { '│', '┆' },
+		-- space_char_blankline = '*',
+		show_first_indent_level = false,
 		show_current_context = true,
 		show_current_context_start = true,
 		context_char_blankline = '┆',
@@ -290,7 +291,7 @@ end
 function M.treesitter()
 	require('nvim-treesitter.configs').setup {
 		['highlight'] = {
-			['enable'] = false
+			['enable'] = true
 		},
 		['incremental_selection'] = {
 			['enable'] = true,
@@ -303,6 +304,9 @@ function M.treesitter()
 				-- ['scope_incremental'] = "grc",
 				-- ['node_decremental'] = "grm",
 			},
+		},
+		['indent'] = {
+			-- ['enable'] = true
 		},
 
 		['textobjects'] = {

@@ -126,6 +126,7 @@ local custom = {
 
 	['pyright'] = function() return {} end,
 	['rust_analyzer'] = function() return {} end,
+	['terraformls'] = function() return {} end,
 }
 
 

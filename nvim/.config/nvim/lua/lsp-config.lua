@@ -26,7 +26,7 @@ local function default_on_attach(client, bufnr)
 		-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 		-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 	end
-	if client.resolved_capabilities.document_highlight then
+	if client.resolved_capabilities.document_formatting then
 		vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.formatting_sync)]]
 	end
 	if client.resolved_capabilities.code_lens then
@@ -127,6 +127,7 @@ local custom = {
 	['pyright'] = function() return {} end,
 	['rust_analyzer'] = function() return {} end,
 	['terraformls'] = function() return {} end,
+	['tflint'] = function() return {} end,
 }
 
 

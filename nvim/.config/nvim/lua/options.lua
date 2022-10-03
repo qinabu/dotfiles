@@ -33,6 +33,7 @@ function M.bootstrap()
 	vim.o.backspace = "indent,eol,start"
 	vim.o.completeopt = "menuone,noinsert,noselect,preview"
 	vim.o.formatoptions = "tcqrn1" -- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
+	vim.o.textwidth = 100
 
 	-- expandtab = true
 	vim.o.smarttab = true

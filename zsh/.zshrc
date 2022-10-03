@@ -74,7 +74,7 @@ zle-line-init() { zle -K viins; _set_beam_cursor }
 
 ### HELP
 
-unalias run-help
+unalias run-help 2>/dev/null || true
 alias help=run-help
 
 
@@ -159,8 +159,9 @@ compinit
 
 
 ## menu-style
-zstyle ':completion:*' menu select
 autoload -Uz compinit && compinit
+
+zstyle ':completion:*' menu select
 zstyle ':completion:*' special-dirs true
 # case insensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
@@ -174,7 +175,10 @@ zstyle ':completion:*' rehash true
 # use completion cache
 zstyle ':completion::complete:*' use-cache true
 
-zstyle ':completion:*' _expand_alias _expand _complete _correct _approximate
+bindkey "^Xa" _expand_alias
+zstyle ':completion:*' completer _expand_alias _expand _complete _correct _approximate
+zstyle ':completion:*' regular true
+
 
 
 
@@ -231,10 +235,13 @@ export PAGER=less
 alias ls="gls --group-directories-first"
 alias ll="gls --group-directories-first -l -F -X"
 alias la="gls --group-directories-first -l -F -X -A"
+alias e="$EDITOR"
+alias -g E="|$EDITOR"
 alias -g less="less -i"
-alias -g LL="|less -i"
-alias -g LLN="|less -i -N"
-alias -g GG="|grep "
+alias -g LL="2>&1 |less -i"
+alias -g LLN="2>&1 |less -i -N"
+alias -g GG="2>&1 |grep "
+alias -g PB="2>&1 |pbcopy"
 alias v="vim"
 alias n="nvim"
 
@@ -277,7 +284,16 @@ alias lmy="git log --oneline --author=\$(git config user.email) --stat"
 
 alias k="kubectl"
 alias kx="kubectx"
+alias tf="terraform"
 alias evald='eval $(minikube docker-env)'
+
+alias ave="aws-vault exec"
+
+_fzf_complete_av() {
+  _fzf_complete --multi --reverse -- "$@" < <(
+    aws-vault list --profiles
+  )
+}
 
 
 

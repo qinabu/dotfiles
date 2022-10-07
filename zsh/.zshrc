@@ -215,8 +215,8 @@ bindkey -s '^k' 'lfcd\n'
 	export PATH=$PATH:~/.zsh/scripts
 	export PATH=$PATH:~/.local/bin
 
-	export GOPATH=$HOME/Projects/go/
-	export PATH=$PATH:~/Projects/go/bin
+	export GOPATH=$HOME/.local/share/go/
+	export PATH=$PATH:~/.local/share/go/bin
 
 	export PATH_=1
 }
@@ -282,19 +282,17 @@ alias al="tig --all"
 alias l="tig"
 alias lmy="git log --oneline --author=\$(git config user.email) --stat"
 
-alias k="kubectl"
-alias kx="kubectx"
-alias tf="terraform"
 alias evald='eval $(minikube docker-env)'
 
+alias av="aws-vault"
 alias ave="aws-vault exec"
+alias avl="aws-vault login"
 
-_fzf_complete_av() {
+_fzf_complete_aws-vault() {
   _fzf_complete --multi --reverse -- "$@" < <(
     aws-vault list --profiles
   )
 }
-
 
 
 # PROFILE & envs

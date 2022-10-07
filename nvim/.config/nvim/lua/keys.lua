@@ -56,7 +56,7 @@ function M.bootstrap()
 	map('n', '<leader>ol', ':setlocal list!<cr>', NS)
 	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
 
-	map('n', '<leader>oc', ':lua vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "80,100,120" or "")<cr>', NS)
+	map('n', '<leader>oc', ':lua vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "72,80,100,120" or "")<cr>', NS)
 	map('n', '<leader>ot', ':lua vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4)<cr>', NS)
 
 	-- Command line

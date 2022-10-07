@@ -111,9 +111,10 @@ window:
 # Font configuration
 font:
   # size: 19.5
-  size: 14.5 # SF Mono
+  # size: 14.5 # SF Mono
   # size: 16.5 # Fantasque Sans Mono
   # size: 14.5 # Source Code Pro
+  size: 14.5 # Amazon Ember Mono
   normal:
     style: Regular
     # style: Medium
@@ -121,9 +122,10 @@ font:
     # family: SF Mono
     # family: Fantasque Sans Mono
     # family: Consolas
-    family: Cascadia Code
+    # family: Cascadia Code
     # family: Ubuntu Mono
     # family: Source Code Pro
+    family: Amazon Ember Mono
 
   # Thin stroke font rendering (macOS only)
   #

@@ -13,3 +13,4 @@ https://design.ubuntu.com/font/
 https://fonts.google.com/specimen/Source+Code+Pro
 https://github.com/microsoft/cascadia-code
 https://freefontsdownload.net/free-consolas-font-33098.htm
+https://developer.amazon.com/en-US/alexa/branding/echo-guidelines/identity-guidelines/typography

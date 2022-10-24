@@ -47,6 +47,15 @@ bindkey -M viins '^W' backward-kill-word
 bindkey -M viins '^Y' yank
 bindkey -M viins '^_' undo
 
+# Yank to the system clipboard
+function vi-yank-pbcopy {
+	zle vi-yank
+	CUTBUFFER=$(echo "${CUTBUFFER#$'\n'}")
+	echo "${CUTBUFFER%$'\n'}" | pbcopy
+}
+zle -N vi-yank-pbcopy
+bindkey -M vicmd 'y' vi-yank-pbcopy
+
 export KEYTIMEOUT=2 # 20ms
 export VI_MODE_SET_CURSOR=true
 

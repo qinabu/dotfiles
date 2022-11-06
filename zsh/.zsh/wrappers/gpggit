@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -n "$FUGITIVE" ]; then
+	shift
+	exec gpg --pinentry-mode loopback "$@"
+	exit $?
+	# set -- --pinentry-mode loopback "$@"
+fi
+
+exec gpg "$@"

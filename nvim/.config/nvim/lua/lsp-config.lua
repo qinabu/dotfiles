@@ -15,21 +15,22 @@ local function default_on_attach(client, bufnr)
 	}, bufnr)
 
 	-- aerial symbols
-	require("aerial").on_attach(client, bufnr)
+	-- require("aerial").on_attach(client, bufnr)
 	require("virtualtypes").on_attach(client, bufnr)
 
 	-- format on save
 	-- if client.supports_method('textDocument/documentHighlight') then
 	-- P(client.resolved_capabilities)
-	if client.resolved_capabilities.document_highlight then
+	-- see https://github.com/neovim/neovim/pull/17814/files#diff-a12755025a01c2415c955ca2d50e3d40f9e26df70f712231085d3ff96b2bc837R821
+	if client.server_capabilities.documentHighlightProvider then
 		vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
 		-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 		-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 	end
-	if client.resolved_capabilities.document_formatting then
-		vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.formatting_sync)]]
+	if client.server_capabilities.documentFormattingProvider then
+		vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.format)]]
 	end
-	if client.resolved_capabilities.code_lens then
+	if type(client.server_capabilities.codeLensProvider) == 'table' then
 		vim.schedule_wrap(vim.lsp.codelens.run)
 		vim.schedule_wrap(vim.lsp.codelens.refresh)
 		vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
@@ -112,22 +113,25 @@ local custom = {
 		}
 	end,
 
-	['yamlls'] = function()
-		return {
-			['on_attach'] = default_on_attach,
-			['settings'] = {
-				['schemas'] = {
-					['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = { '/*.k8s.yaml' },
-					-- { ['kubernetes'] } = { '*.yaml' },
-				},
-			},
-		}
-	end,
+	-- ['yamlls'] = function()
+	-- 	return {
+	-- 		['on_attach'] = default_on_attach,
+	-- 		['settings'] = {
+	-- 			['schemas'] = {
+	-- 				['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = { '/*.k8s.yaml' },
+	-- 				-- { ['kubernetes'] } = { '*.yaml' },
+	-- 			},
+	-- 		},
+	-- 	}
+	-- end,
 
 	['pyright'] = function() return {} end,
 	['rust_analyzer'] = function() return {} end,
 	['terraformls'] = function() return {} end,
 	['tflint'] = function() return {} end,
+	['bashls'] = function() return {} end,
+	['yamlls'] = function() return {} end,
+	['marksman'] = function() return {} end,
 }
 
 
@@ -135,7 +139,7 @@ function M.config()
 	require("nvim-lsp-installer").setup({})
 	local lspconfig = require("lspconfig")
 
-	local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 	for name, config in pairs(custom) do
 		local opts = config()
@@ -154,7 +158,11 @@ function M.config()
 		-- ['filter_kind'] = false, -- show all symbolls
 		['highlight_on_hover'] = true,
 		-- ['close_behavior'] = 'global',
-		['placement_editor_edge'] = false,
+		-- ['placement_editor_edge'] = false,
+		['layout'] = {
+			['placement'] = 'edge',
+			['placement_editor_edge'] = false,
+		}
 	})
 
 	-- diagnostic config

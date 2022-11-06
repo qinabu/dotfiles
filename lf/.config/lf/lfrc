@@ -41,6 +41,7 @@ map , ${{
 map . set hidden!
 map o $open $f
 
+# Action ...
 map apu !git pull
 map apoh !git push -u origin head
 map al $tig
@@ -57,13 +58,17 @@ cmd create ${{
 	}
 }}
 
+# Go to ...
 map gh cd ~
-map ga cd ~/Projects/go/src/go.avito.ru
 map gp cd ~/Projects
+map gw cd ~/Projects/creditornot
 map gd cd ~/Downloads
 map g. ${{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
-map gv cd ~/.vim
-map gG cd /usr/local/Cellar/go
+map gG ${{ lf -remote "send $id cd \"$(brew --prefix)/Cellar/go\"" }}
+
+# CTRL-O and CTRL-I
+map <tab> jump-next
+map <c-o> jump-prev
 
 map E edit-directory
 
@@ -109,9 +114,9 @@ cmd find-project ${{
 	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
 }}
 
-cmd on-cd ${{
-	[ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
-}}
+# cmd on-cd ${{
+# 	[ $TERM_PROGRAM = "iTerm.app" ] && printf "\033]0;$(basename $PWD)\007"; true
+# }}
 
 # OPTIONS =====================================================================
 # set color256

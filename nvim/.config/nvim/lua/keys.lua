@@ -199,7 +199,7 @@ function M.lsp()
 	-- edit actions
 	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
-	map('n', '<leader>ef', ':lua vim.lsp.buf.formatting_sync();print("Formatted")<cr>', N)
+	map('n', '<leader>ef', ':lua vim.lsp.buf.format();print("Formatted")<cr>', N)
 	map('n', '<leader>ec', ':lua vim.lsp.codelens.refresh();vim.lsp.codelens.run()<cr>', NS)
 
 
@@ -219,7 +219,7 @@ function M.telescope()
 
 	map('n', '<leader>ft', ':Telescope<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
-	map('n', '<leader>fg', ':Telescope live_grep<cr>', NS)
+	map('n', '<leader>fg', ':Telescope live_grep hidden=true<cr>', NS)
 	map('n', '<leader>fh', ':Telescope git_status<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
 	map('n', '<leader>fr', ':Telescope file_browser path=%:p:h<cr>', NS)

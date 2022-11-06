@@ -2,12 +2,13 @@ stow
 
 https://brew.sh/
 
-brew install alacritty base64 bat colordiff coreutils docker fd fzf git glow htop jq yj yq lf neovim stow tig tmux watch wget ripgrep 7zip chroma timg
+brew install alacritty base64 bat colordiff coreutils docker fd fzf git glow htop jq yj yq lf neovim stow tig tmux watch wget ripgrep 7zip chroma timg zsh-syntax-highlighting
 
 
 fonts
 
 https://github.com/belluzj/fantasque-sans
+https://github.com/be5invis/Iosevka/
 https://developer.apple.com/fonts/
 https://design.ubuntu.com/font/
 https://fonts.google.com/specimen/Source+Code+Pro

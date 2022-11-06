@@ -135,6 +135,11 @@ function M.everforest()
 		hi! Whitespace ctermfg=238 guifg=#4c4747
 		"hi! Visual ctermfg=235 ctermbg=109 guifg=#2f383e guibg=#7fbbb3
 
+		" hi clear Search
+		" hi! Search ctermbg=90 guibg=#635A5A
+		" hi clear Visual
+		" hi! Visual ctermbg=52 guibg=#573e4c
+
 		hi link IndentBlanklineSpaceCharBlankline Whitespace
 		hi link IndentBlanklineChar         Whitespace
 		hi link IndentBlanklineSpaceChar    Whitespace
@@ -626,6 +631,7 @@ function M.zen_mode()
 end
 
 function M.telescope()
+
 	local actions = require("telescope.actions")
 	local opts = {
 		['defaults'] = {
@@ -637,13 +643,31 @@ function M.telescope()
 			},
 			['file_ignore_patterns'] = { '^./.git/' },
 			['hidden'] = true,
+			-- ['vimgrep_arguments'] = {
+			-- 	'rg',
+			-- 	'--color=never',
+			-- 	'--no-heading',
+			-- 	'--with-filename',
+			-- 	'--line-number',
+			-- 	'--column',
+			-- 	'--smart-case',
+			-- 	'--hidden',
+			-- },
 			['mappings'] = {
 				['i'] = {
-					['<C-h>'] = actions.which_key
+					['<C-/>'] = actions.which_key
 				},
 				['n'] = {
-					['<C-h>'] = actions.which_key
+					['<C-/>'] = actions.which_key,
+					-- ['<C-H>'] = actions.toggle_hidden,
 				},
+			},
+		},
+		['pickers'] = {
+			['live_grep'] = {
+				['additional_args'] = function(opts)
+					return { "--hidden" }
+				end
 			},
 		},
 		['extensions'] = {
@@ -699,7 +723,6 @@ function M.telescope()
 	require('telescope').setup(opts)
 	require('telescope').load_extension('fzf')
 	require('telescope').load_extension('file_browser')
-	require('telescope').load_extension('ui-select')
 	require('telescope').load_extension('ui-select')
 
 	require('keys').telescope()

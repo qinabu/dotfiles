@@ -4,6 +4,7 @@
 
 # HOMEBREW_PREFIX is from
 # ~/.zprofile: eval "$(/opt/homebrew/bin/brew shellenv)"
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-}"
 
 set -o pipefail
 setopt interactivecomments
@@ -178,6 +179,8 @@ export PAGER=less
 ###
 ### ALIASES
 ###
+alias reload='exec $0 "$@"'
+
 alias ls="gls --group-directories-first"
 alias ll="gls --group-directories-first -l -F -X"
 alias la="gls --group-directories-first -l -F -X -A"
@@ -208,33 +211,69 @@ git_checkout() {
 }
 
 git_default_branch() {
-	echo "${$(<$(git rev-parse --git-dir)/refs/remotes/origin/HEAD || true)##*/}"
+	local fn="$( git rev-parse --git-dir 2>/dev/null )/refs/remotes/origin/HEAD"
+	local ref="$(cat "$fn" 2>/dev/null || true)"
+	echo "${ref##*/}" # refs/origin/master
+}
+
+git_commit_message() {
+	if [[ $# -gt 0 ]]; then git commit -m "$*"; else git commit; fi
+}
+
+git_add() {
+	if [[ $# -gt 0 ]]; then git add "$@"; else git add --all; fi
+}
+
+exec2() {
+	local cmd="$1"
+	local def="$2"
+	shift 2
+	if [[ -z "$*" ]]; then
+		eval "$cmd"
+	else
+		eval "$def $@"
+	fi
 }
 
 alias g="git"
 
+alias gc="git_commit_message"
+
+alias al="tig --all"
+alias l="tig"
+
 alias gs="git status --short --branch"
 alias gd="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color) | less -R"
-alias gdom="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color origin/master) | less -R"
+alias gdm="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color \$(git_default_branch)) | less -R"
+alias gdom="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color origin \$(git_default_branch)) | less -R"
 
 alias gch="git checkout"
 alias gchb="git checkout -b"
+_fzf_complete_gchb() {
+	_fzf_complete --reverse -- "$@" < <(
+		which git_checkout_branch >&- && git_checkout_branch
+	)
+}
 
 alias gpu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
+alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"
 alias gpoh="git push origin head"
 alias gpohu="git push origin head -u"
+alias gp="gpohu"
 
 alias gmom="git merge origin/\$(git_default_branch)"
+alias gmc="git merge --continue"
 alias grom="git rebase origin/\$(git_default_branch) -i"
+alias grc="git rebase --continue"
 
 alias gfm="git fetch origin && git merge origin/\$(git_default_branch)"
 alias gfr="git fetch origin && git rebase origin/\$(git_default_branch) -i"
 
-alias ga="git add"
-alias gcl="git clone --single-branch"
+alias ga="git_add"
+# alias gcl="git clone --single-branch"
 alias gb="git branch -vv --sort '-committerdate'"
 alias gci="git commit -v"
 
@@ -245,7 +284,7 @@ alias ca="git commit --amend --no-edit"
 alias cae="git commit --amend"
 alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
 # alias d="git diff --stat -U"
-alias p="git push"
+# alias p="git push"
 # alias pu="git pull"
 # alias poh="git push origin head"
 # alias b="git branch -vv --sort '-committerdate'"
@@ -266,7 +305,7 @@ alias ave="aws-vault exec"
 alias avl="aws-vault login"
 
 _fzf_complete_aws-vault() {
-  _fzf_complete --multi --reverse -- "$@" < <(
+  _fzf_complete --reverse -- "$@" < <(
     aws-vault list --profiles
   )
 }
@@ -275,24 +314,29 @@ _fzf_complete_aws-vault() {
 ###
 ### LF browser
 ###
-lfcd () {
-	f=~/.cache/lfcd
+lfcd() {
+	local f=~/.cache/lfcd
 	touch "$f"
 	lf -last-dir-path="$f" "$@"
 	if [ -f "$f" ]; then
-		d="$(cat "$f")"
+		d="$(<"$f")"
 		# rm -f "$f"
-		if [ -d "$d" ]; then
-			if [ "$d" != "$(pwd)" ]; then
-				cd "$d"
-			fi
+		if [[ -d "$d" && "$d" != "$(pwd)" ]]; then
+			cd "$d"
+			vcs_info || true
 		fi
 	fi
+	echo -n
+	zle -I || true
+	wait
+	zle-keymap-select
 	# clear
 }
-bindkey -M viins -s '^f' 'lfcd\n'
-# bindkey -s '^f' 'lfcd\n'
-bindkey -s '^k' 'lfcd\n'
+zle -N lfcd
+
+# bindkey -M viins -s '^f' lfcd
+# bindkey -s '^f' lfcd
+bindkey '^k' lfcd
 
 # PROFILE & envs
 export GPG_TTY=$(tty)

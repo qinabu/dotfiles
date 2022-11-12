@@ -22,7 +22,7 @@ case "$1" in
     # *.pdf) pdftotext "$1" -;;
     # *) bat -f -n -r ":$2" --theme gruvbox-dark "$1";;
     # *) bat -f -n -r ":$2" --theme bas16 "$1";;
-    *) exec chroma "$1";;
+    *) exec chroma --unbuffered "$1";;
 esac
 
 # Set the path of a previewer file to filter the content of regular files for

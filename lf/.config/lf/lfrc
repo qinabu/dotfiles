@@ -42,8 +42,8 @@ map . set hidden!
 map o $open $f
 
 # Action ...
-map apu !git pull
-map apoh !git push -u origin head
+map agpu !git pull
+map agp !git push -u origin head
 map al $tig
 map aal $tig --all
 map as !{{clear; git status --short --branch}}
@@ -72,10 +72,11 @@ map <c-o> jump-prev
 
 map E edit-directory
 
-map fp find-project
-map <c-k> find-project
 map fd find-directory
 map ff find-file
+map fg find-grep
+map fp find-project
+map <c-k> find-project
 
 # COMMANDS ====================================================================
 cmd open
@@ -84,10 +85,9 @@ cmd edit-directory ${{
 	a="$PWD/venv/bin/activate"
 	lf -remote "send $id cd $PWD"
 	if [[ -e "$a" ]]; then
-		source "$a" && cd "$PWD" && $EDITOR
-	else
-		cd "$PWD" && $EDITOR
+		source "$a"
 	fi
+	cd "$PWD" && $EDITOR
 }}
 
 cmd mkdir %{{
@@ -97,7 +97,7 @@ cmd mkdir %{{
 }}
 
 cmd find-file ${{
-	res=$(fd '' "$PWD" | fzf --reverse)
+	res=$(cd "$PWD" && fd --relative-path --hidden -E '.git' '' | fzf --reverse)
 	[ $? -ne 0 ] && exit 0
 	cmd="select"
 	[ -d "$res" ] && cmd="cd"
@@ -105,13 +105,25 @@ cmd find-file ${{
 }}
 
 cmd find-directory ${{
-	dir=$(fd -t d '' "$PWD" | fzf --reverse)
+	dir=$(cd "$PWD" && fd --relative-path --hidden -t d -E '.git' '' | fzf --reverse)
 	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
 }}
 
 cmd find-project ${{
 	dir=$(fd -d 2 -t d '' ~/Projects | fzf --reverse)
 	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+}}
+
+cmd find-grep ${{
+	# https://github.com/gokcehan/lf/wiki/Integrations#ripgrep
+	# https://github.com/junegunn/fzf/blob/master/ADVANCED.md#using-fzf-as-interative-ripgrep-launcher
+	res="$( \
+		RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case --hidden"
+		FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+		fzf --bind "change:reload:$RG_PREFIX {q} || true" --ansi --layout=reverse | cut -d':' -f1
+	)"
+	[ $? -ne 0 ] && exit 0
+	[ ! -z "$res" ] && lf -remote "send $id select \"$res\"" || exit 0
 }}
 
 # cmd on-cd ${{

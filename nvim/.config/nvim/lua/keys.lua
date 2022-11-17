@@ -322,7 +322,7 @@ end
 
 function M.testing()
 	-- DAP
-	map('n', '<leader>ty', ':Telescope dap commands<cr>', NS)
+	map('n', '<leader>tf', ':Telescope dap commands<cr>', NS)
 	map('n', '<leader>tq', ':lua require("dap").close()<cr>:DapVirtualTextDisable<cr>', NS)
 
 	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)

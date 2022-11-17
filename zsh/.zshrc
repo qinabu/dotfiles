@@ -184,18 +184,19 @@ alias reload='exec $0 "$@"'
 alias ls="gls --group-directories-first"
 alias ll="gls --group-directories-first -l -F -X"
 alias la="gls --group-directories-first -l -F -X -A"
-alias e="$EDITOR"
-alias -g E="|$EDITOR"
 alias -g less="less -i"
 alias -g LL="2>&1 |less -i"
 alias -g LLN="2>&1 |less -i -N"
 alias -g GG="2>&1 |grep "
 alias -g PB="2>&1 |pbcopy"
+
 alias v="vim"
 alias n="nvim"
+alias e="$EDITOR"
+alias -g E="|$EDITOR"
 
-git_reset() { [[ -n "$@" ]] && git reset $@; }
-git_fetch() { [[ -n "$@" ]] && git fetch $@; }
+# git_reset() { [[ -n "$@" ]] && git reset $@; }
+# git_fetch() { [[ -n "$@" ]] && git fetch $@; }
 git_checkout() {
 	[[ -n "$@" ]] && git checkout "$@" || {
 		local b=$(git branch --all | fzf | sed 's#^[\* ]*##')
@@ -238,14 +239,15 @@ exec2() {
 alias g="git"
 
 alias gc="git_commit_message"
+alias gca="git commit --amend"
 
-alias al="tig --all"
-alias l="tig"
+alias gal="tig --all"
+alias gl="tig"
 
 alias gs="git status --short --branch"
-alias gd="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color) | less -R"
-alias gdm="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color \$(git_default_branch)) | less -R"
-alias gdom="(git -c color.status=always status --short --branch; echo; git diff head --patch-with-stat --color origin \$(git_default_branch)) | less -R"
+alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
+alias gdm="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color \$(git_default_branch)) | less -R"
+alias gdom="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color origin/\$(git_default_branch)) | less -R"
 
 alias gch="git checkout"
 alias gchb="git checkout -b"
@@ -277,25 +279,26 @@ alias ga="git_add"
 alias gb="git branch -vv --sort '-committerdate'"
 alias gci="git commit -v"
 
+alias gt="git tag | sort -Vr"
+
 # alias s="git status --short --branch"
 # alias a="git add"
-alias c="git commit"
-alias ca="git commit --amend --no-edit"
-alias cae="git commit --amend"
-alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
+# alias c="git commit"
+# alias ca="git commit --amend --no-edit"
+# alias cae="git commit --amend"
+# alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
 # alias d="git diff --stat -U"
 # alias p="git push"
 # alias pu="git pull"
 # alias poh="git push origin head"
 # alias b="git branch -vv --sort '-committerdate'"
-alias t="git tag | sort -Vr"
-alias re="git tag -l release* | sort -r"
-alias r=git_reset
-alias f=git_fetch
+# alias t="git tag | sort -Vr"
+# alias r=git_reset
+# alias f=git_fetch
 # alias ch=git_checkout
 
-alias al="tig --all"
-alias l="tig"
+# alias al="tig --all"
+# alias l="tig"
 alias lmy="git log --oneline --author=\$(git config user.email) --stat"
 
 alias evald='eval $(minikube docker-env)'

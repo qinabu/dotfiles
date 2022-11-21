@@ -56,7 +56,7 @@ case "$kind" in
 
 		if [[ -n "$issue" && -z "$pissue" ]]; then
 			# echo "####2"
-			echo "$issue $previous $(<"$file")" > "$file"
+			echo "$issue $previous$(<"$file")" > "$file"
 			exit 0
 		fi
 

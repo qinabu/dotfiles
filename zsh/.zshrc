@@ -218,7 +218,7 @@ git_default_branch() {
 }
 
 git_commit_message() {
-	if [[ $# -gt 0 ]]; then git commit -m "$*"; else git commit; fi
+	if [[ $# -gt 0 ]]; then git commit -m "$*"; else git commit -v; fi
 }
 
 git_add() {

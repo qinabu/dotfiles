@@ -78,6 +78,7 @@ function M.bootstrap()
 
 	-- Buffer
 	map('n', '<leader>s', ':write<cr>', N) -- Write changes
+	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader>S', ':wall<cr>', N) -- Write chages of all buffers
 
 	-- Edit

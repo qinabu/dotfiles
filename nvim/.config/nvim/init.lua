@@ -101,6 +101,12 @@ local function unpackPacker(use)
 		config = 'require("configs").treesitter()',
 	}
 
+	-- https://mermaid-js.github.io/
+	-- https://mermaid.live/
+	use { 'iamcco/markdown-preview.nvim',
+		run = function() vim.fn["mkdp#util#install"]() end,
+	}
+
 	-- use { 'rafcamlet/nvim-luapad' }
 
 

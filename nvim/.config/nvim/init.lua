@@ -14,22 +14,27 @@ local function unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
-	use { 'sainnhe/everforest', config = 'require("configs").everforest()' }
+	use { 'sainnhe/everforest', config = require("configs").everforest }
 	-- use { 'rebelot/kanagawa.nvim', config = 'require("configs").kanagawa()' }
-	use { 'folke/zen-mode.nvim', config = 'require("configs").zen_mode()' }
+	use { 'folke/zen-mode.nvim', config = require("configs").zen_mode }
 	use { 'szw/vim-maximizer' } -- Window size toggler :MaximizerToggle
 	use { 'itchyny/vim-qfedit' }
-	use { 'simeji/winresizer', config = 'require("keys").winresizer()' }
+	use { 'simeji/winresizer', config = require("keys").winresizer }
 	use { 'nvim-lualine/lualine.nvim',
+		-- after = 'everforest',
 		requires = {
-			{ 'stevearc/aerial.nvim' },
-			{ 'nvim-lua/lsp-status.nvim' },
+			-- { 'sainnhe/everforest' },
+			-- { 'stevearc/aerial.nvim' },
+			-- { 'nvim-lua/lsp-status.nvim' },
 		},
-		config = 'require("configs").lualine()',
+		-- config = require("configs").lualine,
+		config = function() vim.defer_fn(require("configs").lualine, 100) end
 	}
 	use { 'kyazdani42/nvim-tree.lua',
 		requires = { { 'nyngwang/NeoRoot.lua' } },
-		config = 'require("configs").nvim_tree()' }
+		-- config = require("configs").nvim_tree
+		config = function() vim.defer_fn(require("configs").nvim_tree, 100) end
+	}
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
@@ -38,18 +43,19 @@ local function unpackPacker(use)
 			{ 'nvim-telescope/telescope-ui-select.nvim' },
 			{ 'nvim-telescope/telescope-dap.nvim' },
 		},
-		config = 'require("configs").telescope()',
+		config = function() vim.defer_fn(require("configs").telescope, 100) end
+		-- config = require("configs").telescope,
 	}
 	use { 'lukas-reineke/indent-blankline.nvim',
 		requires = {
 			{ 'sainnhe/everforest' }
-		}, config = 'require("configs").indent()' }
+		}, config = require("configs").indent }
 
 	-- [[ EDIT ]]
 	-- use { 'justinmk/vim-sneak', config = 'require("configs").sneak()' } -- jumps
-	use { 'phaazon/hop.nvim', config = 'require("configs").hop()' }
-	use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
-	use { 'dyng/ctrlsf.vim', config = 'require("configs").ctrlsf()' } -- find & replace
+	use { 'phaazon/hop.nvim', config = require("configs").hop }
+	-- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
+	use { 'dyng/ctrlsf.vim', config = require("configs").ctrlsf } -- find & replace
 	use { 'tpope/vim-commentary' } -- comments
 	use { 'tpope/vim-surround' }
 	use { 'tpope/vim-repeat' }
@@ -63,7 +69,8 @@ local function unpackPacker(use)
 			{ 'ray-x/lsp_signature.nvim' },
 			{ 'j-hui/fidget.nvim' },
 		},
-		config = 'require("lsp-config").config()',
+		-- config = function() vim.defer_fn(require("lsp-config").config, 300) end
+		config = 'require("lsp-config").config()', -- string
 	}
 
 	-- [[ LINT ]]
@@ -73,6 +80,7 @@ local function unpackPacker(use)
 
 	-- [[ COMPLETION ]] --
 	use { 'hrsh7th/nvim-cmp',
+		-- after = 'nvim-lspconfig',
 		requires = {
 			{ 'hrsh7th/cmp-nvim-lsp' },
 			{ 'hrsh7th/cmp-nvim-lua' },
@@ -85,10 +93,11 @@ local function unpackPacker(use)
 			{ 'saadparwaiz1/cmp_luasnip' },
 			{ 'honza/vim-snippets' }, -- Snippet collection
 		},
-		config = 'require("configs").cmp()'
+		config = function() vim.defer_fn(require("configs").cmp, 500) end
 	}
 
 	-- [[ LANGUAGES ]] -- https://tree-sitter.github.io/tree-sitter/
+	-- use { 'sheerun/vim-polyglot' } -- extends vim sintax languages
 	use { 'nvim-treesitter/nvim-treesitter',
 		requires = {
 			{ 'nvim-treesitter/playground' }, -- :TSPlaygroundToggle
@@ -98,8 +107,9 @@ local function unpackPacker(use)
 			{ 'jubnzv/virtual-types.nvim' },
 		},
 		run = ':TSUpdate',
-		config = 'require("configs").treesitter()',
+		config = require("configs").treesitter,
 	}
+	use { 'jjo/vim-cue' }
 
 	-- https://mermaid-js.github.io/
 	-- https://mermaid.live/
@@ -116,17 +126,19 @@ local function unpackPacker(use)
 			{ 'nvim-lua/plenary.nvim' },
 			{ 'ruifm/gitlinker.nvim' },
 		},
-		config = 'require("configs").fugitive()',
+		config = require("configs").fugitive,
 	}
 	use { 'lewis6991/gitsigns.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' } },
-		config = 'require("configs").gitsigns()',
+		-- config = require("configs").gitsigns,
+		config = function() vim.defer_fn(require("configs").gitsigns, 500) end
 	}
 	use { 'sindrets/diffview.nvim',
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
 		},
-		config = 'require("configs").diffview()',
+		config = function() vim.defer_fn(require("configs").diffview, 500) end
+		-- config = require("configs").diffview,
 	}
 
 	-- [[ DEBUG / TESTINGS ]]
@@ -138,31 +150,34 @@ local function unpackPacker(use)
 			{ 'nvim-telescope/telescope-dap.nvim' },
 			{ 'leoluz/nvim-dap-go' },
 		},
-		config = 'require("configs").dap()'
+		config = require("configs").dap
 	}
-	use {
-		'nvim-neotest/neotest',
-		requires = {
-			'mfussenegger/nvim-dap',
-			'nvim-neotest/neotest-go',
-			'nvim-neotest/neotest-python',
-			'nvim-neotest/neotest-vim-test',
+	-- use {
+	-- 	'nvim-neotest/neotest',
+	-- 	requires = {
+	-- 		'mfussenegger/nvim-dap',
+	-- 		'nvim-neotest/neotest-go',
+	-- 		'nvim-neotest/neotest-python',
+	-- 		'nvim-neotest/neotest-vim-test',
 
-			'nvim-lua/plenary.nvim',
-			'nvim-treesitter/nvim-treesitter',
-			'antoinemadec/FixCursorHold.nvim'
-		},
-		config = 'require("configs").neotest()'
-	}
+	-- 		'nvim-lua/plenary.nvim',
+	-- 		'nvim-treesitter/nvim-treesitter',
+	-- 		'antoinemadec/FixCursorHold.nvim'
+	-- 	},
+	-- 	config = 'require("configs").neotest()'
+	-- }
 
 
 	-- [[ NOTE TAKING ]]
 	use { 'renerocksai/telekasten.nvim',
+		-- after = 'nvim-cmp',
 		requires = {
 			{ 'renerocksai/calendar-vim' },
 			{ 'nvim-telescope/telescope.nvim' },
 		},
-		config = 'require("configs").telekasten()',
+		-- config = 'require("configs").telekasten()', -- string
+		config = function() vim.defer_fn(require("configs").telekasten, 500) end
+
 	}
 
 	use { 'justinmk/vim-dirvish' }

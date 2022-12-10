@@ -64,9 +64,19 @@ PS1+=' %k%F{238}▘%f ' # >
 ###
 ### VIM MODE
 ###
+edit_nvim() { nvim
+	echo -n
+	wait
+	zle -I || true
+	zle-keymap-select
+}
+zle -N edit_nvim
+
 bindkey -v
 bindkey -M vicmd '^E' edit-command-line
 bindkey -M viins '^E' edit-command-line
+# bindkey -M vicmd '^M' edit_nvim
+# bindkey -M viins '^M' edit_nvim
 
 bindkey "^W" backward-kill-word
 bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
@@ -193,7 +203,7 @@ alias -g PB="2>&1 |pbcopy"
 alias v="vim"
 alias n="nvim"
 alias e="$EDITOR"
-alias -g E="|$EDITOR"
+alias -g EE="|$EDITOR"
 
 # git_reset() { [[ -n "$@" ]] && git reset $@; }
 # git_fetch() { [[ -n "$@" ]] && git fetch $@; }
@@ -217,35 +227,43 @@ git_default_branch() {
 	echo "${ref##*/}" # refs/origin/master
 }
 
-git_commit_message() {
-	if [[ $# -gt 0 ]]; then git commit -m "$*"; else git commit -v; fi
+git_commit() {
+	short_command "git commit -m " "git commit -v" "$@"
+	# if [[ $# -gt 0 ]]; then git commit -m "$*"; else git commit -v; fi
 }
 
 git_add() {
-	if [[ $# -gt 0 ]]; then git add "$@"; else git add --all; fi
+	short_command "git add" "git add --all" "$@"
+	# if [[ $# -gt 0 ]]; then git add "$@"; else git add --all; fi
 }
 
-exec2() {
-	local cmd="$1"
-	local def="$2"
+git_diff() {
+	short_command "git diff" "(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R" "$@"
+}
+
+short_command() {
+	local long="$1"
+	local short="$2"
 	shift 2
-	if [[ -z "$*" ]]; then
-		eval "$cmd"
+
+	if [[ "$#" -gt 0 ]]; then
+		eval "$long $@"
 	else
-		eval "$def $@"
+		eval "$short"
 	fi
 }
 
 alias g="git"
 
-alias gc="git_commit_message"
+alias gc="git_commit"
 alias gca="git commit --amend"
 
 alias gal="tig --all"
 alias gl="tig"
 
 alias gs="git status --short --branch"
-alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
+# alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
+alias gd="git_diff"
 alias gdm="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color \$(git_default_branch)) | less -R"
 alias gdom="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color origin/\$(git_default_branch)) | less -R"
 
@@ -277,29 +295,8 @@ alias gfr="git fetch origin && git rebase origin/\$(git_default_branch) -i"
 alias ga="git_add"
 # alias gcl="git clone --single-branch"
 alias gb="git branch -vv --sort '-committerdate'"
-alias gci="git commit -v"
+alias gt="git tag -l --sort=-version:refname"
 
-alias gt="git tag | sort -Vr"
-
-# alias s="git status --short --branch"
-# alias a="git add"
-# alias c="git commit"
-# alias ca="git commit --amend --no-edit"
-# alias cae="git commit --amend"
-# alias cb='CB=$(git rev-parse --abbrev-ref HEAD | grep -Eo "\w+-\d+") && git commit --template <(echo "$CB ")'
-# alias d="git diff --stat -U"
-# alias p="git push"
-# alias pu="git pull"
-# alias poh="git push origin head"
-# alias b="git branch -vv --sort '-committerdate'"
-# alias t="git tag | sort -Vr"
-# alias r=git_reset
-# alias f=git_fetch
-# alias ch=git_checkout
-
-# alias al="tig --all"
-# alias l="tig"
-alias lmy="git log --oneline --author=\$(git config user.email) --stat"
 
 alias evald='eval $(minikube docker-env)'
 
@@ -330,8 +327,8 @@ lfcd() {
 		fi
 	fi
 	echo -n
-	zle -I || true
 	wait
+	zle -I || true
 	zle-keymap-select
 	# clear
 }
@@ -360,5 +357,3 @@ export GPG_TTY=$(tty)
 }
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/alex/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

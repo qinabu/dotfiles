@@ -182,12 +182,14 @@ end
 function M.indent()
 	require("indent_blankline").setup {
 		enabled = true,
-		char_list = { '│', '┆' },
+		-- char_list = { '│', '┆' },
+		char_list = { '┊' },
 		-- space_char_blankline = '*',
 		show_first_indent_level = false,
 		-- show_current_context = true,
 		-- show_current_context_start = true,
-		context_char_blankline = '┆',
+		context_char = '│', -- '┊', -- '┆',
+		show_current_context = true,
 	}
 	require("keys").indent()
 end
@@ -550,7 +552,6 @@ function M.telekasten()
 			['calendar_mark'] = 'left-fit',
 		},
 
-		-- telescope actions behavior
 		['close_after_yanking'] = false,
 		['insert_after_inserting'] = true,
 
@@ -635,13 +636,28 @@ function M.telescope()
 	local actions = require("telescope.actions")
 	local opts = {
 		['defaults'] = {
-			['layout_strategy'] = 'bottom_pane',
+			['layout_strategy'] = 'vertical',
 			['layout_config'] = {
+				['vertical'] = {
+					['prompt_position'] = 'top',
+					['height'] = 0.95,
+					['width'] = 0.95,
+				},
 				['bottom_pane'] = {
-					['height'] = 0.85,
-				}
+					['height'] = 0.9999,
+					['width'] = 0.9999,
+				},
+				['center'] = {
+					['width'] = 0.9999,
+					['height'] = 0.9999,
+					['prompt_position'] = 'top',
+				},
 			},
-			['file_ignore_patterns'] = { '^./.git/' },
+			['sorting_strategy'] = 'ascending',
+			['prompt_prefix'] = '',
+			-- ['path_display'] = 'truncate',
+
+			['file_ignore_patterns'] = { '.git/' },
 			['hidden'] = true,
 			-- ['vimgrep_arguments'] = {
 			-- 	'rg',
@@ -690,17 +706,19 @@ function M.telescope()
 						['l'] = require('telescope.actions').select_default,
 					},
 				},
-				['dir_icon'] = '░',
+				['hidden'] = true,
+				-- ['dir_icon'] = '▮',
+				['dir_icon'] = '',
 				['grouped'] = true,
-				['depth'] = 1,
-				['folder_browser'] = {
-					['files'] = true,
-				},
+				-- ['depth'] = 1,
+				-- ['folder_browser'] = {
+				-- 	['files'] = true,
+				-- },
 			},
 			['ui-select'] = {
-				require("telescope.themes").get_dropdown {
-					-- even more opts
-				}
+				-- require("telescope.themes").get_dropdown {
+				-- 	-- even more opts
+				-- }
 
 				-- pseudo code / specification for writing custom displays, like the one
 				-- for "codeactions"
@@ -718,7 +736,9 @@ function M.telescope()
 			},
 		},
 	}
-	opts['defaults'] = vim.tbl_deep_extend('force', opts['defaults'], require('telescope.themes').get_ivy())
+	-- opts['defaults'] = vim.tbl_deep_extend('force', opts['defaults'], require('telescope.themes').get_dropdown({
+	-- 	['width'] = 1.0,
+	-- }))
 
 	require('telescope').setup(opts)
 	require('telescope').load_extension('fzf')
@@ -786,6 +806,10 @@ function M.lint()
 end
 
 function M.cmp()
+	vim.defer_fn(M.cmp_setup, 500)
+end
+
+function M.cmp_setup()
 	local has_words_before = function()
 		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil

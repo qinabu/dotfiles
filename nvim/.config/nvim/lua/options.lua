@@ -3,7 +3,7 @@ local M = {}
 function M.bootstrap()
 	-- Basic
 	vim.opt.shm:append("I") -- blank :intro
-	vim.o.clipboard = "unnamedplus"
+	vim.o.clipboard = "unnamed"
 	vim.o.paste = false
 	vim.o.encoding = "utf-8"
 	vim.cmd [[set spelllang=en_us,ru_yo]]

@@ -16,9 +16,27 @@ function M.bootstrap()
 
 	map('n', '<leader><esc>', ':silent quit<cr>', N)
 
-	-- map('n', '<leader><esc>b', ':bdelete<cr>', N)
-	-- map('n', '<leader><esc>B', ':bdelete!<cr>', N)
+	map('n', '<leader>bq', ':bdelete<cr>', N)
+	map('n', '<leader>bQ', ':bdelete!<cr>', N)
 
+	_G.Reload = function()
+		for name, _ in pairs(package.loaded) do
+			if name:match('^cnull') then
+				package.loaded[name] = nil
+			end
+		end
+
+		-- for name, _ in pairs(package.loaded) do
+		-- 	if name:match('lualine') then -- or name:match('^lsp') or name:match('^plugins') then
+		-- 		package.loaded[name] = nil
+		-- 	end
+		-- end
+
+		dofile(vim.env.MYVIMRC)
+		vim.notify("Reloaded", vim.log.levels.INFO)
+	end
+
+	map('n', '<leader><leader><', ':lua Reload()<cr>', NS)
 	map('n', '<leader><leader>,', ':edit $MYVIMRC<CR>', NS)
 	map('n', '<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', N)
 
@@ -80,6 +98,7 @@ function M.bootstrap()
 	map('n', '<leader>s', ':write<cr>', N) -- Write changes
 	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader>S', ':wall<cr>', N) -- Write chages of all buffers
+	map('n', '<leader>bd', ':bdelete<cr>', N) -- Delete current buffer
 
 	-- Edit
 	map('i', '<esc>', '<esc>`^', NS) -- Keep cursor on the same positioni
@@ -146,8 +165,8 @@ function M.bootstrap()
 end
 
 function M.hop()
-	map('n', 's', ':HopChar2<cr>', NS)
-	map('n', 'S', ':HopWord<cr>', NS)
+	map('n', 'S', ':HopChar2<cr>', NS)
+	map('n', 's', ':HopWord<cr>', NS)
 	-- map('', 'f', ":lua require'hop'.hint_char1(" ..
 	-- 	"{ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true }" ..
 	-- 	")<cr>", {})
@@ -218,16 +237,19 @@ function M.telescope()
 	-- map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
 	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
 
-	map('n', '<leader>ft', ':Telescope<cr>', NS)
+	map('n', '<leader>fF', ':Telescope<cr>', NS)
+	map('n', '<leader>ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep hidden=true<cr>', NS)
 	map('n', '<leader>fh', ':Telescope git_status<cr>', NS)
-	map('n', '<leader>fd', ':Telescope file_browser<cr>', NS)
-	map('n', '<leader>fr', ':Telescope file_browser path=%:p:h<cr>', NS)
-	map('n', '<leader>fs', ':Telescope lsp_document_symbols<cr>', NS)
-	map('n', '<leader>fw', ':Telescope lsp_dynamic_workspace_symbols<cr>', NS)
+	map('n', '<leader>fd', ':Telescope file_browser theme=ivy initial_mode=normal<cr>', NS)
+	map('n', '<leader>fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
+	map('n', '<leader>fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
+	map('n', '<leader>fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
 	map('n', '<leader>fb', ':Telescope buffers<cr>', NS)
 	map('n', '<leader>fm', ':Telescope marks<cr>', NS)
+	map('n', '<leader>fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
+	-- map('n', '<leader>fh', ':Telescope help_tags<cr>', NS)
 
 	-- map('n', '<leader>r', ':Telescope file_browser path=%:p:h<cr>', NS)
 	-- map('n', '<leader>d', ':Telescope file_browser<cr>', NS)

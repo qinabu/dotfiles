@@ -14,10 +14,13 @@ function M.bootstrap()
 	map('n', '<leader>q', ':qall<cr>', N)
 	map('n', '<leader>Q', ':qall!<cr>', N)
 
-	map('n', '<leader><esc>', ':silent quit<cr>', N)
-
 	map('n', '<leader>bq', ':bdelete<cr>', N)
 	map('n', '<leader>bQ', ':bdelete!<cr>', N)
+
+	map('n', '<leader>tq', ':tabclose<cr>', N)
+	map('n', '<leader>tQ', ':tabclose!<cr>', N)
+
+	map('n', '<leader><esc>', ':silent quit<cr>', N)
 
 	_G.Reload = function()
 		for name, _ in pairs(package.loaded) do
@@ -157,11 +160,11 @@ function M.bootstrap()
 	map('n', '<leader>c', ':lua QuickFix_toggle()<cr>', NS)
 	map('n', '<leader>C', ':lua LocList_toggle()<cr>', NS)
 
-	map('n', '<leader>.', ':cnext<cr>', NS)
-	map('n', '<leader>,', ':cprevious<cr>', NS)
+	map('n', '<leader>.', ':silent! cnext<cr>', NS)
+	map('n', '<leader>,', ':silent! cprevious<cr>', NS)
 
-	map('n', '<leader><', ':colder<cr>', NS)
-	map('n', '<leader>>', ':cnewer<cr>', NS)
+	map('n', '<leader><', ':silent! colder<cr>', NS)
+	map('n', '<leader>>', ':silent! cnewer<cr>', NS)
 end
 
 function M.hop()
@@ -246,8 +249,8 @@ function M.telescope()
 	map('n', '<leader>fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
 	map('n', '<leader>fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
 	map('n', '<leader>fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
-	map('n', '<leader>fb', ':Telescope buffers<cr>', NS)
-	map('n', '<leader>fm', ':Telescope marks<cr>', NS)
+	map('n', '<leader>fb', ':Telescope buffers initial_mode=normal<cr>', NS)
+	map('n', '<leader>fm', ':Telescope marks initial_mode=normal<cr>', NS)
 	map('n', '<leader>fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
 	-- map('n', '<leader>fh', ':Telescope help_tags<cr>', NS)
 

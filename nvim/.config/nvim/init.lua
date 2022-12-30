@@ -14,6 +14,7 @@ local function unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
+	-- use { 'sainnhe/gruvbox-material', config = require("configs").gruvbox_material }
 	use { 'sainnhe/everforest', config = require("configs").everforest }
 	-- use { 'rebelot/kanagawa.nvim', config = 'require("configs").kanagawa()' }
 	use { 'folke/zen-mode.nvim', config = require("configs").zen_mode }
@@ -27,8 +28,8 @@ local function unpackPacker(use)
 			-- { 'stevearc/aerial.nvim' },
 			-- { 'nvim-lua/lsp-status.nvim' },
 		},
-		-- config = require("configs").lualine,
-		config = function() vim.defer_fn(require("configs").lualine, 100) end
+		config = require("configs").lualine,
+		-- config = function() vim.defer_fn(require("configs").lualine, 100) end
 	}
 	use { 'kyazdani42/nvim-tree.lua',
 		requires = { { 'nyngwang/NeoRoot.lua' } },
@@ -43,7 +44,7 @@ local function unpackPacker(use)
 			{ 'nvim-telescope/telescope-ui-select.nvim' },
 			{ 'nvim-telescope/telescope-dap.nvim' },
 		},
-		config = function() vim.defer_fn(require("configs").telescope, 100) end
+		config = function() vim.defer_fn(require("configs").telescope, 50) end
 		-- config = require("configs").telescope,
 	}
 	use { 'lukas-reineke/indent-blankline.nvim',

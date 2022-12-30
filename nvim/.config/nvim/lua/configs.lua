@@ -110,6 +110,22 @@ function M.kanagawa()
 	vim.cmd("colorscheme kanagawa")
 end
 
+function M.gruvbox_material()
+	vim.g.termguicolors = true
+	vim.cmd [[
+		let g:gruvbox_material_transparent_background = 0
+		let g:gruvbox_material_background = 'soft'
+		let g:gruvbox_material_foreground = 'material'
+		let g:gruvbox_material_disable_italic_comment = 1
+		" let g:gruvbox_material_enable_bold = 1
+		let g:gruvbox_material_visual = 'red background'
+		let g:gruvbox_material_diagnostic_line_highlight = 1
+		let g:gruvbox_material_current_word = 'grey background'
+		set background=dark
+		colorscheme gruvbox-material
+	]]
+end
+
 function M.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
 	vim.g.termguicolors = true
@@ -399,7 +415,8 @@ function M.lualine()
 		['options'] = {
 			['icons_enabled'] = false,
 			-- ['theme'] = 'everforest',
-			['theme'] = 'auto',
+			-- ['theme'] = 'auto',
+			['theme'] = 'gruvbox-material',
 			['section_separators'] = { left = '▘', right = '▗' },
 			-- component_separators'] = { left = '▞', right = '▞' },
 			['component_separators'] = '',
@@ -510,7 +527,7 @@ function M.fugitive()
 end
 
 function M.telekasten()
-	vim.g.calendar_no_mappings = 1
+	vim.g.calendar_no_mappings = 0
 
 	local home = vim.fn.expand("~/Mind")
 	require('telekasten').setup({

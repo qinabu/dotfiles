@@ -129,6 +129,12 @@ function M.bootstrap()
 	map('n', '<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', NS)
 	map('n', '<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', NS)
 
+	map('n', '<c-h>', '^', N)
+	map('n', '<c-l>', '$', N)
+	map('v', '<c-h>', '^', N)
+	map('v', '<c-l>', '$', N)
+
+
 
 	-- quicklist & loclist
 	local close_lists = function()
@@ -168,8 +174,8 @@ function M.bootstrap()
 end
 
 function M.hop()
-	map('n', 'S', ':HopChar2<cr>', NS)
-	map('n', 's', ':HopWord<cr>', NS)
+	map('n', 's', ':HopChar2<cr>', NS)
+	map('n', 'S', ':HopWord<cr>', NS)
 	-- map('', 'f', ":lua require'hop'.hint_char1(" ..
 	-- 	"{ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true }" ..
 	-- 	")<cr>", {})
@@ -244,7 +250,7 @@ function M.telescope()
 	map('n', '<leader>ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
 	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
 	map('n', '<leader>fg', ':Telescope live_grep hidden=true<cr>', NS)
-	map('n', '<leader>fh', ':Telescope git_status<cr>', NS)
+	map('n', '<leader>fh', ':Telescope git_status initial_mode=normal<cr>', NS)
 	map('n', '<leader>fd', ':Telescope file_browser theme=ivy initial_mode=normal<cr>', NS)
 	map('n', '<leader>fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
 	map('n', '<leader>fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)

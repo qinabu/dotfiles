@@ -95,6 +95,9 @@ function M.bootstrap()
 		['float'] = true,
 		['severity_sort'] = true,
 	}
+
+	-- plugins
+	vim.g.calendar_no_mappings = 1
 end
 
 return M

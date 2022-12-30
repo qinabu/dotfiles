@@ -354,6 +354,4 @@ export GPG_TTY=$(tty)
 	export PATH=$PATH:~/.local/share/go/bin
 
 	export PATH_=1
-}
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+} || true

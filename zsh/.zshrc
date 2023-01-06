@@ -191,9 +191,13 @@ export PAGER=less
 ###
 alias reload='exec $0 "$@"'
 
-alias ls="gls --group-directories-first"
-alias ll="gls --group-directories-first -l -F -X"
-alias la="gls --group-directories-first -l -F -X -A"
+# alias ls="gls --group-directories-first"
+# alias ll="gls --group-directories-first -l -F -X"
+# alias la="gls --group-directories-first -l -F -X -A"
+alias ls="exa --group-directories-first"
+alias ll="exa --group-directories-first -l -F"
+alias la="exa --group-directories-first -l -F"
+alias tree="exa --tree --group-directories-first"
 alias -g less="less -i"
 alias -g LL="2>&1 |less -i"
 alias -g LLN="2>&1 |less -i -N"

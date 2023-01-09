@@ -201,6 +201,7 @@ alias tree="exa --tree --group-directories-first"
 alias -g less="less -i"
 alias -g LL="2>&1 |less -i"
 alias -g LLN="2>&1 |less -i -N"
+alias -g LLR="2>&1 |less -i -R"
 alias -g GG="2>&1 |grep "
 alias -g PB="2>&1 |pbcopy"
 

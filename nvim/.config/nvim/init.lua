@@ -2,36 +2,56 @@ F = {}
 M = {}
 
 local map = vim.keymap.set
+
 local NSE = { noremap = true, silent = true, expr = true }
 local NS = { noremap = true, silent = true }
 local N = { noremap = true }
+
+-- TODO:
+-- https://github.com/ziontee113/syntax-tree-surfer -- movements
+-- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
+-- use {
+-- 	'nvim-neotest/neotest',
+-- 	requires = {
+-- 		'mfussenegger/nvim-dap',
+-- 		'nvim-neotest/neotest-go',
+-- 		'nvim-neotest/neotest-python',
+-- 		'nvim-neotest/neotest-vim-test',
+
+-- 		'nvim-lua/plenary.nvim',
+-- 		'nvim-treesitter/nvim-treesitter',
+-- 		'antoinemadec/FixCursorHold.nvim'
+-- 	},
+-- 	config = 'require("configs").neotest()'
+-- }
+
 
 function F.unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
-	-- use { 'sainnhe/gruvbox-material', config = require("configs").gruvbox_material }
+	-- use { 'sainnhe/gruvbox-material', config = F.gruvbox_material }
 	use { 'sainnhe/everforest', config = F.everforest }
 	use { 'folke/zen-mode.nvim', config = F.zen_mode }
 	use { 'szw/vim-maximizer' } -- :MaximizerToggle
 	use { 'itchyny/vim-qfedit' }
+	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = function() require('bqf').setup {} end }
 	use { 'simeji/winresizer', config = M.winresizer }
 	use { 'nvim-lualine/lualine.nvim', config = F.lualine }
 	use { 'kyazdani42/nvim-tree.lua', config = F.nvim_tree }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
-			{ 'nvim-lua/plenary.nvim' },
-			{ 'nvim-telescope/telescope-file-browser.nvim' },
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-			{ 'nvim-telescope/telescope-ui-select.nvim' },
-			{ 'nvim-telescope/telescope-dap.nvim' },
+			'nvim-lua/plenary.nvim',
+			'nvim-telescope/telescope-file-browser.nvim',
+			'nvim-telescope/telescope-ui-select.nvim',
+			'nvim-telescope/telescope-dap.nvim',
 		},
 		config = F.telescope,
 	}
 
 	-- [[ EDIT ]]
 	use { 'phaazon/hop.nvim', config = F.hop }
-	-- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
 	use { 'dyng/ctrlsf.vim', config = F.ctrlsf } -- find & replace
 	use { 'tpope/vim-commentary' } -- comments
 	use { 'tpope/vim-surround' }
@@ -40,15 +60,15 @@ function F.unpackPacker(use)
 	-- [[ LSP ]] --
 	use { 'neovim/nvim-lspconfig',
 		requires = {
-			{ 'williamboman/mason.nvim' },
-			{ 'williamboman/mason-lspconfig.nvim' },
-			{ 'folke/neodev.nvim' },
+			'williamboman/mason.nvim',
+			'williamboman/mason-lspconfig.nvim',
+			'folke/neodev.nvim',
 
-			{ 'hrsh7th/nvim-cmp' },
-			{ 'hrsh7th/cmp-nvim-lsp' },
-			{ 'stevearc/aerial.nvim' },
-			{ 'ray-x/lsp_signature.nvim' },
-			{ 'j-hui/fidget.nvim' },
+			'hrsh7th/nvim-cmp',
+			'hrsh7th/cmp-nvim-lsp',
+			'stevearc/aerial.nvim',
+			'ray-x/lsp_signature.nvim',
+			'j-hui/fidget.nvim',
 		},
 		config = F.lspconfig,
 	}
@@ -59,16 +79,16 @@ function F.unpackPacker(use)
 	-- [[ COMPLETION ]] --
 	use { 'hrsh7th/nvim-cmp',
 		requires = {
-			{ 'hrsh7th/cmp-nvim-lsp' },
-			{ 'hrsh7th/cmp-nvim-lua' },
-			{ 'hrsh7th/cmp-buffer' },
-			{ 'hrsh7th/cmp-path' },
-			{ 'hrsh7th/cmp-cmdline' },
-			{ 'hrsh7th/cmp-nvim-lsp-document-symbol' },
+			'hrsh7th/cmp-nvim-lsp',
+			'hrsh7th/cmp-nvim-lua',
+			'hrsh7th/cmp-buffer',
+			'hrsh7th/cmp-path',
+			'hrsh7th/cmp-cmdline',
+			'hrsh7th/cmp-nvim-lsp-document-symbol',
 
-			{ 'L3MON4D3/LuaSnip' }, -- Snippets
-			{ 'saadparwaiz1/cmp_luasnip' },
-			{ 'honza/vim-snippets' }, -- Snippet collection
+			'L3MON4D3/LuaSnip', -- Snippets
+			'saadparwaiz1/cmp_luasnip',
+			'honza/vim-snippets', -- Snippet collection
 		},
 		config = function() F.cmp() end,
 	}
@@ -76,11 +96,11 @@ function F.unpackPacker(use)
 	-- [[ LANGUAGES ]]
 	use { 'nvim-treesitter/nvim-treesitter',
 		requires = {
-			{ 'nvim-treesitter/playground' }, -- :TSPlaygroundToggle
-			{ 'nvim-treesitter/nvim-treesitter-textobjects' },
-			{ 'romgrk/nvim-treesitter-context' },
-			{ 'mfussenegger/nvim-ts-hint-textobject' }, -- Scope selection by m
-			{ 'jubnzv/virtual-types.nvim' },
+			'nvim-treesitter/playground', -- :TSPlaygroundToggle
+			'nvim-treesitter/nvim-treesitter-textobjects',
+			'romgrk/nvim-treesitter-context',
+			'mfussenegger/nvim-ts-hint-textobject', -- Scope selection by m
+			'jubnzv/virtual-types.nvim',
 		},
 		run = ':TSUpdate',
 		config = F.treesitter,
@@ -94,20 +114,18 @@ function F.unpackPacker(use)
 	-- [[ VCS ]]
 	use { 'tpope/vim-fugitive',
 		requires = {
-			{ 'nvim-lua/plenary.nvim' },
-			{ 'ruifm/gitlinker.nvim' },
+			'nvim-lua/plenary.nvim',
+			'ruifm/gitlinker.nvim',
 		},
 		config = F.fugitive,
 	}
 	use { 'lewis6991/gitsigns.nvim',
-		requires = { { 'nvim-lua/plenary.nvim' } },
+		requires = { 'nvim-lua/plenary.nvim' },
 		-- config = require("configs").gitsigns,
 		config = F.gitsigns,
 	}
 	use { 'sindrets/diffview.nvim',
-		requires = {
-			{ 'nvim-lua/plenary.nvim' },
-		},
+		requires = { 'nvim-lua/plenary.nvim' },
 		config = F.diffview,
 		-- config = require("configs").diffview,
 	}
@@ -115,35 +133,17 @@ function F.unpackPacker(use)
 	-- [[ DEBUG / TESTINGS ]]
 	use { 'mfussenegger/nvim-dap',
 		requires = {
-			{ 'vim-test/vim-test' },
-			{ 'nvim-treesitter/nvim-treesitter' },
-			{ 'theHamsta/nvim-dap-virtual-text' },
-			{ 'nvim-telescope/telescope-dap.nvim' },
-			{ 'leoluz/nvim-dap-go' },
+			'vim-test/vim-test',
+			'nvim-treesitter/nvim-treesitter',
+			'theHamsta/nvim-dap-virtual-text',
+			'nvim-telescope/telescope-dap.nvim',
+			'leoluz/nvim-dap-go',
 		},
-		config = function() F.dap() end,
+		config = F.dap,
 	}
-	-- use {
-	-- 	'nvim-neotest/neotest',
-	-- 	requires = {
-	-- 		'mfussenegger/nvim-dap',
-	-- 		'nvim-neotest/neotest-go',
-	-- 		'nvim-neotest/neotest-python',
-	-- 		'nvim-neotest/neotest-vim-test',
-
-	-- 		'nvim-lua/plenary.nvim',
-	-- 		'nvim-treesitter/nvim-treesitter',
-	-- 		'antoinemadec/FixCursorHold.nvim'
-	-- 	},
-	-- 	config = 'require("configs").neotest()'
-	-- }
-
-
 	-- [[ NOTE TAKING ]]
 	use { 'renerocksai/telekasten.nvim',
-		requires = {
-			{ 'nvim-telescope/telescope.nvim' },
-		},
+		requires = { 'nvim-telescope/telescope.nvim' },
 		config = F.telekasten,
 	}
 end
@@ -224,6 +224,7 @@ function M.bootstrap()
 
 	-- Command line
 	map('n', '<leader>;', ':', N) -- Command line
+	map('v', '<leader>;', ':', N) -- Command line
 	map('n', "<leader>'", '@:', N) -- Repeat last command
 	map('n', "<leader>1", ':!', N) -- Exec
 	map('n', "<leader>!", ':split term://', N) -- Exec
@@ -308,16 +309,23 @@ function M.bootstrap()
 	map('n', '<leader>c', ':lua QuickFix_toggle()<cr>', NS)
 	map('n', '<leader>C', ':lua LocList_toggle()<cr>', NS)
 
-	map('n', '<leader>.', ':silent! cnext<cr>', NS)
-	map('n', '<leader>,', ':silent! cprevious<cr>', NS)
+	-- map('n', '<leader>.', ':silent! cnext<cr>', NS)
+	-- map('n', '<leader>,', ':silent! cprevious<cr>', NS)
 
-	map('n', '<leader><', ':silent! colder<cr>', NS)
-	map('n', '<leader>>', ':silent! cnewer<cr>', NS)
+	-- map('n', '<leader><', ':silent! colder<cr>', NS)
+	-- map('n', '<leader>>', ':silent! cnewer<cr>', NS)
+
+	map('n', ')', ':silent! cnext<cr>', NS)
+	map('n', '(', ':silent! cprevious<cr>', NS)
+
+	map('n', '<leader>)', ':silent! colder<cr>', NS)
+	map('n', '<leader>(', ':silent! cnewer<cr>', NS)
 end
 
 function M.hop()
 	map('n', 's', ':HopChar1<cr>', NS)
-	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
+	-- map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
+	map('n', 'S', ':lua require("hop").hint_words()<cr>', NS)
 end
 
 function M.harpoon()
@@ -325,8 +333,10 @@ function M.harpoon()
 	-- map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
 end
 
-function M.nvim_ts_hint_textobject()
+function M.treesitter()
 	-- mfussenegger/nvim-ts-hint-textobject
+	-- require("tsht").config.hint_keys = { "a", "s", "d", "f", "j", "k", "l", "g", "h" }
+	require("tsht").config.hint_keys = { "f", "j", "d", "k", "s", "l", "a", "g", "h" }
 	map('o', 'm', ':<c-u>lua require("tsht").nodes()<cr>', NS)
 	map('v', 'm', ':lua require("tsht").nodes()<cr>', NS)
 end
@@ -487,8 +497,22 @@ function M.gitsigns()
 
 	-- JUMP
 	-- next / pref hunk
-	map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
-	map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", NSE)
+	-- map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
+	-- map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", NSE)
+	-- map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<cr>'", NSE)
+	-- map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<cr>'", NSE)
+
+	map('n', ']h', function()
+		if vim.wo.diff then return ']c' end
+		vim.schedule(function() require('gitsigns').next_hunk() end)
+		return '<Ignore>'
+	end, NSE)
+
+	map('n', '[h', function()
+		if vim.wo.diff then return '[c' end
+		vim.schedule(function() require('gitsigns').prev_hunk() end)
+		return '<Ignore>'
+	end, { expr = true })
 
 	-- stage
 	map('n', 'ghs', '<cmd>Gitsigns stage_hunk<cr>', NS)
@@ -508,17 +532,17 @@ function M.gitsigns()
 	map('n', 'ghb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', NS)
 
 	-- TEXT OBJECT: in hunk
-	-- map('o', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS)
-	-- map('x', 'hi', ':<C-U>Gitsigns select_hunk<cr>', NS) -- breaks selection left-right
+	map('o', 'ih', ':<C-U>Gitsigns select_hunk<cr>', NS)
+	map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', NS) -- breaks selection left-right
 end
 
 function M.aerial()
 	-- Toggle the aerial window with <leader>a
 	-- map('n', '<leader>9', ':AerialToggle left<cr>', NS)
-	map('n', '<leader>0', ':AerialToggle left<cr>', NS)
+	map('n', '<leader>-', ':AerialToggle left<cr>', NS)
 	-- Jump forwards/backwards with '{' and '}'
-	map('n', '(', ':AerialPrev<cr>', NS)
-	map('n', ')', ':AerialNext<cr>', NS)
+	map('n', '<leader>9', ':AerialPrev<cr>', NS)
+	map('n', '<leader>0', ':AerialNext<cr>', NS)
 	-- Jump up the tree with '[[' or ']]'
 	-- map('n', '[[', ':AerialPrevUp<cr>', NS)
 	-- map('n', ']]', ':AerialNextUp<cr>', NS)
@@ -751,14 +775,16 @@ end
 function F.gruvbox_material()
 	vim.g.termguicolors = true
 	vim.cmd [[
-		let g:gruvbox_material_transparent_background = 0
-		let g:gruvbox_material_background = 'soft'
+		let g:gruvbox_material_colors_override = {'fg0':['#d7cab4', 1]}
+		let g:gruvbox_material_transparent_background = 1
+		let g:gruvbox_material_background = 'meduim' "'soft'
 		let g:gruvbox_material_foreground = 'material'
 		let g:gruvbox_material_disable_italic_comment = 1
-		" let g:gruvbox_material_enable_bold = 1
-		let g:gruvbox_material_visual = 'red background'
+		let g:gruvbox_material_enable_bold = 1
+		let g:gruvbox_material_visual = 'grey background'
 		let g:gruvbox_material_diagnostic_line_highlight = 1
 		let g:gruvbox_material_current_word = 'grey background'
+		let g:gruvbox_material_dim_inactive_windows = 1
 		set background=dark
 		colorscheme gruvbox-material
 	]]
@@ -771,6 +797,7 @@ function F.everforest()
 	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
+	-- vim.g.everforest_lightline_disable_bold = 0
 	-- vim.o.colorscheme = 'everforest'
 	vim.cmd [[ colorscheme everforest ]]
 	vim.cmd [[
@@ -808,7 +835,7 @@ function F.hop()
 end
 
 function F.nvim_tree()
-	local map = require('nvim-tree.config').nvim_tree_callback
+	local tmap = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {
 		['renderer'] = {
 			['highlight_opened_files'] = 'all',
@@ -869,17 +896,17 @@ function F.nvim_tree()
 			['signcolumn'] = 'no',
 			['mappings'] = {
 				['list'] = {
-					{ ['key'] = ']h', cb = map('next_git_item') },
-					{ ['key'] = '[h', cb = map('prev_git_item') },
-					{ ['key'] = 'l', cb = map('edit') },
-					{ ['key'] = 'h', cb = map('close_node') },
+					-- { ['key'] = ']h', cb = tmap('next_git_item') },
+					-- { ['key'] = '[h', cb = tmap('prev_git_item') },
+					{ ['key'] = 'l', cb = tmap('edit') },
+					{ ['key'] = 'h', cb = tmap('close_node') },
 					{ ['key'] = 'd', cb = nil },
-					{ ['key'] = 'D', cb = map('remove') },
-					{ ['key'] = 'R', cb = map('refresh') },
-					{ ['key'] = 'm', cb = map('rename') },
-					{ ['key'] = 'M', cb = map('full_rename') },
-					{ ['key'] = 'O', cb = map('system_open') },
-					{ ['key'] = '<c-.>', cb = map('toggle_dotfiles') },
+					{ ['key'] = 'D', cb = tmap('remove') },
+					{ ['key'] = 'R', cb = tmap('refresh') },
+					{ ['key'] = 'm', cb = tmap('rename') },
+					{ ['key'] = 'M', cb = tmap('full_rename') },
+					{ ['key'] = 'O', cb = tmap('system_open') },
+					{ ['key'] = '<c-.>', cb = tmap('toggle_dotfiles') },
 				},
 			},
 		},
@@ -984,8 +1011,7 @@ function F.treesitter()
 
 	}
 
-	require("tsht").config.hint_keys = { "a", "s", "d", "f", "j", "k", "l", "g", "h" }
-	M.nvim_ts_hint_textobject()
+	M.treesitter()
 end
 
 function F.ctrlsf()
@@ -1059,6 +1085,7 @@ function F.gitsigns()
 			delete       = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
 			topdelete    = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
 			changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+			untracked    = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
 		},
 		current_line_blame = false,
 		current_line_blame_opts = {
@@ -1709,4 +1736,6 @@ function F.lspconfig()
 
 end
 
+--
 F.bootstrap()
+--

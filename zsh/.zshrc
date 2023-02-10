@@ -49,16 +49,27 @@ setopt prompt_subst
 # actionformats
 # " (%s)-[%b|%a]%u%c-"
 
-zstyle ':vcs_info:*' unstagedstr ' %F{1}*%f' # %u
-zstyle ':vcs_info:*' stagedstr ' %F{2}+%f' # %c
+zstyle ':vcs_info:*' unstagedstr '%F{1}*%f ' # %u
+zstyle ':vcs_info:*' stagedstr '%F{2}+%f ' # %c
+# zstyle ':vcs_info:*' actionformats '%F{10}%a%u%c%f %F{2}%b%f' # branch merge/rebase
 zstyle ':vcs_info:*' actionformats '%F{2}%b %F{10}%a%f%u%c' # branch merge/rebase
-zstyle ':vcs_info:*' formats '%F{2}%b%f%u%c' # branch
+zstyle ':vcs_info:*' formats '%u%c%F{2}%b%f' # branch
+# %s The current version control system, like git or svn.
+# %r The name of the root directory of the repository
+# %S The current path relative to the repository root directory
+# %b Branch information, like master
+# %m In case of Git, show information about stashes
+# %u Show unstaged changes in the repository
+# %c Show staged changes in the repository
 
-PS1='%F{238}▗%f%K{238} ' # <
-PS1+='%(?||%K{1}%F{7} ${${pipestatus[@]}// /|} %f%k%K{238} )' # last exit codes (requires set -o pipefail)
-PS1+='%F{3}%(5~|%-1~/../%3~|%4~)%f' # directory
-PS1+='%F{10}${vcs_tags:+ }${vcs_tags}${vcs_info_msg_0_:+ }${vcs_info_msg_0_}%f' # ⁄❯ vcs_info
-PS1+=' %k%F{238}▘%f ' # >
+PS1='%F{238}▗%f%K{238}' # <
+PS1+='%(?|| %K{1}%F{7} ${${pipestatus[@]}// /|} %f%k%K{238})' # last exit codes (requires set -o pipefail)
+PS1+='%F{10}${vcs_info_msg_0_:+ }${vcs_info_msg_0_}${vcs_tags:+ }${vcs_tags}%f' # ⁄❯ vcs_info
+PS1+=' '
+# PS1+='%F{3}%(5~|%-1~/../%3~|%4~)%f' # directory
+PS1+='%F{3}%(4~|%-1~/../%2~|%3~)%f' # directory
+PS1+=' '
+PS1+='%k%F{238}▘%f ' # >
 
 
 ###
@@ -357,6 +368,8 @@ export GPG_TTY=$(tty)
 
 	export GOPATH=$HOME/.local/share/go/
 	export PATH=$PATH:~/.local/share/go/bin
+
+	export PATH=$PATH:~/.rd/bin
 
 	export PATH_=1
 } || true

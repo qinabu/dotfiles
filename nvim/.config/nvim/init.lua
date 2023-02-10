@@ -8,7 +8,10 @@ local NS = { noremap = true, silent = true }
 local N = { noremap = true }
 
 -- TODO:
+-- luasnip
+--
 -- https://github.com/ziontee113/syntax-tree-surfer -- movements
+--
 -- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
 -- use {
 -- 	'nvim-neotest/neotest',
@@ -162,7 +165,7 @@ function M.bootstrap()
 	map('n', '<leader>tq', ':tabclose<cr>', N)
 	map('n', '<leader>tQ', ':tabclose!<cr>', N)
 
-	map('n', '<leader><esc>', ':silent quit<cr>', N)
+	-- map('n', '<leader><esc>', ':silent quit<cr>', N)
 
 	_G.Reload = function()
 		for name, _ in pairs(package.loaded) do
@@ -191,6 +194,9 @@ function M.bootstrap()
 	map('n', '<c-l>', 'i<c-^><esc>', NS)
 
 	-- Navigation
+	map('n', '<c-o>', '<c-o>zz', N) -- Window modification prefix
+	map('n', '<c-i>', '<c-i>zz', N) -- Window modification prefix
+
 	map('n', '<leader>w', '<c-w>', N) -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
@@ -261,7 +267,7 @@ function M.bootstrap()
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)
 
-	map('v', 'p', '"_dP', NS)
+	map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
 	map('n', 'x', '"_x', NS)
 	map('n', 'X', '"_X', NS)
 	map('n', 'Q', 'q', N)
@@ -323,7 +329,8 @@ function M.bootstrap()
 end
 
 function M.hop()
-	map('n', 's', ':HopChar1<cr>', NS)
+	-- map('n', 's', ':HopChar1<cr>', NS)
+	map('n', 's', ':HopChar2<cr>', NS)
 	-- map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
 	map('n', 'S', ':lua require("hop").hint_words()<cr>', NS)
 end
@@ -386,12 +393,13 @@ function M.telescope()
 	map('n', '<leader>fb', ':Telescope buffers initial_mode=normal<cr>', NS)
 	map('n', '<leader>fm', ':Telescope marks initial_mode=normal<cr>', NS)
 	map('n', '<leader>fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
+	map('n', '<leader>fa', ':Telescope man_pages<cr>', NS)
 
 end
 
 function M.luasnip()
 	-- expand or jump
-	map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
+	-- map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
 
 	-- select mode jumps
 	map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
@@ -636,7 +644,8 @@ function F.bootstrap()
 	vim.o.backspace = "indent,eol,start"
 	vim.o.completeopt = "menuone,noinsert,noselect,preview"
 	-- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
-	vim.o.formatoptions = "tcqrn1"
+	-- vim.o.formatoptions = "tcqrn1"
+	vim.o.formatoptions = "qjrn1"
 	vim.o.textwidth = 100
 
 	-- expandtab = true
@@ -688,7 +697,8 @@ function F.bootstrap()
 	vim.o.timeoutlen = 2000
 	vim.o.ttimeoutlen = 10
 
-	vim.o.listchars = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:  ,extends:▸,precedes:◂,multispace:···•,leadmultispace:┊ ,"
+	-- vim.o.listchars = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:  ,extends:▸,precedes:◂,multispace:···•,leadmultispace:┊ ,"
+	vim.o.listchars = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
 	vim.o.list = true
 
 	vim.diagnostic.config({
@@ -787,6 +797,9 @@ function F.gruvbox_material()
 		let g:gruvbox_material_dim_inactive_windows = 1
 		set background=dark
 		colorscheme gruvbox-material
+
+		hi clear VertSplit
+		hi! VertSplit guifg=#544f4c
 	]]
 end
 
@@ -797,10 +810,20 @@ function F.everforest()
 	vim.g.everforest_current_word = 'grey background'
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
+	vim.g.everforest_ui_contrast = 'high'
 	-- vim.g.everforest_lightline_disable_bold = 0
 	-- vim.o.colorscheme = 'everforest'
-	vim.cmd [[ colorscheme everforest ]]
+	-- vim.cmd [[ colorscheme everforest ]]
 	vim.cmd [[
+		colorscheme everforest
+		hi! Red ctermfg=167 guifg=#f7908b
+		" hi! Keyword ctermfg=168 guifg=#f88e71
+		" hi! Conditional ctermfg=168 guifg=#f88e71
+		" hi! Statement ctermfg=168 guifg=#f88e71
+		" hi! Repeat ctermfg=168 guifg=#f88e71
+		" hi! Typedef ctermfg=168 guifg=#f88e71
+		" hi! Exception ctermfg=168 guifg=#f88e71
+
 		hi! DiffDelete guifg=#e67e80 ctermfg=167
 		hi! DiffChange guifg=#83c092 ctermfg=108
 		hi! DiffAdd guifg=#a7c080 ctermfg=142
@@ -816,14 +839,19 @@ function F.everforest()
 		"hi CursorLineNr guibg=#3b3737
 		hi! Whitespace ctermfg=238 guifg=#4c4747
 		"hi! Visual ctermfg=235 ctermbg=109 guifg=#2f383e guibg=#7fbbb3
+		hi! Visual ctermbg=238 guibg=#475258
 		hi link IndentBlanklineSpaceCharBlankline Whitespace
 		hi link IndentBlanklineChar         Whitespace
 		hi link IndentBlanklineSpaceChar    Whitespace
 		hi link IndentBlanklineContextChar  Whitespace
 		hi link IndentBlanklineContextStart Whitespace
 
-		hi ExtraWhitespace ctermbg=red guibg=red
+		hi ExtraWhitespaceNormal ctermbg=red guibg=red
+		hi link ExtraWhitespaceInsert DiffDelete
+		hi link ExtraWhitespace ExtraWhitespaceNormal
 		match ExtraWhitespace /\s\+$/
+		autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
+		autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal
 	]]
 end
 
@@ -865,10 +893,14 @@ function F.nvim_tree()
 					['folder'] = {
 						['arrow_open'] = '-',
 						['arrow_closed'] = '+',
-						['default'] = '▮',
-						['open'] = '▯',
-						['empty'] = '▮',
-						['empty_open'] = '▯',
+						-- ['default'] = '▮',
+						['default'] = '▸',
+						-- ['open'] = '▯',
+						['open'] = '▾',
+						-- ['empty'] = '▮',
+						['empty'] = '▸',
+						-- ['empty_open'] = '▯',
+						['empty_open'] = '▾',
 						['symlink'] = '=',
 						['symlink_open'] = '-',
 					},
@@ -892,6 +924,11 @@ function F.nvim_tree()
 			},
 		},
 		['view'] = {
+			['width'] = {
+				['min'] = "10%",
+				['max'] = -1,
+				['padding'] = 0,
+			},
 			['hide_root_folder'] = true,
 			['signcolumn'] = 'no',
 			['mappings'] = {
@@ -927,6 +964,7 @@ function F.nvim_tree()
 			['update_cwd'] = false,
 			['ignore_list'] = {},
 		},
+		['auto_reload_on_write'] = false
 	}
 end
 
@@ -935,6 +973,7 @@ function F.treesitter()
 		['highlight'] = {
 			['enable'] = true
 		},
+		['ensure_installed'] = { "lua", "rust", "go", "python", "terraform", "yaml", "json" },
 		['incremental_selection'] = {
 			['enable'] = true,
 			['keymaps'] = {
@@ -1322,7 +1361,7 @@ function F.telescope()
 					},
 				},
 				['hidden'] = true,
-				['dir_icon'] = '▮',
+				['dir_icon'] = '▸',
 				-- ['dir_icon'] = ' ',
 				['grouped'] = true,
 				-- ['depth'] = 1,
@@ -1711,8 +1750,8 @@ function F.lspconfig()
 
 	require("fidget").setup {
 		['window'] = {
-			['blend'] = 100,
-			['border'] = 'solid',
+			['blend'] = 0,
+			-- ['border'] = 'solid',
 		},
 		['fmt'] = {
 			['max_width'] = 50,

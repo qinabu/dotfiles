@@ -120,10 +120,11 @@ cmd find-grep ${{
 	res="$( \
 		RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case --hidden"
 		FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
-		fzf --bind "change:reload:$RG_PREFIX {q} || true" --ansi --layout=reverse | cut -d':' -f1
+		fzf --bind "change:reload:$RG_PREFIX {q} || true" --ansi --layout=reverse | cut -d':' -f1,2
 	)"
 	[ $? -ne 0 ] && exit 0
-	[ ! -z "$res" ] && lf -remote "send $id select \"$res\"" || exit 0
+	# [ ! -z "$res" ] && lf -remote "send $id select \"$res\"" || exit 0
+	[ ! -z "$res" ] && nvim "${res%%:*}" -c "${res##*:}" || exit 0
 }}
 
 # cmd on-cd ${{
@@ -134,7 +135,9 @@ cmd find-grep ${{
 # set color256
 set autoquit on
 #set hidden
-#set ratios 2:3:8
+# set ratios 2:3:8
 set ratios 3:5
-set promptfmt "\033[36;1m%d\033[0m\033[1m%f\033[0m"
+# set promptfmt "\033[36;1m%d\033[0m\033[1m%f\033[0m"
+# set promptfmt "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m\033[1m%f\033[0m"
+set promptfmt "\033[36;1m%d\033[0m"
 set previewer ~/.config/lf/preview.sh

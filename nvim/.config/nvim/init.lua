@@ -38,9 +38,9 @@ function F.unpackPacker(use)
 	use { 'folke/zen-mode.nvim', config = F.zen_mode }
 	use { 'szw/vim-maximizer' } -- :MaximizerToggle
 	use { 'itchyny/vim-qfedit' }
-	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = function() require('bqf').setup {} end }
+	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
 	use { 'simeji/winresizer', config = M.winresizer }
-	use { 'nvim-lualine/lualine.nvim', config = F.lualine }
+	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
 	use { 'kyazdani42/nvim-tree.lua', config = F.nvim_tree }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
@@ -53,10 +53,17 @@ function F.unpackPacker(use)
 		config = F.telescope,
 	}
 
+	use { 'niuiic/translate.nvim',
+		requires = {
+			'niuiic/niuiic-core.nvim',
+		},
+		config = F.translate,
+	}
+
 	-- [[ EDIT ]]
 	use { 'phaazon/hop.nvim', config = F.hop }
 	use { 'dyng/ctrlsf.vim', config = F.ctrlsf } -- find & replace
-	use { 'tpope/vim-commentary' } -- comments
+	use { 'tpope/vim-commentary' }        -- comments
 	use { 'tpope/vim-surround' }
 	use { 'tpope/vim-repeat' }
 
@@ -65,6 +72,7 @@ function F.unpackPacker(use)
 		requires = {
 			'williamboman/mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
+			-- 'jose-elias-alvarez/null-ls.nvim',
 			'folke/neodev.nvim',
 
 			'hrsh7th/nvim-cmp',
@@ -72,8 +80,9 @@ function F.unpackPacker(use)
 			'stevearc/aerial.nvim',
 			'ray-x/lsp_signature.nvim',
 			'j-hui/fidget.nvim',
+			'narutoxy/dim.lua',
 		},
-		config = F.lspconfig,
+		config = function() vim.defer_fn(F.lspconfig, 100) end,
 	}
 
 	-- [[ LINT ]]
@@ -93,7 +102,7 @@ function F.unpackPacker(use)
 			'saadparwaiz1/cmp_luasnip',
 			'honza/vim-snippets', -- Snippet collection
 		},
-		config = function() F.cmp() end,
+		config = function() vim.defer_fn(F.cmp, 100) end,
 	}
 
 	-- [[ LANGUAGES ]]
@@ -147,7 +156,7 @@ function F.unpackPacker(use)
 	-- [[ NOTE TAKING ]]
 	use { 'renerocksai/telekasten.nvim',
 		requires = { 'nvim-telescope/telescope.nvim' },
-		config = F.telekasten,
+		config = function() vim.defer_fn(F.telekasten, 100) end,
 	}
 end
 
@@ -194,10 +203,10 @@ function M.bootstrap()
 	map('n', '<c-l>', 'i<c-^><esc>', NS)
 
 	-- Navigation
-	map('n', '<c-o>', '<c-o>zz', N) -- Window modification prefix
-	map('n', '<c-i>', '<c-i>zz', N) -- Window modification prefix
+	map('n', '<c-o>', '<c-o>zz', N)        -- Window modification prefix
+	map('n', '<c-i>', '<c-i>zz', N)        -- Window modification prefix
 
-	map('n', '<leader>w', '<c-w>', N) -- Window modification prefix
+	map('n', '<leader>w', '<c-w>', N)      -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
 	map('n', '<leader>h', '<c-w>h', NS)
@@ -222,17 +231,28 @@ function M.bootstrap()
 
 	map('n', '<leader>os', ':setlocal spell!<cr>', NS)
 
-	map('n', '<leader>ol', ':setlocal list!<cr>', NS)
+	local listchars_saved = ""
+	_G.listchars_toggle = function()
+		if vim.o.listchars == _G.listchars_alternative then
+			vim.o.listchars = listchars_saved
+		else
+			listchars_saved = vim.o.listchars
+			vim.o.listchars = _G.listchars_alternative
+		end
+	end
+	map('n', '<leader>ol', ':lua _G.listchars_toggle()<cr>', NS)
+	-- map('n', '<leader>ol', ':setlocal list!<cr>', NS)
 	map('n', '<leader>ow', ':setlocal nowrap! linebreak!<cr>', NS)
 
 	map('n', '<leader>oc', ':lua vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "72,80,100,120" or "")<cr>', NS)
 	map('n', '<leader>ot', ':lua vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4)<cr>', NS)
 
 	-- Command line
-	map('n', '<leader>;', ':', N) -- Command line
-	map('v', '<leader>;', ':', N) -- Command line
-	map('n', "<leader>'", '@:', N) -- Repeat last command
-	map('n', "<leader>1", ':!', N) -- Exec
+	map('n', '<leader>;', ':', N)       -- Command line
+	map('v', '<leader>:', 'q:', N)      -- Command history
+	map('v', '<leader>/', 'q:', N)      -- Command history
+	map('n', "<leader>'", '@:', N)      -- Repeat last command
+	map('n', "<leader>1", ':!', N)      -- Exec
 	map('n', "<leader>!", ':split term://', N) -- Exec
 	-- map('n', '<leader><leader>;', ':!', N) -- Command terminal line
 
@@ -247,10 +267,10 @@ function M.bootstrap()
 	map('c', '<m-f>', '<s-right>', N)
 
 	-- Buffer
-	map('n', '<leader>s', ':write<cr>', N) -- Write changes
+	map('n', '<leader>s', ':write<cr>', N)            -- Write changes
 	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
-	map('n', '<leader>S', ':wall<cr>', N) -- Write chages of all buffers
-	map('n', '<leader>bd', ':bdelete<cr>', N) -- Delete current buffer
+	map('n', '<leader>S', ':wall<cr>', N)             -- Write chages of all buffers
+	map('n', '<leader>bd', ':bdelete<cr>', N)         -- Delete current buffer
 
 	-- Edit
 	map('i', '<esc>', '<esc>`^', NS) -- Keep cursor on the same positioni
@@ -328,11 +348,28 @@ function M.bootstrap()
 	map('n', '<leader>(', ':silent! cnewer<cr>', NS)
 end
 
+function M.bqf_quickfix()
+	require('bqf').setup {
+		-- TODO: fix
+		func_map = {
+			pscrollup = '<C-y>',
+			pscrolldown = '<C-e>',
+		}
+	}
+end
+
 function M.hop()
 	-- map('n', 's', ':HopChar1<cr>', NS)
 	map('n', 's', ':HopChar2<cr>', NS)
 	-- map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
 	map('n', 'S', ':lua require("hop").hint_words()<cr>', NS)
+end
+
+function M.translate()
+	map("v", "<leader>Tr", ":<c-u>TranslateToRU<CR>", { silent = true })
+	map("v", "<leader>Te", ":<c-u>TranslateToEN<CR>", { silent = true })
+	-- map("n", "<leader>Te", "<cmd>TranslateToEN<CR>")
+	-- map("n", "<leader>Tr", "<cmd>TranslateToRU<CR>")
 end
 
 function M.harpoon()
@@ -394,7 +431,6 @@ function M.telescope()
 	map('n', '<leader>fm', ':Telescope marks initial_mode=normal<cr>', NS)
 	map('n', '<leader>fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
 	map('n', '<leader>fa', ':Telescope man_pages<cr>', NS)
-
 end
 
 function M.luasnip()
@@ -423,7 +459,6 @@ function M.neotest()
 	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
 	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
 	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
-
 end
 
 function M.testing()
@@ -443,7 +478,8 @@ function M.testing()
 
 	map('n', '<leader>tb', ':lua require("dap").toggle_breakpoint()<cr>', NS)
 	map('n', '<leader>tB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<cr>', NS)
-	map('n', '<leader>tL', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', NS)
+	map('n', '<leader>tL', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>',
+		NS)
 	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
 
 	-- VIM-TEST
@@ -557,7 +593,6 @@ function M.aerial()
 end
 
 function M.telekasten()
-
 	map('n', '<leader>nn', ':lua require("telekasten").panel()<cr>', NS)
 
 	-- add note
@@ -612,7 +647,8 @@ end
 
 function F.bootstrap()
 	-- Basic
-	vim.opt.shm:append("I") -- blank :intro
+	vim.opt.shortmess:append("I") -- don't give the intro message when starting Vim :intro
+	vim.opt.shortmess:append("c") -- don't give |ins-completion-menu| messages.  For example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
 	vim.o.clipboard = "unnamed"
 	vim.o.paste = false
 	vim.o.encoding = "utf-8"
@@ -662,8 +698,9 @@ function F.bootstrap()
 	vim.o.spell = false
 
 	-- UI
+	vim.o.cmdheight = 1
 	vim.o.termguicolors = true
-	vim.o.mouse = 'a'
+	vim.o.mouse = 'nvi'
 	vim.o.cursorline = true
 	vim.o.showmode = false
 	vim.o.showcmd = false
@@ -697,8 +734,8 @@ function F.bootstrap()
 	vim.o.timeoutlen = 2000
 	vim.o.ttimeoutlen = 10
 
-	-- vim.o.listchars = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:  ,extends:▸,precedes:◂,multispace:···•,leadmultispace:┊ ,"
-	vim.o.listchars = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
+	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
+	vim.o.listchars = "eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,"
 	vim.o.list = true
 
 	vim.diagnostic.config({
@@ -773,9 +810,12 @@ function F.packerStartup()
 	})
 
 	local packer = require('packer')
-	packer.startup({ F.unpackPacker, config = {
-		log = { level = 'error' },
-	} })
+	packer.startup({
+		F.unpackPacker,
+		config = {
+			log = { level = 'error' },
+		}
+	})
 	-- Sync the first lauch
 	if installed then
 		packer.sync()
@@ -857,9 +897,76 @@ end
 
 function F.hop()
 	require 'hop'.setup {
-		keys = 'jfdkslahgurie',
+		-- keys = 'jfdkslahgurie',
+		keys = 'fjdkslaghrutyeiwo',
 	}
 	M.hop()
+end
+
+function F.translate()
+	require("translate").setup({
+		output = {
+			float = {
+				-- max_width of float window
+				max_width = 50,
+				-- max_height of float window
+				max_height = 5,
+				-- whether close float window on cursor move
+				close_on_cursor_move = false,
+				-- key to enter float window
+				enter_key = "T",
+			},
+		},
+		translate = {
+			{
+				-- use :TransToZH to start this job
+				cmd = "TranslateToRU",
+				-- shell command
+				-- translate-shell is used here
+				command = "trans",
+				-- shell command args
+				args = function(trans_source)
+					-- trans_source is the text you want to translate
+					return {
+						"-b",
+						"-e",
+						"google",
+						-- use proxy
+						-- "-x",
+						-- "http://127.0.0.1:10025",
+						"-t",
+						"ru-RU",
+						-- you can filter translate source here
+						trans_source,
+					}
+				end,
+				-- how to get translate source
+				-- selection | input | clipboard
+				input = "selection",
+				-- how to output translate result
+				-- float_win | notify | clipboard | insert
+				output = { "float_win", "clipboard" },
+			},
+			{
+				cmd = "TranslateToEN",
+				command = "trans",
+				args = function(trans_source)
+					return {
+						"-b",
+						"-e",
+						"google",
+						"-t",
+						"en",
+						trans_source,
+					}
+				end,
+				input = "selection",
+				output = { "float_win", "clipboard" },
+			},
+		},
+	})
+
+	M.translate()
 end
 
 function F.nvim_tree()
@@ -937,12 +1044,17 @@ function F.nvim_tree()
 					-- { ['key'] = '[h', cb = tmap('prev_git_item') },
 					{ ['key'] = 'l', cb = tmap('edit') },
 					{ ['key'] = 'h', cb = tmap('close_node') },
-					{ ['key'] = 'd', cb = nil },
-					{ ['key'] = 'D', cb = tmap('remove') },
-					{ ['key'] = 'R', cb = tmap('refresh') },
-					{ ['key'] = 'm', cb = tmap('rename') },
-					{ ['key'] = 'M', cb = tmap('full_rename') },
-					{ ['key'] = 'O', cb = tmap('system_open') },
+					-- { ['key'] = 'd',     cb = nil },
+					{
+						['key'] = 's',
+						cb = function()
+						end
+					},
+					{ ['key'] = 'D',     cb = tmap('remove') },
+					{ ['key'] = 'R',     cb = tmap('refresh') },
+					{ ['key'] = 'm',     cb = tmap('rename') },
+					{ ['key'] = 'M',     cb = tmap('full_rename') },
+					{ ['key'] = 'O',     cb = tmap('system_open') },
 					{ ['key'] = '<c-.>', cb = tmap('toggle_dotfiles') },
 				},
 			},
@@ -1082,26 +1194,31 @@ function F.lualine()
 			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			['lualine_c'] = {
 				'diff',
-				{ 'diagnostics', diagnostics_color = {
-					error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
-					warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
-					info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
-					hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
-				}, },
-				{ 'filename',
+				{
+					'diagnostics',
+					diagnostics_color = {
+						error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
+						warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
+						info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
+						hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
+					},
+				},
+				{
+					'filename',
 					path = 1,
 					shorting_target = 25,
 					symbols = { modified = '*' }
 				},
 				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
 				'%l:%c/%v',
-				{ 'aerial', ['sep'] = '.' }
+				'progress',
+				{ 'aerial',['sep'] = '.' }
 			},
 			['lualine_x'] = {
-				'filesize',
-				'filetype'
+				'searchcount',
+				-- 'filetype'
 			},
-			['lualine_y'] = { 'progress' },
+			['lualine_y'] = { 'filesize' },
 			['lualine_z'] = {},
 		},
 		['inactive_sections'] = {
@@ -1119,12 +1236,42 @@ end
 function F.gitsigns()
 	require('gitsigns').setup({
 		signs = {
-			add          = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-			change       = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-			delete       = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-			topdelete    = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-			changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-			untracked    = { hl = 'GitSignsAdd', text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+			add          = {
+				hl = 'GitSignsAdd',
+				text = '+',
+				numhl = 'GitSignsAddNr',
+				linehl = 'GitSignsAddLn'
+			},
+			change       = {
+				hl = 'GitSignsChange',
+				text = '~',
+				numhl = 'GitSignsChangeNr',
+				linehl = 'GitSignsChangeLn'
+			},
+			delete       = {
+				hl = 'GitSignsDelete',
+				text = '-',
+				numhl = 'GitSignsDeleteNr',
+				linehl = 'GitSignsDeleteLn'
+			},
+			topdelete    = {
+				hl = 'GitSignsDelete',
+				text = '-',
+				numhl = 'GitSignsDeleteNr',
+				linehl = 'GitSignsDeleteLn'
+			},
+			changedelete = {
+				hl = 'GitSignsChange',
+				text = '~',
+				numhl = 'GitSignsChangeNr',
+				linehl = 'GitSignsChangeLn'
+			},
+			untracked    = {
+				hl = 'GitSignsAdd',
+				text = '+',
+				numhl = 'GitSignsAddNr',
+				linehl = 'GitSignsAddLn'
+			},
 		},
 		current_line_blame = false,
 		current_line_blame_opts = {
@@ -1191,27 +1338,21 @@ function F.telekasten()
 		['dailies'] = home .. '/' .. 'daily',
 		['weeklies'] = home .. '/' .. 'weekly',
 		['templates'] = home .. '/' .. 'templates',
-
 		-- markdown file extension
 		['extension'] = ".md",
-
 		-- template for new notes (new_note, follow_link)
 		-- set to `nil` or do not specify if you do not want a template
 		['template_new_note'] = home .. '/' .. 'templates/new_note.md',
-
 		-- template for newly created daily notes (goto_today)
 		-- set to `nil` or do not specify if you do not want a template
 		['template_new_daily'] = home .. '/' .. 'templates/daily.md',
-
 		-- template for newly created weekly notes (goto_thisweek)
 		-- set to `nil` or do not specify if you do not want a template
 		['template_new_weekly'] = home .. '/' .. 'templates/weekly.md',
-
 		-- image link style
 		-- wiki:     ![[image name]]
 		-- markdown: ![](image_subdir/xxxxx.png)
 		['image_link_style'] = "markdown",
-
 		-- integrate with calendar-vim
 		['plug_into_calendar'] = true,
 		['calendar_opts'] = {
@@ -1222,24 +1363,18 @@ function F.telekasten()
 			-- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
 			['calendar_mark'] = 'left-fit',
 		},
-
 		['close_after_yanking'] = false,
 		['insert_after_inserting'] = true,
-
 		-- tag notation: '#tag', ':tag:', 'yaml-bare'
 		['tag_notation'] = "#tag",
-
 		-- command palette theme: dropdown (window) or ivy (bottom panel)
 		['command_palette_theme'] = "ivy",
-
 		-- tag list theme:
 		-- get_cursor: small tag list at cursor; ivy and dropdown like above
 		['show_tags_theme'] = "ivy",
-
 		-- when linking to a note in subdir/, create a [[subdir/title]] link
 		-- instead of a [[title only]] link
 		['subdirs_in_links'] = true,
-
 		-- template_handling
 		-- What to do when creating a new note via `new_note()` or `follow_link()`
 		-- to a non-existing note
@@ -1247,7 +1382,6 @@ function F.telekasten()
 		-- - smart: if day or week is detected in title, use daily / weekly templates (default)
 		-- - always_ask: always ask before creating a note
 		['template_handling'] = "smart",
-
 		-- path handling:
 		--   this applies to:
 		--     - new_note()
@@ -1270,7 +1404,6 @@ function F.telekasten()
 		--                        present or else in home
 		--                        except for notes/with/subdirs/in/title.
 		['new_note_location'] = "smart",
-
 		-- should all links be updated when a file is renamed
 		['rename_update_links'] = true,
 	})
@@ -1296,7 +1429,6 @@ function F.zen_mode()
 end
 
 function F.telescope()
-
 	local actions = require("telescope.actions")
 	local opts = {
 		['defaults'] = {
@@ -1329,6 +1461,7 @@ function F.telescope()
 				},
 				['n'] = {
 					['<C-/>'] = actions.which_key,
+					['o'] = actions.select_default,
 					-- ['<C-H>'] = actions.toggle_hidden,
 				},
 			},
@@ -1431,7 +1564,6 @@ function F.neotest()
 				-- Runner to use. Will use pytest if available by default.
 				-- Can be a function to return dynamic value.
 				runner = "pytest",
-
 				-- Returns if a given file path is a test file.
 				-- NB: This function is called a lot so don't perform any heavy tasks within it.
 				-- is_test_file = function(file_path)
@@ -1462,7 +1594,8 @@ end
 function F.cmp()
 	local has_words_before = function()
 		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+		return col ~= 0 and
+		    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 	end
 
 	local check_backspace = function()
@@ -1564,7 +1697,6 @@ function F.cmp()
 			-- ['<C-e>'] = cmp.mapping.abort(),
 			['<cr>'] = cmp.mapping.confirm({ select = false }),
 		}),
-
 		['snippet'] = {
 			-- REQUIRED - you must specify a snippet engine
 			['expand'] = function(args)
@@ -1625,7 +1757,6 @@ function F.cmp()
 	})
 
 	M.luasnip()
-
 end
 
 function F.diffview()
@@ -1648,12 +1779,29 @@ function F.lspconfig()
 		terraformls = {},
 		tflint = {},
 		bashls = {},
-		yamlls = {},
+		yamlls = {
+			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
+			-- see interface Settings
+			-- ['settings'] = {
+			-- 	['yaml'] = {
+			-- 		['keyOrdering'] = false,
+			-- 		['key_ordering'] = false,
+			-- 	}
+			-- },
+			-- ['yaml'] = {
+			-- 	['keyOrdering'] = false,
+			-- 	['key_ordering'] = false,
+			-- },
+			-- ['keyOrdering'] = false,
+			-- ['key_ordering'] = false,
+		},
 		marksman = {},
+		dagger = {}, -- cue
 		-- clangd = {},
 		-- tsserver = {},
 		gopls = {
-			gopls = { -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+			gopls = {
+				-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 				experimentalPostfixCompletions = true,
 				-- experimentalWorkspaceModule = true,
 				templateExtensions = { 'gotpl', 'gotmpl' },
@@ -1682,8 +1830,7 @@ function F.lspconfig()
 				},
 			},
 		},
-
-		sumneko_lua = {
+		lua_ls = {
 			Lua = {
 				workspace = { checkThirdParty = false },
 				telemetry = { enable = false },
@@ -1742,11 +1889,21 @@ function F.lspconfig()
 						vim.schedule_wrap(vim.lsp.codelens.refresh)
 						vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
 					end
-
 				end
 			}
 		end,
 	}
+
+	-- local null_ls = require("null-ls")
+	-- null_ls.setup({
+	-- 	sources = {
+	-- 		null_ls.builtins.diagnostics.golangci_lint,
+	-- 		-- null_ls.builtins.diagnostics.gospel,
+	-- 		-- null_ls.builtins.formatting.stylua,
+	-- 		-- null_ls.builtins.diagnostics.eslint,
+	-- 		-- null_ls.builtins.completion.spell,
+	-- 	},
+	-- })
 
 	require("fidget").setup {
 		['window'] = {
@@ -1773,8 +1930,14 @@ function F.lspconfig()
 		}
 	})
 
+	require('dim').setup {
+		disable_lsp_decorations = false
+	}
 end
 
+--
+F.bootstrap()
+--
 --
 F.bootstrap()
 --

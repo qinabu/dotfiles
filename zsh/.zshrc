@@ -49,11 +49,11 @@ setopt prompt_subst
 # actionformats
 # " (%s)-[%b|%a]%u%c-"
 
-zstyle ':vcs_info:*' unstagedstr '%F{1}*%f ' # %u
-zstyle ':vcs_info:*' stagedstr '%F{2}+%f ' # %c
+zstyle ':vcs_info:*' unstagedstr '%F{1}*%f ' # %u unstaged
+zstyle ':vcs_info:*' stagedstr '%F{2}+%f ' # %c staged
 # zstyle ':vcs_info:*' actionformats '%F{10}%a%u%c%f %F{2}%b%f' # branch merge/rebase
 zstyle ':vcs_info:*' actionformats '%F{2}%b %F{10}%a%f%u%c' # branch merge/rebase
-zstyle ':vcs_info:*' formats '%u%c%F{2}%b%f' # branch
+zstyle ':vcs_info:*' formats '%c%u%F{2}%b%f' # staged(+), unstaged(*), branch
 # %s The current version control system, like git or svn.
 # %r The name of the root directory of the repository
 # %S The current path relative to the repository root directory
@@ -64,7 +64,7 @@ zstyle ':vcs_info:*' formats '%u%c%F{2}%b%f' # branch
 
 PS1='%F{238}▗%f%K{238}' # <
 PS1+='%(?|| %K{1}%F{7} ${${pipestatus[@]}// /|} %f%k%K{238})' # last exit codes (requires set -o pipefail)
-PS1+='%F{10}${vcs_info_msg_0_:+ }${vcs_info_msg_0_}${vcs_tags:+ }${vcs_tags}%f' # ⁄❯ vcs_info
+PS1+='${vcs_info_msg_0_:+ }${vcs_info_msg_0_}%F{14}${vcs_tags:+ }${vcs_tags}%f' # ⁄❯ vcs_info
 PS1+=' '
 # PS1+='%F{3}%(5~|%-1~/../%3~|%4~)%f' # directory
 PS1+='%F{3}%(4~|%-1~/../%2~|%3~)%f' # directory
@@ -277,6 +277,7 @@ alias gca="git commit --amend"
 alias gal="tig --all"
 alias gl="tig"
 
+alias gr="git reset"
 alias gs="git status --short --branch"
 # alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
 alias gd="git_diff"
@@ -293,6 +294,7 @@ _fzf_complete_gchb() {
 
 alias gpu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
+alias gchmp="git checkout \$(git_default_branch) && gpu"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"
@@ -304,6 +306,8 @@ alias gmom="git merge origin/\$(git_default_branch)"
 alias gmc="git merge --continue"
 alias grom="git rebase origin/\$(git_default_branch) -i"
 alias grc="git rebase --continue"
+
+alias gcln="git clean -fd"
 
 alias gfm="git fetch origin && git merge origin/\$(git_default_branch)"
 alias gfr="git fetch origin && git rebase origin/\$(git_default_branch) -i"

@@ -27,7 +27,7 @@ map gh cd ~
 # custom ----------------------------------------------------------------------
 map <right>
 map f
-map D :delete
+map D trash
 map H :doc
 
 map <esc> quit
@@ -62,6 +62,7 @@ cmd create ${{
 map gh cd ~
 map gp cd ~/Projects
 map gw cd ~/Projects/creditornot
+map gi cd ~/Projects/ifkit
 map gd cd ~/Downloads
 map g. ${{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
 map gG ${{ lf -remote "send $id cd \"$(brew --prefix)/Cellar/go\"" }}
@@ -80,6 +81,11 @@ map <c-k> find-project
 
 # COMMANDS ====================================================================
 cmd open
+
+cmd trash ${{
+	files=( $(echo "$fs") )
+	trash "${files[@]}"
+}}
 
 cmd edit-directory ${{
 	a="$PWD/venv/bin/activate"
@@ -136,7 +142,7 @@ cmd find-grep ${{
 set autoquit on
 #set hidden
 # set ratios 2:3:8
-set ratios 3:5
+set ratios 3:8
 # set promptfmt "\033[36;1m%d\033[0m\033[1m%f\033[0m"
 # set promptfmt "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m\033[1m%f\033[0m"
 set promptfmt "\033[36;1m%d\033[0m"

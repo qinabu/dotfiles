@@ -23,7 +23,16 @@ case "$1" in
     # *) bat -f -n -r ":$2" --theme gruvbox-dark "$1";;
     # *) bat -f -n -r ":$2" --theme bas16 "$1";;
     # *) exec chroma --unbuffered "$1";;
-    *) exec bat -p --theme base16 -f -r ":$2" "$1";;
+    # *) exec bat -p --theme base16 -f -r ":$2" "$1";;
+    *) exec ccat \
+	    -G Plaintext="reset" \
+	    -G Keyword="darkred" \
+	    -G Punctuation="faint" \
+	    -G String="teal" \
+	    -G Comment="faint" \
+	    -G Decimal="purple" \
+	    -G Type="darkgreen" \
+	    -C "always" "$1";;
 esac
 
 # Set the path of a previewer file to filter the content of regular files for

@@ -42,6 +42,14 @@ function F.unpackPacker(use)
 	use { 'simeji/winresizer', config = M.winresizer }
 	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
 	use { 'kyazdani42/nvim-tree.lua', config = F.nvim_tree }
+	-- use { "nvim-neo-tree/neo-tree.nvim",
+	-- 	branch = "v2.x",
+	-- 	requires = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"MunifTanjim/nui.nvim",
+	-- 	},
+	-- 	config = F.neo_tree
+	-- }
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
@@ -50,7 +58,8 @@ function F.unpackPacker(use)
 			'nvim-telescope/telescope-ui-select.nvim',
 			'nvim-telescope/telescope-dap.nvim',
 		},
-		config = F.telescope,
+		-- config = F.telescope,
+		config = function() vim.defer_fn(F.telescope, 100) end,
 	}
 
 	use { 'niuiic/translate.nvim',
@@ -220,6 +229,7 @@ function M.bootstrap()
 	map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
 
 	map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
+	-- map('n', '<leader>d', ':Neotree reveal<cr>', NS)
 	-- map('n', '<leader>d', ':NvimTreeFindFile<cr>', NS)
 
 	-- Options
@@ -415,22 +425,22 @@ end
 
 function M.telescope()
 	-- map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
-	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
-	map('n', '<leader>fF', ':Telescope<cr>', NS)
-	map('n', '<leader>ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
-	map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>', NS)
-	map('n', '<leader>fg', ':Telescope live_grep hidden=true<cr>', NS)
-	map('n', '<leader>f/', ':Telescope current_buffer_fuzzy_find<cr>', NS)
-	map('n', '<leader>fk', ':Telescope keymaps<cr>', NS)
-	map('n', '<leader>fh', ':Telescope git_status initial_mode=normal<cr>', NS)
-	map('n', '<leader>fd', ':Telescope file_browser theme=ivy initial_mode=normal<cr>', NS)
-	map('n', '<leader>fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
-	map('n', '<leader>fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
-	map('n', '<leader>fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
-	map('n', '<leader>fb', ':Telescope buffers initial_mode=normal<cr>', NS)
-	map('n', '<leader>fm', ':Telescope marks initial_mode=normal<cr>', NS)
-	map('n', '<leader>fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
-	map('n', '<leader>fa', ':Telescope man_pages<cr>', NS)
+	map('n', '<leadaer>es', ':Telescope spell_suggest<cr>', NS)
+	map('n', 'fF', ':Telescope<cr>', NS)
+	map('n', 'ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
+	map('n', 'ff', ':Telescope find_files hidden=true<cr>', NS)
+	map('n', 'fg', ':Telescope live_grep hidden=true<cr>', NS)
+	map('n', 'f/', ':Telescope current_buffer_fuzzy_find<cr>', NS)
+	map('n', 'fk', ':Telescope keymaps<cr>', NS)
+	map('n', 'fh', ':Telescope git_status initial_mode=normal<cr>', NS)
+	map('n', 'fd', ':Telescope file_browser theme=ivy initial_mode=normal<cr>', NS)
+	map('n', 'fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
+	map('n', 'fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
+	map('n', 'fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
+	map('n', 'fb', ':Telescope buffers initial_mode=normal<cr>', NS)
+	map('n', 'fm', ':Telescope marks initial_mode=normal<cr>', NS)
+	map('n', 'fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
+	map('n', 'fa', ':Telescope man_pages<cr>', NS)
 end
 
 function M.luasnip()
@@ -593,23 +603,23 @@ function M.aerial()
 end
 
 function M.telekasten()
-	map('n', '<leader>nn', ':lua require("telekasten").panel()<cr>', NS)
+	map('n', 'fnn', ':lua require("telekasten").panel()<cr>', NS)
 
 	-- add note
-	map('n', '<leader>nA', ':lua require("telekasten").new_note()<cr>', NS)
-	map('n', '<leader>na', ':lua require("telekasten").new_templated_note()<cr>', NS)
+	-- map('n', '<leader>nA', ':lua require("telekasten").new_note()<cr>', NS)
+	-- map('n', '<leader>na', ':lua require("telekasten").new_templated_note()<cr>', NS)
 
 	-- find
-	map('n', '<leader>nf', ':lua require("telekasten").find_notes()<cr>', NS)
-	map('n', '<leader>nF', ':lua require("telekasten").search_notes()<cr>', NS)
+	map('n', 'fnf', ':lua require("telekasten").find_notes()<cr>', NS)
+	map('n', 'fnF', ':lua require("telekasten").search_notes()<cr>', NS)
 
 	-- today
-	map('n', '<leader>nt', ':lua require("telekasten").goto_today()<cr>', NS)
-	map('n', '<leader>nd', ':lua require("telekasten").find_daily_notes()<cr>', NS)
+	-- map('n', 'fnt', ':lua require("telekasten").goto_today()<cr>', NS)
+	-- map('n', 'fnd', ':lua require("telekasten").find_daily_notes()<cr>', NS)
 
 	-- week
-	map('n', '<leader>nw', ':lua require("telekasten").goto_thisweek()<cr>', NS)
-	map('n', '<leader>nW', ':lua require("telekasten").find_weekly_notes()<cr>', NS)
+	map('n', 'fnw', ':lua require("telekasten").goto_thisweek()<cr>', NS)
+	map('n', 'fnW', ':lua require("telekasten").find_weekly_notes()<cr>', NS)
 
 	-- todo toggle
 	map('n', '<leader>nx', ':lua require("telekasten").toggle_todo()<cr>', NS)
@@ -700,7 +710,7 @@ function F.bootstrap()
 	-- UI
 	vim.o.cmdheight = 1
 	vim.o.termguicolors = true
-	vim.o.mouse = 'nvi'
+	vim.o.mouse = 'nv'
 	vim.o.cursorline = true
 	vim.o.showmode = false
 	vim.o.showcmd = false
@@ -969,6 +979,11 @@ function F.translate()
 	M.translate()
 end
 
+function F.neo_tree()
+	require("neo-tree").setup {}
+	-- M.neo_tree()
+end
+
 function F.nvim_tree()
 	local tmap = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {
@@ -1085,7 +1100,14 @@ function F.treesitter()
 		['highlight'] = {
 			['enable'] = true
 		},
-		['ensure_installed'] = { "lua", "rust", "go", "python", "terraform", "yaml", "json" },
+		['ensure_installed'] = { "lua",
+			"rust",
+			"go",
+			"python",
+			"terraform",
+			"yaml",
+			"json" },
+
 		['incremental_selection'] = {
 			['enable'] = true,
 			['keymaps'] = {
@@ -1503,9 +1525,9 @@ function F.telescope()
 				-- },
 			},
 			['ui-select'] = {
-				-- require("telescope.themes").get_dropdown {
-				-- 	-- even more opts
-				-- }
+				require("telescope.themes").get_dropdown {
+					-- even more opts
+				}
 
 				-- pseudo code / specification for writing custom displays, like the one
 				-- for "codeactions"
@@ -1935,9 +1957,6 @@ function F.lspconfig()
 	}
 end
 
---
-F.bootstrap()
---
 --
 F.bootstrap()
 --

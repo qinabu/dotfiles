@@ -28,9 +28,8 @@ map gh cd ~
 map <right>
 map f
 map D trash
-map H :doc
 
-map <esc> quit
+# map <esc> quit
 
 map <space> :toggle
 map , ${{
@@ -39,23 +38,26 @@ map , ${{
 	lf -remote "send $id echo Updated!"
 }}
 map . set hidden!
-map o $open $f
+map o ${{ open "$f" }}
 
 # Action ...
-map agpu !git pull
-map agp !git push -u origin head
+map ag :$g
+# map agpu !git pull
+# map agp !git push -u origin head
 map al $tig
 map aal $tig --all
 map as !{{clear; git status --short --branch}}
 map ac push :create<space>
 cmd create ${{
-	[ -n "$1" ] && {
-		[ "${1: -1}" = "/" ] \
-		&& mkdir -p "$1" \
-		|| touch "$1"
+	for i in "$@"; do
+		[ "${i: -1}" = "/" ] && {
+			mkdir -p -- "$i"
+		} || {
+			touch "$i"
+		}
+	done
 
-		lf -remote "send $id select \"${1%%/*}\""
-	}
+	lf -remote "send $id select \"${1%%/*}\""
 }}
 
 # Go to ...
@@ -82,9 +84,13 @@ map <c-k> find-project
 # COMMANDS ====================================================================
 cmd open
 
-cmd trash ${{
-	files=( $(echo "$fs") )
-	trash "${files[@]}"
+cmd trash %{{
+	printf " Move to trash? [y/n]: "
+	read -n 1 ans
+	[ "$ans" = "y" ] && [ -n "$fx" ] && echo "$fx" | while read -r f; do
+		trash "$f"
+	done
+	echo
 }}
 
 cmd edit-directory ${{
@@ -94,6 +100,7 @@ cmd edit-directory ${{
 		source "$a"
 	fi
 	cd "$PWD" && $EDITOR
+	lf -remote "send $id reload"
 }}
 
 cmd mkdir %{{
@@ -138,6 +145,7 @@ cmd find-grep ${{
 # }}
 
 # OPTIONS =====================================================================
+# set icons true
 # set color256
 set autoquit on
 #set hidden

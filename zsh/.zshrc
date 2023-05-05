@@ -315,6 +315,7 @@ alias gfr="git fetch origin && git rebase origin/\$(git_default_branch) -i"
 alias ga="git_add"
 # alias gcl="git clone --single-branch"
 alias gb="git branch -vv --sort '-committerdate'"
+alias gba="git branch -vv --sort '-committerdate' -a"
 alias gt="git tag -l --sort=-version:refname"
 
 

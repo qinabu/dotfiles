@@ -42,14 +42,14 @@ function F.unpackPacker(use)
 	use { 'simeji/winresizer', config = M.winresizer }
 	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
 	use { 'kyazdani42/nvim-tree.lua', config = F.nvim_tree }
-	-- use { "nvim-neo-tree/neo-tree.nvim",
-	-- 	branch = "v2.x",
-	-- 	requires = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"MunifTanjim/nui.nvim",
-	-- 	},
-	-- 	config = F.neo_tree
-	-- }
+	use { "nvim-neo-tree/neo-tree.nvim",
+		branch = "v2.x",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+		},
+		config = F.neo_tree
+	}
 	use { 'nvim-telescope/telescope.nvim',
 		requires = {
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
@@ -89,7 +89,7 @@ function F.unpackPacker(use)
 			'stevearc/aerial.nvim',
 			'ray-x/lsp_signature.nvim',
 			'j-hui/fidget.nvim',
-			'narutoxy/dim.lua',
+			-- 'narutoxy/dim.lua',
 		},
 		config = function() vim.defer_fn(F.lspconfig, 100) end,
 	}
@@ -228,16 +228,16 @@ function M.bootstrap()
 
 	map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
 
-	map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
-	-- map('n', '<leader>d', ':Neotree reveal<cr>', NS)
+	-- map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
+	-- map('n', '<leader>d', ':Neotree toggle reveal<cr>', NS)
 	-- map('n', '<leader>d', ':NvimTreeFindFile<cr>', NS)
 
 	-- Options
 	map('n', '<leader>oO', ':only<cr>', NS)
 	map('n', '<leader>oo', ':MaximizerToggle!<cr>', NS)
 
-	map('n', '<leader>on', ':setlocal number!<cr>', NS)
-	map('n', '<leader>oN', ':setlocal relativenumber!<cr>', NS)
+	map('n', '<leader>on', ':set number!<cr>', NS)
+	map('n', '<leader>oN', ':set relativenumber!<cr>', NS)
 
 	map('n', '<leader>os', ':setlocal spell!<cr>', NS)
 
@@ -425,16 +425,21 @@ end
 
 function M.telescope()
 	-- map('n', '<leader>ea', ':Telescope lsp_code_actions<cr>', NS)
-	map('n', '<leadaer>es', ':Telescope spell_suggest<cr>', NS)
-	map('n', 'fF', ':Telescope<cr>', NS)
+	map('n', '<leader>es', ':Telescope spell_suggest<cr>', NS)
+	map('n', 'f<leader>', ':Telescope<cr>', NS)
 	map('n', 'ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
 	map('n', 'ff', ':Telescope find_files hidden=true<cr>', NS)
 	map('n', 'fg', ':Telescope live_grep hidden=true<cr>', NS)
 	map('n', 'f/', ':Telescope current_buffer_fuzzy_find<cr>', NS)
 	map('n', 'fk', ':Telescope keymaps<cr>', NS)
-	map('n', 'fh', ':Telescope git_status initial_mode=normal<cr>', NS)
-	map('n', 'fd', ':Telescope file_browser theme=ivy initial_mode=normal<cr>', NS)
-	map('n', 'fr', ':Telescope file_browser theme=ivy initial_mode=normal path=%:p:h<cr>', NS)
+	map('n', 'fh', ':Telescope git_status<cr>', NS) --  initial_mode=normal
+	map('n', 'fd',
+		':Telescope file_browser theme=ivy layout_config={height=0.8} initial_mode=normal select_buffer=true<cr>',
+		NS)
+	map('n', 'fl', ':Telescope diagnostics initial_mode=normal<cr>', NS)
+	map('n', 'fr',
+		':Telescope file_browser theme=ivy layout_config={height=0.8} initial_mode=normal path=%:p:h select_buffer=true<cr>',
+		NS)
 	map('n', 'fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
 	map('n', 'fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
 	map('n', 'fb', ':Telescope buffers initial_mode=normal<cr>', NS)
@@ -504,6 +509,16 @@ function M.winresizer()
 end
 
 function M.ctrlsf()
+	vim.cmd [[
+		let g:ctrlsf_position = 'bottom'
+		let g:ctrlsf_preview_position = 'outside'
+		let g:ctrlsf_winsize = '40%'
+		let g:ctrlsf_auto_preview = 1
+		let g:ctrlsf_auto_focus = {
+		\ "at" : "done",
+		\ "duration_less_than": 1000
+		\ }
+	]]
 	map('n', '<leader>fc', '<Plug>CtrlSFCwordExec', {})
 	map('v', '<leader>fc', '<Plug>CtrlSFVwordExec', {})
 	map('n', '<leader>fC', '<Plug>CtrlSFPrompt', {})
@@ -659,18 +674,18 @@ function F.bootstrap()
 	-- Basic
 	vim.opt.shortmess:append("I") -- don't give the intro message when starting Vim :intro
 	vim.opt.shortmess:append("c") -- don't give |ins-completion-menu| messages.  For example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
-	vim.o.clipboard = "unnamed"
-	vim.o.paste = false
-	vim.o.encoding = "utf-8"
+	vim.go.clipboard = "unnamed"
+	vim.go.paste = false
+	vim.go.encoding = "utf-8"
 	vim.cmd [[set spelllang=en_us,ru_yo]]
-	vim.o.maxmempattern = 5000
+	vim.go.maxmempattern = 5000
 
-	vim.o.keymap = "russian-jcukenmac" -- <c-l> for change language
-	vim.o.iminsert = 0
-	vim.o.imsearch = 0
-	vim.o.inccommand = 'split'
+	vim.go.keymap = "russian-jcukenmac" -- <c-l> for change language
+	vim.go.iminsert = 0
+	vim.go.imsearch = 0
+	vim.go.inccommand = 'split'
 
-	vim.o.autoread = true
+	vim.go.autoread = true
 	-- Update a buffer's contents on focus if it changed outside of Vim.
 	vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
 
@@ -723,7 +738,7 @@ function F.bootstrap()
 	vim.o.wrap = false
 
 	-- vim.o.signcolumn = 'number'
-	vim.o.signcolumn = 'yes:2'
+	vim.o.signcolumn = 'yes:3'
 	vim.o.numberwidth = 3
 
 	vim.o.number = false
@@ -741,8 +756,8 @@ function F.bootstrap()
 	vim.o.splitright = true
 
 	vim.o.updatetime = 100
-	vim.o.timeoutlen = 2000
-	vim.o.ttimeoutlen = 10
+	-- vim.o.timeoutlen = 2000
+	-- vim.o.ttimeoutlen = 10
 
 	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
 	vim.o.listchars = "eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,"
@@ -988,6 +1003,7 @@ function F.nvim_tree()
 	local tmap = require('nvim-tree.config').nvim_tree_callback
 	require('nvim-tree').setup {
 		['renderer'] = {
+			['root_folder_label'] = false,
 			['highlight_opened_files'] = 'all',
 			['highlight_git'] = true,
 			['root_folder_modifier'] = ':~:.',
@@ -1051,28 +1067,27 @@ function F.nvim_tree()
 				['max'] = -1,
 				['padding'] = 0,
 			},
-			['hide_root_folder'] = true,
 			['signcolumn'] = 'no',
-			['mappings'] = {
-				['list'] = {
-					-- { ['key'] = ']h', cb = tmap('next_git_item') },
-					-- { ['key'] = '[h', cb = tmap('prev_git_item') },
-					{ ['key'] = 'l', cb = tmap('edit') },
-					{ ['key'] = 'h', cb = tmap('close_node') },
-					-- { ['key'] = 'd',     cb = nil },
-					{
-						['key'] = 's',
-						cb = function()
-						end
-					},
-					{ ['key'] = 'D',     cb = tmap('remove') },
-					{ ['key'] = 'R',     cb = tmap('refresh') },
-					{ ['key'] = 'm',     cb = tmap('rename') },
-					{ ['key'] = 'M',     cb = tmap('full_rename') },
-					{ ['key'] = 'O',     cb = tmap('system_open') },
-					{ ['key'] = '<c-.>', cb = tmap('toggle_dotfiles') },
-				},
-			},
+			-- ['mappings'] = {
+			-- 	['list'] = {
+			-- 		-- { ['key'] = ']h', cb = tmap('next_git_item') },
+			-- 		-- { ['key'] = '[h', cb = tmap('prev_git_item') },
+			-- 		{ ['key'] = 'l', cb = tmap('edit') },
+			-- 		{ ['key'] = 'h', cb = tmap('close_node') },
+			-- 		-- { ['key'] = 'd',     cb = nil },
+			-- 		{
+			-- 			['key'] = 's',
+			-- 			cb = function()
+			-- 			end
+			-- 		},
+			-- 		{ ['key'] = 'D',     cb = tmap('remove') },
+			-- 		{ ['key'] = 'R',     cb = tmap('refresh') },
+			-- 		{ ['key'] = 'm',     cb = tmap('rename') },
+			-- 		{ ['key'] = 'M',     cb = tmap('full_rename') },
+			-- 		{ ['key'] = 'O',     cb = tmap('system_open') },
+			-- 		{ ['key'] = '<c-.>', cb = tmap('toggle_dotfiles') },
+			-- 	},
+			-- },
 		},
 		['filters'] = {
 			['dotfiles'] = true,
@@ -1091,7 +1106,20 @@ function F.nvim_tree()
 			['update_cwd'] = false,
 			['ignore_list'] = {},
 		},
-		['auto_reload_on_write'] = false
+		['auto_reload_on_write'] = false,
+		['on_attach'] = function(bufrn)
+			local api = require('nvim-tree.api')
+			local opts = { buffer = bufrn, noremap = true, silent = true, nowait = true }
+
+			map('n', 'l', api.node.open.edit, opts)
+			map('n', 'h', api.close_node, opts)
+			map('n', 'D', api.fs.remove, opts)
+			map('n', 'R', api.tree.reload, opts)
+			map('n', 'm', api.fs.rename_basename, opts)
+			map('n', 'M', api.fs.rename, opts)
+			map('n', 'O', api.node.run.system, opts)
+			map('n', '<c-.>', api.tree.toggle_hidden_filter, opts)
+		end
 	}
 end
 
@@ -1234,7 +1262,7 @@ function F.lualine()
 				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
 				'%l:%c/%v',
 				'progress',
-				{ 'aerial',['sep'] = '.' }
+				{ 'aerial', ['sep'] = '.' }
 			},
 			['lualine_x'] = {
 				'searchcount',
@@ -1505,13 +1533,22 @@ function F.telescope()
 			},
 			['file_browser'] = {
 				-- ['theme'] = "ivy",
+				['layout_config'] = {
+					['vertical'] = {
+						['height'] = 70,
+					}
+				},
 				['mappings'] = {
-					-- ["i"] = {
-					-- 	['<c-n>'] = require('telescope.actions').results_scrolling_down,
-					-- 	['<c-p>'] = require('telescope.actions').results_scrolling_up,
-					-- },
+					["i"] = {
+						-- 	['<c-n>'] = require('telescope.actions').results_scrolling_down,
+						-- 	['<c-p>'] = require('telescope.actions').results_scrolling_up,
+						['<c-e>'] = require("telescope._extensions.file_browser.actions").toggle_browser,
+						['<C-f>'] = false,
+					},
 					["n"] = {
-						['h'] = require('telescope').extensions.file_browser.actions.goto_parent_dir,
+						['f'] = false,
+						['h'] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
+						['e'] = require("telescope._extensions.file_browser.actions").toggle_browser,
 						['l'] = require('telescope.actions').select_default,
 					},
 				},
@@ -1801,21 +1838,15 @@ function F.lspconfig()
 		terraformls = {},
 		tflint = {},
 		bashls = {},
+		jsonls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings
-			-- ['settings'] = {
-			-- 	['yaml'] = {
-			-- 		['keyOrdering'] = false,
-			-- 		['key_ordering'] = false,
-			-- 	}
-			-- },
-			-- ['yaml'] = {
-			-- 	['keyOrdering'] = false,
-			-- 	['key_ordering'] = false,
-			-- },
-			-- ['keyOrdering'] = false,
-			-- ['key_ordering'] = false,
+			['yaml'] = {
+				-- ['keyordering'] = false,
+				-- ['key_ordering'] = false,
+				['keyOrdering'] = false,
+			},
 		},
 		marksman = {},
 		dagger = {}, -- cue
@@ -1834,8 +1865,8 @@ function F.lspconfig()
 					-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
 					-- disabled by default:
 					unusedparams = true, --
-					shadow = true, --
-					fieldalignment = true, --
+					shadow = false, -- !!!
+					fieldalignment = false, -- !!!
 					nilness = true, --
 					unusedwrite = true, --
 					useany = true, --
@@ -1952,9 +1983,9 @@ function F.lspconfig()
 		}
 	})
 
-	require('dim').setup {
-		disable_lsp_decorations = false
-	}
+	-- require('dim').setup {
+	-- 	disable_lsp_decorations = false
+	-- }
 end
 
 --

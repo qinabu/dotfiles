@@ -336,6 +336,9 @@ function M.bqf_quickfix()
 		func_map = {
 			pscrollup = '<C-u>',
 			pscrolldown = '<C-d>',
+		},
+		preview = {
+			winblend = 0,
 		}
 	}
 end
@@ -418,8 +421,8 @@ function M.luasnip()
 	-- map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
 
 	-- select mode jumps
-	map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
-	map('s', '<s-tab>', '<cmd>lua require("luasnip").jump(-1)<cr>', {})
+	-- map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
+	-- map('s', '<s-tab>', '<cmd>lua require("luasnip").jump(-1)<cr>', {})
 
 	-- choose variants
 	map('i', '<C-n>', '<Plug>luasnip-next-choice', {})
@@ -1497,16 +1500,6 @@ function F.lint()
 end
 
 function F.cmp()
-	local has_words_before = function()
-		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-		return col ~= 0 and
-		    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-	end
-
-	local check_backspace = function()
-		local col = vim.fn.col '.' - 1
-		return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
-	end
 	-- load snippets
 	require("luasnip.loaders.from_snipmate").lazy_load()
 
@@ -1515,71 +1508,6 @@ function F.cmp()
 	local cmp = require 'cmp'
 
 	local config = {
-		-- ['mapping'] = {
-		-- 	['<c-p>'] = cmp.mapping.select_prev_item(),
-		-- 	['<c-n>'] = cmp.mapping.select_next_item(),
-		-- 	['<c-j>'] = cmp.mapping.scroll_docs(-4),
-		-- 	['<c-k>'] = cmp.mapping.scroll_docs(4),
-		-- 	['<c-space>'] = cmp.mapping.complete(),
-		-- 	['<c-e>'] = cmp.mapping.close(),
-		-- 	['<cr>'] = cmp.mapping.confirm {
-		-- 		['behavior'] = cmp.ConfirmBehavior.Replace,
-		-- 		['select'] = false,
-		-- 	},
-		-- 	['<tab>'] = cmp.mapping(function(fallback)
-		-- 		if not luasnip.in_snippet() and luasnip.expand_or_jumpable() then
-		-- 			luasnip.expand_or_jump()
-		-- 		elseif cmp.visible() and not luasnip.in_snippet() then
-		-- 			cmp.select_next_item()
-		-- 			-- elseif luasnip.expand_or_jumpable() then
-		-- 			-- 	if luasnip.in_snippet() and luasnip.jumpable(1) then
-		-- 			-- 		luasnip.jump(1)
-		-- 			-- 	end
-		-- 			-- 	luasnip.expand_or_jump()
-		-- 			-- elseif has_words_before() then
-		-- 			-- 	cmp.complete()
-		-- 		else
-		-- 			fallback()
-		-- 		end
-		-- 	end, { "i", "s" }),
-		-- 	-- ['<tab>'] = cmp.mapping(function(fallback)
-		-- 	-- 	if luasnip ~= nil then
-		-- 	-- 		if luasnip.in_snippet() and luasnip.jumpable(1) then
-		-- 	-- 			luasnip.jump(1)
-		-- 	-- 		elseif luasnip.expand_or_jumpable() then
-		-- 	-- 			luasnip.expand_or_jump()
-		-- 	-- 		else
-		-- 	-- 			fallback()
-		-- 	-- 		end
-		-- 	-- 	elseif cmp.visible() then
-		-- 	-- 		cmp.select_next_item()
-		-- 	-- 	else
-		-- 	-- 		fallback()
-		-- 	-- 	end
-		-- 	-- end, { "i", "s" }),
-		-- 	["<s-tab>"] = cmp.mapping(function(fallback)
-		-- 		if cmp.visible() then
-		-- 			cmp.select_prev_item()
-		-- 		elseif luasnip.jumpable(-1) then
-		-- 			luasnip.jump(-1)
-		-- 		else
-		-- 			fallback()
-		-- 		end
-		-- 	end, { "i", "s" }),
-		-- 	-- ['<s-tab>'] = cmp.mapping(function(fallback)
-		-- 	-- 	if luasnip ~= nil then
-		-- 	-- 		if luasnip.in_snippet() and luasnip.jumpable(-1) then
-		-- 	-- 			luasnip.jump(-1)
-		-- 	-- 		else
-		-- 	-- 			fallback()
-		-- 	-- 		end
-		-- 	-- 	elseif cmp.visible() then
-		-- 	-- 		cmp.select_prev_item()
-		-- 	-- 	else
-		-- 	-- 		fallback()
-		-- 	-- 	end
-		-- 	-- end, { "i", "s" }),
-		-- },
 		['window'] = {
 			['completion'] = cmp.config.window.bordered(),
 			['documentation'] = cmp.config.window.bordered(),
@@ -1590,56 +1518,75 @@ function F.cmp()
 			['<c-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
 
 			-- insert mode selection
-			['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
-			['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i' }),
+			['<c-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i' }),
+			['<c-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i' }),
 
 			-- info scrolling like for telescope
-			['<C-u>'] = cmp.mapping.scroll_docs(-4),
-			['<C-d>'] = cmp.mapping.scroll_docs(4),
+			['<c-u>'] = cmp.mapping.scroll_docs(-4),
+			['<c-d>'] = cmp.mapping.scroll_docs(4),
+
+			-- snipet expand
+			["<tab>"] = cmp.mapping(function(fallback)
+				if luasnip.expandable() then
+					luasnip.expand()
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+
+			-- snipet jumps
+			["<a-j>"] = cmp.mapping(function(fallback)
+				if luasnip.jumpable(1) then
+					luasnip.jump(1)
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+			["<a-k>"] = cmp.mapping(function(fallback)
+				if luasnip.jumpable(-1) then
+					luasnip.jump(-1)
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+
+			-- snipet choices
+			["<a-l>"] = cmp.mapping(function(fallback)
+				if luasnip.choice_active() then
+					luasnip.change_choice(1)
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
+
+			["<a-h>"] = cmp.mapping(function(fallback)
+				if luasnip.choice_active() then
+					luasnip.change_choice(-1)
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
 
 			-- confimration
-			-- ['<C-Space>'] = cmp.mapping.complete(),
-			-- ['<C-e>'] = cmp.mapping.abort(),
+			['<c-e>'] = cmp.mapping.abort(),
 			['<cr>'] = cmp.mapping.confirm({ select = false }),
 		}),
 		['snippet'] = {
 			-- REQUIRED - you must specify a snippet engine
 			['expand'] = function(args)
-				-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 				require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-				-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-				-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 			end,
 		},
 		['sources'] = cmp.config.sources({
 			{ ['name'] = 'luasnip' },
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
-			-- { name = 'vsnip' },
-			-- { name = 'ultisnips' },
-			-- { name = 'snippy' },
 		}, {
 			{ name = 'buffer' },
 		}),
-		-- ['sources'] = {
-		-- 	{ ['name'] = 'nvim_lsp' },
-		-- 	{ ['name'] = 'nvim_lua' },
-		-- 	{ ['name'] = 'buffer' },
-		-- 	-- { ['name'] = 'nvim_lua' },
-		-- 	{ ['name'] = 'luasnip' },
-		-- },
 		['history'] = false,
 		['preselect'] = cmp.PreselectMode.None
 	}
-	--
-	-- if luasnip ~= nil then
-	-- 	config['snippet'] = {
-	-- 		['expand'] = function(args)
-	-- 			luasnip.lsp_expand(args.body)
-	-- 		end,
-	-- 	}
-	-- 	table.insert(config['sources'], { ['name'] = 'luasnip' })
-	-- end
 
 	cmp.setup(config)
 
@@ -1660,8 +1607,6 @@ function F.cmp()
 			{ name = 'cmdline' }
 		})
 	})
-
-	M.luasnip()
 end
 
 function F.diffview()

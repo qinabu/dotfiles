@@ -202,12 +202,12 @@ export PAGER=less
 ###
 alias reload='exec $0 "$@"'
 
-# alias ls="gls --group-directories-first"
-# alias ll="gls --group-directories-first -l -F -X"
-# alias la="gls --group-directories-first -l -F -X -A"
-alias ls="exa --group-directories-first"
-alias ll="exa --group-directories-first -l -F"
-alias la="exa --group-directories-first -l -F"
+alias ls="gls --group-directories-first"
+alias ll="gls --group-directories-first -l -F -X"
+alias la="gls --group-directories-first -l -F -X -A"
+# alias ls="exa --group-directories-first"
+# alias ll="exa --group-directories-first -l -F"
+# alias la="exa --group-directories-first -l -F"
 alias tree="exa --tree --group-directories-first"
 alias -g less="less -i"
 alias -g LL="2>&1 |less -i"
@@ -293,8 +293,10 @@ _fzf_complete_gchb() {
 }
 
 alias gpu="git pull"
+alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
-alias gchmp="git checkout \$(git_default_branch) && gpu"
+alias gm="git checkout \$(git_default_branch)"
+alias gmp="git checkout \$(git_default_branch) && gpu"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"

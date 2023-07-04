@@ -29,7 +29,7 @@ map <right>
 map f
 map D trash
 
-# map <esc> quit
+map <esc> quit
 
 map <space> :toggle
 map , ${{
@@ -147,7 +147,7 @@ cmd find-grep ${{
 # OPTIONS =====================================================================
 # set icons true
 # set color256
-set autoquit on
+set autoquit true
 #set hidden
 # set ratios 2:3:8
 set ratios 3:8
@@ -155,3 +155,4 @@ set ratios 3:8
 # set promptfmt "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m\033[1m%f\033[0m"
 set promptfmt "\033[36;1m%d\033[0m"
 set previewer ~/.config/lf/preview.sh
+set cursorpreviewfmt ""

@@ -8,6 +8,7 @@ local NS = { noremap = true, silent = true }
 local N = { noremap = true }
 
 -- TODO:
+-- toggle vim.diagnostic {virtual_text}
 -- luasnip
 --
 -- https://github.com/ziontee113/syntax-tree-surfer -- movements
@@ -37,20 +38,12 @@ function F.unpackPacker(use)
 	use { 'sainnhe/everforest', config = F.everforest }
 	use { 'folke/zen-mode.nvim', config = F.zen_mode }
 	use { 'szw/vim-maximizer' } -- :MaximizerToggle
-	use { 'itchyny/vim-qfedit' }
-	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
 	use { 'simeji/winresizer', config = M.winresizer }
+	use { 'itchyny/vim-qfedit' } -- edit quickfix
+	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
 	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
-	use { 'kyazdani42/nvim-tree.lua', config = F.nvim_tree }
-	use { "nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-		},
-		config = F.neo_tree
-	}
-	use { 'nvim-telescope/telescope.nvim',
+
+	use { 'nvim-telescope/telescope.nvim', config = function() vim.defer_fn(F.telescope, 100) end,
 		requires = {
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
 			'nvim-lua/plenary.nvim',
@@ -58,15 +51,6 @@ function F.unpackPacker(use)
 			'nvim-telescope/telescope-ui-select.nvim',
 			'nvim-telescope/telescope-dap.nvim',
 		},
-		-- config = F.telescope,
-		config = function() vim.defer_fn(F.telescope, 100) end,
-	}
-
-	use { 'niuiic/translate.nvim',
-		requires = {
-			'niuiic/niuiic-core.nvim',
-		},
-		config = F.translate,
 	}
 
 	-- [[ EDIT ]]
@@ -77,28 +61,24 @@ function F.unpackPacker(use)
 	use { 'tpope/vim-repeat' }
 
 	-- [[ LSP ]] --
-	use { 'neovim/nvim-lspconfig',
+	use { 'neovim/nvim-lspconfig', config = function() vim.defer_fn(F.lspconfig, 100) end,
 		requires = {
 			'williamboman/mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
-			-- 'jose-elias-alvarez/null-ls.nvim',
 			'folke/neodev.nvim',
-
 			'hrsh7th/nvim-cmp',
 			'hrsh7th/cmp-nvim-lsp',
-			'stevearc/aerial.nvim',
+			-- 'stevearc/aerial.nvim',
 			'ray-x/lsp_signature.nvim',
-			'j-hui/fidget.nvim',
-			-- 'narutoxy/dim.lua',
+			{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
 		},
-		config = function() vim.defer_fn(F.lspconfig, 100) end,
 	}
 
 	-- [[ LINT ]]
 	-- ...
 
 	-- [[ COMPLETION ]] --
-	use { 'hrsh7th/nvim-cmp',
+	use { 'hrsh7th/nvim-cmp', config = function() vim.defer_fn(F.cmp, 100) end,
 		requires = {
 			'hrsh7th/cmp-nvim-lsp',
 			'hrsh7th/cmp-nvim-lua',
@@ -111,11 +91,10 @@ function F.unpackPacker(use)
 			'saadparwaiz1/cmp_luasnip',
 			'honza/vim-snippets', -- Snippet collection
 		},
-		config = function() vim.defer_fn(F.cmp, 100) end,
 	}
 
 	-- [[ LANGUAGES ]]
-	use { 'nvim-treesitter/nvim-treesitter',
+	use { 'nvim-treesitter/nvim-treesitter', config = F.treesitter,
 		requires = {
 			'nvim-treesitter/playground', -- :TSPlaygroundToggle
 			'nvim-treesitter/nvim-treesitter-textobjects',
@@ -124,7 +103,6 @@ function F.unpackPacker(use)
 			'jubnzv/virtual-types.nvim',
 		},
 		run = ':TSUpdate',
-		config = F.treesitter,
 	}
 	use { 'jjo/vim-cue' }
 	-- https://mermaid-js.github.io/ -- https://mermaid.live/
@@ -133,26 +111,21 @@ function F.unpackPacker(use)
 	}
 
 	-- [[ VCS ]]
-	use { 'tpope/vim-fugitive',
+	use { 'tpope/vim-fugitive', config = F.fugitive,
 		requires = {
 			'nvim-lua/plenary.nvim',
 			'ruifm/gitlinker.nvim',
 		},
-		config = F.fugitive,
 	}
-	use { 'lewis6991/gitsigns.nvim',
+	use { 'lewis6991/gitsigns.nvim', config = F.gitsigns,
 		requires = { 'nvim-lua/plenary.nvim' },
-		-- config = require("configs").gitsigns,
-		config = F.gitsigns,
 	}
-	use { 'sindrets/diffview.nvim',
+	use { 'sindrets/diffview.nvim', config = F.diffview,
 		requires = { 'nvim-lua/plenary.nvim' },
-		config = F.diffview,
-		-- config = require("configs").diffview,
 	}
 
 	-- [[ DEBUG / TESTINGS ]]
-	use { 'mfussenegger/nvim-dap',
+	use { 'mfussenegger/nvim-dap', config = F.dap,
 		requires = {
 			'vim-test/vim-test',
 			'nvim-treesitter/nvim-treesitter',
@@ -160,12 +133,10 @@ function F.unpackPacker(use)
 			'nvim-telescope/telescope-dap.nvim',
 			'leoluz/nvim-dap-go',
 		},
-		config = F.dap,
 	}
 	-- [[ NOTE TAKING ]]
-	use { 'renerocksai/telekasten.nvim',
+	use { 'renerocksai/telekasten.nvim', config = function() vim.defer_fn(F.telekasten, 100) end,
 		requires = { 'nvim-telescope/telescope.nvim' },
-		config = function() vim.defer_fn(F.telekasten, 100) end,
 	}
 end
 
@@ -226,7 +197,8 @@ function M.bootstrap()
 	map('n', '<ScrollWheelUp>', '<c-y>', NS)
 	map('n', '<ScrollWheelDown>', '<c-e>', NS)
 
-	map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
+	-- map('n', '<leader>p', '<c-^>zz', NS) -- previous buffer
+	map('n', '<leader>p', '<c-^>', NS) -- previous buffer
 
 	-- map('n', '<leader>d', ':NvimTreeFindFileToggle<cr>', NS)
 	-- map('n', '<leader>d', ':Neotree toggle reveal<cr>', NS)
@@ -362,8 +334,8 @@ function M.bqf_quickfix()
 	require('bqf').setup {
 		-- TODO: fix
 		func_map = {
-			pscrollup = '<C-y>',
-			pscrolldown = '<C-e>',
+			pscrollup = '<C-u>',
+			pscrolldown = '<C-d>',
 		}
 	}
 end
@@ -371,15 +343,8 @@ end
 function M.hop()
 	-- map('n', 's', ':HopChar1<cr>', NS)
 	map('n', 's', ':HopChar2<cr>', NS)
-	-- map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
-	map('n', 'S', ':lua require("hop").hint_words()<cr>', NS)
-end
-
-function M.translate()
-	map("v", "<leader>Tr", ":<c-u>TranslateToRU<CR>", { silent = true })
-	map("v", "<leader>Te", ":<c-u>TranslateToEN<CR>", { silent = true })
-	-- map("n", "<leader>Te", "<cmd>TranslateToEN<CR>")
-	-- map("n", "<leader>Tr", "<cmd>TranslateToRU<CR>")
+	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
+	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
 end
 
 function M.harpoon()
@@ -605,17 +570,17 @@ function M.gitsigns()
 	map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', NS) -- breaks selection left-right
 end
 
-function M.aerial()
-	-- Toggle the aerial window with <leader>a
-	-- map('n', '<leader>9', ':AerialToggle left<cr>', NS)
-	map('n', '<leader>-', ':AerialToggle left<cr>', NS)
-	-- Jump forwards/backwards with '{' and '}'
-	map('n', '<leader>9', ':AerialPrev<cr>', NS)
-	map('n', '<leader>0', ':AerialNext<cr>', NS)
-	-- Jump up the tree with '[[' or ']]'
-	-- map('n', '[[', ':AerialPrevUp<cr>', NS)
-	-- map('n', ']]', ':AerialNextUp<cr>', NS)
-end
+-- function M.aerial()
+-- 	-- Toggle the aerial window with <leader>a
+-- 	-- map('n', '<leader>9', ':AerialToggle left<cr>', NS)
+-- 	map('n', '<leader>-', ':AerialToggle left<cr>', NS)
+-- 	-- Jump forwards/backwards with '{' and '}'
+-- 	map('n', '<leader>9', ':AerialPrev<cr>', NS)
+-- 	map('n', '<leader>0', ':AerialNext<cr>', NS)
+-- 	-- Jump up the tree with '[[' or ']]'
+-- 	-- map('n', '[[', ':AerialPrevUp<cr>', NS)
+-- 	-- map('n', ']]', ':AerialNextUp<cr>', NS)
+-- end
 
 function M.telekasten()
 	map('n', 'fnn', ':lua require("telekasten").panel()<cr>', NS)
@@ -626,7 +591,7 @@ function M.telekasten()
 
 	-- find
 	map('n', 'fnf', ':lua require("telekasten").find_notes()<cr>', NS)
-	map('n', 'fnF', ':lua require("telekasten").search_notes()<cr>', NS)
+	map('n', 'fng', ':lua require("telekasten").search_notes()<cr>', NS)
 
 	-- today
 	-- map('n', 'fnt', ':lua require("telekasten").goto_today()<cr>', NS)
@@ -674,94 +639,97 @@ function F.bootstrap()
 	-- Basic
 	vim.opt.shortmess:append("I") -- don't give the intro message when starting Vim :intro
 	vim.opt.shortmess:append("c") -- don't give |ins-completion-menu| messages.  For example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
-	vim.go.clipboard = "unnamed"
-	vim.go.paste = false
-	vim.go.encoding = "utf-8"
+	vim.opt.clipboard = "unnamed"
+	vim.opt.paste = false
+	vim.opt.encoding = "utf-8"
 	vim.cmd [[set spelllang=en_us,ru_yo]]
-	vim.go.maxmempattern = 5000
+	vim.opt.maxmempattern = 5000
 
-	vim.go.keymap = "russian-jcukenmac" -- <c-l> for change language
-	vim.go.iminsert = 0
-	vim.go.imsearch = 0
-	vim.go.inccommand = 'split'
+	vim.opt.keymap = "russian-jcukenmac" -- <c-l> for change language
+	vim.opt.iminsert = 0
+	vim.opt.imsearch = 0
+	vim.opt.inccommand = 'split'
 
-	vim.go.autoread = true
+	vim.opt.autoread = true
 	-- Update a buffer's contents on focus if it changed outside of Vim.
 	vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
 
 	vim.opt.path:append("**")
-	vim.o.backupdir = "/tmp/nvim/,."
-	vim.o.writebackup = false
-	vim.o.directory = "/tmp/nvim/,."
-	vim.o.swapfile = false
-	vim.o.undodir = "/tmp/nvim/"
-	vim.o.undofile = true
+	vim.opt.backupdir = "/tmp/nvim/,."
+	vim.opt.writebackup = false
+	vim.opt.directory = "/tmp/nvim/,."
+	vim.opt.swapfile = false
+	vim.opt.undodir = "/tmp/nvim/"
+	vim.opt.undofile = true
 
-	vim.o.wildmenu = true
-	vim.o.wildmode = "full"
+	vim.opt.wildmenu = true
+	vim.opt.wildmode = "full"
 
 	-- Edit
-	vim.o.autoindent = true
-	vim.o.backspace = "indent,eol,start"
-	vim.o.completeopt = "menuone,noinsert,noselect,preview"
+	vim.opt.autoindent = true
+	vim.opt.backspace = "indent,eol,start"
+	vim.opt.completeopt = "menuone,noinsert,noselect,preview"
 	-- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
-	-- vim.o.formatoptions = "tcqrn1"
-	vim.o.formatoptions = "qjrn1"
-	vim.o.textwidth = 100
+	-- vim.opt.formatoptions = "tcqrn1"
+	vim.opt.formatoptions = "qjrn1"
+	vim.opt.textwidth = 100
 
 	-- expandtab = true
-	vim.o.smarttab = true
-	vim.o.tabstop = 8
-	vim.o.shiftwidth = 8 -- << >>
+	vim.opt.smarttab = true
+	vim.opt.tabstop = 8
+	-- vim.go.tabstop = 8
+	vim.opt.shiftwidth = 8 -- << >>
 
 	-- showmatch = true
 	-- matchtime = 10
-	vim.o.virtualedit = "block"
-	vim.o.whichwrap = "b,s,<,>"
+	vim.opt.virtualedit = "block"
+	vim.opt.whichwrap = "b,s,<,>"
 	vim.opt.matchpairs:append("<:>")
 
-	vim.o.spell = false
+	vim.opt.spell = false
 
 	-- UI
-	vim.o.cmdheight = 1
-	vim.o.termguicolors = true
-	vim.o.mouse = 'nv'
-	vim.o.cursorline = true
-	vim.o.showmode = false
-	vim.o.showcmd = false
-	-- vim.o.fillchars = 'vert:▞,horiz:▞,eob: '
-	vim.o.fillchars = 'eob: '
-	-- vim.o.background = 'dark'
-	vim.o.scrolloff = 3 -- offset lines
-	vim.o.laststatus = 3 -- status line (one global)
+	vim.opt.cmdheight = 1
+	vim.opt.termguicolors = true
+	vim.opt.mouse = 'nv'
+	vim.opt.cursorline = true
+	vim.opt.showmode = false
+	vim.opt.showcmd = false
+	-- vim.opt.fillchars = 'vert:▞,horiz:▞,eob: '
+	vim.opt.fillchars = 'eob: '
+	-- vim.opt.background = 'dark'
+	vim.opt.scrolloff = 3 -- offset lines
+	vim.opt.laststatus = 3 -- status line (one global)
 	-- vim.cmd [[set laststatus=3]]
-	vim.o.wrap = false
+	vim.opt.wrap = false
 
-	-- vim.o.signcolumn = 'number'
-	vim.o.signcolumn = 'yes:3'
-	vim.o.numberwidth = 3
+	-- vim.opt.signcolumn = 'number'
+	vim.opt.signcolumn = 'yes:3'
+	vim.opt.numberwidth = 3
 
-	vim.o.number = false
-	vim.o.relativenumber = false
+	vim.opt.number = false
+	vim.opt.relativenumber = false
 
-	vim.o.errorbells = true
-	vim.o.visualbell = true
+	vim.opt.errorbells = true
+	vim.opt.visualbell = true
 
-	vim.o.hlsearch = true
-	vim.o.incsearch = true
-	vim.o.ignorecase = true
-	vim.o.smartcase = true
+	vim.opt.hlsearch = true
+	vim.opt.incsearch = true
+	vim.opt.ignorecase = true
+	vim.opt.smartcase = true
 
-	vim.o.splitbelow = true
-	vim.o.splitright = true
+	vim.opt.splitbelow = true
+	vim.opt.splitright = true
 
-	vim.o.updatetime = 100
-	-- vim.o.timeoutlen = 2000
-	-- vim.o.ttimeoutlen = 10
+	vim.opt.updatetime = 100
+	-- vim.opt.timeoutlen = 2000
+	-- vim.opt.ttimeoutlen = 10
 
 	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
-	vim.o.listchars = "eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,"
-	vim.o.list = true
+	vim.opt.listchars = "eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,"
+	vim.opt.list = true
+
+	vim.lsp.set_log_level("OFF")
 
 	vim.diagnostic.config({
 		float = true,
@@ -917,6 +885,11 @@ function F.everforest()
 		match ExtraWhitespace /\s\+$/
 		autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
 		autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal
+
+		hi! clear FloatShadow
+		hi! clear FloatShadowThrough
+		hi! link FloatShadow Normal
+		hi! link FloatShadowThrough Normal
 	]]
 end
 
@@ -994,147 +967,20 @@ function F.translate()
 	M.translate()
 end
 
-function F.neo_tree()
-	require("neo-tree").setup {}
-	-- M.neo_tree()
-end
-
-function F.nvim_tree()
-	local tmap = require('nvim-tree.config').nvim_tree_callback
-	require('nvim-tree').setup {
-		['renderer'] = {
-			['root_folder_label'] = false,
-			['highlight_opened_files'] = 'all',
-			['highlight_git'] = true,
-			['root_folder_modifier'] = ':~:.',
-			['add_trailing'] = true,
-			['special_files'] = {},
-			['icons'] = {
-				['show'] = {
-					['git'] = false,
-					['file'] = false,
-					['folder'] = true,
-					['folder_arrow'] = false,
-				},
-				['glyphs'] = {
-					['default'] = ' ',
-					['symlink'] = '=',
-					['git'] = {
-						['unstaged'] = 'm',
-						['staged'] = 'M',
-						['unmerged'] = 'u',
-						['renamed'] = '➜',
-						['untracked'] = 'u',
-						['deleted'] = 'd',
-						['ignored'] = 'i',
-					},
-					['folder'] = {
-						['arrow_open'] = '-',
-						['arrow_closed'] = '+',
-						-- ['default'] = '▮',
-						['default'] = '▸',
-						-- ['open'] = '▯',
-						['open'] = '▾',
-						-- ['empty'] = '▮',
-						['empty'] = '▸',
-						-- ['empty_open'] = '▯',
-						['empty_open'] = '▾',
-						['symlink'] = '=',
-						['symlink_open'] = '-',
-					},
-				},
-			},
-		},
-		['disable_netrw'] = false,
-		['diagnostics'] = {
-			['enable'] = true,
-			['show_on_dirs'] = false,
-			['icons'] = {
-				['hint'] = 'H',
-				['info'] = 'I',
-				['warning'] = 'W',
-				['error'] = 'E',
-			},
-		},
-		['actions'] = {
-			['open_file'] = {
-				['resize_window'] = true,
-			},
-		},
-		['view'] = {
-			['width'] = {
-				['min'] = "10%",
-				['max'] = -1,
-				['padding'] = 0,
-			},
-			['signcolumn'] = 'no',
-			-- ['mappings'] = {
-			-- 	['list'] = {
-			-- 		-- { ['key'] = ']h', cb = tmap('next_git_item') },
-			-- 		-- { ['key'] = '[h', cb = tmap('prev_git_item') },
-			-- 		{ ['key'] = 'l', cb = tmap('edit') },
-			-- 		{ ['key'] = 'h', cb = tmap('close_node') },
-			-- 		-- { ['key'] = 'd',     cb = nil },
-			-- 		{
-			-- 			['key'] = 's',
-			-- 			cb = function()
-			-- 			end
-			-- 		},
-			-- 		{ ['key'] = 'D',     cb = tmap('remove') },
-			-- 		{ ['key'] = 'R',     cb = tmap('refresh') },
-			-- 		{ ['key'] = 'm',     cb = tmap('rename') },
-			-- 		{ ['key'] = 'M',     cb = tmap('full_rename') },
-			-- 		{ ['key'] = 'O',     cb = tmap('system_open') },
-			-- 		{ ['key'] = '<c-.>', cb = tmap('toggle_dotfiles') },
-			-- 	},
-			-- },
-		},
-		['filters'] = {
-			['dotfiles'] = true,
-		},
-		['git'] = {
-			['enable'] = true,
-			['ignore'] = false,
-		},
-		['hijack_directories'] = {
-			['enable'] = false,
-		},
-		['respect_buf_cwd'] = false,
-		['update_cwd'] = false,
-		['update_focused_file'] = {
-			['enable'] = true,
-			['update_cwd'] = false,
-			['ignore_list'] = {},
-		},
-		['auto_reload_on_write'] = false,
-		['on_attach'] = function(bufrn)
-			local api = require('nvim-tree.api')
-			local opts = { buffer = bufrn, noremap = true, silent = true, nowait = true }
-
-			map('n', 'l', api.node.open.edit, opts)
-			map('n', 'h', api.close_node, opts)
-			map('n', 'D', api.fs.remove, opts)
-			map('n', 'R', api.tree.reload, opts)
-			map('n', 'm', api.fs.rename_basename, opts)
-			map('n', 'M', api.fs.rename, opts)
-			map('n', 'O', api.node.run.system, opts)
-			map('n', '<c-.>', api.tree.toggle_hidden_filter, opts)
-		end
-	}
-end
-
 function F.treesitter()
 	require('nvim-treesitter.configs').setup {
 		['highlight'] = {
 			['enable'] = true
 		},
-		['ensure_installed'] = { "lua",
+		['ensure_installed'] = {
+			"lua",
 			"rust",
 			"go",
 			"python",
 			"terraform",
 			"yaml",
-			"json" },
+			"json",
+		},
 
 		['incremental_selection'] = {
 			['enable'] = true,
@@ -1149,7 +995,7 @@ function F.treesitter()
 			},
 		},
 		['indent'] = {
-			['enable'] = true
+			['enable'] = false
 		},
 
 		['textobjects'] = {
@@ -1178,7 +1024,7 @@ function F.treesitter()
 			},
 			['move'] = {
 				['enable'] = true,
-				['set_jumps'] = true, -- whether to set jumps in the jumplist
+				-- ['set_jumps'] = true, -- whether to set jumps in the jumplist
 				['goto_next_start'] = {
 					["]]"] = "@function.outer",
 					-- ["]m"] = "@function.outer",
@@ -1262,7 +1108,7 @@ function F.lualine()
 				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
 				'%l:%c/%v',
 				'progress',
-				{ 'aerial', ['sep'] = '.' }
+				-- { 'aerial', ['sep'] = '.' }
 			},
 			['lualine_x'] = {
 				'searchcount',
@@ -1923,9 +1769,7 @@ function F.lspconfig()
 						hint_prefix = '█ ',
 					}, bufnr)
 
-					-- aerial symbols
-					-- require("aerial").on_attach(client, bufnr)
-					-- require("virtualtypes").on_attach(client, bufnr)
+					require("virtualtypes").on_attach(client, bufnr)
 
 					-- format on save
 					-- see https://github.com/neovim/neovim/pull/17814/files#diff-a12755025a01c2415c955ca2d50e3d40f9e26df70f712231085d3ff96b2bc837R821
@@ -1968,20 +1812,20 @@ function F.lspconfig()
 		}
 	}
 
-	require("aerial").setup({
-		['on_attach'] = function()
-			M.aerial()
-		end,
-		['default_bindings'] = true,
-		-- ['filter_kind'] = false, -- show all symbolls
-		['highlight_on_hover'] = true,
-		-- ['close_behavior'] = 'global',
-		-- ['placement_editor_edge'] = false,
-		['layout'] = {
-			['placement'] = 'edge',
-			['placement_editor_edge'] = false,
-		}
-	})
+	-- require("aerial").setup({
+	-- 	['on_attach'] = function()
+	-- 		M.aerial()
+	-- 	end,
+	-- 	['default_bindings'] = true,
+	-- 	-- ['filter_kind'] = false, -- show all symbolls
+	-- 	['highlight_on_hover'] = true,
+	-- 	-- ['close_behavior'] = 'global',
+	-- 	-- ['placement_editor_edge'] = false,
+	-- 	['layout'] = {
+	-- 		['placement'] = 'edge',
+	-- 		['placement_editor_edge'] = false,
+	-- 	}
+	-- })
 
 	-- require('dim').setup {
 	-- 	disable_lsp_decorations = false

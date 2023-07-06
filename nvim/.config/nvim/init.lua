@@ -847,6 +847,12 @@ function F.everforest()
 	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
 	vim.g.everforest_ui_contrast = 'high'
+
+	-- color: https://github.com/sainnhe/everforest/blob/master/autoload/everforest.vim
+	-- links: https://github.com/sainnhe/everforest/blob/master/colors/everforest.vim
+	vim.g.everforest_colors_override = {
+		['bg2'] = { '#3a3535', '235' }, -- FloatBorder
+	}
 	-- vim.g.everforest_lightline_disable_bold = 0
 	-- vim.o.colorscheme = 'everforest'
 	-- vim.cmd [[ colorscheme everforest ]]
@@ -888,11 +894,6 @@ function F.everforest()
 		match ExtraWhitespace /\s\+$/
 		autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
 		autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal
-
-		hi! clear FloatShadow
-		hi! clear FloatShadowThrough
-		hi! link FloatShadow Normal
-		hi! link FloatShadowThrough Normal
 	]]
 end
 

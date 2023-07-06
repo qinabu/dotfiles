@@ -30,7 +30,7 @@ window:
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # background_opacity: 0.95
   # opacity: 1
-  opacity: .97
+  opacity: 1
 
   # Window dimensions (changes require restart)
   #
@@ -54,8 +54,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 10
-    y: 10
+    x: 15
+    y: 15
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -151,10 +151,16 @@ font:
   #   family: Monoid
   #   style: Regular
   #
-  size: 14.5
+  # size: 14.5
+  size: 14
   normal:
     family: Iosevka Fixed
-    style: Extended
+    # style: Extended
+    style: Light Extended
+  bold:
+    family: Iosevka Fixed
+    # style: Extended
+    style: Semibold Extended
   #
   # size: 14
   # normal:

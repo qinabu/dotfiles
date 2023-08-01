@@ -656,6 +656,7 @@ function F.bootstrap()
 	vim.opt.autoread = true
 	-- Update a buffer's contents on focus if it changed outside of Vim.
 	vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
+	vim.cmd [[autocmd! BufEnter * if &ft == 'man' | set signcolumn=no | endif]]
 
 	vim.opt.path:append("**")
 	vim.opt.backupdir = "/tmp/nvim/,."
@@ -675,13 +676,19 @@ function F.bootstrap()
 	-- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
 	-- vim.opt.formatoptions = "tcqrn1"
 	vim.opt.formatoptions = "qjrn1"
-	vim.opt.textwidth = 100
+	-- vim.opt.textwidth = 100
 
 	-- expandtab = true
-	vim.opt.smarttab = true
-	vim.opt.tabstop = 8
-	-- vim.go.tabstop = 8
-	vim.opt.shiftwidth = 8 -- << >>
+	vim.cmd [[
+	set smarttab
+	set tabstop=8
+	set tabstop=8
+	set shiftwidth=8
+	]]
+	-- vim.g.smarttab = true
+	-- vim.g.tabstop = 8
+	-- -- vim.go.tabstop = 8
+	-- vim.g.shiftwidth = 8 -- << >>
 
 	-- showmatch = true
 	-- matchtime = 10
@@ -735,7 +742,8 @@ function F.bootstrap()
 	vim.lsp.set_log_level("OFF")
 
 	vim.diagnostic.config({
-		float = true,
+		float = { border = "rounded" },
+		-- float = true,
 		virtual_text = false, -- default is true
 		severity_sort = true, -- default is false
 	})
@@ -851,7 +859,8 @@ function F.everforest()
 	-- color: https://github.com/sainnhe/everforest/blob/master/autoload/everforest.vim
 	-- links: https://github.com/sainnhe/everforest/blob/master/colors/everforest.vim
 	vim.g.everforest_colors_override = {
-		['bg2'] = { '#3a3535', '235' }, -- FloatBorder
+		-- ['bg2'] = { '#3a3535', '235' }, -- FloatBorder
+		['bg2'] = { '#423C3C', '235' }, -- FloatBorder
 	}
 	-- vim.g.everforest_lightline_disable_bold = 0
 	-- vim.o.colorscheme = 'everforest'
@@ -1536,14 +1545,14 @@ function F.cmp()
 			end, { "i", "s" }),
 
 			-- snipet jumps
-			["<a-j>"] = cmp.mapping(function(fallback)
+			["<a-l>"] = cmp.mapping(function(fallback)
 				if luasnip.jumpable(1) then
 					luasnip.jump(1)
 				else
 					fallback()
 				end
 			end, { "i", "s" }),
-			["<a-k>"] = cmp.mapping(function(fallback)
+			["<a-h>"] = cmp.mapping(function(fallback)
 				if luasnip.jumpable(-1) then
 					luasnip.jump(-1)
 				else
@@ -1552,7 +1561,7 @@ function F.cmp()
 			end, { "i", "s" }),
 
 			-- snipet choices
-			["<a-l>"] = cmp.mapping(function(fallback)
+			["<a-j>"] = cmp.mapping(function(fallback)
 				if luasnip.choice_active() then
 					luasnip.change_choice(1)
 				else
@@ -1560,16 +1569,23 @@ function F.cmp()
 				end
 			end, { "i", "s" }),
 
-			["<a-h>"] = cmp.mapping(function(fallback)
+			["<a-k>"] = cmp.mapping(function(fallback)
 				if luasnip.choice_active() then
 					luasnip.change_choice(-1)
 				else
 					fallback()
 				end
 			end, { "i", "s" }),
+			["<a-q>"] = cmp.mapping(function(fallback)
+				if luasnip.in_snippet() then
+					luasnip.unlink_current()
+				else
+					fallback()
+				end
+			end, { "i", "s" }),
 
 			-- confimration
-			['<c-e>'] = cmp.mapping.abort(),
+			['<c-q>'] = cmp.mapping.abort(),
 			['<cr>'] = cmp.mapping.confirm({ select = false }),
 		}),
 		['snippet'] = {
@@ -1583,7 +1599,7 @@ function F.cmp()
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
 		}, {
-			{ name = 'buffer' },
+			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),
 		['history'] = false,
 		['preselect'] = cmp.PreselectMode.None
@@ -1693,6 +1709,18 @@ function F.lspconfig()
 		vim.lsp.protocol.make_client_capabilities()
 	)
 
+	-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
+	-- local border = {
+	-- 	{ "🭽", "FloatBorder" },
+	-- 	{ "▔",  "FloatBorder" },
+	-- 	{ "🭾", "FloatBorder" },
+	-- 	{ "▕",  "FloatBorder" },
+	-- 	{ "🭿", "FloatBorder" },
+	-- 	{ "▁",  "FloatBorder" },
+	-- 	{ "🭼", "FloatBorder" },
+	-- 	{ "▏",  "FloatBorder" },
+	-- }
+
 	mlsp.setup_handlers {
 		function(server_name)
 			require('lspconfig')[server_name].setup {
@@ -1715,24 +1743,37 @@ function F.lspconfig()
 						hint_prefix = '█ ',
 					}, bufnr)
 
-					require("virtualtypes").on_attach(client, bufnr)
+					-- require("virtualtypes").on_attach(client, bufnr)
 
+					local capabilities = client.server_capabilities
 					-- format on save
 					-- see https://github.com/neovim/neovim/pull/17814/files#diff-a12755025a01c2415c955ca2d50e3d40f9e26df70f712231085d3ff96b2bc837R821
-					if client.server_capabilities.documentHighlightProvider then
+					if capabilities.documentHighlightProvider then
 						vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
 						-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 						-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 					end
-					if client.server_capabilities.documentFormattingProvider then
+					if capabilities.documentFormattingProvider then
 						vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.format)]]
 					end
-					if type(client.server_capabilities.codeLensProvider) == 'table' then
-						vim.schedule_wrap(vim.lsp.codelens.run)
+					-- https://github.com/neovim/neovim/pull/17814/files#diff-3319ec2c423f139a0da97179848b61fc4a17dc77951ccfe22697699992285106R261
+					if type(capabilities.codeLensProvider) == 'table' and capabilities.codeLensProvider.resolveProvider then
+						-- vim.schedule_wrap(vim.lsp.codelens.run)
 						vim.schedule_wrap(vim.lsp.codelens.refresh)
 						vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
 					end
-				end
+				end,
+				handlers = {
+					["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+						-- border = border
+						border = 'rounded'
+						-- focusable = false
+					}),
+					["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+						-- border = border
+						border = 'rounded'
+					}),
+				},
 			}
 		end,
 	}

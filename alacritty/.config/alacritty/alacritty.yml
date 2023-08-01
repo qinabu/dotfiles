@@ -155,8 +155,9 @@ font:
   size: 14
   normal:
     family: Iosevka Fixed
-    # style: Extended
-    style: Light Extended
+    style: Extended
+    # style: Light Extended
+    # style: Light Extended
   bold:
     family: Iosevka Fixed
     # style: Extended

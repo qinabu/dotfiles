@@ -10,38 +10,26 @@ local N = { noremap = true }
 -- TODO:
 -- toggle vim.diagnostic {virtual_text}
 -- luasnip
---
 -- https://github.com/ziontee113/syntax-tree-surfer -- movements
---
 -- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
--- use {
--- 	'nvim-neotest/neotest',
--- 	requires = {
--- 		'mfussenegger/nvim-dap',
--- 		'nvim-neotest/neotest-go',
--- 		'nvim-neotest/neotest-python',
--- 		'nvim-neotest/neotest-vim-test',
-
--- 		'nvim-lua/plenary.nvim',
--- 		'nvim-treesitter/nvim-treesitter',
--- 		'antoinemadec/FixCursorHold.nvim'
--- 	},
--- 	config = 'require("configs").neotest()'
--- }
-
+-- use { 'nvim-neotest/neotest'}
 
 function F.unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
 	-- [[ UI ]] --
 	-- use { 'sainnhe/gruvbox-material', config = F.gruvbox_material }
-	use { 'sainnhe/everforest', config = F.everforest }
+	use { 'sainnhe/everforest', config = F.everforest_true }
+	-- use { 'EdenEast/nightfox.nvim', config = F.nightfox }
+	-- use { 'daschw/leaf.nvim', config = F.leaf }
 	use { 'folke/zen-mode.nvim', config = F.zen_mode }
 	use { 'szw/vim-maximizer' } -- :MaximizerToggle
 	use { 'simeji/winresizer', config = M.winresizer }
 	use { 'itchyny/vim-qfedit' } -- edit quickfix
 	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
 	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
+	use { 'norcalli/nvim-colorizer.lua', config = F.colorizer }
+	use { 'notjedi/nvim-rooter.lua', config = function() require 'nvim-rooter'.setup() end }
 
 	use { 'nvim-telescope/telescope.nvim', config = function() vim.defer_fn(F.telescope, 100) end,
 		requires = {
@@ -56,9 +44,7 @@ function F.unpackPacker(use)
 	-- [[ EDIT ]]
 	use { 'phaazon/hop.nvim', config = F.hop }
 	use { 'dyng/ctrlsf.vim', config = F.ctrlsf } -- find & replace
-	use { 'tpope/vim-commentary' }        -- comments
-	use { 'tpope/vim-surround' }
-	use { 'tpope/vim-repeat' }
+	use { 'numToStr/Comment.nvim', config = F.comment }
 
 	-- [[ LSP ]] --
 	use { 'neovim/nvim-lspconfig', config = function() vim.defer_fn(F.lspconfig, 100) end,
@@ -138,6 +124,7 @@ function F.unpackPacker(use)
 	use { 'renerocksai/telekasten.nvim', config = function() vim.defer_fn(F.telekasten, 100) end,
 		requires = { 'nvim-telescope/telescope.nvim' },
 	}
+	use { 'potamides/pantran.nvim', config = function() vim.defer_fn(F.translate, 200) end }
 end
 
 function M.bootstrap()
@@ -326,18 +313,21 @@ function M.bootstrap()
 	map('n', ')', ':silent! cnext<cr>', NS)
 	map('n', '(', ':silent! cprevious<cr>', NS)
 
-	map('n', '<leader>)', ':silent! colder<cr>', NS)
-	map('n', '<leader>(', ':silent! cnewer<cr>', NS)
+	map('n', '<leader>)', ':silent! cnewer<cr>', NS)
+	map('n', '<leader>(', ':silent! colder<cr>', NS)
 end
 
 function M.bqf_quickfix()
 	require('bqf').setup {
-		-- TODO: fix
+		auto_enable = true,
+		auto_resize_height = false,
 		func_map = {
 			pscrollup = '<C-u>',
 			pscrolldown = '<C-d>',
 		},
 		preview = {
+			show_title = true,
+			-- border = 'none',
 			winblend = 0,
 		}
 	}
@@ -348,6 +338,16 @@ function M.hop()
 	map('n', 's', ':HopChar2<cr>', NS)
 	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
 	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
+end
+
+function M.translate()
+	local pantran = require("pantran")
+	map('n', 'trr', ':Pantran target=ru<cr>', NS)
+	map('n', 'tre', ':Pantran target=en<cr>', NS)
+
+	map('n', 'tr', pantran.motion_translate, NSE)
+	-- map('n', '<leader>trr', function() return pantran.motion_translate() .. '_' end, NSE)
+	map('x', 'tr', pantran.motion_translate, NSE)
 end
 
 function M.harpoon()
@@ -437,12 +437,12 @@ function M.luasnip()
 	map('s', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
 end
 
-function M.neotest()
-	map('n', '<leader><leader>tt', ':lua require("neotest").run.run()<cr>', NS)
-	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
-	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
-	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
-end
+-- function M.neotest()
+-- 	map('n', '<leader><leader>tt', ':lua require("neotest").run.run()<cr>', NS)
+-- 	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
+-- 	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
+-- 	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
+-- end
 
 function M.testing()
 	-- DAP
@@ -481,7 +481,7 @@ function M.ctrlsf()
 		let g:ctrlsf_position = 'bottom'
 		let g:ctrlsf_preview_position = 'outside'
 		let g:ctrlsf_winsize = '40%'
-		let g:ctrlsf_auto_preview = 1
+		let g:ctrlsf_auto_preview = 0
 		let g:ctrlsf_auto_focus = {
 		\ "at" : "done",
 		\ "duration_less_than": 1000
@@ -684,6 +684,7 @@ function F.bootstrap()
 	set tabstop=8
 	set tabstop=8
 	set shiftwidth=8
+	filetype plugin indent on
 	]]
 	-- vim.g.smarttab = true
 	-- vim.g.tabstop = 8
@@ -699,7 +700,7 @@ function F.bootstrap()
 	vim.opt.spell = false
 
 	-- UI
-	vim.opt.cmdheight = 1
+	vim.opt.cmdheight = 0
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'nv'
 	vim.opt.cursorline = true
@@ -752,6 +753,10 @@ function F.bootstrap()
 	F.debug()
 	F.lspconfig()
 	M.bootstrap()
+end
+
+function F.comment()
+	require('Comment').setup()
 end
 
 function F.debug()
@@ -847,6 +852,42 @@ function F.gruvbox_material()
 	]]
 end
 
+function F.leaf()
+	vim.cmd('colorscheme leaf')
+	require('leaf').setup({
+		transparent = true,
+		contrast = "high",
+	})
+end
+
+function F.nightfox()
+	vim.cmd("colorscheme nordfox")
+	require('nightfox').setup({
+		options = {
+			-- transparent = true,
+		}
+	})
+end
+
+function F.everforest_true()
+	-- -- vim.g.everforest_diagnostic_text_highlight = 1
+	vim.g.termguicolors = true
+	vim.g.everforest_transparent_background = 1
+	vim.g.everforest_current_word = 'grey background'
+	vim.g.everforest_enable_italic = 0
+	vim.g.everforest_disable_italic_comment = 1
+	vim.g.everforest_ui_contrast = 'high'
+
+	-- vim.g.everforest_colors_override = {
+	-- 	['red'] = { '#f7908b', '167' },
+	-- }
+	vim.cmd [[
+		colorscheme everforest
+		hi CurrentWord ctermbg=240 guibg=#424e57
+		hi link BqfPreviewBorder FloatermBorder
+	]]
+end
+
 function F.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
 	vim.g.termguicolors = true
@@ -915,68 +956,14 @@ function F.hop()
 end
 
 function F.translate()
-	require("translate").setup({
-		output = {
-			float = {
-				-- max_width of float window
-				max_width = 50,
-				-- max_height of float window
-				max_height = 5,
-				-- whether close float window on cursor move
-				close_on_cursor_move = false,
-				-- key to enter float window
-				enter_key = "T",
+	require("pantran").setup {
+		default_engine = 'google',
+		engines = {
+			google = {
+				default_target = 'ru'
 			},
 		},
-		translate = {
-			{
-				-- use :TransToZH to start this job
-				cmd = "TranslateToRU",
-				-- shell command
-				-- translate-shell is used here
-				command = "trans",
-				-- shell command args
-				args = function(trans_source)
-					-- trans_source is the text you want to translate
-					return {
-						"-b",
-						"-e",
-						"google",
-						-- use proxy
-						-- "-x",
-						-- "http://127.0.0.1:10025",
-						"-t",
-						"ru-RU",
-						-- you can filter translate source here
-						trans_source,
-					}
-				end,
-				-- how to get translate source
-				-- selection | input | clipboard
-				input = "selection",
-				-- how to output translate result
-				-- float_win | notify | clipboard | insert
-				output = { "float_win", "clipboard" },
-			},
-			{
-				cmd = "TranslateToEN",
-				command = "trans",
-				args = function(trans_source)
-					return {
-						"-b",
-						"-e",
-						"google",
-						"-t",
-						"en",
-						trans_source,
-					}
-				end,
-				input = "selection",
-				output = { "float_win", "clipboard" },
-			},
-		},
-	})
-
+	}
 	M.translate()
 end
 
@@ -1084,13 +1071,23 @@ function F.ctrlsf()
 	M.ctrlsf()
 end
 
+function F.colorizer()
+	require('colorizer').setup({
+		'css',
+		'scss',
+		'html',
+		'yaml',
+	})
+end
+
 function F.lualine()
 	require('lualine').setup {
 		['options'] = {
 			['icons_enabled'] = false,
 			-- ['theme'] = 'everforest',
 			-- ['theme'] = 'auto',
-			['theme'] = 'gruvbox-material',
+			-- ['theme'] = 'gruvbox-material',
+			['theme'] = 'everforest',
 			['section_separators'] = { left = '▘', right = '▗' },
 			-- component_separators'] = { left = '▞', right = '▞' },
 			['component_separators'] = '',
@@ -1377,7 +1374,7 @@ function F.telescope()
 		},
 		['pickers'] = {
 			['live_grep'] = {
-				['additional_args'] = function(opts)
+				['additional_args'] = function(_)
 					return { "--hidden" }
 				end
 			},
@@ -1647,6 +1644,7 @@ function F.lspconfig()
 		tflint = {},
 		bashls = {},
 		jsonls = {},
+		helm_ls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings
@@ -1673,8 +1671,9 @@ function F.lspconfig()
 					-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
 					-- disabled by default:
 					unusedparams = true, --
+					unusedvariable = true,
 					shadow = false, -- !!!
-					fieldalignment = false, -- !!!
+					fieldalignment = true, -- !!!
 					nilness = true, --
 					unusedwrite = true, --
 					useany = true, --
@@ -1688,6 +1687,7 @@ function F.lspconfig()
 					tidy = true,
 					vendor = true,
 					upgrade_dependency = true,
+					-- annotations = { bounds = true, escape = true, inline = true, ['nil'] = true }
 				},
 			},
 		},
@@ -1745,19 +1745,19 @@ function F.lspconfig()
 
 					-- require("virtualtypes").on_attach(client, bufnr)
 
-					local capabilities = client.server_capabilities
+					local cap = client.server_capabilities
 					-- format on save
 					-- see https://github.com/neovim/neovim/pull/17814/files#diff-a12755025a01c2415c955ca2d50e3d40f9e26df70f712231085d3ff96b2bc837R821
-					if capabilities.documentHighlightProvider then
+					if cap.documentHighlightProvider then
 						vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
 						-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 						-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
 					end
-					if capabilities.documentFormattingProvider then
+					if cap.documentFormattingProvider then
 						vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.format)]]
 					end
 					-- https://github.com/neovim/neovim/pull/17814/files#diff-3319ec2c423f139a0da97179848b61fc4a17dc77951ccfe22697699992285106R261
-					if type(capabilities.codeLensProvider) == 'table' and capabilities.codeLensProvider.resolveProvider then
+					if type(cap.codeLensProvider) == 'table' and cap.codeLensProvider.resolveProvider then
 						-- vim.schedule_wrap(vim.lsp.codelens.run)
 						vim.schedule_wrap(vim.lsp.codelens.refresh)
 						vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]

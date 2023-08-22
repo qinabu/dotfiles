@@ -62,14 +62,15 @@ zstyle ':vcs_info:*' formats '%c%u%F{2}%b%f' # staged(+), unstaged(*), branch
 # %u Show unstaged changes in the repository
 # %c Show staged changes in the repository
 
-PS1='%F{238}▗%f%K{238}' # <
-PS1+='%(?|| %K{1}%F{7} ${${pipestatus[@]}// /|} %f%k%K{238})' # last exit codes (requires set -o pipefail)
+PS1='%F{8}▗%f%K{8}' # <
+PS1+='%(?|| %K{1}%F{7} ${${pipestatus[@]}// /|} %f%k%K{8})' # last exit codes (requires set -o pipefail)
 PS1+='${vcs_info_msg_0_:+ }${vcs_info_msg_0_}%F{14}${vcs_tags:+ }${vcs_tags}%f' # ⁄❯ vcs_info
 PS1+=' '
 # PS1+='%F{3}%(5~|%-1~/../%3~|%4~)%f' # directory
-PS1+='%F{3}%(4~|%-1~/../%2~|%3~)%f' # directory
+# PS1+='%F{3}%(4~|%-1~/../%2~|%3~)%f' # directory (relative)
+PS1+='%F{3}%1d%f' # directory (last component)
 PS1+=' '
-PS1+='%k%F{238}▘%f ' # >
+PS1+='%k%F{8}▘%f ' # >
 
 
 ###

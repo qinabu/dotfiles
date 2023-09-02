@@ -13,11 +13,14 @@ tfenv tflint opa
 
 fonts
 
+https://github.com/be5invis/Iosevka/
 https://fonts.google.com/specimen/Martian+Mono
 https://github.com/belluzj/fantasque-sans
-https://github.com/be5invis/Iosevka/
 https://developer.apple.com/fonts/
 https://design.ubuntu.com/font/
 https://fonts.google.com/specimen/Source+Code+Pro
 https://github.com/microsoft/cascadia-code
 https://freefontsdownload.net/free-consolas-font-33098.htm
+
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)

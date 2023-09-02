@@ -14,6 +14,149 @@ local N = { noremap = true }
 -- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
 -- use { 'nvim-neotest/neotest'}
 
+function F.unpackLazy()
+	return {
+
+		-- UI
+		{ 'sainnhe/everforest',  config = F.everforest_true },
+		{ 'folke/zen-mode.nvim', config = F.zen_mode },
+		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
+		{ 'simeji/winresizer',   config = M.winresizer },
+		{ 'itchyny/vim-qfedit' }, -- edit quickfix
+		{
+			'kevinhwang91/nvim-bqf',
+			ft = 'qf',
+			config = M
+			    .bqf_quickfix
+		},
+		{ 'nvim-lualine/lualine.nvim',   config = function() vim.defer_fn(F.lualine, 100) end, },
+		{ 'norcalli/nvim-colorizer.lua', config = F.colorizer },
+		{
+			'notjedi/nvim-rooter.lua',
+			config = function()
+				require 'nvim-rooter'.setup({
+					exclude_filetypes = { 'ctrlsf' },
+					-- fallback_to_parent = true,
+				})
+			end
+		},
+		{
+			'nvim-telescope/telescope.nvim',
+			config = F.telescope,
+			dependencies = {
+				{
+					'nvim-telescope/telescope-fzf-native.nvim',
+					build =
+					'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+				},
+				'nvim-lua/plenary.nvim',
+				'nvim-telescope/telescope-file-browser.nvim',
+				'nvim-telescope/telescope-ui-select.nvim',
+				'nvim-telescope/telescope-dap.nvim',
+			},
+		},
+
+		-- EDIT
+		-- { 'phaazon/hop.nvim', config = F.hop },
+		{ 'ggandor/leap.nvim',     config = F.leap },
+		{ 'dyng/ctrlsf.vim',       config = F.ctrlsf }, -- find & replace
+		{ 'numToStr/Comment.nvim', config = F.comment },
+
+		-- LSP
+		{
+			'neovim/nvim-lspconfig',
+			config = F.lspconfig,
+			dependencies = {
+				'williamboman/mason.nvim',
+				'williamboman/mason-lspconfig.nvim',
+				'folke/neodev.nvim', -- vim lua sdk
+				'hrsh7th/nvim-cmp',
+				'hrsh7th/cmp-nvim-lsp',
+				-- 'stevearc/aerial.nvim',
+				'ray-x/lsp_signature.nvim',
+				{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
+			},
+		},
+
+		-- COMPLETION
+		{
+			'hrsh7th/nvim-cmp',
+			config = F.cmp,
+			dependencies = {
+				'hrsh7th/cmp-nvim-lsp',
+				'hrsh7th/cmp-nvim-lua',
+				'hrsh7th/cmp-buffer',
+				'hrsh7th/cmp-path',
+				'hrsh7th/cmp-cmdline',
+				'hrsh7th/cmp-nvim-lsp-document-symbol',
+
+				'L3MON4D3/LuaSnip', -- Snippets
+				'saadparwaiz1/cmp_luasnip',
+				'honza/vim-snippets', -- Snippet collection
+			},
+		},
+
+		-- LANGUAGES
+		{
+			'nvim-treesitter/nvim-treesitter',
+			config = F.treesitter,
+			dependencies = {
+				'nvim-treesitter/playground', -- :TSPlaygroundToggle
+				'nvim-treesitter/nvim-treesitter-textobjects',
+				'romgrk/nvim-treesitter-context',
+				'mfussenegger/nvim-ts-hint-textobject', -- Scope selection by m
+				'jubnzv/virtual-types.nvim',
+			},
+			-- run = ':TSUpdate',
+		},
+		{ 'jjo/vim-cue' },
+		{ 'iamcco/markdown-preview.nvim',
+			-- run = function() vim.fn["mkdp#util#install"]() end,
+		},
+
+		-- VCS
+		{
+			'tpope/vim-fugitive',
+			config = F.fugitive,
+			dependencies = {
+				'nvim-lua/plenary.nvim',
+				'ruifm/gitlinker.nvim',
+			},
+		},
+		{
+			'lewis6991/gitsigns.nvim',
+			config = F.gitsigns,
+			dependencies = { 'nvim-lua/plenary.nvim' },
+		},
+		{
+			'sindrets/diffview.nvim',
+			config = F.diffview,
+			dependencies = { 'nvim-lua/plenary.nvim' },
+		},
+
+		-- DEBUG / TESTINGS
+		{
+			'mfussenegger/nvim-dap',
+			config = F.dap,
+			dependencies = {
+				'vim-test/vim-test',
+				'nvim-treesitter/nvim-treesitter',
+				'theHamsta/nvim-dap-virtual-text',
+				'nvim-telescope/telescope-dap.nvim',
+				'leoluz/nvim-dap-go',
+			},
+		},
+		-- NOTE TAKING
+		{
+			'renerocksai/telekasten.nvim',
+			config = F.telekasten,
+			dependencies = { 'nvim-telescope/telescope.nvim' },
+		},
+		{ 'potamides/pantran.nvim', config = F.translate },
+
+	}
+end
+
 function F.unpackPacker(use)
 	use { 'wbthomason/packer.nvim', opt = false }
 
@@ -29,9 +172,14 @@ function F.unpackPacker(use)
 	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
 	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
 	use { 'norcalli/nvim-colorizer.lua', config = F.colorizer }
-	use { 'notjedi/nvim-rooter.lua', config = function() require 'nvim-rooter'.setup() end }
+	use { 'notjedi/nvim-rooter.lua', config = function()
+		require 'nvim-rooter'.setup({
+			exclude_filetypes = { 'ctrlsf' },
+			-- fallback_to_parent = true,
+		})
+	end }
 
-	use { 'nvim-telescope/telescope.nvim', config = function() vim.defer_fn(F.telescope, 100) end,
+	use { 'nvim-telescope/telescope.nvim', F.telescope,
 		requires = {
 			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
 			'nvim-lua/plenary.nvim',
@@ -43,6 +191,7 @@ function F.unpackPacker(use)
 
 	-- [[ EDIT ]]
 	use { 'phaazon/hop.nvim', config = F.hop }
+	use { 'github.com/ggandor/leap.nvim', config = F.leap }
 	use { 'dyng/ctrlsf.vim', config = F.ctrlsf } -- find & replace
 	use { 'numToStr/Comment.nvim', config = F.comment }
 
@@ -51,7 +200,7 @@ function F.unpackPacker(use)
 		requires = {
 			'williamboman/mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
-			'folke/neodev.nvim',
+			'folke/neodev.nvim', -- vim lua sdk
 			'hrsh7th/nvim-cmp',
 			'hrsh7th/cmp-nvim-lsp',
 			-- 'stevearc/aerial.nvim',
@@ -128,7 +277,6 @@ function F.unpackPacker(use)
 end
 
 function M.bootstrap()
-	vim.g.mapleader = " "
 	map('', '<space>', '<nop>', NS)
 
 	-- Vim
@@ -375,7 +523,7 @@ function M.lsp()
 	map('n', ']d', ':lua vim.diagnostic.goto_next()<cr>', NS)
 
 	-- go to
-	map('n', 'gr', ':lua vim.lsp.buf.references()<cr>', NS)
+	map('n', 'gr', ':lua vim.lsp.buf.references({includeDeclaration=false})<cr>', NS)
 	map('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>', NS)
 	map('n', 'gd', ':lua vim.lsp.buf.definition()<cr>', NS)
 	map('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>', NS)
@@ -397,7 +545,9 @@ function M.telescope()
 	map('n', 'f<leader>', ':Telescope<cr>', NS)
 	map('n', 'ft', ':Telescope tagstack initial_mode=normal<cr>', NS)
 	map('n', 'ff', ':Telescope find_files hidden=true<cr>', NS)
+	map('n', 'fF', ':Telescope find_files hidden=true search_dirs=%:h<cr>', NS)
 	map('n', 'fg', ':Telescope live_grep hidden=true<cr>', NS)
+	map('n', 'fG', ':Telescope live_grep hidden=true search_dirs=%:h<cr>', NS)
 	map('n', 'f/', ':Telescope current_buffer_fuzzy_find<cr>', NS)
 	map('n', 'fk', ':Telescope keymaps<cr>', NS)
 	map('n', 'fh', ':Telescope git_status<cr>', NS) --  initial_mode=normal
@@ -639,6 +789,7 @@ end
 --------------------------------------------------------------------------------
 
 function F.bootstrap()
+	vim.g.mapleader = " "
 	-- Basic
 	vim.opt.shortmess:append("I") -- don't give the intro message when starting Vim :intro
 	vim.opt.shortmess:append("c") -- don't give |ins-completion-menu| messages.  For example, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
@@ -700,7 +851,7 @@ function F.bootstrap()
 	vim.opt.spell = false
 
 	-- UI
-	vim.opt.cmdheight = 0
+	vim.opt.cmdheight = 1
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'nv'
 	vim.opt.cursorline = true
@@ -733,7 +884,7 @@ function F.bootstrap()
 	vim.opt.splitright = true
 
 	vim.opt.updatetime = 100
-	-- vim.opt.timeoutlen = 2000
+	vim.opt.timeoutlen = 500
 	-- vim.opt.ttimeoutlen = 10
 
 	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
@@ -749,9 +900,9 @@ function F.bootstrap()
 		severity_sort = true, -- default is false
 	})
 
-	F.packerStartup()
+	-- F.packerStartup()
+	F.lazySetup()
 	F.debug()
-	F.lspconfig()
 	M.bootstrap()
 end
 
@@ -801,6 +952,22 @@ function F.debug()
 	]]
 end
 
+function F.lazySetup()
+	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+	if not vim.loop.fs_stat(lazypath) then
+		vim.fn.system({
+			"git",
+			"clone",
+			"--filter=blob:none",
+			"https://github.com/folke/lazy.nvim.git",
+			"--branch=stable", -- latest stable release
+			lazypath,
+		})
+	end
+	vim.opt.rtp:prepend(lazypath)
+	require("lazy").setup(F.unpackLazy(), opts)
+end
+
 function F.packerStartup()
 	local installed = false
 	local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -819,9 +986,13 @@ function F.packerStartup()
 	})
 
 	local packer = require('packer')
+	packer.init({
+		ensure_dependencies = true
+	})
 	packer.startup({
 		F.unpackPacker,
 		config = {
+			ensure_dependencies = true,
 			log = { level = 'error' },
 		}
 	})
@@ -883,8 +1054,17 @@ function F.everforest_true()
 	-- }
 	vim.cmd [[
 		colorscheme everforest
+		hi! Visual ctermbg=238 guibg=#475258
 		hi CurrentWord ctermbg=240 guibg=#424e57
 		hi link BqfPreviewBorder FloatermBorder
+
+		hi ExtraWhitespaceNormal ctermbg=red guibg=red
+		hi link ExtraWhitespaceInsert DiffDelete
+		hi link ExtraWhitespace ExtraWhitespaceNormal
+		match ExtraWhitespace /\s\+$/
+		autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
+		autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal
+
 	]]
 end
 
@@ -953,6 +1133,10 @@ function F.hop()
 		keys = 'fjdkslaghrutyeiwo',
 	}
 	M.hop()
+end
+
+function F.leap()
+	require('leap').add_default_mappings()
 end
 
 function F.translate()
@@ -1062,11 +1246,14 @@ function F.treesitter()
 end
 
 function F.ctrlsf()
-	vim.g.ctrlsf_context = '-B 3 -A 3'
-	vim.g.ctrlsf_compact_winsize = '30%'
-	vim.g.ctrlsf_winsize = '30%'
-	-- vim.g.ctrlsf_auto_focus = { "at" : "start" }
-	vim.g.ctrlsf_populate_qflist = 1
+	vim.cmd [[
+	let g:ctrlsf_default_root = 'cwd'
+	let g:ctrlsf_context = '-B 3 -A 3'
+	let g:ctrlsf_compact_winsize = '30%'
+	let g:ctrlsf_winsize = '30%'
+	"let g:ctrlsf_auto_focus = { "at" : "start" }
+	let g:ctrlsf_populate_qflist = 1
+	]]
 
 	M.ctrlsf()
 end
@@ -1699,9 +1886,9 @@ function F.lspconfig()
 		},
 	}
 
-	local mlsp = require 'mason-lspconfig'
+	local mason = require 'mason-lspconfig'
 
-	mlsp.setup {
+	mason.setup {
 		ensure_installed = vim.tbl_keys(servers),
 	}
 
@@ -1721,13 +1908,13 @@ function F.lspconfig()
 	-- 	{ "▏",  "FloatBorder" },
 	-- }
 
-	mlsp.setup_handlers {
+	mason.setup_handlers {
 		function(server_name)
 			require('lspconfig')[server_name].setup {
 				capabilities = capabilities,
 				settings = servers[server_name],
 				on_attach = function(client, bufnr)
-					bufnr = bufnr
+					-- bufnr = bufnr
 
 					-- map keys
 					M.lsp()

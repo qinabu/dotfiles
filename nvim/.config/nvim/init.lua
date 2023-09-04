@@ -7,13 +7,6 @@ local NSE = { noremap = true, silent = true, expr = true }
 local NS = { noremap = true, silent = true }
 local N = { noremap = true }
 
--- TODO:
--- toggle vim.diagnostic {virtual_text}
--- luasnip
--- https://github.com/ziontee113/syntax-tree-surfer -- movements
--- use { 'ThePrimeagen/harpoon', config = 'require("configs").harpoon()' }
--- use { 'nvim-neotest/neotest'}
-
 function F.unpackLazy()
 	return {
 
@@ -107,11 +100,12 @@ function F.unpackLazy()
 				'mfussenegger/nvim-ts-hint-textobject', -- Scope selection by m
 				'jubnzv/virtual-types.nvim',
 			},
-			-- run = ':TSUpdate',
+			build = ':TSUpdate',
 		},
 		{ 'jjo/vim-cue' },
-		{ 'iamcco/markdown-preview.nvim',
-			-- run = function() vim.fn["mkdp#util#install"]() end,
+		{
+			'iamcco/markdown-preview.nvim',
+			build = function() vim.fn["mkdp#util#install"]() end,
 		},
 
 		-- VCS
@@ -155,125 +149,6 @@ function F.unpackLazy()
 		{ 'potamides/pantran.nvim', config = F.translate },
 
 	}
-end
-
-function F.unpackPacker(use)
-	use { 'wbthomason/packer.nvim', opt = false }
-
-	-- [[ UI ]] --
-	-- use { 'sainnhe/gruvbox-material', config = F.gruvbox_material }
-	use { 'sainnhe/everforest', config = F.everforest_true }
-	-- use { 'EdenEast/nightfox.nvim', config = F.nightfox }
-	-- use { 'daschw/leaf.nvim', config = F.leaf }
-	use { 'folke/zen-mode.nvim', config = F.zen_mode }
-	use { 'szw/vim-maximizer' } -- :MaximizerToggle
-	use { 'simeji/winresizer', config = M.winresizer }
-	use { 'itchyny/vim-qfedit' } -- edit quickfix
-	use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = M.bqf_quickfix }
-	use { 'nvim-lualine/lualine.nvim', config = function() vim.defer_fn(F.lualine, 100) end, }
-	use { 'norcalli/nvim-colorizer.lua', config = F.colorizer }
-	use { 'notjedi/nvim-rooter.lua', config = function()
-		require 'nvim-rooter'.setup({
-			exclude_filetypes = { 'ctrlsf' },
-			-- fallback_to_parent = true,
-		})
-	end }
-
-	use { 'nvim-telescope/telescope.nvim', F.telescope,
-		requires = {
-			{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-			'nvim-lua/plenary.nvim',
-			'nvim-telescope/telescope-file-browser.nvim',
-			'nvim-telescope/telescope-ui-select.nvim',
-			'nvim-telescope/telescope-dap.nvim',
-		},
-	}
-
-	-- [[ EDIT ]]
-	use { 'phaazon/hop.nvim', config = F.hop }
-	use { 'github.com/ggandor/leap.nvim', config = F.leap }
-	use { 'dyng/ctrlsf.vim', config = F.ctrlsf } -- find & replace
-	use { 'numToStr/Comment.nvim', config = F.comment }
-
-	-- [[ LSP ]] --
-	use { 'neovim/nvim-lspconfig', config = function() vim.defer_fn(F.lspconfig, 100) end,
-		requires = {
-			'williamboman/mason.nvim',
-			'williamboman/mason-lspconfig.nvim',
-			'folke/neodev.nvim', -- vim lua sdk
-			'hrsh7th/nvim-cmp',
-			'hrsh7th/cmp-nvim-lsp',
-			-- 'stevearc/aerial.nvim',
-			'ray-x/lsp_signature.nvim',
-			{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
-		},
-	}
-
-	-- [[ LINT ]]
-	-- ...
-
-	-- [[ COMPLETION ]] --
-	use { 'hrsh7th/nvim-cmp', config = function() vim.defer_fn(F.cmp, 100) end,
-		requires = {
-			'hrsh7th/cmp-nvim-lsp',
-			'hrsh7th/cmp-nvim-lua',
-			'hrsh7th/cmp-buffer',
-			'hrsh7th/cmp-path',
-			'hrsh7th/cmp-cmdline',
-			'hrsh7th/cmp-nvim-lsp-document-symbol',
-
-			'L3MON4D3/LuaSnip', -- Snippets
-			'saadparwaiz1/cmp_luasnip',
-			'honza/vim-snippets', -- Snippet collection
-		},
-	}
-
-	-- [[ LANGUAGES ]]
-	use { 'nvim-treesitter/nvim-treesitter', config = F.treesitter,
-		requires = {
-			'nvim-treesitter/playground', -- :TSPlaygroundToggle
-			'nvim-treesitter/nvim-treesitter-textobjects',
-			'romgrk/nvim-treesitter-context',
-			'mfussenegger/nvim-ts-hint-textobject', -- Scope selection by m
-			'jubnzv/virtual-types.nvim',
-		},
-		run = ':TSUpdate',
-	}
-	use { 'jjo/vim-cue' }
-	-- https://mermaid-js.github.io/ -- https://mermaid.live/
-	use { 'iamcco/markdown-preview.nvim',
-		run = function() vim.fn["mkdp#util#install"]() end,
-	}
-
-	-- [[ VCS ]]
-	use { 'tpope/vim-fugitive', config = F.fugitive,
-		requires = {
-			'nvim-lua/plenary.nvim',
-			'ruifm/gitlinker.nvim',
-		},
-	}
-	use { 'lewis6991/gitsigns.nvim', config = F.gitsigns,
-		requires = { 'nvim-lua/plenary.nvim' },
-	}
-	use { 'sindrets/diffview.nvim', config = F.diffview,
-		requires = { 'nvim-lua/plenary.nvim' },
-	}
-
-	-- [[ DEBUG / TESTINGS ]]
-	use { 'mfussenegger/nvim-dap', config = F.dap,
-		requires = {
-			'vim-test/vim-test',
-			'nvim-treesitter/nvim-treesitter',
-			'theHamsta/nvim-dap-virtual-text',
-			'nvim-telescope/telescope-dap.nvim',
-			'leoluz/nvim-dap-go',
-		},
-	}
-	-- [[ NOTE TAKING ]]
-	use { 'renerocksai/telekasten.nvim', config = function() vim.defer_fn(F.telekasten, 100) end,
-		requires = { 'nvim-telescope/telescope.nvim' },
-	}
-	use { 'potamides/pantran.nvim', config = function() vim.defer_fn(F.translate, 200) end }
 end
 
 function M.bootstrap()
@@ -481,12 +356,12 @@ function M.bqf_quickfix()
 	}
 end
 
-function M.hop()
-	-- map('n', 's', ':HopChar1<cr>', NS)
-	map('n', 's', ':HopChar2<cr>', NS)
-	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
-	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
-end
+-- function M.hop()
+-- 	-- map('n', 's', ':HopChar1<cr>', NS)
+-- 	map('n', 's', ':HopChar2<cr>', NS)
+-- 	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
+-- 	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
+-- end
 
 function M.translate()
 	local pantran = require("pantran")
@@ -498,10 +373,10 @@ function M.translate()
 	map('x', 'tr', pantran.motion_translate, NSE)
 end
 
-function M.harpoon()
-	-- map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
-	-- map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
-end
+-- function M.harpoon()
+-- map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
+-- map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
+-- end
 
 function M.treesitter()
 	-- mfussenegger/nvim-ts-hint-textobject
@@ -900,7 +775,6 @@ function F.bootstrap()
 		severity_sort = true, -- default is false
 	})
 
-	-- F.packerStartup()
 	F.lazySetup()
 	F.debug()
 	M.bootstrap()
@@ -966,40 +840,6 @@ function F.lazySetup()
 	end
 	vim.opt.rtp:prepend(lazypath)
 	require("lazy").setup(F.unpackLazy(), opts)
-end
-
-function F.packerStartup()
-	local installed = false
-	local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-
-	if vim.fn.empty(vim.fn.glob(path)) > 0 then
-		vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', path }
-		installed = (vim.v.shell_error == 0)
-	end
-
-	vim.cmd [[packadd packer.nvim]]
-
-	vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-		group = vim.api.nvim_create_augroup('packerUserConfig', {}),
-		pattern = { 'init.lua' },
-		command = 'PackerCompile | source $MYVIMRC',
-	})
-
-	local packer = require('packer')
-	packer.init({
-		ensure_dependencies = true
-	})
-	packer.startup({
-		F.unpackPacker,
-		config = {
-			ensure_dependencies = true,
-			log = { level = 'error' },
-		}
-	})
-	-- Sync the first lauch
-	if installed then
-		packer.sync()
-	end
 end
 
 function F.gruvbox_material()

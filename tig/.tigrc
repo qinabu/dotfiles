@@ -16,7 +16,7 @@ set log-view    = line-number:no,interval=5 text
 set blob-view   = line-number:no,interval=5 text
 set diff-view   = line-number:no,interval=5 text:yes,commit-title-overflow=no
 
-set main-view   = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+set main-view   = line-number:no,interval=5 id:yes date:relative-compact author:full commit-title:yes,graph,refs,overflow=no
 set blame-view  = date:default author:full file-name:auto id:yes,color line-number:yes,interval=5 text
 set grep-view   = file-name:yes line-number:yes,interval=1 text
 set refs-view   = line-number:yes id:no date:default author:full ref commit-title

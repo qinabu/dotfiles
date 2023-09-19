@@ -23,6 +23,7 @@ function F.unpackLazy()
 			    .bqf_quickfix
 		},
 		{ 'nvim-lualine/lualine.nvim',   config = function() vim.defer_fn(F.lualine, 100) end, },
+		-- { 'lewis6991/satellite.nvim' },
 		{ 'norcalli/nvim-colorizer.lua', config = F.colorizer },
 		{
 			'notjedi/nvim-rooter.lua',
@@ -50,8 +51,8 @@ function F.unpackLazy()
 		},
 
 		-- EDIT
-		-- { 'phaazon/hop.nvim', config = F.hop },
-		{ 'ggandor/leap.nvim',     config = F.leap },
+		{ 'phaazon/hop.nvim',      config = F.hop },
+		-- { 'ggandor/leap.nvim',     config = F.leap },
 		{ 'dyng/ctrlsf.vim',       config = F.ctrlsf }, -- find & replace
 		{ 'numToStr/Comment.nvim', config = F.comment },
 
@@ -68,6 +69,7 @@ function F.unpackLazy()
 				-- 'stevearc/aerial.nvim',
 				'ray-x/lsp_signature.nvim',
 				{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
+				-- 'VidocqH/lsp-lens.nvim',
 			},
 		},
 
@@ -356,12 +358,12 @@ function M.bqf_quickfix()
 	}
 end
 
--- function M.hop()
--- 	-- map('n', 's', ':HopChar1<cr>', NS)
--- 	map('n', 's', ':HopChar2<cr>', NS)
--- 	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
--- 	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
--- end
+function M.hop()
+	-- map('n', 's', ':HopChar1<cr>', NS)
+	map('n', 's', ':HopChar2<cr>', NS)
+	map('n', 'S', ':lua require("hop").hint_words({keys="fjdkslaghruty"})<cr>', NS)
+	-- map('n', 's', ':lua require("hop").hint_words()<cr>', NS)
+end
 
 function M.translate()
 	local pantran = require("pantran")
@@ -729,7 +731,7 @@ function F.bootstrap()
 	vim.opt.cmdheight = 1
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'nv'
-	vim.opt.cursorline = true
+	vim.opt.cursorline = false
 	vim.opt.showmode = false
 	vim.opt.showcmd = false
 	-- vim.opt.fillchars = 'vert:▞,horiz:▞,eob: '
@@ -1769,6 +1771,8 @@ function F.lspconfig()
 						hint_enable = false,
 						hint_prefix = '█ ',
 					}, bufnr)
+
+					-- require 'lsp-lens'.setup({})
 
 					-- require("virtualtypes").on_attach(client, bufnr)
 

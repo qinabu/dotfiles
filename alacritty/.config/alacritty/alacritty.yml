@@ -30,7 +30,7 @@ window:
   # The value `0.0` is completely transparent and `1.0` is opaque.
   # background_opacity: 0.95
   # opacity: 1
-  opacity: 0.97
+  opacity: 0.98
 
   # Window dimensions (changes require restart)
   #
@@ -137,6 +137,7 @@ font:
   # normal:
   #   family: SF Mono
   #   style: Regular
+  #   # style: Light
   # bold:
   #   family: SF Mono
   #   style: Bold
@@ -162,6 +163,7 @@ font:
     family: Iosevka Fixed
     # style: Extended
     style: Semibold Extended
+  #
   #
   # size: 14
   # normal:

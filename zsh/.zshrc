@@ -216,6 +216,7 @@ alias -g LLN="2>&1 |less -i -N"
 alias -g LLR="2>&1 |less -i -R"
 alias -g GG="2>&1 |grep "
 alias -g PB="2>&1 |pbcopy"
+alias -g HH="2>&1 |head"
 
 alias v="vim"
 alias n="nvim"
@@ -293,11 +294,10 @@ _fzf_complete_gchb() {
 	)
 }
 
-alias gpu="git pull"
 alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
-alias gmp="git checkout \$(git_default_branch) && gpu"
+alias gmm="git checkout \$(git_default_branch) && gu"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"
@@ -317,9 +317,10 @@ alias gfr="git fetch origin && git rebase origin/\$(git_default_branch) -i"
 
 alias ga="git_add"
 # alias gcl="git clone --single-branch"
-alias gb="git branch -vv --sort '-committerdate'"
-alias gba="git branch -vv --sort '-committerdate' -a"
-alias gt="git tag -l --sort=-version:refname"
+alias gb="git branch"
+alias gbs="git branch --sort '-committerdate'"
+alias gbsa="git branch --sort '-committerdate' -a"
+alias gts="git tag -l --sort=-version:refname"
 
 
 alias evald='eval $(minikube docker-env)'

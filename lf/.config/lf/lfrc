@@ -66,14 +66,16 @@ map gp cd ~/Projects
 map gw cd ~/Projects/creditornot
 map gi cd ~/Projects/ifkit
 map gd cd ~/Downloads
-map g. ${{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
-map gG ${{ lf -remote "send $id cd \"$(brew --prefix)/Cellar/go\"" }}
+map g. &{{ lf -remote "send $id cd ~/.dotfiles" && lf -remote "send $id set hidden" }}
+map gG &{{ lf -remote "send $id cd \"$(brew --prefix)/Cellar/go\"" }}
+map gr &{{ root=$(git rev-parse --show-toplevel 2>/dev/null); [[ -n "$root" ]] && lf -remote "send $id cd \"$root\"" || true }}
 
 # CTRL-O and CTRL-I
 map <tab> jump-next
 map <c-o> jump-prev
 
 map E edit-directory
+map <c-e> edit-directory
 
 map fd find-directory
 map ff find-file

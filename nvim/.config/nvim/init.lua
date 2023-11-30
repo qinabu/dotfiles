@@ -12,15 +12,41 @@ function F.unpackLazy()
 
 		-- UI
 		{ 'sainnhe/everforest',  config = F.everforest_true },
+		-- {
+		-- 	"utilyre/barbecue.nvim",
+		-- 	name = "barbecue",
+		-- 	version = "*",
+		-- 	dependencies = {
+		-- 		"SmiteshP/nvim-navic",
+		-- 	},
+		-- 	opts = {
+		-- 		attach_navic = true,
+		-- 		symbols = {
+		-- 			modified = "*",
+		-- 			ellipsis = ".",
+		-- 			separator = "/",
+		-- 		}, -- configurations go here
+		-- 		kinds = false,
+		-- 		-- theme = '',
+		-- 		theme = {
+		-- 			-- normal = { bg = "#c0caf5" },
+		-- 			normal = {
+		-- 				fg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).fg,
+		-- 				bg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).bg,
+		-- 				ctermbg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).ctermbg,
+		-- 			},
+		-- 		},
+		-- 	},
+		-- 	after = 'sainnhe/everforest',
+		-- },
 		{ 'folke/zen-mode.nvim', config = F.zen_mode },
 		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
-		{ 'simeji/winresizer',   config = M.winresizer },
+		{ 'simeji/winresizer',   init = M.winresizer },
 		{ 'itchyny/vim-qfedit' }, -- edit quickfix
 		{
 			'kevinhwang91/nvim-bqf',
 			ft = 'qf',
-			config = M
-			    .bqf_quickfix
+			config = M.bqf_quickfix
 		},
 		{ 'nvim-lualine/lualine.nvim',   config = function() vim.defer_fn(F.lualine, 100) end, },
 		-- { 'lewis6991/satellite.nvim' },
@@ -47,14 +73,24 @@ function F.unpackLazy()
 				'nvim-telescope/telescope-file-browser.nvim',
 				'nvim-telescope/telescope-ui-select.nvim',
 				'nvim-telescope/telescope-dap.nvim',
+				'ThePrimeagen/harpoon',
 			},
 		},
 
 		-- EDIT
 		{ 'phaazon/hop.nvim',      config = F.hop },
-		-- { 'ggandor/leap.nvim',     config = F.leap },
 		{ 'dyng/ctrlsf.vim',       config = F.ctrlsf }, -- find & replace
 		{ 'numToStr/Comment.nvim', config = F.comment },
+		{
+			"kylechui/nvim-surround",
+			version = "*", -- Use for stability; omit to use `main` branch for the latest features
+			event = "VeryLazy",
+			config = function()
+				require("nvim-surround").setup({
+					-- Configuration here, or leave empty to use defaults
+				})
+			end
+		},
 
 		-- LSP
 		{
@@ -90,6 +126,8 @@ function F.unpackLazy()
 				'honza/vim-snippets', -- Snippet collection
 			},
 		},
+		{ 'github/copilot.vim',  config = F.copilot },
+		{ 'David-Kunz/gen.nvim', config = F.gen },
 
 		-- LANGUAGES
 		{
@@ -163,8 +201,8 @@ function M.bootstrap()
 	map('n', '<leader>bq', ':bdelete<cr>', N)
 	map('n', '<leader>bQ', ':bdelete!<cr>', N)
 
-	map('n', '<leader>tq', ':tabclose<cr>', N)
-	map('n', '<leader>tQ', ':tabclose!<cr>', N)
+	-- map('n', '<leader>tq', ':tabclose<cr>', N)
+	-- map('n', '<leader>tQ', ':tabclose!<cr>', N)
 
 	-- map('n', '<leader><esc>', ':silent quit<cr>', N)
 
@@ -338,8 +376,13 @@ function M.bootstrap()
 	map('n', ')', ':silent! cnext<cr>', NS)
 	map('n', '(', ':silent! cprevious<cr>', NS)
 
-	map('n', '<leader>)', ':silent! cnewer<cr>', NS)
-	map('n', '<leader>(', ':silent! colder<cr>', NS)
+	map('n', '<leader>0', ':silent! cnewer<cr>', NS) -- c-9 doesn't work
+	map('n', '<leader>9', ':silent! colder<cr>', NS) -- c-0 doesn't work
+end
+
+function M.gen()
+	map('v', '<leader>i', ':Gen<CR>')
+	map('n', '<leader>i', ':Gen<CR>')
 end
 
 function M.bqf_quickfix()
@@ -374,11 +417,6 @@ function M.translate()
 	-- map('n', '<leader>trr', function() return pantran.motion_translate() .. '_' end, NSE)
 	map('x', 'tr', pantran.motion_translate, NSE)
 end
-
--- function M.harpoon()
--- map('n', '<leader>m', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
--- map('n', '<leader>h', ':lua require("harpoon.mark").add_file()<cr>', NS)
--- end
 
 function M.treesitter()
 	-- mfussenegger/nvim-ts-hint-textobject
@@ -441,35 +479,33 @@ function M.telescope()
 	map('n', 'fm', ':Telescope marks initial_mode=normal<cr>', NS)
 	map('n', 'fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
 	map('n', 'fa', ':Telescope man_pages<cr>', NS)
+
+	-- map('n', 'fh', ':Telescope harpoon marks<cr>', NS)
+	map('n', 'fo', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
+	map('n', 'fO', ':lua require("harpoon.mark").add_file()<cr>', NS)
 end
 
 function M.luasnip()
-	-- expand or jump
-	-- map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
+	-- -- expand or jump
+	-- -- map('i', '<tab>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'", { expr = true })
 
 	-- select mode jumps
-	-- map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
-	-- map('s', '<s-tab>', '<cmd>lua require("luasnip").jump(-1)<cr>', {})
+	-- -- map('s', '<tab>', '<cmd>lua require("luasnip").jump(1)<cr>', {})
+	-- -- map('s', '<s-tab>', '<cmd>lua require("luasnip").jump(-1)<cr>', {})
 
 	-- choose variants
-	map('i', '<C-n>', '<Plug>luasnip-next-choice', {})
-	map('s', '<C-n>', '<Plug>luasnip-next-choice', {})
-	map('i', '<C-p>', '<Plug>luasnip-prev-choice', {})
-	map('s', '<C-p>', '<Plug>luasnip-prev-choice', {})
+	-- see F.cmp
+	-- map('i', '<C-n>', '<Plug>luasnip-next-choice', {})
+	-- map('s', '<C-n>', '<Plug>luasnip-next-choice', {})
+	-- map('i', '<C-p>', '<Plug>luasnip-prev-choice', {})
+	-- map('s', '<C-p>', '<Plug>luasnip-prev-choice', {})
 
-	-- map('i', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
-	-- map('s', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
+	-- -- map('i', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
+	-- -- map('s', '<c-.>', "luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<c-.>'", { expr = true })
 
-	map('i', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
-	map('s', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
+	-- map('i', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
+	-- map('s', '<c-,>', "luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<c-,>'", { expr = true })
 end
-
--- function M.neotest()
--- 	map('n', '<leader><leader>tt', ':lua require("neotest").run.run()<cr>', NS)
--- 	map('n', '<leader><leader>tT', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>', NS)
--- 	map('n', '<leader><leader>td', ':lua require("neotest").run.run({strategy = "dap"})<cr>', NS)
--- 	map('n', '<leader><leader>tw', ':lua require("neotest").summary.toggle()<cr>', NS)
--- end
 
 function M.testing()
 	-- DAP
@@ -500,7 +536,8 @@ function M.testing()
 end
 
 function M.winresizer()
-	vim.g.winresizer_start_key = '<leader>we'
+	vim.cmd [[ let g:winresizer_start_key = '<leader>we' ]]
+	-- map('n', '<leader>we', ':WinResizerStartResize<cr>', NS)
 end
 
 function M.ctrlsf()
@@ -600,18 +637,6 @@ function M.gitsigns()
 	map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', NS) -- breaks selection left-right
 end
 
--- function M.aerial()
--- 	-- Toggle the aerial window with <leader>a
--- 	-- map('n', '<leader>9', ':AerialToggle left<cr>', NS)
--- 	map('n', '<leader>-', ':AerialToggle left<cr>', NS)
--- 	-- Jump forwards/backwards with '{' and '}'
--- 	map('n', '<leader>9', ':AerialPrev<cr>', NS)
--- 	map('n', '<leader>0', ':AerialNext<cr>', NS)
--- 	-- Jump up the tree with '[[' or ']]'
--- 	-- map('n', '[[', ':AerialPrevUp<cr>', NS)
--- 	-- map('n', ']]', ':AerialNextUp<cr>', NS)
--- end
-
 function M.telekasten()
 	map('n', 'fnn', ':lua require("telekasten").panel()<cr>', NS)
 
@@ -707,13 +732,11 @@ function F.bootstrap()
 	-- vim.opt.textwidth = 100
 
 	-- expandtab = true
-	vim.cmd [[
-	set smarttab
-	set tabstop=8
-	set tabstop=8
-	set shiftwidth=8
-	filetype plugin indent on
-	]]
+	vim.cmd [[ filetype plugin indent on ]]
+	vim.g.editorconfig = false
+	vim.opt.tabstop = 8
+	vim.opt.smarttab = true
+	vim.opt.shiftwidth = 8
 	-- vim.g.smarttab = true
 	-- vim.g.tabstop = 8
 	-- -- vim.go.tabstop = 8
@@ -731,9 +754,10 @@ function F.bootstrap()
 	vim.opt.cmdheight = 1
 	vim.opt.termguicolors = true
 	vim.opt.mouse = 'nv'
-	vim.opt.cursorline = false
+	vim.opt.cursorline = true
 	vim.opt.showmode = false
-	vim.opt.showcmd = false
+	vim.opt.showcmd = true
+	vim.opt.showcmdloc = 'statusline'
 	-- vim.opt.fillchars = 'vert:▞,horiz:▞,eob: '
 	vim.opt.fillchars = 'eob: '
 	-- vim.opt.background = 'dark'
@@ -749,7 +773,7 @@ function F.bootstrap()
 	vim.opt.number = false
 	vim.opt.relativenumber = false
 
-	vim.opt.errorbells = true
+	vim.opt.errorbells = false
 	vim.opt.visualbell = true
 
 	vim.opt.hlsearch = true
@@ -780,6 +804,24 @@ function F.bootstrap()
 	F.lazySetup()
 	F.debug()
 	M.bootstrap()
+end
+
+function F.copilot()
+	vim.cmd [[
+        imap <silent><script><expr> <C-I> copilot#Accept("\<CR>")
+        let g:copilot_no_tab_map = v:true
+        " imap <silent><script><expr> <C-.> copilot#Next("\<CR>")
+        " imap <silent><script><expr> <C-,> copilot#Previous("\<CR>")
+	]]
+end
+
+function F.gen()
+	-- ollama gen
+	-- llama2-uncensored
+	-- require('gen').model = 'llama2-uncensored'
+	require('gen').model = 'llama2'
+	require('gen').container = nil
+	M.gen()
 end
 
 function F.comment()
@@ -841,45 +883,7 @@ function F.lazySetup()
 		})
 	end
 	vim.opt.rtp:prepend(lazypath)
-	require("lazy").setup(F.unpackLazy(), opts)
-end
-
-function F.gruvbox_material()
-	vim.g.termguicolors = true
-	vim.cmd [[
-		let g:gruvbox_material_colors_override = {'fg0':['#d7cab4', 1]}
-		let g:gruvbox_material_transparent_background = 1
-		let g:gruvbox_material_background = 'meduim' "'soft'
-		let g:gruvbox_material_foreground = 'material'
-		let g:gruvbox_material_disable_italic_comment = 1
-		let g:gruvbox_material_enable_bold = 1
-		let g:gruvbox_material_visual = 'grey background'
-		let g:gruvbox_material_diagnostic_line_highlight = 1
-		let g:gruvbox_material_current_word = 'grey background'
-		let g:gruvbox_material_dim_inactive_windows = 1
-		set background=dark
-		colorscheme gruvbox-material
-
-		hi clear VertSplit
-		hi! VertSplit guifg=#544f4c
-	]]
-end
-
-function F.leaf()
-	vim.cmd('colorscheme leaf')
-	require('leaf').setup({
-		transparent = true,
-		contrast = "high",
-	})
-end
-
-function F.nightfox()
-	vim.cmd("colorscheme nordfox")
-	require('nightfox').setup({
-		options = {
-			-- transparent = true,
-		}
-	})
+	require("lazy").setup(F.unpackLazy(), {})
 end
 
 function F.everforest_true()
@@ -896,9 +900,11 @@ function F.everforest_true()
 	-- }
 	vim.cmd [[
 		colorscheme everforest
-		hi! Visual ctermbg=238 guibg=#475258
+		" hi! Visual ctermbg=238 guibg=#475258
 		hi CurrentWord ctermbg=240 guibg=#424e57
 		hi link BqfPreviewBorder FloatermBorder
+		hi CursorLine guibg=#2f393d
+		hi CursorLineNr guibg=#2f393d
 
 		hi ExtraWhitespaceNormal ctermbg=red guibg=red
 		hi link ExtraWhitespaceInsert DiffDelete
@@ -977,16 +983,15 @@ function F.hop()
 	M.hop()
 end
 
-function F.leap()
-	require('leap').add_default_mappings()
-end
-
 function F.translate()
 	require("pantran").setup {
 		default_engine = 'google',
 		engines = {
 			google = {
-				default_target = 'ru'
+				default_target = 'ru',
+				fallback = {
+					default_target = 'ru'
+				},
 			},
 		},
 	}
@@ -1113,44 +1118,47 @@ function F.lualine()
 	require('lualine').setup {
 		['options'] = {
 			['icons_enabled'] = false,
-			-- ['theme'] = 'everforest',
-			-- ['theme'] = 'auto',
-			-- ['theme'] = 'gruvbox-material',
 			['theme'] = 'everforest',
 			['section_separators'] = { left = '▘', right = '▗' },
-			-- component_separators'] = { left = '▞', right = '▞' },
 			['component_separators'] = '',
 			['globalstatus'] = true,
 		},
 		['sections'] = {
 			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
-			['lualine_a'] = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
+			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
+			-- ['lualine_b'] = { 'branch' },
+			['lualine_a'] = {},
 			['lualine_b'] = { 'branch' },
 			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
 			['lualine_c'] = {
-				'diff',
-				{
-					'diagnostics',
-					diagnostics_color = {
-						error = 'DiagnosticFloatingError', -- Changes diagnostics' error color.
-						warn  = 'DiagnosticFloatingWarn', -- Changes diagnostics' warn color.
-						info  = 'DiagnosticFloatingInfo', -- Changes diagnostics' info color.
-						hint  = 'DiagnosticFloatingHint', -- Changes diagnostics' hint color.
-					},
-				},
+				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
 				{
 					'filename',
 					path = 1,
 					shorting_target = 25,
 					symbols = { modified = '*' }
 				},
-				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
-				'%l:%c/%v',
+				'%l:%c|%v',
 				'progress',
+				'%S',
 				-- { 'aerial', ['sep'] = '.' }
 			},
+			-- ['lualine_c'] = {
+			-- 	'%l:%c/%v',
+			-- 	'progress',
+			-- },
 			['lualine_x'] = {
 				'searchcount',
+				{
+					'diagnostics',
+					diagnostics_color = {
+						error = 'DiagnosticSignError', -- Changes diagnostics' error color.
+						warn  = 'DiagnosticSignWarn', -- Changes diagnostics' warn color.
+						info  = 'DiagnosticSignInfo', -- Changes diagnostics' info color.
+						hint  = 'DiagnosticSignHint', -- Changes diagnostics' hint color.
+					},
+				},
+				'diff',
 				-- 'filetype'
 			},
 			['lualine_y'] = { 'filesize' },
@@ -1427,13 +1435,16 @@ function F.telescope()
 					["i"] = {
 						-- 	['<c-n>'] = require('telescope.actions').results_scrolling_down,
 						-- 	['<c-p>'] = require('telescope.actions').results_scrolling_up,
-						['<c-e>'] = require("telescope._extensions.file_browser.actions").toggle_browser,
+						['<c-e>'] = require("telescope._extensions.file_browser.actions")
+						    .toggle_browser,
 						['<C-f>'] = false,
 					},
 					["n"] = {
 						['f'] = false,
-						['h'] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
-						['e'] = require("telescope._extensions.file_browser.actions").toggle_browser,
+						['h'] = require("telescope._extensions.file_browser.actions")
+						    .goto_parent_dir,
+						['e'] = require("telescope._extensions.file_browser.actions")
+						    .toggle_browser,
 						['l'] = require('telescope.actions').select_default,
 					},
 				},
@@ -1476,6 +1487,9 @@ function F.telescope()
 	require('telescope').load_extension('file_browser')
 	require('telescope').load_extension('ui-select')
 
+	require("harpoon").setup({})
+	require('telescope').load_extension('harpoon')
+
 	M.telescope()
 end
 
@@ -1485,39 +1499,6 @@ function F.dap()
 	vim.g['test#strategy'] = 'neovim'
 
 	M.testing()
-end
-
-function F.neotest()
-	require("neotest").setup({
-		adapters = {
-			require("neotest-vim-test")({
-				ignore_filetypes = { "python", "go" },
-			}),
-			require("neotest-go")({
-				experimental = {
-					test_table = true,
-				},
-				args = { "-count=1", "-timeout=60s" }
-			}),
-			require("neotest-python")({
-				-- Extra arguments for nvim-dap configuration
-				dap = { justMyCode = false },
-				-- Command line arguments for runner
-				-- Can also be a function to return dynamic values
-				args = { "--log-level", "DEBUG" },
-				-- Runner to use. Will use pytest if available by default.
-				-- Can be a function to return dynamic value.
-				runner = "pytest",
-				-- Returns if a given file path is a test file.
-				-- NB: This function is called a lot so don't perform any heavy tasks within it.
-				-- is_test_file = function(file_path)
-				-- end,
-
-			})
-		}
-	})
-
-	M.neotest()
 end
 
 function F.lint()
@@ -1621,9 +1602,9 @@ function F.cmp()
 			end,
 		},
 		['sources'] = cmp.config.sources({
-			{ ['name'] = 'luasnip' },
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
+			{ ['name'] = 'luasnip' },
 		}, {
 			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),

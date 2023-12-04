@@ -25,7 +25,8 @@ alias help=run-help
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
 SAVEHIST=100000000
-setopt share_history
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_SPACE
 
 
 ###

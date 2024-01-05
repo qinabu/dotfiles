@@ -319,7 +319,8 @@ function M.bootstrap()
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)
 
-	map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
+	-- map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
+	map('v', 'p', '"_dp', NS) -- TODO: if selection at the end of line P should be replaced with p
 	map('n', 'x', '"_x', NS)
 	map('n', 'X', '"_X', NS)
 	map('n', 'Q', 'q', N)
@@ -412,10 +413,11 @@ function M.translate()
 	local pantran = require("pantran")
 	map('n', 'trr', ':Pantran target=ru<cr>', NS)
 	map('n', 'tre', ':Pantran target=en<cr>', NS)
+	map('x', 'trr', ':Pantran target=ru<cr>', NS)
+	map('x', 'tre', ':Pantran target=en<cr>', NS)
 
-	map('n', 'tr', pantran.motion_translate, NSE)
-	-- map('n', '<leader>trr', function() return pantran.motion_translate() .. '_' end, NSE)
-	map('x', 'tr', pantran.motion_translate, NSE)
+	map('n', 'trt', pantran.motion_translate, NSE)
+	map('x', 'trt', pantran.motion_translate, NSE)
 end
 
 function M.treesitter()

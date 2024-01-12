@@ -134,14 +134,14 @@ font:
   #   family: Martian Mono
   #   style: Std Md
   #
-  size: 13.5
-  normal:
-    family: SF Mono
-    style: Regular
-    # style: Light
-  bold:
-    family: SF Mono
-    style: Bold
+  # size: 13.5
+  # normal:
+  #   family: SF Mono
+  #   style: Regular
+  #   # style: Light
+  # bold:
+  #   family: SF Mono
+  #   style: Bold
   #
   # size: 13.5
   # normal:
@@ -199,18 +199,18 @@ font:
   #   family: Hermit
   #   style: Regular
   #
-  # size: 15
-  # # # size: 16.9
-  # normal:
-  #   family: Iosevka Fixed
-  #   style: Extended
-  #   # style: Light Extended
-  #   # style: Light Extended
-  # bold:
-  #   family: Iosevka Fixed
-  #   # style: Extended
-  #   style: Semibold Extended
-  #   # style: Bold Extended
+  size: 14.5
+  # # size: 16.9
+  normal:
+    family: Iosevka Fixed
+    style: Extended
+    # style: Light Extended
+    # style: Light Extended
+  bold:
+    family: Iosevka Fixed
+    # style: Extended
+    style: Semibold Extended
+    # style: Bold Extended
   #
   #
   # size: 14

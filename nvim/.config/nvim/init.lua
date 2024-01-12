@@ -413,11 +413,11 @@ function M.translate()
 	local pantran = require("pantran")
 	map('n', 'trr', ':Pantran target=ru<cr>', NS)
 	map('n', 'tre', ':Pantran target=en<cr>', NS)
-	map('x', 'trr', ':Pantran target=ru<cr>', NS)
-	map('x', 'tre', ':Pantran target=en<cr>', NS)
+	map('v', 'trr', ':Pantran target=ru<cr>', NS)
+	map('v', 'tre', ':Pantran target=en<cr>', NS)
 
 	map('n', 'trt', pantran.motion_translate, NSE)
-	map('x', 'trt', pantran.motion_translate, NSE)
+	map('v', 'trt', pantran.motion_translate, NSE)
 end
 
 function M.treesitter()
@@ -1427,11 +1427,13 @@ function F.telescope()
 				-- the default case_mode is "smart_case"
 			},
 			['file_browser'] = {
-				-- ['theme'] = "ivy",
+				['theme'] = "ivy",
+				['hijack_netrw'] = true,
 				['layout_config'] = {
-					['vertical'] = {
-						['height'] = 70,
-					}
+					['height'] = 0.8,
+					-- ['vertical'] = {
+					-- 	['height'] = 70,
+					-- }
 				},
 				['mappings'] = {
 					["i"] = {

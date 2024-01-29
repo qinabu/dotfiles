@@ -12,33 +12,6 @@ function F.unpackLazy()
 
 		-- UI
 		{ 'sainnhe/everforest',  config = F.everforest_true },
-		-- {
-		-- 	"utilyre/barbecue.nvim",
-		-- 	name = "barbecue",
-		-- 	version = "*",
-		-- 	dependencies = {
-		-- 		"SmiteshP/nvim-navic",
-		-- 	},
-		-- 	opts = {
-		-- 		attach_navic = true,
-		-- 		symbols = {
-		-- 			modified = "*",
-		-- 			ellipsis = ".",
-		-- 			separator = "/",
-		-- 		}, -- configurations go here
-		-- 		kinds = false,
-		-- 		-- theme = '',
-		-- 		theme = {
-		-- 			-- normal = { bg = "#c0caf5" },
-		-- 			normal = {
-		-- 				fg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).fg,
-		-- 				bg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).bg,
-		-- 				ctermbg = vim.api.nvim_get_hl(0, { name = 'FloatBorder' }).ctermbg,
-		-- 			},
-		-- 		},
-		-- 	},
-		-- 	after = 'sainnhe/everforest',
-		-- },
 		{ 'folke/zen-mode.nvim', config = F.zen_mode },
 		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
 		{ 'simeji/winresizer',   init = M.winresizer },

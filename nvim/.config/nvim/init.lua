@@ -46,7 +46,7 @@ function F.unpackLazy()
 				'nvim-telescope/telescope-file-browser.nvim',
 				'nvim-telescope/telescope-ui-select.nvim',
 				'nvim-telescope/telescope-dap.nvim',
-				'ThePrimeagen/harpoon',
+				-- 'ThePrimeagen/harpoon',
 			},
 		},
 
@@ -456,8 +456,8 @@ function M.telescope()
 	map('n', 'fa', ':Telescope man_pages<cr>', NS)
 
 	-- map('n', 'fh', ':Telescope harpoon marks<cr>', NS)
-	map('n', 'fo', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
-	map('n', 'fO', ':lua require("harpoon.mark").add_file()<cr>', NS)
+	-- map('n', 'fo', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', NS)
+	-- map('n', 'fO', ':lua require("harpoon.mark").add_file()<cr>', NS)
 end
 
 function M.luasnip()
@@ -983,9 +983,10 @@ function F.treesitter()
 			"rust",
 			"go",
 			"python",
-			"terraform",
+			"hcl",
 			"yaml",
 			"json",
+			"vimdoc",
 		},
 
 		['incremental_selection'] = {
@@ -1464,8 +1465,8 @@ function F.telescope()
 	require('telescope').load_extension('file_browser')
 	require('telescope').load_extension('ui-select')
 
-	require("harpoon").setup({})
-	require('telescope').load_extension('harpoon')
+	-- require("harpoon").setup({})
+	-- require('telescope').load_extension('harpoon')
 
 	M.telescope()
 end

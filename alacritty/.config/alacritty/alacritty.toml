@@ -41,15 +41,23 @@ shape = "Block"
 log_level = "Debug"
 
 [font]
-size = 14.5
+size = 15.5
+
+# [font.bold]
+# family = "Iosevka Fixed"
+# style = "Semibold Extended"
+#
+# [font.normal]
+# family = "Iosevka Fixed"
+# style = "Extended"
 
 [font.bold]
-family = "Iosevka Fixed"
-style = "Semibold Extended"
+style = "SemiBold"
 
 [font.normal]
-family = "Iosevka Fixed"
-style = "Extended"
+family = "Google Sans Mono"
+# family = "M PLUS 1 Code"
+style = "Regular"
 
 [[hints.enabled]]
 command = "open"

@@ -72,7 +72,7 @@ enabled = true
 mods = "Command"
 
 [[hints.enabled]]
-regex = '[A-Z]+-\d+'
+regex = '([A-Z]|[a-z])+-\d+'
 
 [hints.enabled.binding]
 key = "J"

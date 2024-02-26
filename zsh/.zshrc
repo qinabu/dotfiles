@@ -241,9 +241,9 @@ git_checkout() {
 }
 
 git_default_branch() {
-	local fn="$( git rev-parse --git-dir 2>/dev/null )/refs/remotes/origin/HEAD"
-	local ref="$(cat "$fn" 2>/dev/null || true)"
-	echo "${ref##*/}" # refs/origin/master
+	local b=$(cat $(git rev-parse --git-dir 2>/dev/null)/refs/remotes/origin/HEAD 2>/dev/null || true)
+	b="${ref##*/}" # ref: refs/remotes/origin/master
+	echo "${h:-master}"
 }
 
 git_commit() {
@@ -294,7 +294,7 @@ _fzf_complete_gchb() {
 alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
-alias gmm="git checkout \$(git_default_branch) && gu"
+alias gmm="git checkout \$(git_default_branch) && git pull \$(git_default_branch)"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"

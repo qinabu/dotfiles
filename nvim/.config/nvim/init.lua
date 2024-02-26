@@ -866,7 +866,7 @@ function F.everforest_true()
 	vim.g.termguicolors = true
 	vim.g.everforest_transparent_background = 1
 	vim.g.everforest_current_word = 'grey background'
-	vim.g.everforest_enable_italic = 0
+	vim.g.everforest_enable_italic = 1
 	vim.g.everforest_disable_italic_comment = 1
 	vim.g.everforest_ui_contrast = 'high'
 
@@ -1348,6 +1348,10 @@ function F.zen_mode()
 end
 
 function F.telescope()
+	require('telescope').load_extension('fzf')
+	require('telescope').load_extension('file_browser')
+	require('telescope').load_extension('ui-select')
+
 	local actions = require("telescope.actions")
 	local opts = {
 		['defaults'] = {
@@ -1460,9 +1464,6 @@ function F.telescope()
 	-- 	['width'] = 1.0,
 	-- }))
 
-	require('telescope').load_extension('fzf')
-	require('telescope').load_extension('file_browser')
-	require('telescope').load_extension('ui-select')
 	require('telescope').setup(opts)
 
 	-- require("harpoon").setup({})

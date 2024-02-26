@@ -256,10 +256,6 @@ git_add() {
 	# if [[ $# -gt 0 ]]; then git add "$@"; else git add --all; fi
 }
 
-git_diff() {
-	short_command "git diff" "(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R" "$@"
-}
-
 short_command() {
 	local long="$1"
 	local short="$2"
@@ -272,22 +268,20 @@ short_command() {
 	fi
 }
 
-alias g="git"
-
-alias gc="git_commit"
-alias gca="git commit --amend"
-
 alias gal="tig --all"
 alias gl="tig"
 
+alias g="git"
+alias gc="git_commit"
+alias gca="git commit --amend"
 alias gr="git reset"
 alias gs="git status --short --branch"
-# alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
 alias gd="g diff --patch-with-stat head"
 alias gdc="g diff --patch-with-stat --cached"
-# alias gd="git_diff"
-alias gdm="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color \$(git_default_branch)) | less -R"
-alias gdom="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color origin/\$(git_default_branch)) | less -R"
+alias gdm="g diff --patch-with-stat \$(git_default_branch)"
+alias gdmc="g diff --patch-with-stat --cached \$(git_default_branch)"
+alias gdom="g diff --patch-with-stat origin/\$(git_default_branch)"
+alias gdomc="g diff --patch-with-stat --cached origin/\$(git_default_branch)"
 
 alias gch="git checkout"
 alias gchb="git checkout -b"

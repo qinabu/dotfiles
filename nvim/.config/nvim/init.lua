@@ -1460,10 +1460,10 @@ function F.telescope()
 	-- 	['width'] = 1.0,
 	-- }))
 
-	require('telescope').setup(opts)
 	require('telescope').load_extension('fzf')
 	require('telescope').load_extension('file_browser')
 	require('telescope').load_extension('ui-select')
+	require('telescope').setup(opts)
 
 	-- require("harpoon").setup({})
 	-- require('telescope').load_extension('harpoon')

@@ -1348,11 +1348,8 @@ function F.zen_mode()
 end
 
 function F.telescope()
-	require('telescope').load_extension('fzf')
-	require('telescope').load_extension('file_browser')
-	require('telescope').load_extension('ui-select')
-
 	local actions = require("telescope.actions")
+	local fb_actions = require "telescope._extensions.file_browser.actions"
 	local opts = {
 		['defaults'] = {
 			['layout_strategy'] = 'vertical',
@@ -1417,17 +1414,15 @@ function F.telescope()
 					["i"] = {
 						-- 	['<c-n>'] = require('telescope.actions').results_scrolling_down,
 						-- 	['<c-p>'] = require('telescope.actions').results_scrolling_up,
-						['<c-e>'] = require("telescope._extensions.file_browser.actions")
-						    .toggle_browser,
+						['<c-e>'] = fb_actions.toggle_browser,
 						['<C-f>'] = false,
 					},
 					["n"] = {
 						['f'] = false,
-						['h'] = require("telescope._extensions.file_browser.actions")
-						    .goto_parent_dir,
-						['e'] = require("telescope._extensions.file_browser.actions")
-						    .toggle_browser,
-						['l'] = require('telescope.actions').select_default,
+						['h'] = fb_actions.goto_parent_dir,
+						['e'] = fb_actions.toggle_browser,
+						['.'] = fb_actions.toggle_hidden,
+						['l'] = actions.select_default,
 					},
 				},
 				['hidden'] = true,
@@ -1465,6 +1460,10 @@ function F.telescope()
 	-- }))
 
 	require('telescope').setup(opts)
+
+	require('telescope').load_extension('fzf')
+	require('telescope').load_extension('file_browser')
+	require('telescope').load_extension('ui-select')
 
 	-- require("harpoon").setup({})
 	-- require('telescope').load_extension('harpoon')

@@ -11,7 +11,7 @@ white = "#d3c6aa"
 yellow = "#dbbc7f"
 
 [colors.cursor]
-cursor = "#68e3df"
+cursor = "#E3DF68"
 text = "#000000"
 
 [colors.normal]
@@ -41,23 +41,25 @@ shape = "Block"
 log_level = "Debug"
 
 [font]
-size = 15.5
-
-# [font.bold]
-# family = "Iosevka Fixed"
-# style = "Semibold Extended"
-#
-# [font.normal]
-# family = "Iosevka Fixed"
-# style = "Extended"
+size = 15
+# builtin_box_drawing = true
 
 [font.bold]
-style = "SemiBold"
+style = "Semibold Extended"
+# style = "Md"
 
 [font.normal]
-family = "Google Sans Mono"
+family = "Iosevka Fixed"
+style = "Extended"
+# style = "Medium Extended"
+# family = "Martian Mono"
+# family = "SF Mono"
+# family = "Andale Mono"
+# family = "Cascadia Code"
+# family = "Fira Code"
+# family = "Google Sans Mono"
 # family = "M PLUS 1 Code"
-style = "Regular"
+# style = "SemiLight"
 
 [[hints.enabled]]
 command = "open"
@@ -288,7 +290,8 @@ hide_when_typing = true
 [window]
 decorations = "buttonless"
 dynamic_title = true
-opacity = 0.98
+# opacity = 0.98
+opacity = 1
 option_as_alt = "Both"
 startup_mode = "Maximized"
 

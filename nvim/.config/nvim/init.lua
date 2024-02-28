@@ -285,9 +285,11 @@ function M.bootstrap()
 	map('i', '<down>', '<c-o>gj', NS)
 	map('i', '<up>', '<c-o>gk', NS)
 
-	map('n', '<leader>ee', '*Ncgn', NS)
-	map('v', '<leader>ee', "\"sy:let @/='\\V'.@s<CR>cgn", NS)
-	map('v', '<leader>er', '"hy:%s/<C-r>h//gc<left><left><left>', N)
+	map('n', '<leader>ee', '*Ncgn', NS)                       -- change a word under cursor
+	map('v', '<leader>ee', "\"sy:let @/='\\V'.@s<CR>cgn", NS) -- change selected as first
+	map('v', '<leader>er', '"hy:%s/<C-r>h//gc<left><left><left>', N) -- substitute command for selected
+	map('n', '<leader>ew', ':%s/\\s\\+$//e<cr>', N)           -- remove trailing spaces
+	map('v', '<leader>ew', ':s/\\s\\+$//e<cr>', N)            -- remove trailing spaces for selection
 
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)

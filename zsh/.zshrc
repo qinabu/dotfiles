@@ -294,7 +294,7 @@ _fzf_complete_gchb() {
 alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
-alias gmm="git checkout \$(git_default_branch) && git pull \$(git_default_branch)"
+alias gmm="git checkout \$(git_default_branch) && git pull origin \$(git_default_branch)"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"

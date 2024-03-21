@@ -1,7 +1,7 @@
 color default white default normal
 color line-number white black
 color cursor black white bold
-# color status green black
+color status green black
 set git-colors = no
 set line-graphics = utf-8
 set reference-format = ((head)) {TRACKED:tracked-remote} (branch) ~replace~ {remote} <tag>

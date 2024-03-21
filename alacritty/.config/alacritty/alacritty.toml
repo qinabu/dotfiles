@@ -1,5 +1,32 @@
 live_config_reload = true
 
+[font]
+# size = 15.3
+size = 15
+# builtin_box_drawing = true
+
+[font.bold]
+# style = "Semibold Extended"
+style = "Semibold"
+# style = "Md"
+
+[font.normal]
+# family = "Iosevka Fixed"
+# style = "Extended"
+# style = "Light Extended"
+# style = "Extended"
+style = "Regular"
+# style = "Medium Extended"
+# family = "Martian Mono"
+family = "SF Mono"
+# family = "Andale Mono"
+# family = "Cascadia Code"
+# family = "Fira Code"
+# family = "Google Sans Mono"
+# family = "M PLUS 1 Code"
+# style = "SemiLight"
+
+
 [colors.bright]
 black = "#475258"
 blue = "#7fbbb3"
@@ -11,7 +38,7 @@ white = "#d3c6aa"
 yellow = "#dbbc7f"
 
 [colors.cursor]
-cursor = "#68e3df"
+cursor = "#E3DF68"
 text = "#000000"
 
 [colors.normal]
@@ -40,24 +67,6 @@ shape = "Block"
 [debug]
 log_level = "Debug"
 
-[font]
-size = 15.5
-
-# [font.bold]
-# family = "Iosevka Fixed"
-# style = "Semibold Extended"
-#
-# [font.normal]
-# family = "Iosevka Fixed"
-# style = "Extended"
-
-[font.bold]
-style = "SemiBold"
-
-[font.normal]
-family = "Google Sans Mono"
-# family = "M PLUS 1 Code"
-style = "Regular"
 
 [[hints.enabled]]
 command = "open"
@@ -72,7 +81,7 @@ enabled = true
 mods = "Command"
 
 [[hints.enabled]]
-regex = '[A-Z]+-\d+'
+regex = '([A-Z]|[a-z])+-\d+'
 
 [hints.enabled.binding]
 key = "J"
@@ -288,7 +297,8 @@ hide_when_typing = true
 [window]
 decorations = "buttonless"
 dynamic_title = true
-opacity = 0.98
+# opacity = 0.98
+opacity = 1
 option_as_alt = "Both"
 startup_mode = "Maximized"
 

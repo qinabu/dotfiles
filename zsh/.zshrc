@@ -241,9 +241,9 @@ git_checkout() {
 }
 
 git_default_branch() {
-	local fn="$( git rev-parse --git-dir 2>/dev/null )/refs/remotes/origin/HEAD"
-	local ref="$(cat "$fn" 2>/dev/null || true)"
-	echo "${ref##*/}" # refs/origin/master
+	local b=$(cat $(git rev-parse --git-dir 2>/dev/null)/refs/remotes/origin/HEAD 2>/dev/null || true)
+	b="${ref##*/}" # ref: refs/remotes/origin/master
+	echo "${h:-master}"
 }
 
 git_commit() {
@@ -254,10 +254,6 @@ git_commit() {
 git_add() {
 	short_command "git add" "git add --all" "$@"
 	# if [[ $# -gt 0 ]]; then git add "$@"; else git add --all; fi
-}
-
-git_diff() {
-	short_command "git diff" "(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R" "$@"
 }
 
 short_command() {
@@ -272,22 +268,20 @@ short_command() {
 	fi
 }
 
-alias g="git"
-
-alias gc="git_commit"
-alias gca="git commit --amend"
-
 alias gal="tig --all"
 alias gl="tig"
 
+alias g="git"
+alias gc="git_commit"
+alias gca="git commit --amend"
 alias gr="git reset"
 alias gs="git status --short --branch"
-# alias gd="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color head) | less -R"
-alias gd="g diff --patch-with-stat"
+alias gd="g diff --patch-with-stat head"
 alias gdc="g diff --patch-with-stat --cached"
-# alias gd="git_diff"
-alias gdm="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color \$(git_default_branch)) | less -R"
-alias gdom="(git -c color.status=always status --short --branch; echo; git diff --patch-with-stat --color origin/\$(git_default_branch)) | less -R"
+alias gdm="g diff --patch-with-stat \$(git_default_branch)"
+alias gdmc="g diff --patch-with-stat --cached \$(git_default_branch)"
+alias gdom="g diff --patch-with-stat origin/\$(git_default_branch)"
+alias gdomc="g diff --patch-with-stat --cached origin/\$(git_default_branch)"
 
 alias gch="git checkout"
 alias gchb="git checkout -b"
@@ -300,7 +294,7 @@ _fzf_complete_gchb() {
 alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
-alias gmm="git checkout \$(git_default_branch) && gu"
+alias gmm="git checkout \$(git_default_branch) && git pull origin \$(git_default_branch)"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"

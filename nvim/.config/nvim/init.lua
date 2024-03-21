@@ -307,7 +307,7 @@ function M.bootstrap()
 	map('n', '<c-h>', '^', N)
 	map('n', '<c-l>', '$', N)
 	map('v', '<c-h>', '^', N)
-	map('v', '<c-l>', '$', N)
+	map('v', '<c-l>', 'g_', N)
 
 
 

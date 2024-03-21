@@ -1,5 +1,32 @@
 live_config_reload = true
 
+[font]
+# size = 15.3
+size = 15
+# builtin_box_drawing = true
+
+[font.bold]
+# style = "Semibold Extended"
+style = "Semibold"
+# style = "Md"
+
+[font.normal]
+# family = "Iosevka Fixed"
+# style = "Extended"
+# style = "Light Extended"
+# style = "Extended"
+style = "Regular"
+# style = "Medium Extended"
+# family = "Martian Mono"
+family = "SF Mono"
+# family = "Andale Mono"
+# family = "Cascadia Code"
+# family = "Fira Code"
+# family = "Google Sans Mono"
+# family = "M PLUS 1 Code"
+# style = "SemiLight"
+
+
 [colors.bright]
 black = "#475258"
 blue = "#7fbbb3"
@@ -40,26 +67,6 @@ shape = "Block"
 [debug]
 log_level = "Debug"
 
-[font]
-size = 15
-# builtin_box_drawing = true
-
-[font.bold]
-style = "Semibold Extended"
-# style = "Md"
-
-[font.normal]
-family = "Iosevka Fixed"
-style = "Extended"
-# style = "Medium Extended"
-# family = "Martian Mono"
-# family = "SF Mono"
-# family = "Andale Mono"
-# family = "Cascadia Code"
-# family = "Fira Code"
-# family = "Google Sans Mono"
-# family = "M PLUS 1 Code"
-# style = "SemiLight"
 
 [[hints.enabled]]
 command = "open"

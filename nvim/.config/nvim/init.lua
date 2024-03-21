@@ -11,6 +11,22 @@ function F.unpackLazy()
 	return {
 
 		-- UI
+		-- {
+		-- 	'folke/which-key.nvim',
+		-- 	event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+		-- 	config = function() -- This is the function that runs, AFTER loading
+		-- 		require('which-key').setup()
+		--
+		-- 		-- Document existing key chains
+		-- 		-- require('which-key').register {
+		-- 		-- 	['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+		-- 		-- 	['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+		-- 		-- 	['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+		-- 		-- 	['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+		-- 		-- 	['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+		-- 		-- }
+		-- 	end,
+		-- },
 		{ 'sainnhe/everforest',  config = F.everforest_true },
 		{ 'folke/zen-mode.nvim', config = F.zen_mode },
 		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
@@ -29,7 +45,7 @@ function F.unpackLazy()
 			config = function()
 				require 'nvim-rooter'.setup({
 					exclude_filetypes = { 'ctrlsf' },
-					-- fallback_to_parent = true,
+					fallback_to_parent = true,
 				})
 			end
 		},
@@ -37,16 +53,16 @@ function F.unpackLazy()
 			'nvim-telescope/telescope.nvim',
 			config = F.telescope,
 			dependencies = {
-				{
-					'nvim-telescope/telescope-fzf-native.nvim',
-					build =
-					'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-				},
 				'nvim-lua/plenary.nvim',
 				'nvim-telescope/telescope-file-browser.nvim',
 				'nvim-telescope/telescope-ui-select.nvim',
 				'nvim-telescope/telescope-dap.nvim',
-				-- 'ThePrimeagen/harpoon',
+				{
+					'nvim-telescope/telescope-fzf-native.nvim',
+					build = 'make',
+					-- build =
+					-- 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+				},
 			},
 		},
 
@@ -149,7 +165,6 @@ function F.unpackLazy()
 				'vim-test/vim-test',
 				'nvim-treesitter/nvim-treesitter',
 				'theHamsta/nvim-dap-virtual-text',
-				'nvim-telescope/telescope-dap.nvim',
 				'leoluz/nvim-dap-go',
 			},
 		},
@@ -784,12 +799,18 @@ function F.bootstrap()
 end
 
 function F.copilot()
-	vim.cmd [[
-        imap <silent><script><expr> <C-I> copilot#Accept("\<CR>")
-        let g:copilot_no_tab_map = v:true
-        " imap <silent><script><expr> <C-.> copilot#Next("\<CR>")
-        " imap <silent><script><expr> <C-,> copilot#Previous("\<CR>")
-	]]
+	map('i', '<c-i>', 'copilot#Accept("\\<CR>")', {
+		expr = true,
+		replace_keycodes = false
+	})
+	vim.g.copilot_no_tab_map = true
+
+	-- vim.cmd [[
+	--        let g:copilot_no_tab_map = v:true
+	--        imap <silent><script><expr> <C-I> copilot#Accept("\<CR>")
+	--        " imap <silent><script><expr> <C-.> copilot#Next("\<CR>")
+	--        " imap <silent><script><expr> <C-,> copilot#Previous("\<CR>")
+	-- ]]
 end
 
 function F.gen()
@@ -1171,7 +1192,7 @@ function F.gitsigns()
 			},
 			delete       = {
 				hl = 'GitSignsDelete',
-				text = '-',
+				text = '_',
 				numhl = 'GitSignsDeleteNr',
 				linehl = 'GitSignsDeleteLn'
 			},
@@ -1464,8 +1485,8 @@ function F.telescope()
 	require('telescope').setup(opts)
 
 	require('telescope').load_extension('fzf')
-	require('telescope').load_extension('file_browser')
 	require('telescope').load_extension('ui-select')
+	require('telescope').load_extension('file_browser')
 
 	-- require("harpoon").setup({})
 	-- require('telescope').load_extension('harpoon')
@@ -1574,6 +1595,7 @@ function F.cmp()
 			-- confimration
 			['<c-q>'] = cmp.mapping.abort(),
 			['<cr>'] = cmp.mapping.confirm({ select = false }),
+			['<c-y>'] = cmp.mapping.confirm({ select = true }),
 		}),
 		['snippet'] = {
 			-- REQUIRED - you must specify a snippet engine

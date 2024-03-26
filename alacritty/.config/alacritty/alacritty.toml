@@ -2,12 +2,13 @@ live_config_reload = true
 
 [font]
 # size = 15.3
-size = 15
+size = 16.5
 # builtin_box_drawing = true
 
 [font.bold]
 # style = "Semibold Extended"
-style = "Semibold"
+# style = "Semibold"
+# style = "SemiBold"
 # style = "Md"
 
 [font.normal]
@@ -18,7 +19,7 @@ style = "Semibold"
 style = "Regular"
 # style = "Medium Extended"
 # family = "Martian Mono"
-family = "SF Mono"
+family = "Mononoki"
 # family = "Andale Mono"
 # family = "Cascadia Code"
 # family = "Fira Code"

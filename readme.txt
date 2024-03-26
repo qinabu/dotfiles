@@ -13,6 +13,7 @@ tfenv tflint opa
 
 fonts
 
+https://madmalik.github.io/mononoki/
 https://github.com/mehant-kr/Google-Sans-Mono
 https://github.com/be5invis/Iosevka/
 https://fonts.google.com/specimen/Martian+Mono

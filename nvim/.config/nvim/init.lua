@@ -51,6 +51,7 @@ function F.unpackLazy()
 		},
 		{
 			'nvim-telescope/telescope.nvim',
+			branch = '0.1.x',
 			config = F.telescope,
 			dependencies = {
 				'nvim-lua/plenary.nvim',
@@ -899,6 +900,7 @@ function F.everforest_true()
 	vim.cmd [[
 		colorscheme everforest
 		" hi! Visual ctermbg=238 guibg=#475258
+		hi! Visual term=bold,reverse cterm=bold,reverse gui=bold,reverse
 		hi CurrentWord ctermbg=240 guibg=#424e57
 		hi link BqfPreviewBorder FloatermBorder
 		hi CursorLine guibg=#2f393d
@@ -1371,8 +1373,9 @@ function F.zen_mode()
 end
 
 function F.telescope()
+	local tscope = require("telescope")
 	local actions = require("telescope.actions")
-	local fb_actions = require "telescope._extensions.file_browser.actions"
+	local fb_actions = require("telescope._extensions.file_browser.actions")
 	local opts = {
 		['defaults'] = {
 			['layout_strategy'] = 'vertical',
@@ -1482,11 +1485,11 @@ function F.telescope()
 	-- 	['width'] = 1.0,
 	-- }))
 
-	require('telescope').setup(opts)
+	tscope.setup(opts)
 
-	require('telescope').load_extension('fzf')
-	require('telescope').load_extension('ui-select')
-	require('telescope').load_extension('file_browser')
+	tscope.load_extension('fzf')
+	tscope.load_extension('file_browser')
+	tscope.load_extension('ui-select')
 
 	-- require("harpoon").setup({})
 	-- require('telescope').load_extension('harpoon')

@@ -2,7 +2,7 @@ live_config_reload = true
 
 [font]
 # size = 15.3
-size = 16.5
+size = 15.7
 # builtin_box_drawing = true
 
 [font.bold]

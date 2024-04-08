@@ -890,7 +890,7 @@ function F.everforest_true()
 	vim.g.termguicolors = true
 	vim.g.everforest_transparent_background = 1
 	vim.g.everforest_current_word = 'grey background'
-	vim.g.everforest_enable_italic = 1
+	vim.g.everforest_enable_italic = 0
 	vim.g.everforest_disable_italic_comment = 1
 	vim.g.everforest_ui_contrast = 'high'
 

@@ -900,7 +900,8 @@ function F.everforest_true()
 	vim.cmd [[
 		colorscheme everforest
 		" hi! Visual ctermbg=238 guibg=#475258
-		hi! Visual term=bold,reverse cterm=bold,reverse gui=bold,reverse
+		" hi! Visual term=bold,reverse cterm=bold,reverse gui=bold,reverse
+		hi! Visual term=reverse cterm=reverse gui=reverse
 		hi CurrentWord ctermbg=240 guibg=#424e57
 		hi link BqfPreviewBorder FloatermBorder
 		hi CursorLine guibg=#2f393d

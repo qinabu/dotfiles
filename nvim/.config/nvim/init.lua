@@ -1366,8 +1366,8 @@ end
 
 function F.zen_mode()
 	require("zen-mode").setup {
-		gitsigns = { enabled = true },
-		tmux = { enabled = true },
+		plugins = { gitsigns = { enabled = true } },
+		-- tmux = { enabled = true },
 		-- https://github.com/folke/zen-mode.nvim#%EF%B8%8F-configuration
 	}
 	M.zen_mode()

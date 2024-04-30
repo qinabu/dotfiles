@@ -2,7 +2,7 @@
 
 # default ---------------------------------------------------------------------
 # cmd open &$OPENER "$f"
-map e ${{ $EDITOR "$f" }}
+map e $$EDITOR "$f"
 map i $$PAGER "$f"
 map w $$SHELL
 

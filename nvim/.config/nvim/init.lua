@@ -882,7 +882,20 @@ function F.lazySetup()
 		})
 	end
 	vim.opt.rtp:prepend(lazypath)
-	require("lazy").setup(F.unpackLazy(), {})
+	require("lazy").setup(F.unpackLazy(), {
+		ui = {
+			size = { width = 0.95, height = 0.9 },
+			icons = {
+				lazy = "",
+				cmd = "⌘",
+				plugin = "⌘",
+				start = "⌘",
+				source = "⌘",
+				ft = "⌘",
+				event = "⌘",
+			}
+		},
+	})
 end
 
 function F.everforest_true()
@@ -1650,7 +1663,12 @@ function F.diffview()
 end
 
 function F.lspconfig()
-	require('mason').setup {}
+	require('mason').setup {
+		ui = {
+			width = 0.95,
+			height = 0.9,
+		}
+	}
 	require('neodev').setup {}
 
 	local servers = {

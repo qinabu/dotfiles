@@ -240,10 +240,10 @@ git_checkout() {
 	}
 }
 
-git_default_branch() {
-	local b=$(cat $(git rev-parse --git-dir 2>/dev/null)/refs/remotes/origin/HEAD 2>/dev/null || true)
-	b="${ref##*/}" # ref: refs/remotes/origin/master
-	echo "${h:-master}"
+git_default_branch () {
+        local b=$(cat $(git rev-parse --git-dir 2>/dev/null)/refs/remotes/origin/HEAD 2>/dev/null || true)
+        b="${b##*/}"
+        echo "${b:-master}"
 }
 
 git_commit() {

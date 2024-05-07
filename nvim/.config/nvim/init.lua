@@ -116,8 +116,10 @@ function F.unpackLazy()
 				'honza/vim-snippets', -- Snippet collection
 			},
 		},
-		{ 'github/copilot.vim',  config = F.copilot },
-		{ 'David-Kunz/gen.nvim', config = F.gen },
+		-- { 'github/copilot.vim',     config = F.copilot },
+		{ "zbirenbaum/copilot.lua", cmd = "Copilot",                                        event = "InsertEnter", config = F.copilot, },
+		{ "zbirenbaum/copilot-cmp", config = function() require("copilot_cmp").setup() end, },
+		{ 'David-Kunz/gen.nvim',    config = F.gen },
 
 		-- LANGUAGES
 		{
@@ -800,11 +802,21 @@ function F.bootstrap()
 end
 
 function F.copilot()
-	map('i', '<c-i>', 'copilot#Accept("\\<CR>")', {
-		expr = true,
-		replace_keycodes = false
+	require("copilot").setup({
+		suggestion = { enabled = false },
+		panel = { enabled = false },
 	})
-	vim.g.copilot_no_tab_map = true
+	-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+	-- 	expr = true,
+	-- 	replace_keycodes = false
+	-- })
+	-- vim.g.copilot_no_tab_map = true
+
+	-- map('i', '<c-i>', 'copilot#Accept("\\<CR>")', {
+	-- 	expr = true,
+	-- 	replace_keycodes = false
+	-- })
+	-- vim.g.copilot_no_tab_map = true
 
 	-- vim.cmd [[
 	--        let g:copilot_no_tab_map = v:true
@@ -1621,6 +1633,7 @@ function F.cmp()
 			end,
 		},
 		['sources'] = cmp.config.sources({
+			{ ['name'] = 'copilot' },
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
 			{ ['name'] = 'luasnip' },

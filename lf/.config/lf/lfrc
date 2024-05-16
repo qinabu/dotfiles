@@ -40,7 +40,8 @@ map , ${{
 	lf -remote "send $id echo Updated!"
 }}
 map . set hidden!
-map o ${{ open "$f" }}
+map o $$EDITOR "$f"
+map O ${{ open "$f" }}
 
 # Action ...
 map ag :$g

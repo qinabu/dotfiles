@@ -116,6 +116,9 @@ function F.unpackLazy()
 				'honza/vim-snippets', -- Snippet collection
 			},
 		},
+		-- { 'tzachar/cmp-ai',         dependencies = 'nvim-lua/plenary.nvim',                 config = F.cmp_ai },
+		-- { 'hrsh7th/nvim-cmp',       dependencies = 'tzachar/cmp-ai' },
+		--
 		-- { 'github/copilot.vim',     config = F.copilot },
 		{ "zbirenbaum/copilot.lua", cmd = "Copilot",                                        event = "InsertEnter", config = F.copilot, },
 		{ "zbirenbaum/copilot-cmp", config = function() require("copilot_cmp").setup() end, },
@@ -830,8 +833,23 @@ function F.gen()
 	-- ollama gen
 	-- llama2-uncensored
 	-- require('gen').model = 'llama2-uncensored'
-	require('gen').model = 'llama2'
-	require('gen').container = nil
+	require('gen').model = 'llama3'
+	require('gen').display_mode = "split"
+	require('gen').show_prompt = true
+	-- require('gen').container = nil
+	require('gen').prompts['Fix_Code'] = {
+		prompt =
+		"Fix the following code. Only ouput the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
+		replace = true,
+		extract = "```$filetype\n(.-)```"
+	}
+	require('gen').prompts['Магия'] = {
+		prompt =
+		"Переформулируй грамматически верно мысль как писатель, на русском:\n$text\n\nНапиши только ответ. Используй максимум из доступных слов. Не обрывай предложения, закончи мысль, будь лаконичен и креативен. Следуй правилу: не больше 3x слов от оригинала.",
+		replace = true
+	}
+
+
 	M.gen()
 end
 
@@ -1556,7 +1574,7 @@ function F.cmp()
 
 	local config = {
 		['window'] = {
-			['completion'] = cmp.config.window.bordered(),
+			-- ['completion'] = cmp.config.window.bordered(),
 			['documentation'] = cmp.config.window.bordered(),
 		},
 		['mapping'] = cmp.mapping.preset.insert({
@@ -1637,6 +1655,7 @@ function F.cmp()
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
 			{ ['name'] = 'luasnip' },
+			{ ['name'] = 'cmp_ai' },
 		}, {
 			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),
@@ -1662,6 +1681,28 @@ function F.cmp()
 		}, {
 			{ name = 'cmdline' }
 		})
+	})
+end
+
+function F.cmp_ai()
+	local cmp_ai = require('cmp_ai.config')
+	cmp_ai:setup({
+		max_lines = 100,
+		provider = 'Ollama',
+		provider_options = {
+			stream = true,
+			model = 'codellama:7b-code',
+		},
+		notify = true,
+		notify_callback = function(msg)
+			vim.notify(msg)
+		end,
+		run_on_every_keystroke = true,
+		ignored_file_types = {
+			-- default is not to ignore
+			-- uncomment to ignore in lua:
+			-- lua = true
+		},
 	})
 end
 

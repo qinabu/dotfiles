@@ -131,6 +131,7 @@ function F.unpackLazy()
 			dependencies = {
 				'nvim-treesitter/playground', -- :TSPlaygroundToggle
 				'nvim-treesitter/nvim-treesitter-textobjects',
+				'kiyoon/treesitter-indent-object.nvim',
 				'romgrk/nvim-treesitter-context',
 				'mfussenegger/nvim-ts-hint-textobject', -- Scope selection by m
 				'jubnzv/virtual-types.nvim',
@@ -422,6 +423,13 @@ function M.treesitter()
 	require("tsht").config.hint_keys = { "f", "j", "d", "k", "s", "l", "a", "g", "h" }
 	map('o', 'm', ':<c-u>lua require("tsht").nodes()<cr>', NS)
 	map('v', 'm', ':lua require("tsht").nodes()<cr>', NS)
+
+	-- indent object
+	local iobj = require 'treesitter_indent_object.textobj'
+	map({ 'x', 'o' }, 'ai', function() iobj.select_indent_outer() end)
+	map({ 'x', 'o' }, 'aI', function() iobj.select_indent_outer(true) end)
+	map({ 'x', 'o' }, 'ii', function() iobj.select_indent_inner() end)
+	map({ 'x', 'o' }, 'iI', function() iobj.select_indent_inner(true, 'V') end)
 end
 
 function M.lsp()
@@ -808,6 +816,9 @@ function F.copilot()
 	require("copilot").setup({
 		suggestion = { enabled = false },
 		panel = { enabled = false },
+		filetypes = {
+			markdown = true,
+		},
 	})
 	-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
 	-- 	expr = true,
@@ -1029,6 +1040,7 @@ end
 
 function F.translate()
 	require("pantran").setup {
+		ui = { width_percentage = 0.95, height_percentage = 0.6 },
 		default_engine = 'google',
 		engines = {
 			google = {
@@ -1133,6 +1145,8 @@ function F.treesitter()
 		},
 
 	}
+
+	require('treesitter_indent_object').setup()
 
 	M.treesitter()
 end

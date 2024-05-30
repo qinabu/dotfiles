@@ -197,6 +197,7 @@ fi
 ###
 export EDITOR=nvim
 export PAGER=less
+export MANPAGER="less -sR --mouse" # man man
 
 
 ###
@@ -295,6 +296,7 @@ alias gu="git pull"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
 alias gmm="git checkout \$(git_default_branch) && git pull origin \$(git_default_branch)"
+alias gmmp="gmm -p"
 alias gf="git fetch"
 alias gfo="git fetch origin"
 alias gfom="git fetch origin \$(git_default_branch)"

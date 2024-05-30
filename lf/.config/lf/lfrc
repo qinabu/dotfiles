@@ -3,6 +3,7 @@
 # default ---------------------------------------------------------------------
 # cmd open &$OPENER "$f"
 map e $$EDITOR "$f"
+map o $$EDITOR "$f"
 map i $$PAGER "$f"
 map w $$SHELL
 
@@ -40,7 +41,6 @@ map , ${{
 	lf -remote "send $id echo Updated!"
 }}
 map . set hidden!
-map o $$EDITOR "$f"
 map O ${{ open "$f" }}
 
 # Action ...

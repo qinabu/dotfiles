@@ -1561,7 +1561,7 @@ end
 
 function F.dap()
 	require("dap-go").setup()
-	require("nvim-dap-virtual-text").setup({})
+	require("nvim-dap-virtual-text").setup()
 	vim.g['test#strategy'] = 'neovim'
 
 	M.testing()

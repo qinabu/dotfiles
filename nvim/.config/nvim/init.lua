@@ -44,7 +44,7 @@ function F.unpackLazy()
 			'notjedi/nvim-rooter.lua',
 			config = function()
 				require 'nvim-rooter'.setup({
-					exclude_filetypes = { 'ctrlsf' },
+					exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame' },
 					fallback_to_parent = true,
 				})
 			end
@@ -302,8 +302,8 @@ function M.bootstrap()
 	-- Edit
 	map('i', '<esc>', '<esc>`^', NS) -- Keep cursor on the same positioni
 
-	map('n', 'j', 'gj', NS)
-	map('n', 'k', 'gk', NS)
+	map({ 'n', 'v' }, 'j', 'gj', NS)
+	map({ 'n', 'v' }, 'k', 'gk', NS)
 	map('i', '<down>', '<c-o>gj', NS)
 	map('i', '<up>', '<c-o>gk', NS)
 
@@ -1423,7 +1423,11 @@ end
 
 function F.zen_mode()
 	require("zen-mode").setup {
-		plugins = { gitsigns = { enabled = true } },
+		plugins = {
+			gitsigns = { enabled = true },
+			options = { laststatus = 0 },
+			tmux = { enabled = true },
+		},
 		-- tmux = { enabled = true },
 		-- https://github.com/folke/zen-mode.nvim#%EF%B8%8F-configuration
 	}

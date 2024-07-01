@@ -295,8 +295,9 @@ function M.bootstrap()
 
 	-- Buffer
 	map('n', '<leader>s', ':write<cr>', N)            -- Write changes
-	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader>S', ':wall<cr>', N)             -- Write chages of all buffers
+	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
+	map('n', '<leader><leader>S', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader>bd', ':bdelete<cr>', N)         -- Delete current buffer
 
 	-- Edit
@@ -482,6 +483,7 @@ function M.telescope()
 	map('n', 'fs', ':Telescope lsp_document_symbols symbol_width=60<cr>', NS)
 	map('n', 'fw', ':Telescope lsp_dynamic_workspace_symbols symbol_width=60 fname_width=50<cr>', NS)
 	map('n', 'fb', ':Telescope buffers initial_mode=normal<cr>', NS)
+	map('n', 'fB', ':Telescope git_branches initial_mode=normal<cr>', NS)
 	map('n', 'fm', ':Telescope marks initial_mode=normal<cr>', NS)
 	map('n', 'fj', ':Telescope jumplist initial_mode=normal<cr>', NS)
 	map('n', 'fa', ':Telescope man_pages<cr>', NS)

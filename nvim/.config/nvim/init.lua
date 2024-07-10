@@ -1065,6 +1065,7 @@ function F.treesitter()
 			"lua",
 			"rust",
 			"go",
+			"gotmpl",
 			"python",
 			"hcl",
 			"yaml",

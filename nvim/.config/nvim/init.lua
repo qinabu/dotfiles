@@ -297,7 +297,7 @@ function M.bootstrap()
 	map('n', '<leader>s', ':write<cr>', N)            -- Write changes
 	map('n', '<leader>S', ':wall<cr>', N)             -- Write chages of all buffers
 	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
-	map('n', '<leader><leader>S', ':noautocmd write<cr>', N) -- Write buffer as is
+	map('n', '<leader><leader>S', ':noautocmd wall<cr>', N) -- Write buffer as is
 	map('n', '<leader>bd', ':bdelete<cr>', N)         -- Delete current buffer
 
 	-- Edit

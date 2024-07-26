@@ -1,5 +1,17 @@
 live_config_reload = true
 
+[window]
+decorations = "buttonless"
+dynamic_title = true
+# opacity = 0.98
+opacity = 1
+option_as_alt = "Both"
+startup_mode = "Maximized"
+
+[window.padding]
+x = 15
+y = 15
+
 [font]
 # size = 15.3
 size = 15.7
@@ -99,14 +111,3 @@ mods = "Command"
 [mouse]
 hide_when_typing = true
 
-[window]
-decorations = "buttonless"
-dynamic_title = true
-# opacity = 0.98
-opacity = 1
-option_as_alt = "Both"
-startup_mode = "Maximized"
-
-[window.padding]
-x = 15
-y = 15

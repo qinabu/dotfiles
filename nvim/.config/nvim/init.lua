@@ -1264,6 +1264,7 @@ function F.gitsigns()
 			changedelete = { text = '~' },
 			untracked    = { text = '+' },
 		},
+		signs_staged_enable = false,
 		current_line_blame = false,
 		current_line_blame_opts = {
 			virt_text = true,

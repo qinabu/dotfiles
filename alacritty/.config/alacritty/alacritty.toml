@@ -3,7 +3,9 @@ live_config_reload = true
 [window]
 decorations = "buttonless"
 dynamic_title = true
-# opacity = 0.98
+# opacity = 1
+opacity = 0.93
+blur = true
 opacity = 1
 option_as_alt = "Both"
 startup_mode = "Maximized"
@@ -110,4 +112,3 @@ mods = "Command"
 
 [mouse]
 hide_when_typing = true
-

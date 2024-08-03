@@ -6,7 +6,6 @@ dynamic_title = true
 # opacity = 1
 opacity = 0.93
 blur = true
-opacity = 1
 option_as_alt = "Both"
 startup_mode = "Maximized"
 

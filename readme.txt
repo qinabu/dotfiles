@@ -26,3 +26,21 @@ https://freefontsdownload.net/free-consolas-font-33098.htm
 
 defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+
+GPG export
+gpg --export --armor your@id.here > your@id.here.pub.asc
+gpg --export-secret-keys --armor your@id.here > your@id.here.priv.asc
+gpg --export-secret-subkeys --armor your@id.here > your@id.here.sub_priv.asc
+gpg --export-ownertrust > ownertrust.txt
+
+
+GPG import
+gpg --import your@id.here.pub.asc
+gpg --import your@id.here.priv.asc
+gpg --import your@id.here.sub_priv.asc
+gpg --import-ownertrust ownertrust.txt
+
+gpg --edit-key your@id.here
+gpg> trust
+Your decision? 5

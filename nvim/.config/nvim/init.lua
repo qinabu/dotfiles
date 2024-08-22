@@ -1510,6 +1510,10 @@ function F.telescope()
 				['dir_icon'] = '▸',
 				-- ['dir_icon'] = ' ',
 				['grouped'] = true,
+				['follow_symlinks'] = true,
+				['select_buffer'] = true,
+				['hide_parent_dir'] = true,
+				['prompt_path'] = true,
 				-- ['depth'] = 1,
 				-- ['folder_browser'] = {
 				-- 	['files'] = true,

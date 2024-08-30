@@ -234,6 +234,10 @@ function M.bootstrap()
 	map('n', '<leader>w', '<c-w>', N)      -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
+	map('n', '<leader>tl', ':tabnext<cr>', N)
+	map('n', '<leader>th', ':-tabnext<cr>', N)
+	map('n', '<leader>tq', ':tabclose<cr>', N)
+
 	map('n', '<leader>h', '<c-w>h', NS)
 	map('n', '<leader>l', '<c-w>l', NS)
 	map('n', '<leader>j', '<c-w>j', NS)
@@ -588,8 +592,10 @@ function M.fugitive()
 	map('n', '<leader>gB', ':.GBrowse<cr>', NS)
 	map('n', '<leader>gd', ':Git difftool<cr>', NS)
 	map('n', '<leader>gD', ':Gvdiffsplit<cr>', NS)
-	map('n', '<leader>gl', ':0Gclog<cr>', NS)
-	map('n', '<leader>gL', ':Gclog<cr>', NS)
+	-- map('n', '<leader>gl', ':0Gclog<cr>', NS)
+	-- map('n', '<leader>gL', ':Gclog<cr>', NS)
+	map('n', '<leader>gl', ':DiffviewFileHistory<cr>', NS)
+	map('n', '<leader>gL', ':DiffviewFileHistory %<cr>', NS)
 
 	map('n', '<leader>gy',
 		'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>'
@@ -1727,6 +1733,10 @@ function F.diffview()
 		['icons'] = {
 			['folder_closed'] = "-",
 			['folder_open'] = "+",
+		},
+		['signs'] = {
+			['fold_closed'] = "-",
+			['fold_open'] = "+",
 		},
 	})
 end

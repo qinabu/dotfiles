@@ -1,0 +1,33 @@
+#!/bin/bash
+
+port="${1:-8080}"
+root=$(realpath "$(dirname "$0")")
+config=$(
+	cat <<EOF
+events {
+    worker_connections 32;
+}
+http {
+	server {
+		listen $port;
+		listen [::]:$port;
+		root $root;
+		index index.html;
+		server_name _;
+		error_page 404 /404.html;
+		autoindex on;
+
+		location / {
+			try_files \$uri \$uri/ =404;
+		}
+	}
+}
+EOF
+)
+
+echo "http://localhost:$port"
+exec nginx -e stderr -g "daemon off;" -c "$(
+	tmp="$(mktemp)"
+	echo "$config" >"$tmp"
+	echo "$tmp"
+)"

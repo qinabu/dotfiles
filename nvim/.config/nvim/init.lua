@@ -853,7 +853,7 @@ function F.gen()
 	-- ollama gen
 	-- llama2-uncensored
 	-- require('gen').model = 'llama2-uncensored'
-	require('gen').model = 'llama3'
+	require('gen').model = 'llama3.1'
 	require('gen').display_mode = "split"
 	require('gen').show_prompt = true
 	-- require('gen').container = nil

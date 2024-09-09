@@ -138,7 +138,7 @@ function F.unpackLazy()
 			},
 			build = ':TSUpdate',
 		},
-		{ 'jjo/vim-cue' },
+		-- { 'jjo/vim-cue' },
 		{
 			'iamcco/markdown-preview.nvim',
 			build = function() vim.fn["mkdp#util#install"]() end,

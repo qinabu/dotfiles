@@ -277,6 +277,7 @@ function M.bootstrap()
 
 	map('n', '<leader>oc', ':lua vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "72,80,100,120" or "")<cr>', NS)
 	map('n', '<leader>ot', ':lua vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4)<cr>', NS)
+	map("n", "<leader>oC", ":setlocal <C-R>=&conceallevel ? 'conceallevel=0' : 'conceallevel=2'<CR><CR>", NS)
 
 	-- Command line
 	map('n', '<leader>;', ':', N)       -- Command line
@@ -386,6 +387,7 @@ end
 function M.gen()
 	map('v', '<leader>i', ':Gen<CR>')
 	map('n', '<leader>i', ':Gen<CR>')
+	map('n', '<leader>I', ':Gen Chat<CR>')
 end
 
 function M.bqf_quickfix()

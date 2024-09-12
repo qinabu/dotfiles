@@ -856,6 +856,7 @@ function F.gen()
 	-- llama2-uncensored
 	-- require('gen').model = 'llama2-uncensored'
 	require('gen').model = 'gemma2:2b' -- llama3.1
+	require('gen').no_auto_close = true
 	require('gen').display_mode = "split"
 	require('gen').show_prompt = true
 	-- require('gen').container = nil
@@ -864,6 +865,13 @@ function F.gen()
 		"Fix the following code. Only ouput the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
 		replace = true,
 		extract = "```$filetype\n(.-)```"
+	}
+	-- https://botandhuman.com/chatgpt-prompts-for-language-learning/
+	require('gen').prompts['Learn_Words'] = {
+		prompt =
+		"You are a professional English teacher. I'm trying to learn how to use words like $input and other similar words. I want to learn the phrases with these words and sentences by heart, so make them as useful as possible. I would like to get a practical lesson.",
+		replace = false,
+
 	}
 	require('gen').prompts['Магия'] = {
 		prompt =

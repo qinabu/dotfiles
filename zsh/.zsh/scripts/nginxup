@@ -2,7 +2,6 @@
 
 port="${1:-8080}"
 root=$(realpath "$PWD")
-echo "$root"
 config=$(
 	cat <<EOF
 events {
@@ -26,8 +25,7 @@ http {
 EOF
 )
 
-echo "$config"
-
+echo "$root"
 echo "http://localhost:$port"
 exec nginx -e stderr -g "daemon off;" -c "$(
 	tmp="$(mktemp)"

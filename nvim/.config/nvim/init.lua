@@ -860,6 +860,7 @@ function F.gen()
 	require('gen').display_mode = "split"
 	require('gen').show_prompt = true
 	-- require('gen').container = nil
+	require('gen').prompts['Selected Ask'] = { prompt = "$text\n$input" }
 	require('gen').prompts['Fix_Code'] = {
 		prompt =
 		"Fix the following code. Only ouput the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",

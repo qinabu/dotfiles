@@ -9,6 +9,7 @@ events {
 }
 http {
 	server {
+		include /usr/local/etc/nginx/mime.types;
 		listen $port;
 		listen [::]:$port;
 		root $root;
@@ -16,6 +17,7 @@ http {
 		server_name _;
 		error_page 404 /404.html;
 		autoindex on;
+		access_log on;
 
 		location / {
 			try_files \$uri \$uri/ =404;

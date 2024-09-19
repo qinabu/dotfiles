@@ -15,24 +15,29 @@ y = 15
 
 [font]
 # size = 15.3
-size = 15.7
+# size = 15.7
+size = 14
 # builtin_box_drawing = true
 
 [font.bold]
+style = "Std Rg"
+
 # style = "Semibold Extended"
 # style = "Semibold"
 # style = "SemiBold"
 # style = "Md"
 
 [font.normal]
+style = "Std xLt"
+family = "Martian Mono"
+
 # family = "Iosevka Fixed"
 # style = "Extended"
 # style = "Light Extended"
 # style = "Extended"
-style = "Regular"
+# style = "Regular"
 # style = "Medium Extended"
-# family = "Martian Mono"
-family = "Mononoki"
+# family = "Mononoki"
 # family = "Andale Mono"
 # family = "Cascadia Code"
 # family = "Fira Code"

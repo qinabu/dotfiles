@@ -28,6 +28,8 @@ function F.unpackLazy()
 		-- 	end,
 		-- },
 		{ 'sainnhe/everforest',  config = F.everforest_true },
+		-- { 'sainnhe/sonokai',     config = F.sonokai },
+		-- { 'navarasu/onedark.nvim', config = F.onedark },
 		{ 'folke/zen-mode.nvim', config = F.zen_mode },
 		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
 		{ 'simeji/winresizer',   init = M.winresizer },
@@ -281,7 +283,7 @@ function M.bootstrap()
 
 	-- Command line
 	map('n', '<leader>;', ':', N)       -- Command line
-	map('v', '<leader>:', 'q:', N)      -- Command history
+	map('n', '<leader>:', 'q:', N)      -- Command history
 	map('v', '<leader>/', 'q:', N)      -- Command history
 	map('n', "<leader>'", '@:', N)      -- Repeat last command
 	map('n', "<leader>1", ':!', N)      -- Exec
@@ -957,6 +959,21 @@ function F.lazySetup()
 			}
 		},
 	})
+end
+
+function F.onedark()
+	require('onedark').setup {
+		style = 'warm',
+		transparent = true,
+	}
+	require('onedark').load()
+	vim.cmd [[ colorscheme onedark ]]
+end
+
+function F.sonokai()
+	-- require('sonokai').setup()
+	vim.g.sonokai_enable_italic = true
+	vim.cmd [[ colorscheme sonokai ]]
 end
 
 function F.everforest_true()

@@ -44,7 +44,7 @@ function F.unpackLazy()
 			'notjedi/nvim-rooter.lua',
 			config = function()
 				require 'nvim-rooter'.setup({
-					exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame' },
+					exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
 					fallback_to_parent = true,
 				})
 			end
@@ -1476,9 +1476,12 @@ function F.telescope()
 			['hidden'] = true,
 			['mappings'] = {
 				['i'] = {
-					['<C-/>'] = actions.which_key
+					-- ["<c-l>"] = { "<cmd>:norm i<c-^><esc>", type = "command" },
+					-- ['<c-l>'] = '<c-^>',
+					['<C-/>'] = actions.which_key,
 				},
 				['n'] = {
+					-- ['<c-l>'] = ':startinsert <c-^><esc>',
 					['<C-/>'] = actions.which_key,
 					['o'] = actions.select_default,
 					-- ['<C-H>'] = actions.toggle_hidden,

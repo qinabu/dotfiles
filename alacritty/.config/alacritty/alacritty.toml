@@ -16,7 +16,7 @@ y = 15
 [font]
 # size = 15.3
 # size = 15.7
-size = 14
+size = 13
 # builtin_box_drawing = true
 
 [font.bold]

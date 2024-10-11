@@ -14,36 +14,37 @@ x = 15
 y = 15
 
 [font]
-# size = 15.3
-# size = 15.7
-size = 13
-# builtin_box_drawing = true
+size = 12.8
+normal = {family = "Martian Mono", style = "Std xLt" }
+bold = {style = "Std Rg"}
 
-[font.bold]
-style = "Std Rg"
+# size = 14.8
+# normal = {family = "Cascadia Code", style = "Light" }
+# bold = {style = "SemiBold"}
 
-# style = "Semibold Extended"
-# style = "Semibold"
-# style = "SemiBold"
-# style = "Md"
+# size = 16
+# normal = {family = "mononoki", style = "Regular" }
 
-[font.normal]
-style = "Std xLt"
-family = "Martian Mono"
+# size = 14
+# normal = {family = "Fira Code", style = "Regular" }
+# bold = {style = "SemiBold"}
 
+# size = 14
+# normal = {family = "IBM Plex Mono", style = "Light" }
+# bold = {style = "SemiBold"}
+
+# size = 14
+# normal = {family = "Andale Mono", style = "Regular" }
+# bold = {style = "SemiBold"}
+
+# family = "Martian Mono"
 # family = "Iosevka Fixed"
-# style = "Extended"
-# style = "Light Extended"
-# style = "Extended"
-# style = "Regular"
-# style = "Medium Extended"
 # family = "Mononoki"
 # family = "Andale Mono"
 # family = "Cascadia Code"
 # family = "Fira Code"
 # family = "Google Sans Mono"
 # family = "M PLUS 1 Code"
-# style = "SemiLight"
 
 
 [colors.bright]

@@ -746,12 +746,13 @@ function F.bootstrap()
 	vim.opt.backspace = "indent,eol,start"
 	vim.opt.completeopt = "menuone,noinsert,noselect,preview"
 	-- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
-	-- vim.opt.formatoptions = "tcqrn1"
-	vim.opt.formatoptions = "qjrn1"
+	vim.opt.formatoptions = "tcqrn1"
+	-- vim.opt.formatoptions = "qjrn1"
 	-- vim.opt.textwidth = 100
 
 	-- expandtab = true
-	vim.cmd [[ filetype plugin indent on ]]
+	-- vim.cmd [[ filetype plugin indent on ]]
+	vim.cmd [[ filetype plugin off ]] -- keep indent only
 	vim.g.editorconfig = false
 	vim.opt.tabstop = 8
 	vim.opt.smarttab = true

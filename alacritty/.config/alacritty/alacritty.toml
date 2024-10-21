@@ -14,9 +14,9 @@ x = 15
 y = 15
 
 [font]
-size = 12.8
-normal = {family = "Martian Mono", style = "Std xLt" }
-bold = {style = "Std Rg"}
+# size = 12.8
+# normal = {family = "Martian Mono", style = "Std xLt" }
+# bold = {style = "Std Rg"}
 
 # size = 14.8
 # normal = {family = "Cascadia Code", style = "Light" }
@@ -28,6 +28,19 @@ bold = {style = "Std Rg"}
 # size = 14
 # normal = {family = "Fira Code", style = "Regular" }
 # bold = {style = "SemiBold"}
+
+# size = 17
+# normal = {style = "Regular", family = "Fantasque Sans Mono"}
+# bold = {style = "Bold"}
+
+# size = 13
+# normal = {style = "Std xLt", family = "Martian Mono"}
+# bold = {style = "Std Rg"}
+
+size = 13.8
+# normal = {style = "Regular", family = "SF Mono"}
+normal = {style = "Light", family = "SF Mono"}
+bold = {style = "Medium"}
 
 # size = 14
 # normal = {family = "IBM Plex Mono", style = "Light" }

@@ -751,8 +751,9 @@ function F.bootstrap()
 	-- vim.opt.textwidth = 100
 
 	-- expandtab = true
-	-- vim.cmd [[ filetype plugin indent on ]]
-	vim.cmd [[ filetype plugin off ]] -- keep indent only
+	-- affects bqf pluging for example
+	vim.cmd [[ filetype plugin indent on ]]
+	-- vim.cmd [[ filetype plugin off ]] -- keep indent only
 	vim.g.editorconfig = false
 	vim.opt.tabstop = 8
 	vim.opt.smarttab = true

@@ -11,36 +11,17 @@ function F.unpackLazy()
 	return {
 
 		-- UI
-		-- {
-		-- 	'folke/which-key.nvim',
-		-- 	event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-		-- 	config = function() -- This is the function that runs, AFTER loading
-		-- 		require('which-key').setup()
-		--
-		-- 		-- Document existing key chains
-		-- 		-- require('which-key').register {
-		-- 		-- 	['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-		-- 		-- 	['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-		-- 		-- 	['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-		-- 		-- 	['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-		-- 		-- 	['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-		-- 		-- }
-		-- 	end,
-		-- },
-		{ 'sainnhe/everforest',  config = F.everforest_true },
-		-- { 'sainnhe/sonokai',     config = F.sonokai },
-		-- { 'navarasu/onedark.nvim', config = F.onedark },
+		{ 'sainnhe/everforest',  config = F.everforest },
 		{ 'folke/zen-mode.nvim', config = F.zen_mode },
-		{ 'szw/vim-maximizer' }, -- :MaximizerToggle
+		{ 'szw/vim-maximizer' },
 		{ 'simeji/winresizer',   init = M.winresizer },
-		{ 'itchyny/vim-qfedit' }, -- edit quickfix
+		{ 'itchyny/vim-qfedit' },
 		{
 			'kevinhwang91/nvim-bqf',
+			config = M.bqf_quickfix,
 			ft = 'qf',
-			config = M.bqf_quickfix
 		},
 		{ 'nvim-lualine/lualine.nvim',   config = function() vim.defer_fn(F.lualine, 100) end, },
-		-- { 'lewis6991/satellite.nvim' },
 		{ 'norcalli/nvim-colorizer.lua', config = F.colorizer },
 		{
 			'notjedi/nvim-rooter.lua',
@@ -118,11 +99,12 @@ function F.unpackLazy()
 				'honza/vim-snippets', -- Snippet collection
 			},
 		},
-		-- { 'tzachar/cmp-ai',         dependencies = 'nvim-lua/plenary.nvim',                 config = F.cmp_ai },
-		-- { 'hrsh7th/nvim-cmp',       dependencies = 'tzachar/cmp-ai' },
-		--
-		-- { 'github/copilot.vim',     config = F.copilot },
-		{ "zbirenbaum/copilot.lua", cmd = "Copilot",                                        event = "InsertEnter", config = F.copilot, },
+		{
+			"zbirenbaum/copilot.lua",
+			cmd = "Copilot",
+			event = "InsertEnter",
+			config = F.copilot,
+		},
 		{ "zbirenbaum/copilot-cmp", config = function() require("copilot_cmp").setup() end, },
 		{ 'David-Kunz/gen.nvim',    config = F.gen },
 
@@ -257,7 +239,7 @@ function M.bootstrap()
 
 	-- Options
 	map('n', '<leader>oO', ':only<cr>', NS)
-	map('n', '<leader>oo', ':MaximizerToggle!<cr>', NS)
+	map('n', '<leader>oo', ':MaximizerToggle!<cr>', NS) -- szw/vim-maximizer
 
 	map('n', '<leader>on', ':set number!<cr>', NS)
 	map('n', '<leader>oN', ':set relativenumber!<cr>', NS)
@@ -709,7 +691,7 @@ end
 
 --------------------------------------------------------------------------------
 
-function F.bootstrap()
+function F.bootstrapOptions()
 	vim.g.mapleader = " "
 	-- Basic
 	vim.opt.shortmess:append("I") -- don't give the intro message when starting Vim :intro
@@ -821,9 +803,12 @@ function F.bootstrap()
 		virtual_text = false, -- default is true
 		severity_sort = true, -- default is false
 	})
+end
 
-	F.lazySetup()
-	F.debug()
+function F.bootstrap()
+	F.bootstrapOptions()
+	F.bootstrapLazy()
+	F.bootstrapDebug()
 	M.bootstrap()
 end
 
@@ -835,24 +820,6 @@ function F.copilot()
 			markdown = true,
 		},
 	})
-	-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
-	-- 	expr = true,
-	-- 	replace_keycodes = false
-	-- })
-	-- vim.g.copilot_no_tab_map = true
-
-	-- map('i', '<c-i>', 'copilot#Accept("\\<CR>")', {
-	-- 	expr = true,
-	-- 	replace_keycodes = false
-	-- })
-	-- vim.g.copilot_no_tab_map = true
-
-	-- vim.cmd [[
-	--        let g:copilot_no_tab_map = v:true
-	--        imap <silent><script><expr> <C-I> copilot#Accept("\<CR>")
-	--        " imap <silent><script><expr> <C-.> copilot#Next("\<CR>")
-	--        " imap <silent><script><expr> <C-,> copilot#Previous("\<CR>")
-	-- ]]
 end
 
 function F.gen()
@@ -892,7 +859,7 @@ function F.comment()
 	require('Comment').setup()
 end
 
-function F.debug()
+function F.bootstrapDebug()
 	-- :lua P() inspect function
 	-- :lua P(vim.g)
 	_G.P = function(...)
@@ -934,7 +901,7 @@ function F.debug()
 	]]
 end
 
-function F.lazySetup()
+function F.bootstrapLazy()
 	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 	if not vim.loop.fs_stat(lazypath) then
 		vim.fn.system({
@@ -963,22 +930,7 @@ function F.lazySetup()
 	})
 end
 
-function F.onedark()
-	require('onedark').setup {
-		style = 'warm',
-		transparent = true,
-	}
-	require('onedark').load()
-	vim.cmd [[ colorscheme onedark ]]
-end
-
-function F.sonokai()
-	-- require('sonokai').setup()
-	vim.g.sonokai_enable_italic = true
-	vim.cmd [[ colorscheme sonokai ]]
-end
-
-function F.everforest_true()
+function F.everforest()
 	-- -- vim.g.everforest_diagnostic_text_highlight = 1
 	vim.g.termguicolors = true
 	vim.g.everforest_transparent_background = 1
@@ -1010,65 +962,6 @@ function F.everforest_true()
 	]]
 end
 
-function F.everforest()
-	-- -- vim.g.everforest_diagnostic_text_highlight = 1
-	vim.g.termguicolors = true
-	vim.g.everforest_transparent_background = 1
-	vim.g.everforest_current_word = 'grey background'
-	vim.g.everforest_enable_italic = 0
-	vim.g.everforest_disable_italic_comment = 1
-	vim.g.everforest_ui_contrast = 'high'
-
-	-- color: https://github.com/sainnhe/everforest/blob/master/autoload/everforest.vim
-	-- links: https://github.com/sainnhe/everforest/blob/master/colors/everforest.vim
-	vim.g.everforest_colors_override = {
-		-- ['bg2'] = { '#3a3535', '235' }, -- FloatBorder
-		['bg2'] = { '#423C3C', '235' }, -- FloatBorder
-	}
-	-- vim.g.everforest_lightline_disable_bold = 0
-	-- vim.o.colorscheme = 'everforest'
-	-- vim.cmd [[ colorscheme everforest ]]
-	vim.cmd [[
-		colorscheme everforest
-		hi! Red ctermfg=167 guifg=#f7908b
-		" hi! Keyword ctermfg=168 guifg=#f88e71
-		" hi! Conditional ctermfg=168 guifg=#f88e71
-		" hi! Statement ctermfg=168 guifg=#f88e71
-		" hi! Repeat ctermfg=168 guifg=#f88e71
-		" hi! Typedef ctermfg=168 guifg=#f88e71
-		" hi! Exception ctermfg=168 guifg=#f88e71
-
-		hi! DiffDelete guifg=#e67e80 ctermfg=167
-		hi! DiffChange guifg=#83c092 ctermfg=108
-		hi! DiffAdd guifg=#a7c080 ctermfg=142
-		hi clear VertSplit
-		"hi! VertSplit guifg=#3c3836
-		hi! VertSplit guifg=#544f4c
-		hi CurrentWord ctermbg=240 guibg=#585858
-		hi link CursorLineSign CursorLineNr
-		hi Co guibg=#413c3c
-		hi CursorLine guibg=#413c3c
-		hi CursorLineNr guibg=#413c3c
-		"hi CursorLine guibg=#3b3737
-		"hi CursorLineNr guibg=#3b3737
-		hi! Whitespace ctermfg=238 guifg=#4c4747
-		"hi! Visual ctermfg=235 ctermbg=109 guifg=#2f383e guibg=#7fbbb3
-		hi! Visual ctermbg=238 guibg=#475258
-		hi link IndentBlanklineSpaceCharBlankline Whitespace
-		hi link IndentBlanklineChar         Whitespace
-		hi link IndentBlanklineSpaceChar    Whitespace
-		hi link IndentBlanklineContextChar  Whitespace
-		hi link IndentBlanklineContextStart Whitespace
-
-		hi ExtraWhitespaceNormal ctermbg=red guibg=red
-		hi link ExtraWhitespaceInsert DiffDelete
-		hi link ExtraWhitespace ExtraWhitespaceNormal
-		match ExtraWhitespace /\s\+$/
-		autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
-		autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal
-	]]
-end
-
 function F.hop()
 	require 'hop'.setup {
 		-- keys = 'jfdkslahgurie',
@@ -1094,7 +987,7 @@ function F.translate()
 end
 
 function F.treesitter()
-	require('nvim-treesitter.configs').setup {
+	require('nvim-treesitter.configs').setup({
 		['highlight'] = {
 			['enable'] = true
 		},
@@ -1184,7 +1077,7 @@ function F.treesitter()
 			},
 		},
 
-	}
+	})
 
 	require('treesitter_indent_object').setup()
 
@@ -1276,25 +1169,6 @@ function F.lualine()
 end
 
 function F.gitsigns()
-	-- vim.api.nvim_set_hl(0, 'GitSignsAdd', { link = 'GitSignsAdd' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsAddLn', { link = 'GitSignsAddLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsAddNr', { link = 'GitSignsAddNr' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChange', { link = 'GitSignsChange' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { link = 'GitSignsChangeLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { link = 'GitSignsChangeNr' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { link = 'GitSignsChange' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChangedeleteLn', { link = 'GitSignsChangeLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsChangedeleteNr', { link = 'GitSignsChangeNr' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsDelete', { link = 'GitSignsDelete' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsDeleteLn', { link = 'GitSignsDeleteLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsDeleteNr', { link = 'GitSignsDeleteNr' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { link = 'GitSignsDelete' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsTopdeleteLn', { link = 'GitSignsDeleteLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsTopdeleteNr', { link = 'GitSignsDeleteNr' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsUntracked', { link = 'GitSignsAdd' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsUntrackedLn', { link = 'GitSignsAddLn' })
-	-- vim.api.nvim_set_hl(0, 'GitSignsUntrackedNr', { link = 'GitSignsAddNr' })
-
 	require('gitsigns').setup({
 		signs = {
 			add          = { text = '+' },
@@ -1317,7 +1191,7 @@ function F.gitsigns()
 end
 
 function F.fugitive()
-	require "gitlinker".setup({
+	require("gitlinker").setup({
 		opts = {
 			remote = nil, -- force the use of a specific remote
 			-- adds current line nr in the url for normal mode
@@ -1458,8 +1332,6 @@ function F.zen_mode()
 			options = { laststatus = 0 },
 			tmux = { enabled = true },
 		},
-		-- tmux = { enabled = true },
-		-- https://github.com/folke/zen-mode.nvim#%EF%B8%8F-configuration
 	}
 	M.zen_mode()
 end
@@ -1560,23 +1432,7 @@ function F.telescope()
 				-- },
 			},
 			['ui-select'] = {
-				require("telescope.themes").get_dropdown {
-					-- even more opts
-				}
-
-				-- pseudo code / specification for writing custom displays, like the one
-				-- for "codeactions"
-				-- specific_opts = {
-				--   [kind] = {
-				--     make_indexed = function(items) -> indexed_items, width,
-				--     make_displayer = function(widths) -> displayer
-				--     make_display = function(displayer) -> function(e)
-				--     make_ordinal = function(e) -> string
-				--   },
-				--   -- for example to disable the custom builtin "codeactions" display
-				--      do the following
-				--   codeactions = false,
-				-- }
+				require("telescope.themes").get_dropdown {}
 			},
 		},
 	}
@@ -1882,17 +1738,11 @@ function F.lspconfig()
 					-- signature helps
 					require("lsp_signature").on_attach({
 						bind = true,
-						handler_opts = {
-							border = "rounded"
-						},
+						handler_opts = { border = "rounded" },
 						floating_window = true,
 						hint_enable = false,
 						hint_prefix = '█ ',
 					}, bufnr)
-
-					-- require 'lsp-lens'.setup({})
-
-					-- require("virtualtypes").on_attach(client, bufnr)
 
 					local cap = client.server_capabilities
 					-- format on save
@@ -1927,17 +1777,6 @@ function F.lspconfig()
 		end,
 	}
 
-	-- local null_ls = require("null-ls")
-	-- null_ls.setup({
-	-- 	sources = {
-	-- 		null_ls.builtins.diagnostics.golangci_lint,
-	-- 		-- null_ls.builtins.diagnostics.gospel,
-	-- 		-- null_ls.builtins.formatting.stylua,
-	-- 		-- null_ls.builtins.diagnostics.eslint,
-	-- 		-- null_ls.builtins.completion.spell,
-	-- 	},
-	-- })
-
 	require("fidget").setup {
 		['window'] = {
 			['blend'] = 0,
@@ -1947,25 +1786,6 @@ function F.lspconfig()
 			['max_width'] = 50,
 		}
 	}
-
-	-- require("aerial").setup({
-	-- 	['on_attach'] = function()
-	-- 		M.aerial()
-	-- 	end,
-	-- 	['default_bindings'] = true,
-	-- 	-- ['filter_kind'] = false, -- show all symbolls
-	-- 	['highlight_on_hover'] = true,
-	-- 	-- ['close_behavior'] = 'global',
-	-- 	-- ['placement_editor_edge'] = false,
-	-- 	['layout'] = {
-	-- 		['placement'] = 'edge',
-	-- 		['placement_editor_edge'] = false,
-	-- 	}
-	-- })
-
-	-- require('dim').setup {
-	-- 	disable_lsp_decorations = false
-	-- }
 end
 
 --

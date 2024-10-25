@@ -14,6 +14,14 @@ x = 15
 y = 15
 
 [font]
+# size = 14
+# normal = {family = "JetBrains Mono", style = "Light" }
+# bold = {style = "Medium"}
+
+size = 14
+normal = {family = "Overpass Mono", style = "Light" }
+bold = {style = "Medium"}
+
 # size = 12.8
 # normal = {family = "Martian Mono", style = "Std xLt" }
 # bold = {style = "Std Rg"}
@@ -37,10 +45,10 @@ y = 15
 # normal = {style = "Std xLt", family = "Martian Mono"}
 # bold = {style = "Std Rg"}
 
-size = 13.8
-# normal = {style = "Regular", family = "SF Mono"}
-normal = {style = "Light", family = "SF Mono"}
-bold = {style = "Medium"}
+# size = 13.8
+# # normal = {style = "Regular", family = "SF Mono"}
+# normal = {style = "Light", family = "SF Mono"}
+# bold = {style = "Medium"}
 
 # size = 14
 # normal = {family = "IBM Plex Mono", style = "Light" }

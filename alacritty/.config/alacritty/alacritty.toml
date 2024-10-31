@@ -18,9 +18,9 @@ y = 15
 # normal = {family = "JetBrains Mono", style = "Light" }
 # bold = {style = "Medium"}
 
-size = 14
-normal = {family = "Overpass Mono", style = "Light" }
-bold = {style = "Medium"}
+# size = 14
+# normal = {family = "Overpass Mono", style = "Light" }
+# bold = {style = "Medium"}
 
 # size = 12.8
 # normal = {family = "Martian Mono", style = "Std xLt" }
@@ -41,10 +41,6 @@ bold = {style = "Medium"}
 # normal = {style = "Regular", family = "Fantasque Sans Mono"}
 # bold = {style = "Bold"}
 
-# size = 13
-# normal = {style = "Std xLt", family = "Martian Mono"}
-# bold = {style = "Std Rg"}
-
 # size = 13.8
 # # normal = {style = "Regular", family = "SF Mono"}
 # normal = {style = "Light", family = "SF Mono"}
@@ -54,9 +50,9 @@ bold = {style = "Medium"}
 # normal = {family = "IBM Plex Mono", style = "Light" }
 # bold = {style = "SemiBold"}
 
-# size = 14
-# normal = {family = "Andale Mono", style = "Regular" }
-# bold = {style = "SemiBold"}
+size = 15
+normal = {family = "Andale Mono", style = "Regular" }
+bold = {style = "SemiBold"}
 
 # family = "Martian Mono"
 # family = "Iosevka Fixed"

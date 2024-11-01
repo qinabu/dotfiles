@@ -82,6 +82,7 @@ map <c-e> edit-directory
 
 map fd find-directory
 map ff find-file
+map ft find-tag
 map fg find-grep
 map fp find-project
 map <c-k> find-project
@@ -130,6 +131,14 @@ cmd find-directory ${{
 cmd find-project ${{
 	dir=$(fd -d 2 -t d '' ~/Projects | fzf --reverse)
 	[ $? -eq 0 ] && lf -remote "send $id cd \"$dir\"" || exit 0
+}}
+
+cmd find-tag ${{
+	res=$(cat ~/.local/share/lf/tags | cut -f1 -d: | fzf --reverse)
+	[ $? -ne 0 ] && exit 0
+	cmd="select"
+	[ -d "$res" ] && cmd="cd"
+	lf -remote "send $id select \"$res\""
 }}
 
 cmd find-grep ${{

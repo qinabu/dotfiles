@@ -222,6 +222,7 @@ alias -g HH="2>&1 |head"
 
 alias v="vim"
 alias n="nvim"
+alias m="NVIM_APPNAME=mvim nvim"
 alias e="$EDITOR"
 alias -g EE="|$EDITOR"
 

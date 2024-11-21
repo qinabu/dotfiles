@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 
 [window]
@@ -51,7 +52,7 @@ normal = {style = "Light", family = "SF Mono"}
 bold = {style = "Medium"}
 
 # size = 14
-# normal = {family = "IBM Plex Mono", style = "Light" }
+# normal = {family = "IBM Plex Mono", style = "Regular" }
 # bold = {style = "SemiBold"}
 
 # size = 15

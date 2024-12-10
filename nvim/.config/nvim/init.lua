@@ -218,8 +218,8 @@ function M.bootstrap()
 	map('n', '<leader>w', '<c-w>', N)      -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
-	map('n', '<leader>tl', ':tabnext<cr>', N)
-	map('n', '<leader>th', ':-tabnext<cr>', N)
+	-- map('n', '<leader>tl', ':tabnext<cr>', N)
+	-- map('n', '<leader>th', ':-tabnext<cr>', N)
 	map('n', '<leader>tq', ':tabclose<cr>', N)
 
 	map('n', '<leader>h', '<c-w>h', NS)
@@ -1562,11 +1562,12 @@ function F.cmp()
 			end,
 		},
 		['sources'] = cmp.config.sources({
-			{ ['name'] = 'copilot' },
 			{ ['name'] = 'nvim_lsp' },
 			{ ['name'] = 'nvim_lua' },
 			{ ['name'] = 'luasnip' },
+			{ ['name'] = 'path' },
 			{ ['name'] = 'cmp_ai' },
+			{ ['name'] = 'copilot' },
 		}, {
 			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),

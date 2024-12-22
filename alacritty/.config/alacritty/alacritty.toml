@@ -14,6 +14,10 @@ x = 15
 y = 15
 
 [font]
+size = 13.2
+normal = { family = "Iosevka Term" , style = "Light Extended" }
+bold = {style = "SemiBold Extended"}
+
 # size = 13.8
 # normal = {style = "Light", family = "Geist Mono"}
 # bold = {style = "Medium"}
@@ -41,14 +45,14 @@ y = 15
 # normal = {family = "Fira Code", style = "Regular" }
 # bold = {style = "SemiBold"}
 
-# size = 17
+# size = 15
 # normal = {style = "Regular", family = "Fantasque Sans Mono"}
 # bold = {style = "Bold"}
 
-size = 13.8
-# normal = {style = "Regular", family = "SF Mono"}
-normal = {style = "Light", family = "SF Mono"}
-bold = {style = "Medium"}
+# size = 13.8
+# # normal = {style = "Regular", family = "SF Mono"}
+# normal = {style = "Light", family = "SF Mono"}
+# bold = {style = "Medium"}
 
 # size = 14
 # normal = {family = "IBM Plex Mono", style = "Regular" }

@@ -205,9 +205,9 @@ export MANPAGER="less -sR --mouse" # man man
 ###
 alias reload='exec $0 "$@"'
 
-alias ls="gls --group-directories-first"
-alias ll="gls --group-directories-first -l -F -X"
-alias la="gls --group-directories-first -l -F -X -A"
+alias ls="gls --group-directories-first --color=auto"
+alias ll="gls --group-directories-first -l -F -X --color=auto"
+alias la="gls --group-directories-first -l -F -X -A --color=auto"
 # alias ls="exa --group-directories-first"
 # alias ll="exa --group-directories-first -l -F"
 # alias la="exa --group-directories-first -l -F"

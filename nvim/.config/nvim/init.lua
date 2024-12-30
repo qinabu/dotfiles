@@ -1677,7 +1677,7 @@ function F.lspconfig()
 					unusedparams = true, --
 					unusedvariable = true,
 					shadow = false, -- !!!
-					fieldalignment = true, -- !!!
+					-- fieldalignment = true, -- !!!
 					nilness = true, --
 					unusedwrite = true, --
 					useany = true, --

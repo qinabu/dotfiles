@@ -297,11 +297,11 @@ function M.bootstrap()
 	map('i', '<down>', '<c-o>gj', NS)
 	map('i', '<up>', '<c-o>gk', NS)
 
-	map('n', '<leader>ee', '*Ncgn', NS)                       -- change a word under cursor
+	map('n', '<leader>ee', '*Ncgn', NS)                -- change a word under cursor
 	map('v', '<leader>ee', "\"sy:let @/='\\V'.@s<CR>cgn", NS) -- change selected as first
-	map('v', '<leader>er', '"hy:%s/<C-r>h//gc<left><left><left>', N) -- substitute command for selected
-	map('n', '<leader>ew', ':%s/\\s\\+$//e<cr>', N)           -- remove trailing spaces
-	map('v', '<leader>ew', ':s/\\s\\+$//e<cr>', N)            -- remove trailing spaces for selection
+	-- map('v', '<leader>er', '"hy:%s/<C-r>h//gc<left><left><left>', N) -- substitute command for selected
+	map('n', '<leader>et', ':%s/\\s\\+$//e<cr>', N)    -- remove trailing spaces
+	map('v', '<leader>et', ':s/\\s\\+$//e<cr>', N)     -- remove trailing spaces for selection
 
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)
@@ -581,8 +581,8 @@ function M.fugitive()
 	map('n', '<leader>gD', ':Gvdiffsplit<cr>', NS)
 	-- map('n', '<leader>gl', ':0Gclog<cr>', NS)
 	-- map('n', '<leader>gL', ':Gclog<cr>', NS)
-	map('n', '<leader>gl', ':DiffviewFileHistory<cr>', NS)
-	map('n', '<leader>gL', ':DiffviewFileHistory %<cr>', NS)
+	map('n', '<leader>gl', ':DiffviewFileHistory %<cr>', NS)
+	map('n', '<leader>gL', ':DiffviewFileHistory<cr>', NS)
 
 	map('n', '<leader>gy',
 		'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboar})<cr>'

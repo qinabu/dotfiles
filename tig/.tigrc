@@ -19,7 +19,8 @@ set diff-view   = line-number:no,interval=5 text:yes,commit-title-overflow=no
 set main-view   = line-number:no,interval=5 id:yes date:relative-compact author:full commit-title:yes,graph,refs,overflow=no
 set blame-view  = date:default author:full file-name:auto id:yes,color line-number:yes,interval=5 text
 set grep-view   = file-name:yes line-number:yes,interval=1 text
-set refs-view   = line-number:yes id:no date:default author:full ref commit-title
+#set refs-view   = line-number:yes id:no date:default author:full ref commit-title
+set refs-view   = line-number:no id:yes date:relative-compact author:full ref commit-title
 #set stash-view  = line-number:no,interval=5 id:no date:default author:full commit-title
 set status-view = line-number:no,interval=5 status:long file-name
 #set tree-view   = line-number:no,interval=5 mode author:full file-size date:default id:no file-name

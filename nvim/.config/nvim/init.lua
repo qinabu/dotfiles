@@ -826,7 +826,7 @@ function F.gen()
 	-- ollama gen
 	-- llama2-uncensored
 	-- require('gen').model = 'llama2-uncensored'
-	require('gen').model = 'gemma2:2b' -- llama3.1
+	require('gen').model = 'deepseek-r1:1.5b' -- llama3.1
 	require('gen').no_auto_close = true
 	require('gen').display_mode = "split"
 	require('gen').show_prompt = true
@@ -847,7 +847,7 @@ function F.gen()
 	}
 	require('gen').prompts['Магия'] = {
 		prompt =
-		"Переформулируй грамматически верно мысль как писатель, на русском:\n$text\n\nНапиши только ответ. Используй максимум из доступных слов. Не обрывай предложения, закончи мысль, будь лаконичен и креативен. Следуй правилу: не больше 3x слов от оригинала.",
+		"Переформулируй грамматически верно мысль как писатель, на русском:\n$text\n\nНапиши только ответ. Используй максимум из доступных слов. Не обрывай предложения, закончи мысль, будь лаконичен и креативен.",
 		replace = true
 	}
 

@@ -995,6 +995,7 @@ function F.treesitter()
 			"lua",
 			"rust",
 			"go",
+			"gowork",
 			"gotmpl",
 			"python",
 			"hcl",
@@ -1668,7 +1669,7 @@ function F.lspconfig()
 				experimentalPostfixCompletions = true,
 				-- experimentalWorkspaceModule = true,
 				templateExtensions = { 'gotpl', 'gotmpl' },
-				-- buildFlags = {'integration'},
+				buildFlags = { '-tags=integration test mockery' },
 				gofumpt = true,
 				staticcheck = true,
 				analyses = {

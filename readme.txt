@@ -10,6 +10,8 @@ neovim tree-sitter lua luajit luarocks \
 go delve golangci-lint \
 tfenv tflint opa
 
+brew install --cask nikitabobko/tap/aerospace
+
 
 fonts
 

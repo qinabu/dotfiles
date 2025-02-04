@@ -220,6 +220,7 @@ alias -g GG="2>&1 |grep "
 alias -g PB="2>&1 |pbcopy"
 alias -g HH="2>&1 |head"
 alias -g NN="2>&1 |nvim"
+alias -g CC='2>&1 | ccat -G Plaintext="reset" -G Keyword="darkred" -G Punctuation="faint" -G String="teal" -G Comment="faint" -G Decimal="purple" -G Type="darkgreen" -C "always" |less -i -R'
 
 alias v="vim"
 alias n="nvim"

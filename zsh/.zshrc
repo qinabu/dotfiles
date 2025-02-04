@@ -219,6 +219,7 @@ alias -g LLR="2>&1 |less -i -R"
 alias -g GG="2>&1 |grep "
 alias -g PB="2>&1 |pbcopy"
 alias -g HH="2>&1 |head"
+alias -g NN="2>&1 |nvim"
 
 alias v="vim"
 alias n="nvim"
@@ -382,3 +383,5 @@ export GPG_TTY=$(tty)
 
 	export PATH_=1
 } || true
+
+source ~/.zshrc.work > /dev/null 2>&1 || true

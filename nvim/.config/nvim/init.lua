@@ -108,6 +108,16 @@ function F.unpackLazy()
 		{ "zbirenbaum/copilot-cmp", config = function() require("copilot_cmp").setup() end, },
 		{ 'David-Kunz/gen.nvim',    config = F.gen },
 
+		{
+			"olimorris/codecompanion.nvim",
+			config = F.codecompanion,
+			-- config = true,
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-treesitter/nvim-treesitter",
+			},
+		},
+
 		-- LANGUAGES
 		{
 			'nvim-treesitter/nvim-treesitter',
@@ -818,6 +828,27 @@ function F.copilot()
 		panel = { enabled = false },
 		filetypes = {
 			markdown = true,
+		},
+	})
+end
+
+function F.codecompanion()
+	require("codecompanion").setup({
+		strategies = {
+			chat = { adapter = "deepseek" },
+			inline = { adapter = "deepseek" },
+		},
+		adapters = {
+			deepseek = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					name = "deepseek",
+					schema = {
+						model = { default = "deepseek-r1:8b" },
+						num_ctx = { default = 16384 },
+						num_predict = { default = -1 },
+					},
+				})
+			end,
 		},
 	})
 end
@@ -1569,6 +1600,7 @@ function F.cmp()
 			{ ['name'] = 'path' },
 			{ ['name'] = 'cmp_ai' },
 			{ ['name'] = 'copilot' },
+			{ ['name'] = 'codecompanion' },
 		}, {
 			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),

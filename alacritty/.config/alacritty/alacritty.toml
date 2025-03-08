@@ -19,6 +19,9 @@ size = 13.2
 normal = { family = "Iosevka Term" , style = "Light Extended" }
 bold = {style = "SemiBold Extended"}
 
+# size = 13.2
+# normal = { family = "Source Code Pro" , style = "Regular" }
+
 # size = 13.8
 # normal = {style = "Light", family = "Geist Mono"}
 # bold = {style = "Medium"}
@@ -27,9 +30,14 @@ bold = {style = "SemiBold Extended"}
 # normal = {family = "JetBrains Mono", style = "ExtraLight" }
 # bold = {style = "Medium"}
 
-# size = 14
+# size = 13.8
 # normal = {family = "Overpass Mono", style = "Light" }
-# bold = {style = "Medium"}
+# bold = {style = "SemiBold"}
+
+# size = 14
+# normal = {family = "PT Mono", style = "Regular" }
+# bold = {style = "Bold"}
+
 
 # size = 12.8
 # normal = {family = "Martian Mono", style = "Std xLt" }
@@ -50,12 +58,16 @@ bold = {style = "SemiBold Extended"}
 # normal = {style = "Regular", family = "Fantasque Sans Mono"}
 # bold = {style = "Bold"}
 
+# size = 13
+# normal = {style = "Regular", family = "Menlo"}
+# bold = {style = "Bold"}
+
 # size = 13.8
 # # normal = {style = "Regular", family = "SF Mono"}
 # normal = {style = "Light", family = "SF Mono"}
 # bold = {style = "Medium"}
 
-# size = 14
+# size = 13.5
 # normal = {family = "IBM Plex Mono", style = "Regular" }
 # bold = {style = "SemiBold"}
 

@@ -98,6 +98,6 @@ esc = 'mode main'
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
-if.window-title-regex-substring = 'Picture in Picture'
+if.window-title-regex-substring = 'Picture-in-Picture'
 run = 'layout floating'
 # check-further-callbacks = true

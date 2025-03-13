@@ -78,8 +78,18 @@ function F.unpackLazy()
 				-- 'stevearc/aerial.nvim',
 				'ray-x/lsp_signature.nvim',
 				{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
+				"andythigpen/nvim-coverage",
 				-- 'VidocqH/lsp-lens.nvim',
 			},
+		},
+		{
+			"andythigpen/nvim-coverage",
+			version = "*",
+			config = function()
+				require("coverage").setup({
+					auto_reload = true,
+				})
+			end,
 		},
 
 		-- COMPLETION
@@ -173,7 +183,10 @@ function F.unpackLazy()
 		{
 			'renerocksai/telekasten.nvim',
 			config = F.telekasten,
-			dependencies = { 'nvim-telescope/telescope.nvim' },
+			dependencies = {
+				'nvim-telescope/telescope.nvim',
+				'jbyuki/venn.nvim',
+			},
 		},
 		{ 'potamides/pantran.nvim', config = F.translate },
 
@@ -222,8 +235,8 @@ function M.bootstrap()
 	map('n', '<c-l>', 'i<c-^><esc>', NS)
 
 	-- Navigation
-	map('n', '<c-o>', '<c-o>zz', N)        -- Window modification prefix
-	map('n', '<c-i>', '<c-i>zz', N)        -- Window modification prefix
+	-- map('n', '<c-o>', '<c-o>zz', N)        -- Window modification prefix
+	-- map('n', '<c-i>', '<c-i>zz', N)        -- Window modification prefix
 
 	map('n', '<leader>w', '<c-w>', N)      -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
@@ -276,7 +289,7 @@ function M.bootstrap()
 	-- Command line
 	map('n', '<leader>;', ':', N)       -- Command line
 	map('n', '<leader>:', 'q:', N)      -- Command history
-	map('v', '<leader>/', 'q:', N)      -- Command history
+	-- map('v', '<leader>/', 'q:', N)      -- Command history
 	map('n', "<leader>'", '@:', N)      -- Repeat last command
 	map('n', "<leader>1", ':!', N)      -- Exec
 	map('n', "<leader>!", ':split term://', N) -- Exec
@@ -518,7 +531,7 @@ end
 function M.testing()
 	-- DAP
 	map('n', '<leader>tf', ':Telescope dap commands<cr>', NS)
-	map('n', '<leader>tq', ':lua require("dap").close()<cr>:DapVirtualTextDisable<cr>', NS)
+	map('n', '<leader>tq', ':DapTerminate<cr>:DapVirtualTextDisable<cr>', NS)
 	map('n', '<leader>tv', ':DapVirtualTextToggle<cr>', NS)
 
 	map('n', '<leader>tg', ':lua require("dap-go").debug_test()<cr>', NS)
@@ -538,10 +551,10 @@ function M.testing()
 	map('n', '<leader>tr', ':lua require("dap").repl.open()<cr>', NS)
 
 	-- VIM-TEST
-	map('n', '<leader>tt', ':TestNearest -v<cr>', NS)
-	map('n', '<leader>tT', ':TestFile -v<cr>', NS)
-	map('n', '<leader>tl', ':TestLast -v<cr>', NS)
-	map('n', '<leader>tv', ':TestVisit<cr>', NS)
+	map('n', '<leader>tt', ':TestNearest -tags=test,mockery,all -v<cr>', NS)
+	map('n', '<leader>tT', ':TestFile -tags=test,mockery,all -v<cr>', NS)
+	map('n', '<leader>tl', ':TestLast -tags=test,mockery,all -v<cr>', NS)
+	map('n', '<leader>tv', ':TestVisit -tags=test,mockery,all<cr>', NS)
 end
 
 function M.winresizer()
@@ -693,6 +706,33 @@ function M.telekasten()
 	-- map('i', '<c-t>', '<cmd>lua require("telekasten").show_tags({i = true})<cr>', NS)
 	--
 	-- map('i', '<leader>nx', '<ESC>:lua require("telekasten").toggle_todo({ i=true })<cr>', NS)
+	--
+
+	function _G.Toggle_venn()
+		local venn_enabled = vim.inspect(vim.b.venn_enabled)
+		if venn_enabled == "nil" then
+			vim.b.venn_enabled = true
+			vim.cmd [[setlocal ve=all]]
+			-- draw a line on HJKL keystokes
+			vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
+			vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
+			vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
+			vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
+			-- draw a box by pressing "f" with visual selection
+			vim.api.nvim_buf_set_keymap(0, "v", "b", ":VBox<CR>", { noremap = true })
+		else
+			vim.cmd [[setlocal ve=]]
+			vim.api.nvim_buf_del_keymap(0, "n", "J")
+			vim.api.nvim_buf_del_keymap(0, "n", "K")
+			vim.api.nvim_buf_del_keymap(0, "n", "L")
+			vim.api.nvim_buf_del_keymap(0, "n", "H")
+			vim.api.nvim_buf_del_keymap(0, "v", "b")
+			vim.b.venn_enabled = nil
+		end
+	end
+
+	-- toggle keymappings for venn using <leader>v
+	map('n', '<leader>b', ":lua Toggle_venn()<CR>", NS)
 end
 
 function M.zen_mode()
@@ -857,7 +897,7 @@ function F.gen()
 	-- ollama gen
 	-- llama2-uncensored
 	-- require('gen').model = 'llama2-uncensored'
-	require('gen').model = 'deepseek-r1:8b' -- llama3.1
+	require('gen').model = 'gemma2:2b' -- llama3.1
 	require('gen').no_auto_close = true
 	require('gen').display_mode = "split"
 	require('gen').show_prompt = true
@@ -1674,6 +1714,11 @@ function F.lspconfig()
 	}
 	require('neodev').setup {}
 
+	require("coverage").setup({
+		auto_reload = true,
+	})
+
+
 	local servers = {
 		pyright = {},
 		rust_analyzer = {},
@@ -1701,7 +1746,7 @@ function F.lspconfig()
 				experimentalPostfixCompletions = true,
 				-- experimentalWorkspaceModule = true,
 				templateExtensions = { 'gotpl', 'gotmpl' },
-				buildFlags = { '-tags=integration test mockery' },
+				buildFlags = { '-tags=integration test mockery all' },
 				gofumpt = true,
 				staticcheck = true,
 				analyses = {

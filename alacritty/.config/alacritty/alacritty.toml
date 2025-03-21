@@ -15,9 +15,9 @@ x = 15
 y = 15
 
 [font]
-size = 13.2
-normal = { family = "Iosevka Term" , style = "Light Extended" }
-bold = {style = "SemiBold Extended"}
+# size = 13.2
+# normal = { family = "Iosevka Term" , style = "Light Extended" }
+# bold = {style = "SemiBold Extended"}
 
 # size = 13.2
 # normal = { family = "Source Code Pro" , style = "Regular" }
@@ -26,9 +26,9 @@ bold = {style = "SemiBold Extended"}
 # normal = {style = "Light", family = "Geist Mono"}
 # bold = {style = "Medium"}
 
-# size = 14
-# normal = {family = "JetBrains Mono", style = "ExtraLight" }
-# bold = {style = "Medium"}
+size = 12.7
+normal = {family = "JetBrains Mono", style = "ExtraLight" }
+bold = {style = "Medium"}
 
 # size = 13.8
 # normal = {family = "Overpass Mono", style = "Light" }

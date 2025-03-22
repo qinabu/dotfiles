@@ -116,7 +116,6 @@ function F.unpackLazy()
 			config = F.copilot,
 		},
 		{ "zbirenbaum/copilot-cmp", config = function() require("copilot_cmp").setup() end, },
-		{ 'David-Kunz/gen.nvim',    config = F.gen },
 
 		{
 			"olimorris/codecompanion.nvim",
@@ -389,12 +388,6 @@ function M.bootstrap()
 
 	map('n', '<leader>0', ':silent! cnewer<cr>', NS) -- c-9 doesn't work
 	map('n', '<leader>9', ':silent! colder<cr>', NS) -- c-0 doesn't work
-end
-
-function M.gen()
-	map('v', '<leader>i', ':Gen<CR>')
-	map('n', '<leader>i', ':Gen<CR>')
-	map('n', '<leader>I', ':Gen Chat<CR>')
 end
 
 function M.bqf_quickfix()
@@ -872,58 +865,57 @@ function F.copilot()
 	})
 end
 
+function F.codecompanionLualine()
+	return ""
+end
+
 function F.codecompanion()
 	require("codecompanion").setup({
 		strategies = {
-			chat = { adapter = "deepseek" },
-			inline = { adapter = "deepseek" },
+			chat = { adapter = "qwen" },
+			inline = { adapter = "qwen" },
 		},
 		adapters = {
-			deepseek = function()
+			qwen = function()
 				return require("codecompanion.adapters").extend("ollama", {
-					name = "deepseek",
+					name = "qwen",
 					schema = {
-						model = { default = "deepseek-r1:8b" },
-						num_ctx = { default = 16384 },
-						num_predict = { default = -1 },
+						model = { default = "qwen2.5-coder:1.5b" },
+						num_ctx = { default = 131072 }, -- 128K
 					},
 				})
-			end,
+			end
 		},
 	})
+
+
+	local processing = false
+	F.codecompanionLualine = function()
+		if processing then
+			return " ✨️ "
+		end
+		return ""
+	end
+	local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+	vim.api.nvim_create_autocmd({ "User" }, {
+		pattern = "CodeCompanionRequest*",
+		group = group,
+		callback = function(request)
+			if request.match == "CodeCompanionRequestStarted" then
+				processing = true
+			elseif request.match == "CodeCompanionRequestFinished" then
+				processing = false
+			end
+		end,
+	})
+
+	M.codecompanion()
 end
 
-function F.gen()
-	-- ollama gen
-	-- llama2-uncensored
-	-- require('gen').model = 'llama2-uncensored'
-	require('gen').model = 'gemma2:2b' -- llama3.1
-	require('gen').no_auto_close = true
-	require('gen').display_mode = "split"
-	require('gen').show_prompt = true
-	-- require('gen').container = nil
-	require('gen').prompts['Selected Ask'] = { prompt = "$text\n$input" }
-	require('gen').prompts['Fix_Code'] = {
-		prompt =
-		"Fix the following code. Only ouput the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
-		replace = true,
-		extract = "```$filetype\n(.-)```"
-	}
-	-- https://botandhuman.com/chatgpt-prompts-for-language-learning/
-	require('gen').prompts['Learn_Words'] = {
-		prompt =
-		"You are a professional English teacher. I'm trying to learn how to use words like $input and other similar words. I want to learn the phrases with these words and sentences by heart, so make them as useful as possible. I would like to get a practical lesson.",
-		replace = false,
-
-	}
-	require('gen').prompts['Магия'] = {
-		prompt =
-		"Переформулируй грамматически верно мысль как писатель, на русском:\n$text\n\nНапиши только ответ. Используй максимум из доступных слов. Не обрывай предложения, закончи мысль, будь лаконичен и креативен.",
-		replace = true
-	}
-
-
-	M.gen()
+function M.codecompanion()
+	map('v', '<leader>i', ':CodeCompanion ')
+	map('n', '<leader>i', ':CodeCompanionActions<CR>')
+	-- map('n', '<leader>I', ':Gen Chat<CR>')
 end
 
 function F.comment()
@@ -1225,7 +1217,7 @@ function F.lualine()
 				'diff',
 				-- 'filetype'
 			},
-			['lualine_y'] = { 'filesize' },
+			['lualine_y'] = { 'filesize', F.codecompanionLualine },
 			['lualine_z'] = {},
 		},
 		['inactive_sections'] = {

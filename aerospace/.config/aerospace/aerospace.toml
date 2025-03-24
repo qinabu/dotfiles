@@ -8,7 +8,7 @@ automatically-unhide-macos-hidden-apps = true
 after-startup-command = ['fullscreen']
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-accordion-padding = 50
+accordion-padding = 40
 
 [gaps]
 inner.horizontal = 0

@@ -769,7 +769,8 @@ function F.bootstrapOptions()
 	-- Edit
 	vim.opt.autoindent = true
 	vim.opt.backspace = "indent,eol,start"
-	vim.opt.completeopt = "menuone,noinsert,noselect,preview"
+	-- vim.opt.completeopt = "menuone,noinsert,noselect,preview"
+	vim.opt.completeopt = "menu,menuone,noselect"
 	-- t:textwidth, c:textwith comments, q:comments, r:auto indent, n:lists, 1:don't break one-letter word.
 	vim.opt.formatoptions = "tcqrn1"
 	-- vim.opt.formatoptions = "qjrn1"
@@ -881,7 +882,8 @@ function F.codecompanion()
 					name = "qwen",
 					schema = {
 						model = { default = "qwen2.5-coder:1.5b" },
-						num_ctx = { default = 131072 }, -- 128K
+						num_ctx = { default = 32768 }, -- 32K
+						-- num_ctx = { default = 131072 }, -- 128K
 					},
 				})
 			end

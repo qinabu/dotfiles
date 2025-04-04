@@ -15,6 +15,16 @@ x = 15
 y = 15
 
 [font]
+# size = 13
+# normal = { family = "Metrickal" , style = "Regular" }
+
+# size = 16
+# normal = { family = "Courier Prime Code" , style = "Regular" }
+
+# size = 13.8
+# normal = { family = "Google Sans Mono" , style = "Regular" }
+# bold = {style = "SemiBold"}
+
 # size = 13.2
 # normal = { family = "Iosevka Term" , style = "Light Extended" }
 # bold = {style = "SemiBold Extended"}
@@ -26,7 +36,7 @@ y = 15
 # normal = {style = "Light", family = "Geist Mono"}
 # bold = {style = "Medium"}
 
-size = 12.7
+size = 13
 normal = {family = "JetBrains Mono", style = "ExtraLight" }
 bold = {style = "Medium"}
 

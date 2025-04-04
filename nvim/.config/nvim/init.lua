@@ -27,6 +27,7 @@ function F.unpackLazy()
 			'notjedi/nvim-rooter.lua',
 			config = function()
 				require 'nvim-rooter'.setup({
+					rooter_patterns = { 'go.mod', '.git' },
 					exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
 					fallback_to_parent = true,
 				})
@@ -333,6 +334,7 @@ function M.bootstrap()
 	map('n', 'x', '"_x', NS)
 	map('n', 'X', '"_X', NS)
 	map('n', 'Q', 'q', N)
+	map('n', 'vv', 'V', NS)
 
 	-- Searching
 	-- map('n', '<leader>/', ":let @/=''<cr>", NS)
@@ -533,8 +535,8 @@ function M.testing()
 	map('n', '<leader>tD', ':DapVirtualTextEnable<cr>:lua require("dap").run_last()<cr>', NS)
 	map('n', '<leader>tc', ':DapVirtualTextEnable<cr>:lua require("dap").run_to_cursor()<cr>', NS)
 
-	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
-	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
+	map('n', '<leader>}', ':lua require("dap").step_over()<cr>', NS)
+	map('n', '<leader>]', ':lua require("dap").step_into()<cr>', NS)
 	map('n', '<leader>[', ':lua require("dap").step_out()<cr>', NS)
 
 	map('n', '<leader>tb', ':lua require("dap").toggle_breakpoint()<cr>', NS)
@@ -872,6 +874,11 @@ end
 
 function F.codecompanion()
 	require("codecompanion").setup({
+		display = {
+			diff = {
+				enabled = false
+			},
+		},
 		strategies = {
 			chat = { adapter = "qwen" },
 			inline = { adapter = "qwen" },
@@ -1634,7 +1641,7 @@ function F.cmp()
 			{ ['name'] = 'path' },
 			{ ['name'] = 'cmp_ai' },
 			{ ['name'] = 'copilot' },
-			{ ['name'] = 'codecompanion' },
+			-- { ['name'] = 'codecompanion' },
 		}, {
 			{ name = 'buffer', option = { keyword_pattern = [[\k\+]] } },
 		}),

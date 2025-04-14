@@ -463,7 +463,8 @@ function M.lsp()
 	map('n', 'gO', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
 
 	-- edit actions
-	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS) -- telescope
+	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS)
+	map('v', '<leader>ea', '<cmd>lua vim.lsp.buf.code_action()<cr>', NS)
 	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
 	map('n', '<leader>ef', ':lua vim.lsp.buf.format();print("Formatted")<cr>', N)
 	map('n', '<leader>ec', ':lua vim.lsp.codelens.refresh();vim.lsp.codelens.run()<cr>', NS)
@@ -1526,7 +1527,12 @@ function F.telescope()
 end
 
 function F.dap()
-	require("dap-go").setup()
+	require("dap-go").setup({
+		-- delve = {
+		-- 	args = { "-tags=test,mockery" },
+		-- 	build_flags = { "-tags=test,mockery" },
+		-- }
+	})
 	require("nvim-dap-virtual-text").setup()
 	vim.g['test#strategy'] = 'neovim'
 

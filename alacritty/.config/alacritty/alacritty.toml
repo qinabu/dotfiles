@@ -16,6 +16,18 @@ y = 15
 
 [font]
 # size = 13
+# normal = { family = "Reddit Mono" , style = "Light" }
+# bold = {style = "SemiBold"}
+
+# size = 13
+# normal = { family = "Kode Mono" , style = "Regular" }
+# bold = {style = "SemiBold"}
+
+# size = 13.5
+# normal = { family = "Sono Monospace" , style = "Light" }
+# bold = {style = "SemiBold"}
+
+# size = 13
 # normal = { family = "Metrickal" , style = "Regular" }
 
 # size = 16

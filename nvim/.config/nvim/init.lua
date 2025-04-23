@@ -127,6 +127,18 @@ function F.unpackLazy()
 				"nvim-treesitter/nvim-treesitter",
 			},
 		},
+		{
+			'ggml-org/llama.vim',
+			init = function()
+				vim.g.llama_config = { show_info = 0 }
+			end,
+			config = function()
+				-- vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee", ctermfg = 13 })
+				-- vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b", ctermfg = 10 })
+				vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee" })
+				vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b" })
+			end,
+		},
 
 		-- LANGUAGES
 		{
@@ -443,7 +455,7 @@ end
 
 function M.lsp()
 	-- help / hint
-	map('n', 'K', ':lua vim.lsp.buf.hover()<cr>', NS)
+	map('n', 'K', ':lua vim.lsp.buf.hover({border="rounded"})<cr>', NS)
 	-- map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<cr>', NS)
 
 	-- diagnostics
@@ -1790,25 +1802,11 @@ function F.lspconfig()
 
 	local mason = require 'mason-lspconfig'
 
-	mason.setup {
-		ensure_installed = vim.tbl_keys(servers),
-	}
+	mason.setup({ ensure_installed = vim.tbl_keys(servers) })
 
 	local capabilities = require('cmp_nvim_lsp').default_capabilities(
 		vim.lsp.protocol.make_client_capabilities()
 	)
-
-	-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
-	-- local border = {
-	-- 	{ "🭽", "FloatBorder" },
-	-- 	{ "▔",  "FloatBorder" },
-	-- 	{ "🭾", "FloatBorder" },
-	-- 	{ "▕",  "FloatBorder" },
-	-- 	{ "🭿", "FloatBorder" },
-	-- 	{ "▁",  "FloatBorder" },
-	-- 	{ "🭼", "FloatBorder" },
-	-- 	{ "▏",  "FloatBorder" },
-	-- }
 
 	mason.setup_handlers {
 		function(server_name)
@@ -1848,17 +1846,6 @@ function F.lspconfig()
 						vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
 					end
 				end,
-				handlers = {
-					["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-						-- border = border
-						border = 'rounded'
-						-- focusable = false
-					}),
-					["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-						-- border = border
-						border = 'rounded'
-					}),
-				},
 			}
 		end,
 	}

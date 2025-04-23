@@ -41,9 +41,13 @@ y = 15
 # normal = { family = "Google Sans Mono" , style = "Regular" }
 # bold = {style = "SemiBold"}
 
-# size = 13.2
+# size = 12.5
 # normal = { family = "Iosevka Term" , style = "Light Extended" }
 # bold = {style = "SemiBold Extended"}
+
+# size = 14.5
+# normal = { family = "Iosevka Term" , style = "Light" }
+# bold = {style = "SemiBold"}
 
 # size = 13.2
 # normal = { family = "Source Code Pro" , style = "Regular" }
@@ -65,7 +69,7 @@ bold = {style = "Medium"}
 # bold = {style = "Bold"}
 
 
-# size = 12.8
+# size = 11.8
 # normal = {family = "Martian Mono", style = "Std xLt" }
 # bold = {style = "Std Rg"}
 
@@ -88,7 +92,7 @@ bold = {style = "Medium"}
 # normal = {style = "Regular", family = "Menlo"}
 # bold = {style = "Bold"}
 
-# size = 13.8
+# size = 12.8
 # # normal = {style = "Regular", family = "SF Mono"}
 # normal = {style = "Light", family = "SF Mono"}
 # bold = {style = "Medium"}

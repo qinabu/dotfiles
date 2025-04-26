@@ -458,31 +458,33 @@ end
 
 function M.lsp()
 	-- help / hint
-	map('n', 'K', ':lua vim.lsp.buf.hover({border="rounded"})<cr>', NS)
-	-- map('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<cr>', NS)
+	map('n', 'K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, NS)
 
 	-- diagnostics
-	map('n', 'gl', ':lua vim.diagnostic.open_float()<cr>', NS)
-	map('n', 'gL', ':lua vim.diagnostic.setqflist()<cr>', NS)
-	map('n', '[d', ':lua vim.diagnostic.goto_prev()<cr>', NS)
-	map('n', ']d', ':lua vim.diagnostic.goto_next()<cr>', NS)
+	map('n', 'gl', vim.diagnostic.open_float, NS)
+	map('n', 'gL', vim.diagnostic.setqflist, NS)
+	map('n', '[d', function() vim.diagnostic.jump({ count = 1, float = true }) end, NS)
+	map('n', ']d', function() vim.diagnostic.jump({ count = -1, float = true }) end, NS)
 
 	-- go to
-	map('n', 'gr', ':lua vim.lsp.buf.references({includeDeclaration=false})<cr>', NS)
-	map('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>', NS)
-	map('n', 'gd', ':lua vim.lsp.buf.definition()<cr>', NS)
-	map('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>', NS)
-	map('n', 'gy', ':lua vim.lsp.buf.type_definition()<cr>', NS)
+	map('n', 'gr', function() vim.lsp.buf.references({ includeDeclaration = false }) end, NS)
+	map('n', 'gD', vim.lsp.buf.declaration, NS)
+	map('n', 'gd', vim.lsp.buf.definition, NS)
+	map('n', 'gi', vim.lsp.buf.implementation, NS)
+	map('n', 'gy', vim.lsp.buf.type_definition, NS)
 
-	map('n', 'gI', ':lua vim.lsp.buf.incoming_calls()<cr>', NS)
-	map('n', 'gO', ':lua vim.lsp.buf.outgoing_calls()<cr>', NS)
+	map('n', 'gI', vim.lsp.buf.incoming_calls, NS)
+	map('n', 'gO', vim.lsp.buf.outgoing_calls, NS)
 
 	-- edit actions
-	map('n', '<leader>ea', ':lua vim.lsp.buf.code_action()<cr>', NS)
-	map('v', '<leader>ea', '<cmd>lua vim.lsp.buf.code_action()<cr>', NS)
-	map('n', '<leader>er', ':lua vim.lsp.buf.rename()<cr>', NS)
-	map('n', '<leader>ef', ':lua vim.lsp.buf.format();print("Formatted")<cr>', N)
-	map('n', '<leader>ec', ':lua vim.lsp.codelens.refresh();vim.lsp.codelens.run()<cr>', NS)
+	map('n', '<leader>ea', vim.lsp.buf.code_action, NS)
+	map('v', '<leader>ea', vim.lsp.buf.code_action, NS)
+	map('n', '<leader>er', vim.lsp.buf.rename, NS)
+	map('n', '<leader>ef', vim.lsp.buf.format, N)
+	map('n', '<leader>ec', function()
+		vim.lsp.codelens.refresh();
+		vim.lsp.codelens.run()
+	end, NS)
 end
 
 function M.telescope()

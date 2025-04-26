@@ -130,7 +130,10 @@ function F.unpackLazy()
 		{
 			'ggml-org/llama.vim',
 			init = function()
-				vim.g.llama_config = { show_info = 0 }
+				vim.g.llama_config = {
+					show_info = 2,
+					t_max_predict_ms = 5000,
+				}
 			end,
 			config = function()
 				-- vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee", ctermfg = 13 })

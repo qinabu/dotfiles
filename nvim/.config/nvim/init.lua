@@ -1769,7 +1769,7 @@ function F.lspconfig()
 				-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 				experimentalPostfixCompletions = true,
 				-- experimentalWorkspaceModule = true,
-				templateExtensions = { 'gotpl', 'gotmpl' },
+				templateExtensions = { 'gotpl', 'gotmpl', 'go.tpl', 'go.tmpl' },
 				buildFlags = { '-tags=integration test mockery all' },
 				gofumpt = true,
 				staticcheck = true,
@@ -1794,6 +1794,12 @@ function F.lspconfig()
 					vendor = true,
 					upgrade_dependency = true,
 					-- annotations = { bounds = true, escape = true, inline = true, ['nil'] = true }
+				},
+				directoryFilters = {
+					"-bazel-bin",
+					"-bazel-out",
+					"-bazel-testlogs",
+					"-bazel-pedregal",
 				},
 			},
 		},

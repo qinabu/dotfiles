@@ -131,7 +131,8 @@ function F.unpackLazy()
 			'ggml-org/llama.vim',
 			init = function()
 				vim.g.llama_config = {
-					show_info = 2,
+					-- show_info = 2,
+					show_info = 0,
 					t_max_predict_ms = 5000,
 				}
 			end,

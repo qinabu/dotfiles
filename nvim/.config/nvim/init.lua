@@ -71,7 +71,7 @@ function F.unpackLazy()
 			'neovim/nvim-lspconfig',
 			config = F.lspconfig,
 			dependencies = {
-				{ 'williamboman/mason.nvim', version = '1.x.x' },
+				{ 'williamboman/mason.nvim',           version = '1.x.x' },
 				{ 'williamboman/mason-lspconfig.nvim', version = '1.x.x' },
 				'folke/neodev.nvim', -- vim lua sdk
 				'hrsh7th/nvim-cmp',

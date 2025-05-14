@@ -907,9 +907,10 @@ function F.codecompanion()
 				return require("codecompanion.adapters").extend("ollama", {
 					name = "qwen",
 					schema = {
-						model = { default = "qwen2.5-coder:1.5b" },
-						num_ctx = { default = 32768 }, -- 32K
-						-- num_ctx = { default = 131072 }, -- 128K
+						-- model = { default = "qwen3:1.7b" },
+						model = { default = "qwen3:1.7b" },
+						temperature = { default = 0.5 },
+						num_ctx = { default = 131072 }, -- 128K
 					},
 				})
 			end

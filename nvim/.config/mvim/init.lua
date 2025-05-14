@@ -1,7 +1,7 @@
 F = {}
 
 function F.boot()
-	F.functions()
+	F.helpers()
 	F.settings()
 	F.plugins()
 	F.keymaps()
@@ -58,11 +58,11 @@ function F.lazy_plugins()
 			end,
 		},
 		{
-			'szw/vim-maximizer',
+			'szw/vim-maximizer', -- expanding windows
 			event = 'VeryLazy',
 		},
 		{
-			'itchyny/vim-qfedit',
+			'itchyny/vim-qfedit', -- allows to remove lines
 			event = 'VeryLazy',
 		},
 		{
@@ -85,7 +85,7 @@ function F.lazy_plugins()
 			end,
 		},
 		{
-			'kevinhwang91/nvim-bqf', -- +
+			'kevinhwang91/nvim-bqf', -- + quckfix preview
 			ft = 'qf',
 			opts = {
 				auto_enable = true,
@@ -112,7 +112,7 @@ function F.lazy_plugins()
 					globalstatus = true,
 				},
 				sections = {
-					lualine_a = { function() return ' M ' end },
+					lualine_a = { function() return ' MVIM ' end },
 					lualine_b = { 'branch' },
 					lualine_c = {
 						{ 'filename', path = 1, shorting_target = 25, symbols = { modified = '*' } },
@@ -129,7 +129,7 @@ function F.lazy_plugins()
 								warn  = 'DiagnosticSignWarn',
 								info  = 'DiagnosticSignInfo',
 								hint  = 'DiagnosticSignHint',
-							},
+							}
 						},
 						'diff',
 					},
@@ -149,15 +149,15 @@ function F.lazy_plugins()
 			},
 		},
 		{
-			'norcalli/nvim-colorizer.lua',
+			'norcalli/nvim-colorizer.lua', -- +
 			event = "VeryLazy",
 			opts = { 'css', 'scss', 'html', 'yaml' }
 		},
 		{
-			'notjedi/nvim-rooter.lua',
+			'notjedi/nvim-rooter.lua', -- +
 			opts = {
-				rooter_patterns = { 'go.mod', '.git' },
-				exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
+				rooter_patterns = { '.git', 'go.mod' },
+				exclude_filetypes = { 'help', 'man', 'ctrlsf', 'git', 'fugitiveblame', '' },
 				fallback_to_parent = true,
 			}
 		},
@@ -201,6 +201,44 @@ function F.lazy_plugins()
 
 		-- todo
 		-- LSP
+		{
+	 		'williamboman/mason.nvim',
+			dependencies = { 'mason-org/mason-lspconfig.nvim' },
+			config = function()
+				local settings = {
+					lua_ls = {
+						settings = {
+						Lua = {
+							telemetry = { enable = false },
+							diagnostics = { disable = { 'missing-fields' } },
+							hint = { enable = true },
+							workspace = { checkThirdParty = false },
+						},
+						},
+					},
+				}
+				require('mason').setup()
+				    require('mason-lspconfig').setup({
+					ensure_installed = vim.tbl_keys(settings or {})
+				    })
+
+				    for k, v in pairs(settings) do
+					vim.lsp.config(k, v)
+					vim.lsp.enable(k)
+				    end
+
+				vim.diagnostic.config({ virtual_text = true })
+				-- require("mason").setup()
+				-- require("mason-lspconfig").setup({
+				-- 	automatic_enable = true,
+				-- 	ensure_installed = {
+				-- 		'lua_ls',
+				-- 		'gopls',
+				-- 	},
+				-- })
+			end,
+		},
+
 		-- {
 		-- 	'neovim/nvim-lspconfig',
 		-- 	config = F.lspconfig,
@@ -319,27 +357,15 @@ function F.lazy_plugins()
 					},
 					swap = {
 						enable = true,
-						swap_next = {
-							['<leader>el'] = '@parameter.inner',
-						},
-						swap_previous = {
-							['<leader>eh'] = '@parameter.inner',
-						},
+						swap_next = { ['<leader>el'] = '@parameter.inner' },
+						swap_previous = { ['<leader>eh'] = '@parameter.inner' },
 					},
 					move = {
 						enable = true,
-						goto_next_start = {
-							[']]'] = '@function.outer',
-						},
-						goto_next_end = {
-							[']['] = '@function.outer',
-						},
-						goto_previous_start = {
-							['[['] = '@function.outer',
-						},
-						goto_previous_end = {
-							['[]'] = '@function.outer',
-						},
+						goto_next_start = { [']]'] = '@function.outer' },
+						goto_next_end = { [']['] = '@function.outer' },
+						goto_previous_start = { ['[['] = '@function.outer' },
+						goto_previous_end = { ['[]'] = '@function.outer' },
 					},
 				},
 			},
@@ -478,11 +504,11 @@ function F.keymaps()
 	n('<leader>on', ':set number!<cr>', 'numbers')
 	n('<leader>oN', ':set relativenumber!<cr>', 'relative numbers')
 	n('<leader>os', ':setlocal spell!<cr>', 'spell check')
-	n('<leader>ol', ':lua F.toggle_listchars()<cr>', 'list chars')
+	n('<leader>ol', F.toggle_listchars, 'list chars')
 	n('<leader>ow', ':setlocal nowrap! linebreak!<cr>', 'wrap')
-	n('<leader>oc', ':lua vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "72,80,100,120" or "")<cr>', 'columns')
+	n('<leader>oc', function() vim.wo.colorcolumn = (vim.wo.colorcolumn == "" and "72,80,100,120" or "") end, 'columns')
 	n("<leader>oC", ":setlocal <C-R>=&conceallevel ? 'conceallevel=0' : 'conceallevel=2'<CR><CR>", 'conceal level')
-	n('<leader>ot', ':lua vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4)<cr>', 'tabstop width')
+	n('<leader>ot', function() vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4) end, 'tabstop width')
 
 
 	-- buffer
@@ -677,7 +703,7 @@ function F.plugins()
 	})
 end
 
-function F.functions()
+function F.helpers()
 	-- :lua P() inspect function
 	-- :lua P(vim.g)
 	_G.P = function(...)

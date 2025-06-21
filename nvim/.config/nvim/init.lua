@@ -35,7 +35,7 @@ function F.unpackLazy()
 		},
 		{
 			'nvim-telescope/telescope.nvim',
-			branch = '0.1.x',
+			-- branch = '0.1.x',
 			config = F.telescope,
 			dependencies = {
 				'nvim-lua/plenary.nvim',
@@ -459,13 +459,13 @@ end
 
 function M.lsp()
 	-- help / hint
-	map('n', 'K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, NS)
+	map('n', 'K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, { silent = true })
 
 	-- diagnostics
 	map('n', 'gl', vim.diagnostic.open_float, NS)
 	map('n', 'gL', vim.diagnostic.setqflist, NS)
-	map('n', '[d', function() vim.diagnostic.jump({ count = 1, float = true }) end, NS)
-	map('n', ']d', function() vim.diagnostic.jump({ count = -1, float = true }) end, NS)
+	map('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, NS)
+	map('n', ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, NS)
 
 	-- go to
 	map('n', 'gr', function() vim.lsp.buf.references({ includeDeclaration = false }) end, NS)
@@ -893,13 +893,18 @@ end
 
 function F.codecompanion()
 	require("codecompanion").setup({
+		opts = {
+			system_prompt = function(opts)
+				return ""
+			end,
+		},
 		display = {
 			diff = {
 				enabled = false
 			},
 		},
 		strategies = {
-			chat = { adapter = "qwen" },
+			chat = { adapter = "gemma" },
 			inline = { adapter = "qwen" },
 		},
 		adapters = {
@@ -907,13 +912,21 @@ function F.codecompanion()
 				return require("codecompanion.adapters").extend("ollama", {
 					name = "qwen",
 					schema = {
-						-- model = { default = "qwen3:1.7b" },
 						model = { default = "qwen3:1.7b" },
 						temperature = { default = 0.5 },
 						num_ctx = { default = 131072 }, -- 128K
 					},
 				})
-			end
+			end,
+			gemma = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					name = "gemma",
+					schema = {
+						model = { default = "gemma3:4b" },
+						num_ctx = { default = 131072 }, -- 128K
+					},
+				})
+			end,
 		},
 	})
 

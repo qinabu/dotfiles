@@ -60,8 +60,8 @@ y = 15
 # normal = {style = "Light", family = "Geist Mono"}
 # bold = {style = "Medium"}
 
-size = 12.7
-normal = {family = "JetBrains Mono", style = "ExtraLight" }
+size = 15
+normal = {family = "JetBrains Mono", style = "Light" }
 bold = {style = "Medium"}
 
 # size = 13.8

@@ -25,17 +25,17 @@ function F.unpackLazy()
 		{ 'norcalli/nvim-colorizer.lua', config = F.colorizer },
 		{
 			'notjedi/nvim-rooter.lua',
-			config = function()
-				require 'nvim-rooter'.setup({
-					rooter_patterns = { 'go.mod', '.git' },
-					exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
-					fallback_to_parent = true,
-				})
-			end
+			opts = {
+				rooter_patterns = { 'go.mod', '.git' },
+				exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
+				fallback_to_parent = false,
+				cd_scope = 'smart',
+			}
 		},
 		{
 			'nvim-telescope/telescope.nvim',
 			-- branch = '0.1.x',
+			tag = '0.1.8',
 			config = F.telescope,
 			dependencies = {
 				'nvim-lua/plenary.nvim',
@@ -193,6 +193,7 @@ function F.unpackLazy()
 				'nvim-treesitter/nvim-treesitter',
 				'theHamsta/nvim-dap-virtual-text',
 				'leoluz/nvim-dap-go',
+				'andythigpen/nvim-coverage',
 			},
 		},
 		-- NOTE TAKING
@@ -219,8 +220,10 @@ function M.bootstrap()
 	map('n', '<leader>bq', ':bdelete<cr>', N)
 	map('n', '<leader>bQ', ':bdelete!<cr>', N)
 
-	-- map('n', '<leader>tq', ':tabclose<cr>', N)
-	-- map('n', '<leader>tQ', ':tabclose!<cr>', N)
+	-- map('n', '<leader>tl', ':tabnext<cr>', N)
+	-- map('n', '<leader>th', ':-tabnext<cr>', N)
+	map('n', '<leader>tq', ':tabclose<cr>', N)
+	map('n', '<leader>tQ', ':tabclose!<cr>', N)
 
 	-- map('n', '<leader><esc>', ':silent quit<cr>', N)
 
@@ -257,9 +260,6 @@ function M.bootstrap()
 	map('n', '<leader>w', '<c-w>', N)      -- Window modification prefix
 	map('n', '<leader>w?', ':help CTRL-W<cr>', N) -- Window modification prefix
 
-	-- map('n', '<leader>tl', ':tabnext<cr>', N)
-	-- map('n', '<leader>th', ':-tabnext<cr>', N)
-	map('n', '<leader>tq', ':tabclose<cr>', N)
 
 	map('n', '<leader>h', '<c-w>h', NS)
 	map('n', '<leader>l', '<c-w>l', NS)
@@ -1107,6 +1107,7 @@ function F.treesitter()
 			"yaml",
 			"json",
 			"vimdoc",
+			"starlark",
 		},
 
 		['incremental_selection'] = {
@@ -1186,6 +1187,7 @@ function F.treesitter()
 	})
 
 	require('treesitter_indent_object').setup()
+	vim.treesitter.language.register("starlark", "tiltfile")
 
 	M.treesitter()
 end
@@ -1292,6 +1294,10 @@ function F.gitsigns()
 			delay = 1000,
 			ignore_whitespace = false,
 		},
+		preview_config = {
+			border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" }
+		}
+
 	})
 	M.gitsigns()
 end
@@ -1559,6 +1565,23 @@ function F.telescope()
 end
 
 function F.dap()
+	vim.cmd [[
+		let test#ruby#go#options = {
+		  \ 'all':   '-tags=test,mockery',
+		\}
+	]]
+	require("coverage").setup({
+		summary = {
+			-- customize the summary pop-up
+			min_coverage = 80.0, -- minimum coverage threshold (used for highlighting)
+		},
+		lang = {
+			-- customize language specific settings
+			go = {
+				coverage_file = 'coverage.txt',
+			},
+		},
+	})
 	require("dap-go").setup({
 		-- delve = {
 		-- 	args = { "-tags=test,mockery" },
@@ -1766,6 +1789,8 @@ function F.lspconfig()
 		bashls = {},
 		jsonls = {},
 		helm_ls = {},
+		-- tilt_ls = {},
+		starpls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings

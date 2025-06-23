@@ -2,7 +2,6 @@ F = {}
 M = {}
 
 local map = vim.keymap.set
-
 local NSE = { noremap = true, silent = true, expr = true }
 local NS = { noremap = true, silent = true }
 local N = { noremap = true }
@@ -904,7 +903,7 @@ function F.codecompanion()
 			},
 		},
 		strategies = {
-			chat = { adapter = "gemma" },
+			chat = { adapter = "qwen" },
 			inline = { adapter = "qwen" },
 		},
 		adapters = {
@@ -1834,6 +1833,11 @@ function F.lspconfig()
 					vendor = true,
 					upgrade_dependency = true,
 					-- annotations = { bounds = true, escape = true, inline = true, ['nil'] = true }
+				},
+				workspaceFiles = {
+					"**/BUILD",
+					"**/WORKSPACE",
+					"**/*.{bzl,bazel}",
 				},
 				directoryFilters = {
 					"-bazel-bin",

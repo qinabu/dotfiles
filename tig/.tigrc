@@ -6,7 +6,7 @@ set git-colors = no
 set line-graphics = utf-8
 set reference-format = ((head)) {TRACKED:tracked-remote} (branch) ~replace~ {remote} <tag>
 set diff-context = 10
-set tab-size = 4
+set tab-size = 8
 set refresh-mode = after-command
 set ignore-case = yes
 

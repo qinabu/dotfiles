@@ -100,4 +100,4 @@ esc = 'mode main'
 if.app-id = 'com.google.Chrome'
 if.window-title-regex-substring = 'Picture-in-Picture'
 run = 'layout floating'
-# check-further-callbacks = true
+check-further-callbacks = true

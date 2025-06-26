@@ -642,24 +642,24 @@ function M.gitsigns()
 
 	map('n', ']h', function()
 		if vim.wo.diff then return ']c' end
-		vim.schedule(function() require('gitsigns').next_hunk() end)
+		vim.schedule(function() require('gitsigns').next_hunk({ target = 'all' }) end)
 		return '<Ignore>'
 	end, NSE)
 
 	map('n', '[h', function()
 		if vim.wo.diff then return '[c' end
-		vim.schedule(function() require('gitsigns').prev_hunk() end)
+		vim.schedule(function() require('gitsigns').prev_hunk({ target = 'all' }) end)
 		return '<Ignore>'
 	end, { expr = true })
 
 	-- stage
-	map('n', 'ghs', '<cmd>Gitsigns stage_hunk<cr>', NS)
+	map('n', 'ghs', ':Gitsigns stage_hunk<cr>', NS)
 	map('v', 'ghs', ':Gitsigns stage_hunk<cr>', NS)
-	map('n', 'ghS', '<cmd>Gitsigns stage_buffer<CR>', NS) -- buffer
+	map('n', 'ghS', ':Gitsigns stage_buffer<CR>', NS) -- buffer
 	-- unstage
-	map('n', 'ghu', '<cmd>Gitsigns undo_stage_hunk<cr>', NS)
-	map('v', 'ghu', '<cmd>Gitsigns undo_stage_hunk<CR>', NS)
-	map('n', 'ghU', '<cmd>Gitsigns reset_buffer_index<CR>', NS) -- buffer
+	map('n', 'ghu', ':Gitsigns undo_stage_hunk<cr>', NS)
+	map('v', 'ghu', ':Gitsigns undo_stage_hunk<CR>', NS)
+	map('n', 'ghU', ':Gitsigns reset_buffer_index<CR>', NS) -- buffer
 	-- reset
 	map('n', 'ghr', '<cmd>Gitsigns reset_hunk<cr>', NS)
 	map('v', 'ghr', ':Gitsigns reset_hunk<cr>', NS)
@@ -852,7 +852,7 @@ function F.bootstrapOptions()
 	vim.opt.splitright = true
 
 	vim.opt.updatetime = 100
-	vim.opt.timeoutlen = 500
+	vim.opt.timeoutlen = 700
 	-- vim.opt.ttimeoutlen = 10
 
 	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
@@ -1285,7 +1285,15 @@ function F.gitsigns()
 			changedelete = { text = '~' },
 			untracked    = { text = '+' },
 		},
-		signs_staged_enable = false,
+		signs_staged = {
+			add          = { text = '+' },
+			change       = { text = '~' },
+			delete       = { text = '_' },
+			topdelete    = { text = '-' },
+			changedelete = { text = '~' },
+			untracked    = { text = '+' },
+		},
+		signs_staged_enable = true,
 		current_line_blame = false,
 		current_line_blame_opts = {
 			virt_text = true,

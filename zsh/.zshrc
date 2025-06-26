@@ -277,6 +277,7 @@ alias gl="tig"
 
 alias g="git"
 alias gc="git_commit"
+alias ggc="git gc --prune=now --aggressive && git reflog expire --all --expire=now"
 alias gca="git commit --amend"
 alias gr="git reset"
 alias gs="git status --short --branch"

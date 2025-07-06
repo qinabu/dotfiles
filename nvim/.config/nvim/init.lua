@@ -124,6 +124,7 @@ function F.unpackLazy()
 			dependencies = {
 				"nvim-lua/plenary.nvim",
 				"nvim-treesitter/nvim-treesitter",
+				"echasnovski/mini.diff",
 			},
 		},
 		{
@@ -891,6 +892,29 @@ function F.codecompanionLualine()
 end
 
 function F.codecompanion()
+	local diff = require("mini.diff")
+	diff.setup({
+		-- Disabled by default
+		source = diff.gen_source.none(),
+		mappings = {
+			-- Apply hunks inside a visual/operator region
+			apply = 'ghg',
+
+			-- Reset hunks inside a visual/operator region
+			reset = 'ghG',
+
+			-- Hunk range textobject to be used inside operator
+			-- Works also in Visual mode if mapping differs from apply and reset
+			textobject = 'ghg',
+
+			-- Go to hunk range in corresponding direction
+			goto_first = '[G',
+			goto_prev = '[g',
+			goto_next = ']g',
+			goto_last = ']G',
+		},
+
+	})
 	require("codecompanion").setup({
 		opts = {
 			system_prompt = function(opts)
@@ -899,12 +923,12 @@ function F.codecompanion()
 		},
 		display = {
 			diff = {
-				enabled = false
+				-- enabled = false
 			},
 		},
 		strategies = {
-			chat = { adapter = "qwen" },
-			inline = { adapter = "qwen" },
+			chat = { adapter = "gemma" },
+			inline = { adapter = "gemma" },
 		},
 		adapters = {
 			qwen = function()
@@ -921,7 +945,7 @@ function F.codecompanion()
 				return require("codecompanion.adapters").extend("ollama", {
 					name = "gemma",
 					schema = {
-						model = { default = "gemma3:4b" },
+						model = { default = "gemma3n:e2b" },
 						num_ctx = { default = 131072 }, -- 128K
 					},
 				})
@@ -955,7 +979,8 @@ end
 
 function M.codecompanion()
 	map('v', '<leader>i', ':CodeCompanion ')
-	map('n', '<leader>i', ':CodeCompanionActions<CR>')
+	-- map('n', '<leader>i', ':CodeCompanionActions<CR>')
+	map('n', '<leader>i', ':Telescope codecompanion initial_mode=normal<cr>')
 	-- map('n', '<leader>I', ':Gen Chat<CR>')
 end
 

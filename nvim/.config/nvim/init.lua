@@ -903,8 +903,8 @@ function F.codecompanion()
 			},
 		},
 		strategies = {
-			chat = { adapter = "qwen" },
-			inline = { adapter = "qwen" },
+			chat = { adapter = "gemma" },
+			inline = { adapter = "gemma" },
 		},
 		adapters = {
 			qwen = function()
@@ -921,7 +921,7 @@ function F.codecompanion()
 				return require("codecompanion.adapters").extend("ollama", {
 					name = "gemma",
 					schema = {
-						model = { default = "gemma3:4b" },
+						model = { default = "gemma3n:latest" },
 						num_ctx = { default = 131072 }, -- 128K
 					},
 				})
@@ -1097,16 +1097,16 @@ function F.treesitter()
 		},
 		['ensure_installed'] = {
 			"lua",
-			"rust",
+			-- "rust",
 			"go",
 			"gowork",
 			"gotmpl",
-			"python",
+			-- "python",
 			"hcl",
 			"yaml",
 			"json",
 			"vimdoc",
-			"starlark",
+			-- "starlark",
 		},
 
 		['incremental_selection'] = {
@@ -1797,7 +1797,7 @@ function F.lspconfig()
 		jsonls = {},
 		helm_ls = {},
 		-- tilt_ls = {},
-		starpls = {},
+		-- starpls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings

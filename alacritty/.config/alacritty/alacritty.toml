@@ -45,9 +45,9 @@ y = 15
 # normal = { family = "Google Sans Mono" , style = "Regular" }
 # bold = {style = "SemiBold"}
 
-size = 13.5
-normal = { family = "Iosevka Term" , style = "Light Extended" }
-bold = {style = "SemiBold Extended"}
+# size = 13.5
+# normal = { family = "Iosevka Term" , style = "Light Extended" }
+# bold = {style = "SemiBold Extended"}
 
 # size = 14.5
 # normal = { family = "Iosevka Term" , style = "Light" }
@@ -81,8 +81,8 @@ bold = {style = "SemiBold Extended"}
 # normal = {family = "Cascadia Code", style = "Light" }
 # bold = {style = "SemiBold"}
 
-# size = 16
-# normal = {family = "mononoki", style = "Regular" }
+size = 16
+normal = {family = "mononoki", style = "Regular" }
 
 # size = 14
 # normal = {family = "Fira Code", style = "Regular" }

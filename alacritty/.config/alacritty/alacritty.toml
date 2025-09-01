@@ -15,6 +15,18 @@ x = 15
 y = 15
 
 [font]
+size = 13.5
+normal = { family = "Iosevka Term" , style = "Light Extended" }
+bold = {style = "SemiBold Extended"}
+
+# size = 15
+# normal = {family = "mononoki", style = "Regular" }
+
+# size = 16
+# normal = {style = "Regular", family = "Fantasque Sans Mono"}
+# bold = {style = "Bold"}
+
+
 # size = 13
 # normal = { family = "CommitMonoLight" , style = "Regular" }
 # bold = {style = "Bold"}
@@ -44,10 +56,6 @@ y = 15
 # size = 13.8
 # normal = { family = "Google Sans Mono" , style = "Regular" }
 # bold = {style = "SemiBold"}
-
-# size = 13.5
-# normal = { family = "Iosevka Term" , style = "Light Extended" }
-# bold = {style = "SemiBold Extended"}
 
 # size = 14.5
 # normal = { family = "Iosevka Term" , style = "Light" }
@@ -81,16 +89,10 @@ y = 15
 # normal = {family = "Cascadia Code", style = "Light" }
 # bold = {style = "SemiBold"}
 
-size = 16
-normal = {family = "mononoki", style = "Regular" }
-
 # size = 14
 # normal = {family = "Fira Code", style = "Regular" }
 # bold = {style = "SemiBold"}
 
-# size = 17
-# normal = {style = "Regular", family = "Fantasque Sans Mono"}
-# bold = {style = "Bold"}
 
 # size = 13
 # normal = {style = "Regular", family = "Menlo"}

@@ -500,7 +500,7 @@ function M.telescope()
 	map('n', 'fG', ':Telescope live_grep hidden=true search_dirs=%:h<cr>', NS)
 	map('n', 'f/', ':Telescope current_buffer_fuzzy_find<cr>', NS)
 	map('n', 'fk', ':Telescope keymaps<cr>', NS)
-	map('n', 'fh', ':Telescope git_status<cr>', NS) --  initial_mode=normal
+	map('n', 'fh', ':Telescope git_status initial_mode=normal<cr>', NS) --  initial_mode=normal
 	map('n', 'fd',
 		':Telescope file_browser theme=ivy layout_config={height=0.8} initial_mode=normal select_buffer=true<cr>',
 		NS)
@@ -860,6 +860,8 @@ function F.bootstrapOptions()
 	_G.listchars_alternative = "eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,"
 	vim.opt.listchars = "eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,"
 	vim.opt.list = true
+
+	-- vim.opt.winborder = 'rounded'
 
 	vim.lsp.set_log_level("OFF")
 

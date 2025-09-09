@@ -5,7 +5,8 @@ live_config_reload = true
 decorations = "buttonless"
 dynamic_title = false
 # opacity = 1
-opacity = 0.93
+opacity = 0.95
+# opacity = 0.98
 blur = true
 option_as_alt = "Both"
 startup_mode = "Maximized"
@@ -15,6 +16,13 @@ x = 15
 y = 15
 
 [font]
+# size = 14.5
+# normal = { family = "Iosevka Term" , style = "Light" }
+# bold = {style = "SemiBold"}
+
+size = 16
+normal = {family = "mononoki", style = "Regular" }
+
 # size = 13
 # normal = { family = "CommitMonoLight" , style = "Regular" }
 # bold = {style = "Bold"}
@@ -49,10 +57,6 @@ y = 15
 # normal = { family = "Iosevka Term" , style = "Light Extended" }
 # bold = {style = "SemiBold Extended"}
 
-# size = 14.5
-# normal = { family = "Iosevka Term" , style = "Light" }
-# bold = {style = "SemiBold"}
-
 # size = 13.2
 # normal = { family = "Source Code Pro" , style = "Regular" }
 
@@ -80,9 +84,6 @@ y = 15
 # size = 14.8
 # normal = {family = "Cascadia Code", style = "Light" }
 # bold = {style = "SemiBold"}
-
-size = 16
-normal = {family = "mononoki", style = "Regular" }
 
 # size = 14
 # normal = {family = "Fira Code", style = "Regular" }

@@ -294,6 +294,7 @@ _fzf_complete_gchb() {
 }
 
 alias gu="git pull --tags"
+alias gup="git pull --tags -p"
 alias gchm="git checkout \$(git_default_branch)"
 alias gm="git checkout \$(git_default_branch)"
 alias gmm="git checkout \$(git_default_branch) && git pull origin \$(git_default_branch)"

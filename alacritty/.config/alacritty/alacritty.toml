@@ -15,10 +15,14 @@ x = 15
 y = 15
 
 [font]
+# size = 13.5
+# normal = { family = "Maple Mono" , style = "Light" }
+# bold = {style = "SemiBold"}
+
 size = 13.5
 normal = { family = "Iosevka Term" , style = "Light Extended" }
 bold = {style = "SemiBold Extended"}
-
+#
 # size = 15
 # normal = {family = "mononoki", style = "Regular" }
 

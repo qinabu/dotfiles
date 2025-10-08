@@ -128,22 +128,22 @@ function F.unpackLazy()
 				"echasnovski/mini.diff",
 			},
 		},
-		{
-			'ggml-org/llama.vim',
-			init = function()
-				vim.g.llama_config = {
-					-- show_info = 2,
-					show_info = 0,
-					t_max_predict_ms = 5000,
-				}
-			end,
-			config = function()
-				-- vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee", ctermfg = 13 })
-				-- vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b", ctermfg = 10 })
-				vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee" })
-				vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b" })
-			end,
-		},
+		-- {
+		-- 	'ggml-org/llama.vim',
+		-- 	init = function()
+		-- 		vim.g.llama_config = {
+		-- 			-- show_info = 2,
+		-- 			show_info = 0,
+		-- 			t_max_predict_ms = 5000,
+		-- 		}
+		-- 	end,
+		-- 	config = function()
+		-- 		-- vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee", ctermfg = 13 })
+		-- 		-- vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b", ctermfg = 10 })
+		-- 		vim.api.nvim_set_hl(0, "llama_hl_hint", { fg = "#aa55ee" })
+		-- 		vim.api.nvim_set_hl(0, "llama_hl_info", { fg = "#50fa7b" })
+		-- 	end,
+		-- },
 
 		-- LANGUAGES
 		{

@@ -5,7 +5,8 @@ live_config_reload = true
 decorations = "buttonless"
 dynamic_title = false
 # opacity = 1
-opacity = 0.93
+opacity = 0.95
+# opacity = 0.98
 blur = true
 option_as_alt = "Both"
 startup_mode = "Maximized"
@@ -29,7 +30,6 @@ bold = {style = "SemiBold Extended"}
 # size = 16
 # normal = {style = "Regular", family = "Fantasque Sans Mono"}
 # bold = {style = "Bold"}
-
 
 # size = 13
 # normal = { family = "CommitMonoLight" , style = "Regular" }
@@ -59,10 +59,6 @@ bold = {style = "SemiBold Extended"}
 
 # size = 13.8
 # normal = { family = "Google Sans Mono" , style = "Regular" }
-# bold = {style = "SemiBold"}
-
-# size = 14.5
-# normal = { family = "Iosevka Term" , style = "Light" }
 # bold = {style = "SemiBold"}
 
 # size = 13.2

@@ -146,7 +146,8 @@ white = "#d3c6aa"
 yellow = "#dbbc7f"
 
 [colors.primary]
-background = "#272e33"
+# background = "#272e33"
+background = "#20272b"
 foreground = "#d3c6aa"
 
 [cursor]

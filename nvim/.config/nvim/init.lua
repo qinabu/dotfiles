@@ -347,9 +347,11 @@ function M.bootstrap()
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)
 
 	-- map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
-	map('v', 'p', '"_dp', NS) -- TODO: if selection at the end of line P should be replaced with p
-	map('n', 'x', '"_x', NS)
-	map('n', 'X', '"_X', NS)
+	-- map('v', 'p', '"_dp', NS) -- TODO: if selection at the end of line P should be replaced with p
+	map({ 'n', 'v' }, 'p', '"0p')
+	map({ 'n', 'v' }, 'P', '"0P')
+	-- map('n', 'x', '"_x', NS)
+	-- map('n', 'X', '"_X', NS)
 	map('n', 'Q', 'q', N)
 	map('n', 'vv', 'V', NS)
 

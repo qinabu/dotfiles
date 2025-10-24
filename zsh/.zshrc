@@ -270,6 +270,7 @@ short_command() {
 
 alias gal="tig --all"
 alias gl="tig"
+alias glf="tig --first-parent"
 
 alias g="git"
 alias gc="git_commit"
@@ -385,3 +386,6 @@ export GPG_TTY=$(tty)
 } || true
 
 source ~/.zshrc.work > /dev/null 2>&1 || true
+
+# Added by devbox to ensure ~/.local/bin is on PATH
+export PATH="/Users/alex/.local/bin:$PATH"

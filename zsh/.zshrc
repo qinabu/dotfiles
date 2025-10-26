@@ -271,6 +271,7 @@ short_command() {
 
 alias gal="tig --all"
 alias gl="tig"
+alias glf="tig --first-parent"
 
 alias g="git"
 alias gc="git_commit"

@@ -221,6 +221,7 @@ alias -g CC='2>&1 | ccat -G Plaintext="reset" -G Keyword="darkred" -G Punctuatio
 alias v="vim"
 alias n="nvim"
 alias m="NVIM_APPNAME=mvim nvim"
+alias l="NVIM_APPNAME=lvim nvim"
 alias e="$EDITOR"
 alias -g EE="|$EDITOR"
 

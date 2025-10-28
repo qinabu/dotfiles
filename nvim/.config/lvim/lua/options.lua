@@ -1,6 +1,4 @@
-local M = {}
-
-vim.loader.enable()
+-- leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "_"
 vim.opt.timeoutlen = 500
@@ -24,6 +22,7 @@ vim.opt.scrolloff = 2  -- offset lines
 vim.opt.laststatus = 3 -- status line
 vim.opt.wrap = false
 vim.opt.signcolumn = 'yes:3'
+-- TODO: lua
 vim.cmd [[autocmd! BufEnter * if &ft == 'man' | set signcolumn=no | endif]]
 vim.opt.numberwidth = 3
 vim.opt.number = false
@@ -53,6 +52,7 @@ vim.opt.smartcase = true
 -- Update a buffer's contents on focus if it changed outside of Vim.
 vim.opt.autoread = true
 -- vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
+-- TODO: fix and make it like ^
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
 	pattern = '*',
 	callback = function()
@@ -73,7 +73,7 @@ vim.opt.undofile = true
 vim.opt.updatetime = 100
 
 -- filepath
-vim.opt.path:append('**')
+-- vim.opt.path:append('**')
 
 -- command line
 vim.opt.wildmenu = true
@@ -95,22 +95,15 @@ vim.opt.virtualedit = 'block'
 vim.opt.whichwrap = 'b,s,<,>'
 vim.opt.matchpairs:append('<:>')
 
-M.toggler = function(alt, getter, setter)
-	local buf = alt
-	return function()
-		local cur = getter()
-		setter(buf)
-		buf = cur
-	end
-end
-
+-- rulers
 vim.opt.list = true
 vim.opt.listchars = 'eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,'
+local alter_listchars = 'eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,'
 
-_G.my_toggle_listchars = M.toggler(
-	'eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,',
-	function() return vim.opt.listchars end,
-	function(v) vim.opt.listchars = v end
-)
-
-return M
+return {
+	toggle_listchars = require("helpers").toggler(
+		alter_listchars,
+		function() return vim.opt.listchars end,
+		function(v) vim.opt.listchars = v end
+	)
+}

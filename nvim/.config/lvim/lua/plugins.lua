@@ -1,11 +1,10 @@
 -- https://dev.to/delphinus35/dont-use-dependencies-in-lazynvim-4bk0
--- https://neovim.io/doc/user/lsp.html#lsp-new-config
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local out = vim.fn.system({
 		"git", "clone",
-		"--depth=1",
+		-- "--depth=1",
 		"--filter=blob:none",
 		"--branch=stable",
 		"https://github.com/folke/lazy.nvim.git",
@@ -27,10 +26,18 @@ local default_plugins = {
 	{ 'nvim-lua/plenary.nvim', lazy = true }
 }
 
+local plugins = { {} }
+
 return {
-	setup = function(spec)
-		require("lazy").setup({
-			spec = vim.tbl_extend("force", default_plugins, spec),
+	add = function(plugin)
+		table.insert(plugins, plugin)
+	end,
+
+	setup = function(...)
+		-- require("helpers").dump(plugins)
+		require("lazy").setup {
+			spec = vim.tbl_extend("keep", default_plugins, plugins, ...),
+			-- spec = vim.tbl_extend("force", default_plugins, plugins, ...),
 			local_spec = false,
 			ui = {
 				size = {
@@ -47,7 +54,7 @@ return {
 					event = "⌘",
 				}
 			},
-		})
+		}
 	end
 
 }

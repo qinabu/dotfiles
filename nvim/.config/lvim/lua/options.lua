@@ -22,8 +22,14 @@ vim.opt.scrolloff = 2  -- offset lines
 vim.opt.laststatus = 3 -- status line
 vim.opt.wrap = false
 vim.opt.signcolumn = 'yes:3'
--- TODO: lua
-vim.cmd [[autocmd! BufEnter * if &ft == 'man' | set signcolumn=no | endif]]
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	callback = function()
+		if vim.bo.filetype == "man" then
+			vim.opt_local.signcolumn = "no"
+		end
+	end,
+})
 vim.opt.numberwidth = 3
 vim.opt.number = false
 vim.opt.relativenumber = false

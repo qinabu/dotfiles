@@ -1,4 +1,5 @@
--- disable the default keybinds
+-- disable the default keymaps
+-- https://neovim.io/doc/user/lsp.html#_config
 for _, bind in ipairs({ "grn", "gra", "gri", "grr", "grt" }) do
 	pcall(vim.keymap.del, "n", bind)
 end
@@ -87,7 +88,7 @@ n('<leader>bd', ':bdelete<cr>', 'delete buffer')
 
 
 -- command line
-n('<leader>;', ':', { noremap = true, desc = 'command line' })
+n('<leader>;', ':', 'command line')
 n('<leader>l', 'q:', 'command history')
 n("<leader>'", '@:', 'repeat last command')
 n('<leader>1', ':!', 'exec command')
@@ -121,6 +122,7 @@ v('<leader>et', ':s/\\s\\+$//e<cr>', 'remove trailing spaces')
 v('K', ":move '<-2<cr>gv=gv", 'move up')
 v('J', ":move '>+1<cr>gv=gv", 'move down')
 
+-- overwrites
 -- v('p', '"_dP') -- TODO: if selection at the end of line P should be replaced with p
 v('p', '"_dp') -- TODO: if selection at the end of line P should be replaced with p
 n('x', '"_x')
@@ -129,10 +131,10 @@ n('Q', 'q')
 
 n('vv', 'V', 'linewise select')
 
-n('<c-,>', '^', 'to the beginning of the line')
-v('<c-.>', '^', 'to the beginning of the line')
-n('<c-,>', '$', 'to the end of the line')
-v('<c-.>', 'g_', 'to the end of the line')
+n('<c-h>', '^', 'to the beginning of the line')
+v('<c-h>', '^', 'to the beginning of the line')
+n('<c-l>', '$', 'to the end of the line')
+v('<c-l>', 'g_', 'to the end of the line')
 
 
 -- search

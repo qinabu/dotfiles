@@ -349,6 +349,8 @@ function M.bootstrap()
 	-- map({ 'n', 'v' }, 'p', '"*dp', NS) -- TODO: if selection at the end of line P should be replaced with p
 	map({ 'n', 'v' }, 'x', '"_x', NS)
 	map({ 'n', 'v' }, 'X', '"_X', NS)
+	map({ 'n', 'v' }, 'c', '"_c', NS)
+	map({ 'n', 'v' }, 'C', '"_C', NS)
 
 	-- map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
 	-- map('v', 'p', '"_dp', NS) -- TODO: if selection at the end of line P should be replaced with p

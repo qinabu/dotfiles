@@ -52,7 +52,7 @@ commit) ;;
 
 # git commit
 *)
-	previous=$(git log -n 1 --format='%s' --no-merges head 2>&- || true)
+	previous=$(git log -n 1 --format='%s' --first-parent --no-merges head 2>&- || true)
 	pissue=$(echo "$previous" | grep -oE '^([A-Z]+)-[0-9]+' || true)
 
 	# echo "issue $issue"

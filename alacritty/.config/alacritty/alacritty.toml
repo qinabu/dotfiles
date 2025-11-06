@@ -1,6 +1,7 @@
 [general]
 live_config_reload = true
 
+
 [window]
 decorations = "buttonless"
 dynamic_title = false
@@ -17,7 +18,7 @@ y = 15
 
 [font]
 # size = 13.5
-# normal = { family = "Maple Mono" , style = "Light" }
+# normal = { family = "Maple Mono" , style = "ExtraLight" }
 # bold = {style = "SemiBold"}
 
 size = 13.5
@@ -123,27 +124,28 @@ bold = {style = "SemiBold Extended"}
 
 [colors.bright]
 black = "#475258"
-blue = "#7fbbb3"
-cyan = "#83c092"
-green = "#a7c080"
-magenta = "#d699b6"
 red = "#e67e80"
-white = "#d3c6aa"
+green = "#a7c080"
 yellow = "#dbbc7f"
+blue = "#7fbbb3"
+magenta = "#d699b6"
+cyan = "#83c092"
+white = "#d3c6aa"
 
 [colors.cursor]
-cursor = "#E3DF68"
+# cursor = "#E3DF68"
+cursor = "#FFAA44"
 text = "#000000"
 
 [colors.normal]
 black = "#414b50"
-blue = "#7fbbb3"
-cyan = "#83c092"
-green = "#a7c080"
-magenta = "#d699b6"
 red = "#e67e80"
-white = "#d3c6aa"
+green = "#a7c080"
 yellow = "#dbbc7f"
+blue = "#7fbbb3"
+magenta = "#d699b6"
+cyan = "#83c092"
+white = "#d3c6aa"
 
 [colors.primary]
 # background = "#272e33"

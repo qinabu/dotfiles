@@ -57,14 +57,11 @@ vim.opt.smartcase = true
 
 -- Update a buffer's contents on focus if it changed outside of Vim.
 vim.opt.autoread = true
--- vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
--- TODO: fix and make it like ^
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
 	pattern = '*',
 	callback = function()
-		local mode = vim.fn.mode()
-		if mode ~= 'c' and mode ~= 'r' and mode ~= 'r?' and mode ~= '!' and vim.fn.mode() ~= 't' and vim.fn.getcmdwintype() == '' then
-			vim.cmd('checktime')
+		if not vim.tbl_contains({'c','r','!','t'}, vim.fn.mode()) and vim.fn.getcmdwintype() == '' then
+			vim.cmd.checktime()
 		end
 	end
 })
@@ -93,7 +90,7 @@ vim.opt.formatoptions = 'tcqrn1'
 
 -- file types
 vim.g.editorconfig = false
-vim.cmd [[ filetype plugin indent on ]]
+vim.cmd.filetype("plugin", "indent", "on")
 vim.opt.tabstop = 8
 vim.opt.smarttab = true
 vim.opt.shiftwidth = 8

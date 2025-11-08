@@ -34,7 +34,9 @@ return {
 	end,
 
 	setup = function(...)
-		-- require("helpers").dump(plugins)
+		local plugins = vim.tbl_extend("keep", default_plugins, plugins, ...)
+		require("helpers").dump(plugins)
+
 		require("lazy").setup {
 			spec = vim.tbl_extend("keep", default_plugins, plugins, ...),
 			-- spec = vim.tbl_extend("force", default_plugins, plugins, ...),

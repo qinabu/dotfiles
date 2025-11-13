@@ -8,10 +8,45 @@ window-padding-y = 15
 
 font-feature = "-calt, -liga, -dlig"
 
-font-size = 15
-font-family = "Iosevka Term"
-font-style = "Medium Extended"
-font-style-bold = "SemiBold Extended"
+# font-size = 15
+# font-family = "Iosevka Term"
+# font-style = "Medium Extended"
+# font-style-bold = "SemiBold Extended"
+
+font-size = 14
+font-family = "Geist Mono"
+font-style = "Regular"
+font-style-bold = "Bold"
+
+# font-size = 15
+# font-family = "Noto Sans Mono"
+# font-style = "Medium"
+# font-style-bold = "Bold"
+
+# font-size = 15
+# font-family = "Consolas"
+# font-style = "Regular"
+# font-style-bold = "Bold"
+
+# font-size = 14
+# font-family = "Martian Mono"
+# font-style = "Std Lt"
+# font-style-bold = "Std Md"
+
+# font-size = 18
+# font-family = "UbuntuMono Nerd Font"
+# font-style = "Regular"
+# font-style-bold = "Bold"
+
+# font-size = 14
+# font-family = "Google Sans Mono"
+# font-style = "Regular"
+# font-style-bold = "Bold"
+
+# font-size = 15
+# font-family = "Menlo"
+# font-style = "Regular"
+# font-style-bold = "Bold"
 
 # font-size = 16
 # font-family = "mononoki"

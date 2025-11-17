@@ -8,15 +8,20 @@ window-padding-y = 15
 
 font-feature = "-calt, -liga, -dlig"
 
+font-size = 14
+font-family = "Fire Mono"
+font-style = "Regular"
+font-style-bold = "Medium"
+
 # font-size = 15
 # font-family = "Iosevka Term"
 # font-style = "Medium Extended"
 # font-style-bold = "SemiBold Extended"
 
-font-size = 14
-font-family = "Geist Mono"
-font-style = "Regular"
-font-style-bold = "Bold"
+# font-size = 14
+# font-family = "Geist Mono"
+# font-style = "Regular"
+# font-style-bold = "Bold"
 
 # font-size = 15
 # font-family = "Noto Sans Mono"

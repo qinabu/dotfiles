@@ -323,7 +323,7 @@ function M.bootstrap()
 	map('c', '<m-f>', '<s-right>', N)
 
 	-- Buffer
-	map('n', '<leader>s', ':write<cr>', N)            -- Write changes
+	map('n', '<leader>s', ':update<cr>', N)           -- Write changes
 	map('n', '<leader>S', ':wall<cr>', N)             -- Write chages of all buffers
 	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader><leader>S', ':noautocmd wall<cr>', N) -- Write buffer as is
@@ -1872,7 +1872,7 @@ function F.lspconfig()
 		jsonls = {},
 		helm_ls = {},
 		-- tilt_ls = {},
-		starpls = {},
+		-- starpls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings

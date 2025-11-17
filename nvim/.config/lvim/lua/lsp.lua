@@ -1,12 +1,31 @@
 -- https://neovim.io/doc/user/lsp.html#lsp-new-config
 
-vim.diagnostic.config({
+require("plugins").add {
+	"mason-org/mason-lspconfig.nvim", opts = {},
+	dependencies = {
+		{ "mason-org/mason.nvim", opts = {} },
+		{ "neovim/nvim-lspconfig" },
+	},
+}
+
+vim.diagnostic.config {
 	float = { border = 'rounded' },
 	virtual_text = false,
 	severity_sort = true,
+}
+
+vim.lsp.config('*', {
+	capabilities = {
+		textDocument = {
+			semanticTokens = {
+				multilineTokenSupport = true,
+			}
+		}
+	},
+	root_markers = { '.git' },
 })
 
-vim.lsp.config("lua_ls", {
+vim.lsp.config('lua_ls', {
 	settings = {
 		Lua = {
 			telemetry = { enable = false },
@@ -17,51 +36,89 @@ vim.lsp.config("lua_ls", {
 			},
 			workspace = {
 				checkThirdParty = false,
-				library = vim.api.nvim_get_runtime_file("", true),
+				library = vim.api.nvim_get_runtime_file('', true),
 			},
 		}
 	}
 })
 
-require("plugins").add {
-	"mason-org/mason-lspconfig.nvim", opts = {},
-	dependencies = {
-		{ "mason-org/mason.nvim", opts = {} },
-		{ "neovim/nvim-lspconfig" },
-	},
-}
+vim.lsp.config('gopls', {
+	settings = {
+		gopls = {
+			-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+			experimentalPostfixCompletions = true,
+			-- experimentalWorkspaceModule = true,
+			templateExtensions = { 'gotpl', 'gotmpl', 'go.tpl', 'go.tmpl' },
+			buildFlags = { '-tags=integration test mockery all' },
+			gofumpt = true,
+			staticcheck = true,
+			analyses = {
+				-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
+				-- disabled by default:
+				unusedparams = true, --
+				unusedvariable = true,
+				shadow = false, -- !!!
+				-- fieldalignment = true, -- !!!
+				nilness = true, --
+				unusedwrite = true, --
+				useany = true, --
+			},
+			codelenses = {
+				gc_details = true,
+				-- gc_details = false,
+				generate = true,
+				regenerate_cgo = true,
+				test = true,
+				tidy = true,
+				vendor = true,
+				upgrade_dependency = true,
+				-- annotations = { bounds = true, escape = true, inline = true, ['nil'] = true }
+			},
+			workspaceFiles = {
+				'**/BUILD',
+				'**/WORKSPACE',
+				'**/*.{bzl,bazel}',
+			},
+			directoryFilters = {
+				'-bazel-bin',
+				'-bazel-out',
+				'-bazel-testlogs',
+				'-bazel-pedregal',
+			},
+		},
+	}
+})
 
+
+-- https://neovim.io/doc/user/lsp.html#lsp-config
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
 	callback = function(args)
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		local caps = client.server_capabilities or {}
 
+		local agroup = vim.api.nvim_create_augroup("MyLsp", { clear = true })
+
 		if caps.documentHighlightProvider then
 			vim.api.nvim_create_autocmd("CursorMoved", {
-				buffer = args.buf, -- current buffer id
+				group = agroup,
+				buffer = args.buf,
 				callback = function()
 					pcall(vim.lsp.buf.clear_references)
 					pcall(vim.lsp.buf.document_highlight)
 				end,
 			})
 		end
-		-- if client:supports_method('textDocument/implementation') then
-		-- Create a keymap for vim.lsp.buf.implementation ...
-		-- end
 		-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
 		if client:supports_method('textDocument/completion') then
-			-- Optional: trigger autocompletion on EVERY keypress. May be slow!
-			-- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
-			-- client.server_capabilities.completionProvider.triggerCharacters = chars
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
 		-- Auto-format ("lint") on save.
 		-- Usually not needed if server supports "textDocument/willSaveWaitUntil".
-		if not client:supports_method('textDocument/willSaveWaitUntil')
-		    and client:supports_method('textDocument/formatting') then
+		if not client:supports_method('textDocument/willSaveWaitUntil') and
+		    client:supports_method('textDocument/formatting') then
 			vim.api.nvim_create_autocmd('BufWritePre', {
-				group = vim.api.nvim_create_augroup('my.lsp.format', { clear = false }),
+				group = agroup,
 				buffer = args.buf,
 				callback = function()
 					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })

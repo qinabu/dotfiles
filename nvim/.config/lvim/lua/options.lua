@@ -1,6 +1,6 @@
 -- leader
-vim.g.mapleader = " "
-vim.g.maplocalleader = "_"
+vim.g.mapleader = ' '
+vim.g.maplocalleader = '_'
 vim.opt.timeoutlen = 500
 
 -- clipboard
@@ -22,11 +22,11 @@ vim.opt.scrolloff = 2  -- offset lines
 vim.opt.laststatus = 3 -- status line
 vim.opt.wrap = false
 vim.opt.signcolumn = 'yes:3'
-vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = "*",
+vim.api.nvim_create_autocmd('BufEnter', {
+	pattern = '*',
 	callback = function()
-		if vim.bo.filetype == "man" then
-			vim.opt_local.signcolumn = "no"
+		if vim.bo.filetype == 'man' then
+			vim.opt_local.signcolumn = 'no'
 		end
 	end,
 })
@@ -57,14 +57,11 @@ vim.opt.smartcase = true
 
 -- Update a buffer's contents on focus if it changed outside of Vim.
 vim.opt.autoread = true
--- vim.cmd [[autocmd! FocusGained,BufEnter * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]]
--- TODO: fix and make it like ^
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
 	pattern = '*',
 	callback = function()
-		local mode = vim.fn.mode()
-		if mode ~= 'c' and mode ~= 'r' and mode ~= 'r?' and mode ~= '!' and vim.fn.mode() ~= 't' and vim.fn.getcmdwintype() == '' then
-			vim.cmd('checktime')
+		if not vim.tbl_contains({ 'c', 'r', '!', 't' }, vim.fn.mode()) and vim.fn.getcmdwintype() == '' then
+			vim.cmd.checktime()
 		end
 	end
 })
@@ -93,7 +90,7 @@ vim.opt.formatoptions = 'tcqrn1'
 
 -- file types
 vim.g.editorconfig = false
-vim.cmd [[ filetype plugin indent on ]]
+vim.cmd.filetype('plugin', 'indent', 'on')
 vim.opt.tabstop = 8
 vim.opt.smarttab = true
 vim.opt.shiftwidth = 8
@@ -106,8 +103,35 @@ vim.opt.list = true
 vim.opt.listchars = 'eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,'
 local alter_listchars = 'eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,'
 
+
+---@param ... any
+---@return any
+function P(...)
+	local objects = {}
+	for i = 1, select('#', ...) do
+		local v = select(i, ...)
+		table.insert(objects, vim.inspect(v))
+	end
+
+	print(table.concat(objects, '\n'))
+	return ...
+end
+
+---@param alt any
+---@param getter function
+---@param setter function
+---@return function
+function Toggler(alt, getter, setter)
+	local buf = alt
+	return function()
+		local cur = getter()
+		setter(buf)
+		buf = cur
+	end
+end
+
 return {
-	toggle_listchars = require("helpers").toggler(
+	toggle_listchars = Toggler(
 		alter_listchars,
 		function() return vim.opt.listchars end,
 		function(v) vim.opt.listchars = v end

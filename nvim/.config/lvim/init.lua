@@ -1,5 +1,7 @@
-require("options")
-require("keymaps")
-require("colorscheme")
-require("lsp")
-require("plugins").setup()
+require('options')
+require('keys')
+
+require('scheme')
+require('tele')
+require('lsp')
+require('plugins').setup()

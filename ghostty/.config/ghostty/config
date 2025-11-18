@@ -43,7 +43,7 @@ font-style-bold = "SemiBold Extended"
 # font-style = "Medium"
 # font-style-bold = "Bold"
 
-cursor-color = #AADD44
+cursor-color = #FFAA44
 cursor-text = #000000
 cursor-style = "block"
 cursor-opacity = 1

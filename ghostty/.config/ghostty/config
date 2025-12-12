@@ -53,6 +53,26 @@ font-style-bold = "Medium"
 # font-style = "Regular"
 # font-style-bold = "Bold"
 
+# size = 12.8
+# # normal = {style = "Regular", family = "SF Mono"}
+# normal = {style = "Light", family = "SF Mono"}
+# bold = {style = "Medium"}
+
+# font-size = 14.3
+# font-family = "JetBrains Mono"
+# font-style = "Medium"
+# font-style-bold = "Bold"
+
+# font-size = 14
+# font-family = "SF Mono"
+# font-style = "Medium"
+# font-style-bold = "Bold"
+
+# font-size = 16
+# font-family = "Fantasque Sans Mono"
+# font-style = "Regular"
+# font-style-bold = "Bold"
+
 # font-size = 16
 # font-family = "mononoki"
 # font-style = "Regular"
@@ -63,7 +83,7 @@ font-style-bold = "Medium"
 # font-style = "Medium"
 # font-style-bold = "Bold"
 
-cursor-color = #AADD44
+cursor-color = #FFAA44
 cursor-text = #000000
 cursor-style = "block"
 cursor-opacity = 1

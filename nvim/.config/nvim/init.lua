@@ -1668,24 +1668,20 @@ function F.cmp()
 	-- 	max_lines = 100,
 	-- 	provider = 'Ollama',
 	-- 	provider_options = {
-	-- 		model = 'qwen2.5-coder:0.5b',
-	-- 		auto_unload = false, -- Set to true to automatically unload the model when exiting nvim.
+	-- 		model = 'codegemma:2b-code',
+	-- 		auto_unload = false,
+	-- 		-- prompt = function(lines_before, lines_after)
+	-- 		-- 	return lines_before
+	-- 		-- end,
+	-- 		-- suffix = function(lines_after)
+	-- 		-- 	return lines_after
+	-- 		-- end,
 	-- 	},
-	-- 	prompt = function(lines_before, lines_after)
-	-- 		-- You may include filetype and/or other project-wise context in this string as well.
-	-- 		-- Consult model documentation in case there are special tokens for this.
-	-- 		return "<|fim_prefix|>" .. lines_before .. "<|fim_suffix|>" .. lines_after .. "<|fim_middle|>"
-	-- 	end,
 	-- 	notify = true,
-	-- 	notify_callback = function(msg)
-	-- 		vim.notify(msg)
-	-- 	end,
-	-- 	run_on_every_keystroke = false,
-	-- 	ignored_file_types = {
-	-- 		-- default is not to ignore
-	-- 		-- uncomment to ignore in lua:
-	-- 		-- lua = true
-	-- 	},
+	-- 	-- notify_callback = function(msg)
+	-- 	-- 	vim.notify(msg)
+	-- 	-- end,
+	-- 	run_on_every_keystroke = true,
 	-- })
 
 	local config = {
@@ -1810,28 +1806,6 @@ function F.cmp()
 		}, {
 			{ name = 'cmdline' }
 		})
-	})
-end
-
-function F.cmp_ai()
-	local cmp_ai = require('cmp_ai.config')
-	cmp_ai:setup({
-		max_lines = 100,
-		provider = 'Ollama',
-		provider_options = {
-			stream = true,
-			model = 'codellama:7b-code',
-		},
-		notify = true,
-		notify_callback = function(msg)
-			vim.notify(msg)
-		end,
-		run_on_every_keystroke = true,
-		ignored_file_types = {
-			-- default is not to ignore
-			-- uncomment to ignore in lua:
-			-- lua = true
-		},
 	})
 end
 

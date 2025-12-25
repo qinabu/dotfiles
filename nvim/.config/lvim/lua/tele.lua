@@ -1,5 +1,5 @@
 require('plugins').add {
-	'nvim-telescope/telescope.nvim', tag = '0.1.8',
+	'nvim-telescope/telescope.nvim', tag = 'v0.1.9',
 	dependencies = {
 		'nvim-lua/plenary.nvim',
 		'nvim-telescope/telescope-file-browser.nvim',
@@ -8,10 +8,10 @@ require('plugins').add {
 		{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 	},
 	config = function()
-		local tscope = require('telescope')
+		local telescope = require('telescope')
 		local actions = require('telescope.actions')
 		local fb_actions = require('telescope._extensions.file_browser.actions')
-		tscope.setup {
+		telescope.setup {
 			defaults = {
 				layout_strategy = 'vertical',
 				layout_config = {
@@ -97,8 +97,8 @@ require('plugins').add {
 			},
 		}
 
-		tscope.load_extension('fzf')
-		tscope.load_extension('file_browser')
-		tscope.load_extension('ui-select')
+		telescope.load_extension('fzf')
+		telescope.load_extension('file_browser')
+		telescope.load_extension('ui-select')
 	end,
 }

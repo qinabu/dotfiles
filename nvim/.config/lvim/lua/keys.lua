@@ -26,12 +26,7 @@ n('<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', 'cd .')
 
 -- lang
 map({ 'i', 'c' }, '<c-l>', '<c-^>', 'switch lang')
-map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
--- local toggle_iminsert = function()
--- 	vim.opt.iminsert = (vim.opt.iminsert == 0) and 1 or 0
--- end
--- map({ 'i', 'c' }, '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' })
--- map('n', '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' }) -- todo: collision c-l
+-- map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
 
 -- navigation
 local function window_resizer()
@@ -198,6 +193,12 @@ n('<leader>ec', function()
 	vim.lsp.codelens.run()
 end, 'codelens')
 
+-- replace
+n('<leader>fc', '<Plug>CtrlSFCwordExec', 'find and replace')
+v('<leader>fc', '<Plug>CtrlSFVwordExec', 'find and replace')
+n('<leader>fC', '<Plug>CtrlSFPrompt', 'find and replace:')
+
+
 -- telescope
 n('<leader>es', ':Telescope spell_suggest<cr>', 'spell suggest')
 n('f<leader>', ':Telescope<cr>', 'telescope')
@@ -223,7 +224,3 @@ n('fm', ':Telescope marks initial_mode=normal<cr>', 'find marks')
 n('fj', ':Telescope jumplist initial_mode=normal<cr>', 'find jimps')
 n('ft', ':Telescope tagstack initial_mode=normal<cr>', 'find tags')
 n('fa', ':Telescope man_pages<cr>', 'find man pages')
-
--- n('fh', ':Telescope harpoon marks<cr>', '')
--- n('fo', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', '')
--- n('fO', ':lua require("harpoon.mark").add_file()<cr>', '')

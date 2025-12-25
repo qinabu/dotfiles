@@ -1,9 +1,3 @@
--- disable the default keymaps
--- https://neovim.io/doc/user/lsp.html#_config
-for _, bind in ipairs({ 'grn', 'gra', 'gri', 'grr', 'grt' }) do
-	pcall(vim.keymap.del, 'n', bind)
-end
-
 local function map(mode, lhs, rhs, opt)
 	local opts = { noremap = true, silent = true }
 	if type(opt) == 'table' then
@@ -40,10 +34,32 @@ map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
 -- map('n', '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' }) -- todo: collision c-l
 
 -- navigation
+local function windowresizer()
+	while true do
+		local w = 5 * (((vim.fn.winnr('l') == vim.fn.winnr()) and -1) or 1)
+		local h = 3 * (((vim.fn.winnr('j') == vim.fn.winnr()) and -1) or 1)
+		print('[RESIZE]')
+		local ch = vim.fn.getchar
+		local k = vim.fn.nr2char(ch)
+		if k == 'q' or ch == 27 then
+			vim.cmd('redraw')
+			print('')
+			return
+		elseif k == 'h' then
+			vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0) - w)
+		elseif k == 'l' then
+			vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0) + w)
+		elseif k == 'k' then
+			vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0) - h)
+		elseif k == 'j' then
+			vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0) + h)
+		end
+		vim.cmd('redraw')
+	end
+end
+n('<leader>we', windowresizer, 'c-w')
 n('<leader>w', '<c-w>', 'c-w')
 n('<leader>w?', ':help CTRL-W<cr>', 'c-w help')
-n('<leader>we', ':WinResizerStartResize<cr>', 'resize window')
-
 n('<leader>tl', ':tabnext<cr>', 'tab next')
 n('<leader>th', ':-tabnext<cr>', 'tab prev')
 n('<leader>tq', ':tabclose<cr>', 'tab close')
@@ -61,8 +77,22 @@ n('<leader>c', function() (vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cm
 	'quickfix')
 
 -- options / toggles
+local function maximizer_toggle()
+	if vim.t.maximizer_sizes then
+		vim.cmd(vim.t.maximizer_sizes.before)
+		if vim.t.maximizer_sizes.before ~= vim.fn.winrestcmd() then
+			vim.cmd("wincmd =")
+		end
+		vim.t.maximizer_sizes = nil
+	elseif vim.fn.winnr("$") > 1 then
+		local before = vim.fn.winrestcmd()
+		vim.cmd("vert resize | resize")
+		vim.t.maximizer_sizes = { before = before, after = vim.fn.winrestcmd() }
+	end
+	vim.cmd("normal! ze")
+end
+n('<leader>oo', maximizer_toggle, 'maximizer')
 n('<leader>oO', ':only<cr>', 'only window')
-n('<leader>oo', ':MaximizerToggle!<cr>', 'maximizer') -- szw/vim-maximizer
 n('<leader>on', ':set number!<cr>', 'numbers')
 n('<leader>oN', ':set relativenumber!<cr>', 'relative numbers')
 n('<leader>os', ':setlocal spell!<cr>', 'spell check')
@@ -81,7 +111,7 @@ n('<leader>bd', ':bdelete<cr>', 'delete buffer')
 
 -- command line
 n('<leader>;', ':', { silent = false, desc = 'command line' })
-n('<leader>l', 'q:', 'command history')
+n('<leader>:', 'q:', 'command history')
 n("<leader>'", '@:', 'repeat last command')
 n('<leader>1', ':!', { silent = false, desc = 'exec command' })
 n('<leader>!', ':split term://', 'terminal command')
@@ -134,6 +164,13 @@ n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
 
 -- lsp
+--
+-- disable the default keymaps
+-- https://neovim.io/doc/user/lsp.html#_config
+-- i mode c-s signature_help()
+for _, bind in ipairs({ 'K', 'grn', 'gra', 'grr', 'gri', 'grt', 'gO' }) do
+	pcall(vim.keymap.del, 'n', bind)
+end
 n('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'symbol help')
 
 -- diagnostics

@@ -15,7 +15,26 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local default_plugins = {
-	{ 'nvim-lua/plenary.nvim', lazy = true }
+	{ 'nvim-lua/plenary.nvim', lazy = true },
+	{ 'itchyny/vim-qfedit',    lazy = true },
+	{
+		'kevinhwang91/nvim-bqf',
+		lazy = true,
+		ft = 'qf',
+		opts = {
+			auto_enable = true,
+			auto_resize_height = false,
+			func_map = {
+				pscrollup = '<c-u>',
+				pscrolldown = '<c-d>',
+			},
+			preview = {
+				show_title = true,
+				-- border = 'none',
+				winblend = 0,
+			}
+		}
+	},
 }
 
 local plugins = { {} }

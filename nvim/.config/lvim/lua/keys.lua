@@ -34,12 +34,12 @@ map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
 -- map('n', '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' }) -- todo: collision c-l
 
 -- navigation
-local function windowresizer()
+local function window_resizer()
 	while true do
 		local w = 5 * (((vim.fn.winnr('l') == vim.fn.winnr()) and -1) or 1)
 		local h = 3 * (((vim.fn.winnr('j') == vim.fn.winnr()) and -1) or 1)
 		print('[RESIZE]')
-		local ch = vim.fn.getchar
+		local ch = vim.fn.getchar()
 		local k = vim.fn.nr2char(ch)
 		if k == 'q' or ch == 27 then
 			vim.cmd('redraw')
@@ -57,9 +57,10 @@ local function windowresizer()
 		vim.cmd('redraw')
 	end
 end
-n('<leader>we', windowresizer, 'c-w')
+n('<leader>we', window_resizer, 'c-w')
 n('<leader>w', '<c-w>', 'c-w')
 n('<leader>w?', ':help CTRL-W<cr>', 'c-w help')
+
 n('<leader>tl', ':tabnext<cr>', 'tab next')
 n('<leader>th', ':-tabnext<cr>', 'tab prev')
 n('<leader>tq', ':tabclose<cr>', 'tab close')
@@ -77,21 +78,21 @@ n('<leader>c', function() (vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cm
 	'quickfix')
 
 -- options / toggles
-local function maximizer_toggle()
+local function window_maximizer()
 	if vim.t.maximizer_sizes then
 		vim.cmd(vim.t.maximizer_sizes.before)
 		if vim.t.maximizer_sizes.before ~= vim.fn.winrestcmd() then
-			vim.cmd("wincmd =")
+			vim.cmd('wincmd =')
 		end
 		vim.t.maximizer_sizes = nil
-	elseif vim.fn.winnr("$") > 1 then
+	elseif vim.fn.winnr('$') > 1 then
 		local before = vim.fn.winrestcmd()
-		vim.cmd("vert resize | resize")
+		vim.cmd('vert resize | resize')
 		vim.t.maximizer_sizes = { before = before, after = vim.fn.winrestcmd() }
 	end
 	vim.cmd("normal! ze")
 end
-n('<leader>oo', maximizer_toggle, 'maximizer')
+n('<leader>oo', window_maximizer, 'maximizer')
 n('<leader>oO', ':only<cr>', 'only window')
 n('<leader>on', ':set number!<cr>', 'numbers')
 n('<leader>oN', ':set relativenumber!<cr>', 'relative numbers')
@@ -114,7 +115,7 @@ n('<leader>;', ':', { silent = false, desc = 'command line' })
 n('<leader>:', 'q:', 'command history')
 n("<leader>'", '@:', 'repeat last command')
 n('<leader>1', ':!', { silent = false, desc = 'exec command' })
-n('<leader>!', ':split term://', 'terminal command')
+map('n', '<leader>!', ':split term://', { desc = 'terminal command', silent = false })
 
 -- TODO: c_CTRL-F support
 -- map('c', '<c-a>', '<home>')
@@ -164,11 +165,9 @@ n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
 
 -- lsp
---
 -- disable the default keymaps
 -- https://neovim.io/doc/user/lsp.html#_config
--- i mode c-s signature_help()
-for _, bind in ipairs({ 'K', 'grn', 'gra', 'grr', 'gri', 'grt', 'gO' }) do
+for _, bind in ipairs({ 'K', 'grn', 'gra', 'gri', 'grr', 'grt', 'gO' }) do
 	pcall(vim.keymap.del, 'n', bind)
 end
 n('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'symbol help')

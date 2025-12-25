@@ -15,18 +15,16 @@ vim.diagnostic.config {
 }
 
 vim.lsp.config('*', {
+	root_markers = { '.git' },
 	capabilities = {
 		textDocument = {
-			semanticTokens = {
-				multilineTokenSupport = true,
-			}
+			semanticTokens = { multilineTokenSupport = true }
 		}
-	},
-	root_markers = { '.git' },
+	}
 })
 
-vim.lsp.config('lua_ls', {
-	settings = {
+local settings = {
+	lua_ls = {
 		Lua = {
 			telemetry = { enable = false },
 			runtime = { version = 'LuaJIT' },
@@ -38,12 +36,10 @@ vim.lsp.config('lua_ls', {
 				checkThirdParty = false,
 				library = vim.api.nvim_get_runtime_file('', true),
 			},
+			semanticTokens = { multilineTokenSupport = true }
 		}
-	}
-})
-
-vim.lsp.config('gopls', {
-	settings = {
+	},
+	gopls = {
 		gopls = {
 			-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 			experimentalPostfixCompletions = true,
@@ -85,10 +81,14 @@ vim.lsp.config('gopls', {
 				'-bazel-testlogs',
 				'-bazel-pedregal',
 			},
-		},
-	}
-})
+		}
+	},
+}
 
+for k, v in pairs(settings) do
+	vim.lsp.config(k, { settings = v })
+	vim.lsp.enable(k)
+end
 
 -- https://neovim.io/doc/user/lsp.html#lsp-config
 vim.api.nvim_create_autocmd('LspAttach', {

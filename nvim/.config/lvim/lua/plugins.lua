@@ -15,8 +15,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local default_plugins = {
-	{ 'nvim-lua/plenary.nvim', lazy = true },
-	{ 'itchyny/vim-qfedit',    lazy = true },
+	{ 'nvim-lua/plenary.nvim' },
+
+	-- editable quick fix list
+	{ 'itchyny/vim-qfedit',   lazy = true },
+
+	-- preview in quick fix list
 	{
 		'kevinhwang91/nvim-bqf',
 		lazy = true,
@@ -37,20 +41,21 @@ local default_plugins = {
 	},
 }
 
-local plugins = { {} }
+local added_plugins = {}
 
 return {
 	---@param plugin table
 	add = function(plugin)
-		table.insert(plugins, plugin)
+		table.insert(added_plugins, plugin)
 	end,
 
-	setup = function(...)
-		local all_plugins = vim.tbl_extend('keep', default_plugins, plugins, ...)
-		-- P(all_plugins)
+	setup = function()
+		local plugins = {}
+		for _, v in ipairs(default_plugins) do table.insert(plugins, v) end
+		for _, v in ipairs(added_plugins) do table.insert(plugins, v) end
 
 		require('lazy').setup {
-			spec = vim.tbl_extend('keep', default_plugins, all_plugins, ...),
+			spec = plugins,
 			-- spec = vim.tbl_extend('force', default_plugins, plugins, ...),
 			local_spec = false,
 			ui = {

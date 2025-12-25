@@ -158,6 +158,9 @@ v('<c-l>', 'g_', 'to the end of the line')
 n('<leader>/', ':noh<cr>', 'no highlight')
 n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
+n('s', ':HopChar2<cr>', 'hop')
+n('S', ':HopWord<cr>', 'hop word')
+
 
 -- lsp
 -- disable the default keymaps

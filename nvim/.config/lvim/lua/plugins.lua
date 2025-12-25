@@ -43,7 +43,32 @@ local default_plugins = {
 		end
 
 	},
+
+	-- curor hop
+	{
+		'phaazon/hop.nvim',
+		opts = { keys = 'fjdkslaghrutyeiwo' }
+	},
 }
+
+-- todo:
+-- 'folke/zen-mode.nvim'
+-- 'nvim-lualine/lualine.nvim'
+-- 'norcalli/nvim-colorizer.lua'
+-- 'notjedi/nvim-rooter.lua'
+-- 'andythigpen/nvim-coverage'
+-- 'hrsh7th/nvim-cmp'
+-- 'zbirenbaum/copilot.lua'
+-- 'zbirenbaum/copilot-cmp'
+-- 'olimorris/codecompanion.nvim'
+-- 'nvim-treesitter/nvim-treesitter' ?
+-- 'iamcco/markdown-preview.nvim'
+-- 'tpope/vim-fugitive'
+-- 'lewis6991/gitsigns.nvim'
+-- 'sindrets/diffview.nvim'
+-- 'mfussenegger/nvim-dap'
+-- 'renerocksai/telekasten.nvim'
+-- 'potamides/pantran.nvim'
 
 local added_plugins = {}
 

@@ -1573,7 +1573,9 @@ function F.telescope()
 						['h'] = fb_actions.goto_parent_dir,
 						['e'] = fb_actions.toggle_browser,
 						['.'] = fb_actions.toggle_hidden,
-						['l'] = actions.select_default,
+						['l'] = fb_actions.open,
+						['o'] = fb_actions.open,
+
 					},
 				},
 				['hidden'] = true,

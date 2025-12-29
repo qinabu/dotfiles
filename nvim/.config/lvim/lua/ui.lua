@@ -70,3 +70,66 @@ require("plugins").add {
 		-- })
 	end
 }
+
+require("plugins").add {
+	'nvim-lualine/lualine.nvim',
+	opts = {
+		options = {
+			icons_enabled = false,
+			theme = 'everforest',
+			section_separators = { left = '▘', right = '▗' },
+			component_separators = '',
+			globalstatus = true,
+		},
+		sections = {
+			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:lower(); --[[str:sub(1, 3)[:lower()]] end } },
+			-- ['lualine_a'] = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
+			-- ['lualine_b'] = { 'branch' },
+			lualine_a = {},
+			lualine_b = { 'branch' },
+			-- ['lualine_c'] = { '%{pathshorten(fnamemodify(expand("%:h"), ":~:.")) . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]] '%l', { 'aerial', ['sep'] = '::' } },
+			lualine_c = {
+				-- '%{fnamemodify(expand("%:h"), ":.") . "/" . (expand("%") == "" ? "[new]" :expand("%:t"))}', --[['filename',]]
+				{
+					'filename',
+					path = 1,
+					shorting_target = 25,
+					symbols = { modified = '*' }
+				},
+				'%l:%c|%v',
+				'progress',
+				'%S',
+				-- { 'aerial', ['sep'] = '.' }
+			},
+			-- ['lualine_c'] = {
+			-- 	'%l:%c/%v',
+			-- 	'progress',
+			-- },
+			lualine_x = {
+				'searchcount',
+				{
+					'diagnostics',
+					diagnostics_color = {
+						error = 'DiagnosticSignError', -- Changes diagnostics' error color.
+						warn  = 'DiagnosticSignWarn', -- Changes diagnostics' warn color.
+						info  = 'DiagnosticSignInfo', -- Changes diagnostics' info color.
+						hint  = 'DiagnosticSignHint', -- Changes diagnostics' hint color.
+					},
+				},
+				'diff',
+				-- 'filetype'
+			},
+			lualine_y = { 'filesize' }, -- F.codecompanionLualine },
+			lualine_z = {},
+		},
+		inactive_sections = {
+			lualine_a = {},
+			lualine_b = { 'filename' },
+			lualine_c = { '%l' },
+			lualine_x = {},
+			lualine_y = {},
+			lualine_z = {}
+		},
+		extensions = { 'quickfix' },
+	}
+}

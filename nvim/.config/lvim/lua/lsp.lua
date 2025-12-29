@@ -1,15 +1,15 @@
 -- https://neovim.io/doc/user/lsp.html#lsp-new-config
 
-require("plugins").add {
-	"mason-org/mason-lspconfig.nvim", opts = {},
+require('plugins').add {
+	'mason-org/mason-lspconfig.nvim', opts = {},
 	dependencies = {
-		{ "mason-org/mason.nvim", opts = {} },
-		{ "neovim/nvim-lspconfig" },
+		{ 'mason-org/mason.nvim', opts = {} },
+		{ 'neovim/nvim-lspconfig' },
 	},
 }
 
 vim.diagnostic.config {
-	float = { border = 'rounded' },
+	-- float = { border = 'single' },
 	virtual_text = false,
 	severity_sort = true,
 }
@@ -97,10 +97,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		local caps = client.server_capabilities or {}
 
-		local agroup = vim.api.nvim_create_augroup("MyLsp", { clear = true })
+		local agroup = vim.api.nvim_create_augroup('MyLsp', { clear = true })
 
 		if caps.documentHighlightProvider then
-			vim.api.nvim_create_autocmd("CursorMoved", {
+			vim.api.nvim_create_autocmd('CursorMoved', {
 				group = agroup,
 				buffer = args.buf,
 				callback = function()
@@ -113,8 +113,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		if client:supports_method('textDocument/completion') then
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
-		-- Auto-format ("lint") on save.
-		-- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+		-- Auto-format ('lint') on save.
+		-- Usually not needed if server supports 'textDocument/willSaveWaitUntil'.
 		if not client:supports_method('textDocument/willSaveWaitUntil') and
 		    client:supports_method('textDocument/formatting') then
 			vim.api.nvim_create_autocmd('BufWritePre', {

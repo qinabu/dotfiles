@@ -65,8 +65,6 @@ require('plugins').add {
 					},
 					mappings = {
 						['i'] = {
-							-- 	<c-n> = require('telescope.actions').results_scrolling_down,
-							-- 	<c-p> = require('telescope.actions').results_scrolling_up,
 							['<c-e>'] = fb_actions.toggle_browser,
 							['<C-f>'] = false,
 						},
@@ -75,7 +73,8 @@ require('plugins').add {
 							['h'] = fb_actions.goto_parent_dir,
 							['e'] = fb_actions.toggle_browser,
 							['.'] = fb_actions.toggle_hidden,
-							['l'] = actions.select_default,
+							['l'] = fb_actions.open,
+							['o'] = fb_actions.open,
 						},
 					},
 					hidden = true,
@@ -86,10 +85,6 @@ require('plugins').add {
 					select_buffer = true,
 					hide_parent_dir = true,
 					prompt_path = true,
-					-- depth = 1,
-					-- folder_browser = {
-					-- 	files = true,
-					-- },
 				},
 				['ui-select'] = {
 					require('telescope.themes').get_dropdown {}

@@ -77,7 +77,7 @@ function F.unpackLazy()
 				'hrsh7th/cmp-nvim-lsp',
 				-- 'stevearc/aerial.nvim',
 				'ray-x/lsp_signature.nvim',
-				{ 'j-hui/fidget.nvim', ['tag'] = 'legacy' },
+				{ 'j-hui/fidget.nvim' },
 				"andythigpen/nvim-coverage",
 				-- 'VidocqH/lsp-lens.nvim',
 			},
@@ -323,7 +323,7 @@ function M.bootstrap()
 	map('c', '<m-f>', '<s-right>', N)
 
 	-- Buffer
-	map('n', '<leader>s', ':update<cr>', N)           -- Write changes
+	map('n', '<leader>s', ':write<cr>', N)            -- Write changes
 	map('n', '<leader>S', ':wall<cr>', N)             -- Write chages of all buffers
 	map('n', '<leader><leader>s', ':noautocmd write<cr>', N) -- Write buffer as is
 	map('n', '<leader><leader>S', ':noautocmd wall<cr>', N) -- Write buffer as is
@@ -346,16 +346,10 @@ function M.bootstrap()
 	map('v', 'K', ":move '<-2<cr>gv=gv", NS)
 	map('v', 'J', ":move '>+1<cr>gv=gv", NS)
 
-	-- map({ 'n', 'v' }, 'p', '"*dp', NS) -- TODO: if selection at the end of line P should be replaced with p
-	map({ 'n', 'v' }, 'x', '"_x', NS)
-	map({ 'n', 'v' }, 'X', '"_X', NS)
-	map({ 'n', 'v' }, 'c', '"_c', NS)
-	map({ 'n', 'v' }, 'C', '"_C', NS)
-
 	-- map('v', 'p', '"_dP', NS) -- TODO: if selection at the end of line P should be replaced with p
 	-- map('v', 'p', '"_dp', NS) -- TODO: if selection at the end of line P should be replaced with p
-	-- map({ 'n', 'v' }, 'p', '"0p')
-	-- map({ 'n', 'v' }, 'P', '"0P')
+	map({ 'n', 'v' }, 'p', '"0p')
+	map({ 'n', 'v' }, 'P', '"0P')
 	-- map('n', 'x', '"_x', NS)
 	-- map('n', 'X', '"_X', NS)
 	map('n', 'Q', 'q', N)
@@ -490,7 +484,7 @@ function M.lsp()
 	map('n', '<leader>ea', vim.lsp.buf.code_action, NS)
 	map('v', '<leader>ea', vim.lsp.buf.code_action, NS)
 	map('n', '<leader>er', vim.lsp.buf.rename, NS)
-	map('n', '<leader>ef', vim.lsp.buf.format, N)
+	map('n', '<leader>ef', function() vim.lsp.buf.format() end, N)
 	map('n', '<leader>ec', function()
 		vim.lsp.codelens.refresh();
 		vim.lsp.codelens.run()
@@ -942,27 +936,25 @@ function F.codecompanion()
 			inline = { adapter = "gemma" },
 		},
 		adapters = {
-			http = {
-				qwen = function()
-					return require("codecompanion.adapters").extend("ollama", {
-						name = "qwen",
-						schema = {
-							model = { default = "qwen3:1.7b" },
-							temperature = { default = 0.5 },
-							num_ctx = { default = 131072 }, -- 128K
-						},
-					})
-				end,
-				gemma = function()
-					return require("codecompanion.adapters").extend("ollama", {
-						name = "gemma",
-						schema = {
-							model = { default = "gemma3n:e2b" },
-							num_ctx = { default = 131072 }, -- 128K
-						},
-					})
-				end,
-			}
+			qwen = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					name = "qwen",
+					schema = {
+						model = { default = "qwen3:1.7b" },
+						temperature = { default = 0.5 },
+						num_ctx = { default = 131072 }, -- 128K
+					},
+				})
+			end,
+			gemma = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					name = "gemma",
+					schema = {
+						model = { default = "gemma3n:e2b" },
+						num_ctx = { default = 131072 }, -- 128K
+					},
+				})
+			end,
 		},
 	})
 
@@ -1574,8 +1566,6 @@ function F.telescope()
 						['e'] = fb_actions.toggle_browser,
 						['.'] = fb_actions.toggle_hidden,
 						['l'] = actions.select_default,
-						['o'] = actions.select_default,
-
 					},
 				},
 				['hidden'] = true,
@@ -1670,20 +1660,24 @@ function F.cmp()
 	-- 	max_lines = 100,
 	-- 	provider = 'Ollama',
 	-- 	provider_options = {
-	-- 		model = 'codegemma:2b-code',
-	-- 		auto_unload = false,
-	-- 		-- prompt = function(lines_before, lines_after)
-	-- 		-- 	return lines_before
-	-- 		-- end,
-	-- 		-- suffix = function(lines_after)
-	-- 		-- 	return lines_after
-	-- 		-- end,
+	-- 		model = 'qwen2.5-coder:0.5b',
+	-- 		auto_unload = false, -- Set to true to automatically unload the model when exiting nvim.
 	-- 	},
+	-- 	prompt = function(lines_before, lines_after)
+	-- 		-- You may include filetype and/or other project-wise context in this string as well.
+	-- 		-- Consult model documentation in case there are special tokens for this.
+	-- 		return "<|fim_prefix|>" .. lines_before .. "<|fim_suffix|>" .. lines_after .. "<|fim_middle|>"
+	-- 	end,
 	-- 	notify = true,
-	-- 	-- notify_callback = function(msg)
-	-- 	-- 	vim.notify(msg)
-	-- 	-- end,
-	-- 	run_on_every_keystroke = true,
+	-- 	notify_callback = function(msg)
+	-- 		vim.notify(msg)
+	-- 	end,
+	-- 	run_on_every_keystroke = false,
+	-- 	ignored_file_types = {
+	-- 		-- default is not to ignore
+	-- 		-- uncomment to ignore in lua:
+	-- 		-- lua = true
+	-- 	},
 	-- })
 
 	local config = {
@@ -1811,6 +1805,28 @@ function F.cmp()
 	})
 end
 
+function F.cmp_ai()
+	local cmp_ai = require('cmp_ai.config')
+	cmp_ai:setup({
+		max_lines = 100,
+		provider = 'Ollama',
+		provider_options = {
+			stream = true,
+			model = 'codellama:7b-code',
+		},
+		notify = true,
+		notify_callback = function(msg)
+			vim.notify(msg)
+		end,
+		run_on_every_keystroke = true,
+		ignored_file_types = {
+			-- default is not to ignore
+			-- uncomment to ignore in lua:
+			-- lua = true
+		},
+	})
+end
+
 function F.diffview()
 	require("diffview").setup({
 		['use_icons'] = false,
@@ -1837,6 +1853,49 @@ function F.lspconfig()
 	require("coverage").setup({
 		auto_reload = true,
 	})
+
+	local on_attach = function(client, bufnr)
+		M.lsp() -- keymaps
+
+		require("lsp_signature").on_attach({
+			bind = true,
+			handler_opts = { border = "rounded" },
+			floating_window = true,
+			hint_enable = false,
+			hint_prefix = '█ ',
+		}, bufnr)
+
+		local cap = client.server_capabilities
+		if cap.documentFormattingProvider then
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = bufnr, timeout_ms = 3000 })
+				end,
+			})
+		end
+
+		if cap.documentHighlightProvider then
+			vim.api.nvim_create_autocmd({ "CursorHold" }, {
+				buffer = bufnr,
+				callback = vim.lsp.buf.document_highlight,
+			})
+			vim.api.nvim_create_autocmd("CursorMoved", {
+				buffer = bufnr,
+				callback = vim.lsp.buf.clear_references,
+			})
+		end
+
+		if type(cap.codeLensProvider) == 'table' and cap.codeLensProvider.resolveProvider then
+			vim.lsp.codelens.refresh()
+			vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave', 'BufWritePost' }, {
+				buffer = bufnr,
+				callback = function()
+					vim.schedule(vim.lsp.codelens.refresh)
+				end,
+			})
+		end
+	end
 
 
 	local servers = {
@@ -1910,13 +1969,6 @@ function F.lspconfig()
 			Lua = {
 				workspace = { checkThirdParty = false },
 				telemetry = { enable = false },
-				globals = {
-					'vim',
-					'require'
-				},
-				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true),
-				},
 			},
 		},
 	}
@@ -1929,50 +1981,15 @@ function F.lspconfig()
 		vim.lsp.protocol.make_client_capabilities()
 	)
 
-
 	mason.setup_handlers {
 		function(server_name)
-			vim.lsp.config(server_name, {
+			require('lspconfig')[server_name].setup {
 				capabilities = capabilities,
 				settings = servers[server_name],
-				on_attach = function(client, bufnr)
-					-- bufnr = bufnr
-
-					-- map keys
-					M.lsp()
-
-					-- signature helps
-					require("lsp_signature").on_attach({
-						bind = true,
-						handler_opts = { border = "rounded" },
-						floating_window = true,
-						hint_enable = false,
-						hint_prefix = '█ ',
-					}, bufnr)
-
-					local cap = client.server_capabilities
-					-- format on save
-					-- see https://github.com/neovim/neovim/pull/17814/files#diff-a12755025a01c2415c955ca2d50e3d40f9e26df70f712231085d3ff96b2bc837R821
-					if cap.documentHighlightProvider then
-						vim.cmd [[autocmd CursorMoved <buffer> lua pcall(vim.lsp.buf.clear_references); pcall(vim.lsp.buf.document_highlight)]]
-						-- vim.cmd [[autocmd CursorHold  <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
-						-- vim.cmd[[autocmd CursorHoldI <buffer> lua pcall(vim.lsp.buf.document_highlight)]]
-					end
-					if cap.documentFormattingProvider then
-						vim.cmd [[autocmd BufWritePre <buffer> lua pcall(vim.lsp.buf.format)]]
-					end
-					-- https://github.com/neovim/neovim/pull/17814/files#diff-3319ec2c423f139a0da97179848b61fc4a17dc77951ccfe22697699992285106R261
-					if type(cap.codeLensProvider) == 'table' and cap.codeLensProvider.resolveProvider then
-						-- vim.schedule_wrap(vim.lsp.codelens.run)
-						vim.schedule_wrap(vim.lsp.codelens.refresh)
-						vim.cmd [[autocmd BufEnter,InsertLeave,BufWritePost <buffer> lua vim.schedule_wrap(vim.lsp.codelens.refresh)]]
-					end
-				end,
-			})
+				on_attach = on_attach,
+			}
 		end,
 	}
-
-	vim.lsp.enable(vim.tbl_keys(servers))
 
 	require("fidget").setup {
 		['window'] = {

@@ -21,21 +21,16 @@ require('plugins').add {
 				},
 				sorting_strategy = 'ascending',
 				prompt_prefix = '',
-				-- path_display = 'truncate',
 
 				file_ignore_patterns = { '.git/' },
 				hidden = true,
 				mappings = {
 					i = {
-						-- ['<c-l>'] = { '<cmd>:norm i<c-^><esc>', type = 'command' },
-						-- <c-l> = '<c-^>',
 						['<C-/>'] = actions.which_key,
 					},
 					n = {
-						-- <c-l> = ':startinsert <c-^><esc>',
 						['<C-/>'] = actions.which_key,
 						['o'] = actions.select_default,
-						-- <C-H> = actions.toggle_hidden,
 					},
 				},
 			},
@@ -48,20 +43,16 @@ require('plugins').add {
 			},
 			extensions = {
 				fzf = {
-					fuzzy = true, -- false will only do exact matching
-					override_generic_sorter = true, -- override the generic sorter
-					override_file_sorter = true, -- override the file sorter
-					case_mode = 'smart_case', -- or 'ignore_case' or 'respect_case'
-					-- the default case_mode is 'smart_case'
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = 'smart_case',
 				},
 				file_browser = {
 					theme = 'ivy',
 					hijack_netrw = true,
 					layout_config = {
 						height = 0.8,
-						-- vertical = {
-						-- 	height = 70,
-						-- }
 					},
 					mappings = {
 						['i'] = {
@@ -73,13 +64,12 @@ require('plugins').add {
 							['h'] = fb_actions.goto_parent_dir,
 							['e'] = fb_actions.toggle_browser,
 							['.'] = fb_actions.toggle_hidden,
-							['l'] = fb_actions.open,
-							['o'] = fb_actions.open,
+							['l'] = actions.select_default,
+							['o'] = actions.select_default,
 						},
 					},
 					hidden = true,
-					dir_icon = '▸',
-					-- dir_icon = ' ',
+					dir_icon = ' ',
 					grouped = true,
 					follow_symlinks = true,
 					select_buffer = true,

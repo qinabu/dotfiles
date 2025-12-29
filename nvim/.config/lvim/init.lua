@@ -1,13 +1,18 @@
-require('options')
+require('opt')
 require('keys')
+require('ts')
 require('ui')
 require('tele')
 require('lsp')
 require('cmp')
 require('plugins').setup()
 
+-- done:
+-- 'nvim-lualine/lualine.nvim' +
+-- 'nvim-treesitter/nvim-treesitter' ?
+-- 'hrsh7th/nvim-cmp' -> blink.cmp
+
 -- todo:
--- 'nvim-lualine/lualine.nvim'
 -- 'folke/zen-mode.nvim'
 --
 -- 'lewis6991/gitsigns.nvim'
@@ -23,8 +28,6 @@ require('plugins').setup()
 --
 -- 'norcalli/nvim-colorizer.lua'
 -- 'andythigpen/nvim-coverage'
--- 'hrsh7th/nvim-cmp' +
 -- 'zbirenbaum/copilot.lua'
 -- 'zbirenbaum/copilot-cmp'
 -- 'olimorris/codecompanion.nvim'
--- 'nvim-treesitter/nvim-treesitter' ?

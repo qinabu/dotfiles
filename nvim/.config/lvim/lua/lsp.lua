@@ -101,6 +101,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 		if caps.documentHighlightProvider then
 			vim.api.nvim_create_autocmd('CursorMoved', {
+				desc = 'lsp.lua: highlight word under cursor',
 				group = agroup,
 				buffer = args.buf,
 				callback = function()
@@ -118,6 +119,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		if not client:supports_method('textDocument/willSaveWaitUntil') and
 		    client:supports_method('textDocument/formatting') then
 			vim.api.nvim_create_autocmd('BufWritePre', {
+				desc = 'lsp.lua: lsp format file',
 				group = agroup,
 				buffer = args.buf,
 				callback = function()

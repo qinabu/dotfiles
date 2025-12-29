@@ -22,14 +22,15 @@ vim.opt.scrolloff = 2  -- offset lines
 vim.opt.laststatus = 3 -- status line
 vim.opt.wrap = false
 vim.opt.signcolumn = 'yes:3'
--- vim.api.nvim_create_autocmd('BufEnter', {
--- 	pattern = '*',
--- 	callback = function()
--- 		if vim.bo.filetype == 'man' then
--- 			vim.opt_local.signcolumn = 'no'
--- 		end
--- 	end,
--- })
+vim.api.nvim_create_autocmd('BufEnter', {
+	desc = 'opt.lua: no signcolumn for man pages',
+	pattern = '*',
+	callback = function()
+		if vim.bo.filetype == 'man' then
+			vim.opt_local.signcolumn = 'no'
+		end
+	end,
+})
 vim.opt.numberwidth = 3
 vim.opt.number = false
 vim.opt.relativenumber = false
@@ -57,14 +58,15 @@ vim.opt.smartcase = true
 
 -- Update a buffer's contents on focus if it changed outside of Vim.
 vim.opt.autoread = true
--- vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
--- 	pattern = '*',
--- 	callback = function()
--- 		if not vim.tbl_contains({ 'c', 'r', '!', 't' }, vim.fn.mode()) and vim.fn.getcmdwintype() == '' then
--- 			vim.cmd.checktime()
--- 		end
--- 	end
--- })
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+	desc = 'opt.lua: check if any buffers were changed',
+	pattern = '*',
+	callback = function()
+		if not vim.tbl_contains({ 'c', 'r', '!', 't' }, vim.fn.mode()) and vim.fn.getcmdwintype() == '' then
+			vim.cmd.checktime()
+		end
+	end
+})
 
 -- do / undo
 vim.opt.backupdir = '/tmp/nvim/,.'

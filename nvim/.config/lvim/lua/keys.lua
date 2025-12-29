@@ -92,7 +92,7 @@ n('<leader>oO', ':only<cr>', 'only window')
 n('<leader>on', ':set number!<cr>', 'numbers')
 n('<leader>oN', ':set relativenumber!<cr>', 'relative numbers')
 n('<leader>os', ':setlocal spell!<cr>', 'spell check')
-n('<leader>ol', require('options').toggle_listchars, 'list chars')
+n('<leader>ol', require('opt').toggle_listchars, 'list chars')
 n('<leader>ow', ':setlocal nowrap! linebreak!<cr>', 'wrap')
 n('<leader>oc', function() vim.wo.colorcolumn = (vim.wo.colorcolumn == '' and '72,80,100,120' or '') end, 'columns')
 n('<leader>oC', ":setlocal <C-R>=&conceallevel ? 'conceallevel=0' : 'conceallevel=2'<CR><CR>", 'conceal level')
@@ -159,7 +159,7 @@ n('<leader>/', ':noh<cr>', 'no highlight')
 n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
 n('s', ':HopChar2<cr>', 'hop')
-n('S', ':HopWord<cr>', 'hop word')
+n('S', ':HopWord<cr>', NS)
 
 
 -- lsp

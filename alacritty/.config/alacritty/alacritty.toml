@@ -145,7 +145,7 @@ yellow = "#dbb76f"
 blue = "#59bbae"
 magenta = "#d68caf"
 cyan = "#6fc183"
-white = "#4b565c"
+white = "#beb299"
 
 [colors.primary]
 # background = "#272e33"

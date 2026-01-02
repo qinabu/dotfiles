@@ -563,8 +563,8 @@ function M.testing()
 	map('n', '<leader>tD', ':DapVirtualTextEnable<cr>:lua require("dap").run_last()<cr>', NS)
 	map('n', '<leader>tc', ':DapVirtualTextEnable<cr>:lua require("dap").run_to_cursor()<cr>', NS)
 
-	map('n', '<leader>}', ':lua require("dap").step_over()<cr>', NS)
-	map('n', '<leader>]', ':lua require("dap").step_into()<cr>', NS)
+	map('n', '<leader>]', ':lua require("dap").step_over()<cr>', NS)
+	map('n', '<leader>}', ':lua require("dap").step_into()<cr>', NS)
 	map('n', '<leader>[', ':lua require("dap").step_out()<cr>', NS)
 
 	map('n', '<leader>tb', ':lua require("dap").toggle_breakpoint()<cr>', NS)
@@ -1872,7 +1872,7 @@ function F.lspconfig()
 		jsonls = {},
 		helm_ls = {},
 		-- tilt_ls = {},
-		-- starpls = {},
+		starpls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings

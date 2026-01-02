@@ -23,6 +23,7 @@ vim.opt.laststatus = 3 -- status line
 vim.opt.wrap = false
 vim.opt.signcolumn = 'yes:3'
 vim.api.nvim_create_autocmd('BufEnter', {
+	desc = 'opt.lua: no signcolumn for man pages',
 	pattern = '*',
 	callback = function()
 		if vim.bo.filetype == 'man' then
@@ -58,6 +59,7 @@ vim.opt.smartcase = true
 -- Update a buffer's contents on focus if it changed outside of Vim.
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+	desc = 'opt.lua: check if any buffers were changed',
 	pattern = '*',
 	callback = function()
 		if not vim.tbl_contains({ 'c', 'r', '!', 't' }, vim.fn.mode()) and vim.fn.getcmdwintype() == '' then
@@ -99,6 +101,7 @@ vim.opt.whichwrap = 'b,s,<,>'
 vim.opt.matchpairs:append('<:>')
 
 -- rulers
+-- vim.opt.winborder = 'single'
 vim.opt.list = true
 vim.opt.listchars = 'eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,'
 local alter_listchars = 'eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,'

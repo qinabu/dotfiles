@@ -1,0 +1,42 @@
+#!/bin/bash
+
+put() { printf "[48;5;%dm %3d [0m" "$1" "$1"; }
+
+for i in {0..7}; do put $i; done
+echo
+for i in {8..15}; do put $i; done
+echo
+for i in {232..243}; do put $i; done
+echo
+for i in {244..255}; do put $i; done
+echo
+
+for row in {0..5}; do
+	for col in {0..5}; do
+		put $((16 + row + col * 6))
+	done
+	for col in {5..0}; do
+		put $((52 + row + col * 6))
+	done
+	echo
+done
+
+for row in {5..0}; do
+	for col in {0..5}; do
+		put $((88 + row + col * 6))
+	done
+	for col in {5..0}; do
+		put $((124 + row + col * 6))
+	done
+	echo
+done
+
+for row in {0..5}; do
+	for col in {0..5}; do
+		put $((160 + row + col * 6))
+	done
+	for col in {5..0}; do
+		put $((196 + row + col * 6))
+	done
+	echo
+done

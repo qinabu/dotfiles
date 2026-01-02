@@ -1,9 +1,3 @@
--- disable the default keymaps
--- https://neovim.io/doc/user/lsp.html#_config
-for _, bind in ipairs({ 'grn', 'gra', 'gri', 'grr', 'grt' }) do
-	pcall(vim.keymap.del, 'n', bind)
-end
-
 local function map(mode, lhs, rhs, opt)
 	local opts = { noremap = true, silent = true }
 	if type(opt) == 'table' then
@@ -32,17 +26,35 @@ n('<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', 'cd .')
 
 -- lang
 map({ 'i', 'c' }, '<c-l>', '<c-^>', 'switch lang')
-map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
--- local toggle_iminsert = function()
--- 	vim.opt.iminsert = (vim.opt.iminsert == 0) and 1 or 0
--- end
--- map({ 'i', 'c' }, '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' })
--- map('n', '<c-l>', toggle_iminsert, { noremap = true, silent = true, desc = 'switch lang' }) -- todo: collision c-l
+-- map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
 
 -- navigation
+local function window_resizer()
+	while true do
+		local w = 5 * (((vim.fn.winnr('l') == vim.fn.winnr()) and -1) or 1)
+		local h = 3 * (((vim.fn.winnr('j') == vim.fn.winnr()) and -1) or 1)
+		print('[RESIZE]')
+		local ch = vim.fn.getchar()
+		local k = vim.fn.nr2char(ch)
+		if k == 'q' or ch == 27 then
+			vim.cmd('redraw')
+			print('')
+			return
+		elseif k == 'h' then
+			vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0) - w)
+		elseif k == 'l' then
+			vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0) + w)
+		elseif k == 'k' then
+			vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0) - h)
+		elseif k == 'j' then
+			vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0) + h)
+		end
+		vim.cmd('redraw')
+	end
+end
+n('<leader>we', window_resizer, 'c-w')
 n('<leader>w', '<c-w>', 'c-w')
 n('<leader>w?', ':help CTRL-W<cr>', 'c-w help')
-n('<leader>we', ':WinResizerStartResize<cr>', 'resize window')
 
 n('<leader>tl', ':tabnext<cr>', 'tab next')
 n('<leader>th', ':-tabnext<cr>', 'tab prev')
@@ -61,12 +73,26 @@ n('<leader>c', function() (vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cm
 	'quickfix')
 
 -- options / toggles
+local function window_maximizer()
+	if vim.t.maximizer_sizes then
+		vim.cmd(vim.t.maximizer_sizes.before)
+		if vim.t.maximizer_sizes.before ~= vim.fn.winrestcmd() then
+			vim.cmd('wincmd =')
+		end
+		vim.t.maximizer_sizes = nil
+	elseif vim.fn.winnr('$') > 1 then
+		local before = vim.fn.winrestcmd()
+		vim.cmd('vert resize | resize')
+		vim.t.maximizer_sizes = { before = before, after = vim.fn.winrestcmd() }
+	end
+	vim.cmd("normal! ze")
+end
+n('<leader>oo', window_maximizer, 'maximizer')
 n('<leader>oO', ':only<cr>', 'only window')
-n('<leader>oo', ':MaximizerToggle!<cr>', 'maximizer') -- szw/vim-maximizer
 n('<leader>on', ':set number!<cr>', 'numbers')
 n('<leader>oN', ':set relativenumber!<cr>', 'relative numbers')
 n('<leader>os', ':setlocal spell!<cr>', 'spell check')
-n('<leader>ol', require('options').toggle_listchars, 'list chars')
+n('<leader>ol', require('opt').toggle_listchars, 'list chars')
 n('<leader>ow', ':setlocal nowrap! linebreak!<cr>', 'wrap')
 n('<leader>oc', function() vim.wo.colorcolumn = (vim.wo.colorcolumn == '' and '72,80,100,120' or '') end, 'columns')
 n('<leader>oC', ":setlocal <C-R>=&conceallevel ? 'conceallevel=0' : 'conceallevel=2'<CR><CR>", 'conceal level')
@@ -81,10 +107,10 @@ n('<leader>bd', ':bdelete<cr>', 'delete buffer')
 
 -- command line
 n('<leader>;', ':', { silent = false, desc = 'command line' })
-n('<leader>l', 'q:', 'command history')
+n('<leader>:', 'q:', 'command history')
 n("<leader>'", '@:', 'repeat last command')
 n('<leader>1', ':!', { silent = false, desc = 'exec command' })
-n('<leader>!', ':split term://', 'terminal command')
+map('n', '<leader>!', ':split term://', { desc = 'terminal command', silent = false })
 
 -- TODO: c_CTRL-F support
 -- map('c', '<c-a>', '<home>')
@@ -132,8 +158,16 @@ v('<c-l>', 'g_', 'to the end of the line')
 n('<leader>/', ':noh<cr>', 'no highlight')
 n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
+n('s', ':HopChar2<cr>', 'hop')
+n('S', ':HopWord<cr>', NS)
+
 
 -- lsp
+-- disable the default keymaps
+-- https://neovim.io/doc/user/lsp.html#_config
+for _, bind in ipairs({ 'K', 'grn', 'gra', 'gri', 'grr', 'grt', 'gO' }) do
+	pcall(vim.keymap.del, 'n', bind)
+end
 n('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'symbol help')
 
 -- diagnostics
@@ -162,6 +196,12 @@ n('<leader>ec', function()
 	vim.lsp.codelens.run()
 end, 'codelens')
 
+-- replace
+n('<leader>fc', '<Plug>CtrlSFCwordExec', 'find and replace')
+v('<leader>fc', '<Plug>CtrlSFVwordExec', 'find and replace')
+n('<leader>fC', '<Plug>CtrlSFPrompt', 'find and replace:')
+
+
 -- telescope
 n('<leader>es', ':Telescope spell_suggest<cr>', 'spell suggest')
 n('f<leader>', ':Telescope<cr>', 'telescope')
@@ -187,7 +227,3 @@ n('fm', ':Telescope marks initial_mode=normal<cr>', 'find marks')
 n('fj', ':Telescope jumplist initial_mode=normal<cr>', 'find jimps')
 n('ft', ':Telescope tagstack initial_mode=normal<cr>', 'find tags')
 n('fa', ':Telescope man_pages<cr>', 'find man pages')
-
--- n('fh', ':Telescope harpoon marks<cr>', '')
--- n('fo', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', '')
--- n('fO', ':lua require("harpoon.mark").add_file()<cr>', '')

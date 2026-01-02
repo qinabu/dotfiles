@@ -138,14 +138,14 @@ cursor = "#FFAA44"
 text = "#000000"
 
 [colors.normal]
-black = "#414b50"
-red = "#e67e80"
-green = "#a7c080"
-yellow = "#dbbc7f"
-blue = "#7fbbb3"
-magenta = "#d699b6"
-cyan = "#83c092"
-white = "#d3c6aa"
+black = "#384d58"
+red = "#e67275"
+green = "#9ac05e"
+yellow = "#dbb76f"
+blue = "#59bbae"
+magenta = "#d68caf"
+cyan = "#6fc183"
+white = "#4b565c"
 
 [colors.primary]
 # background = "#272e33"

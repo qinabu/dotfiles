@@ -227,3 +227,37 @@ n('fm', ':Telescope marks initial_mode=normal<cr>', 'find marks')
 n('fj', ':Telescope jumplist initial_mode=normal<cr>', 'find jimps')
 n('ft', ':Telescope tagstack initial_mode=normal<cr>', 'find tags')
 n('fa', ':Telescope man_pages<cr>', 'find man pages')
+
+
+-- git sign
+n('<leader>ob', ':Gitsigns toggle_current_line_blame<cr>', 'toggle git blame')
+n('<leader>gb', ':Gitsigns blame<cr>', 'git blame')
+
+n(']h', function()
+	if vim.wo.diff then return ']c' end
+	vim.schedule(function() require('gitsigns').next_hunk({ target = 'all' }) end)
+	return '<Ignore>'
+end, { expr = true, desc = 'next hunk' })
+
+n('[h', function()
+	if vim.wo.diff then return '[c' end
+	vim.schedule(function() require('gitsigns').prev_hunk({ target = 'all' }) end)
+	return '<Ignore>'
+end, { expr = true, desc = 'previous hunk' })
+
+n('ghs', ':Gitsigns stage_hunk<cr>', 'stage hunk') -- stage
+v('ghs', ':Gitsigns stage_hunk<cr>', 'stage hunk')
+n('ghS', ':Gitsigns stage_buffer<CR>', 'stage buffer')
+n('ghu', ':Gitsigns undo_stage_hunk<cr>', 'unstage hunk') -- reset
+v('ghu', ':Gitsigns undo_stage_hunk<CR>', 'unstage hunk')
+n('ghU', ':Gitsigns reset_buffer_index<CR>', 'unstage buffer')
+n('ghr', '<cmd>Gitsigns reset_hunk<cr>', 'reset hunk') -- reset
+v('ghr', ':Gitsigns reset_hunk<cr>', 'reset hunk')
+n('ghR', '<cmd>Gitsigns reset_buffer<CR>', 'reset buffer')
+
+n('ghp', '<cmd>Gitsigns preview_hunk<CR>', 'preview hunk')
+n('ghb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', 'preview last line change')
+
+-- text object
+map('o', 'ih', ':<C-U>Gitsigns select_hunk<cr>', 'in hunk')
+map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', 'in hunk')

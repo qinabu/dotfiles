@@ -91,18 +91,19 @@ for k, v in pairs(settings) do
 end
 
 -- https://neovim.io/doc/user/lsp.html#lsp-config
+local hlgroup = vim.api.nvim_create_augroup("my_lsp_cursor_highlight", { clear = true })
+local group = vim.api.nvim_create_augroup("my_lsp", { clear = true })
+
 vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('my.lsp', {}),
+	group = group,
 	callback = function(args)
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		local caps = client.server_capabilities or {}
 
-		local agroup = vim.api.nvim_create_augroup('MyLsp', { clear = true })
-
 		if caps.documentHighlightProvider then
 			vim.api.nvim_create_autocmd('CursorMoved', {
 				desc = 'lsp.lua: highlight word under cursor',
-				group = agroup,
+				group = hlgroup,
 				buffer = args.buf,
 				callback = function()
 					pcall(vim.lsp.buf.clear_references)
@@ -120,7 +121,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		    client:supports_method('textDocument/formatting') then
 			vim.api.nvim_create_autocmd('BufWritePre', {
 				desc = 'lsp.lua: lsp format file',
-				group = agroup,
+				group = group,
 				buffer = args.buf,
 				callback = function()
 					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })

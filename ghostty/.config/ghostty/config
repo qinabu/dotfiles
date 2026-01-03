@@ -8,10 +8,10 @@ window-padding-y = 15
 
 font-feature = "-calt, -liga, -dlig"
 
-font-size = 14
-font-family = "Fire Mono"
-font-style = "Regular"
-font-style-bold = "Medium"
+# font-size = 14
+# font-family = "Fire Mono"
+# font-style = "Regular"
+# font-style-bold = "Medium"
 
 # font-size = 15
 # font-family = "Iosevka Term"
@@ -68,15 +68,15 @@ font-style-bold = "Medium"
 # font-style = "Medium"
 # font-style-bold = "Bold"
 
-# font-size = 16
+# font-size = 17
 # font-family = "Fantasque Sans Mono"
 # font-style = "Regular"
 # font-style-bold = "Bold"
 
-# font-size = 16
-# font-family = "mononoki"
-# font-style = "Regular"
-# font-style-bold = "Bold"
+font-size = 16
+font-family = "mononoki"
+font-style = "Regular"
+font-style-bold = "Bold"
 
 # font-size = 14.5
 # font-family = "Maple Mono"
@@ -90,36 +90,6 @@ cursor-opacity = 1
 cursor-style-blink = false
 adjust-cursor-thickness = 180%
 
-# my everforest alacritty
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x20272b'
-#     foreground: '0xd3c6aa'
-#
-#   # Normal colors
-#   normal:
-#     black:   '0x384d58'
-#     red:     '0xe67275'
-#     green:   '0x9ac05e'
-#     yellow:  '0xdbb76f'
-#     blue:    '0x59bbae'
-#     magenta: '0xd68caf'
-#     cyan:    '0x6fc183'
-#     white:   '0xd6bf8d'
-#
-#   # Bright colors
-#   bright:
-#     black:   '0x4b565c'
-#     red:     '0xe67e80'
-#     green:   '0xa7c080'
-#     yellow:  '0xdbbc7f'
-#     blue:    '0x7fbbb3'
-#     magenta: '0xd699b6'
-#     cyan:    '0x83c092'
-#     white:   '0xd3c39f'
-
-
 # my everforest
 palette = 0=#384d58
 palette = 1=#e67275
@@ -128,7 +98,7 @@ palette = 3=#dbb76f
 palette = 4=#59bbae
 palette = 5=#d68caf
 palette = 6=#6fc183
-palette = 7=#d6bf8d
+palette = 7=#beb299
 palette = 8=#4b565c
 palette = 9=#e67e80
 palette = 10=#a7c080
@@ -136,55 +106,10 @@ palette = 11=#dbbc7f
 palette = 12=#7fbbb3
 palette = 13=#d699b6
 palette = 14=#83c092
-palette = 15=#d3c39f
-
-# everforest official
-# palette = 0=#4b565c
-# palette = 1=#e67e80
-# palette = 2=#a7c080
-# palette = 3=#dbbc7f
-# palette = 4=#7fbbb3
-# palette = 5=#d699b6
-# palette = 6=#83c092
-# palette = 7=#d3c6aa
-#
-# palette = 8=#4b565c
-# palette = 9=#e67e80
-# palette = 10=#a7c080
-# palette = 11=#dbbc7f
-# palette = 12=#7fbbb3
-# palette = 13=#d699b6
-# palette = 14=#83c092
-# palette = 15=#d3c6aa
-
-# background=#2b3339
-# foreground=#d3c6aa
-# cursor-color=#d3c6aa
-# selection-foreground=#2b3339
-# selection-background=#d3c6aa
+palette = 15=#d3c6aa
 
 background = 20272b
 foreground = d3c6aa
-
-# palette = 0=#475258
-# palette = 1=#e68e80
-# palette = 2=#a7c080
-# palette = 3=#dbbc7f
-# 
-# palette = 4=#7fbbb3
-# palette = 5=#d699b6
-# palette = 6=#83c092
-# palette = 7=#d3c6aa
-# 
-# palette = 8=#414b50
-# palette = 9=#e67e80
-# palette = 10=#a7c080
-# palette = 11=#dbbc7f
-# 
-# palette = 12=#7fbbb3
-# palette = 13=#d699b6
-# palette = 14=#83c092
-# palette = 15=#d3c6aa
 
 selection-background = 543A48
 selection-foreground = D3C6AA

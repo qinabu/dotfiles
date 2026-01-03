@@ -101,7 +101,7 @@ vim.opt.whichwrap = 'b,s,<,>'
 vim.opt.matchpairs:append('<:>')
 
 -- rulers
--- vim.opt.winborder = 'single'
+vim.opt.winborder = 'rounded'
 vim.opt.list = true
 vim.opt.listchars = 'eol: ,space: ,lead: ,trail:·,nbsp: ,tab:  ,multispace: ,leadmultispace: ,'
 local alter_listchars = 'eol: ,space: ,lead:┊,trail:·,nbsp:◇,tab:❭ ,multispace:···•,leadmultispace:┊ ,'

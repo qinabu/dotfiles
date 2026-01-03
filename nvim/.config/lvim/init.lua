@@ -9,14 +9,14 @@ require('cmp')
 require('plugins').setup()
 
 -- done:
--- 'nvim-lualine/lualine.nvim' +
--- 'nvim-treesitter/nvim-treesitter' ?
+-- 'nvim-lualine/lualine.nvim'
+-- 'nvim-treesitter/nvim-treesitter'
 -- 'hrsh7th/nvim-cmp' -> blink.cmp
+-- 'lewis6991/gitsigns.nvim'
 
 -- todo:
 -- 'folke/zen-mode.nvim'
 --
--- 'lewis6991/gitsigns.nvim'
 -- 'sindrets/diffview.nvim'
 --
 -- 'notjedi/nvim-rooter.lua'

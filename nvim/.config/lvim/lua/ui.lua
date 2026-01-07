@@ -19,8 +19,8 @@ require('plugins').add {
 			hi! Visual term=reverse cterm=reverse gui=reverse
 			hi CurrentWord ctermbg=240 guibg=#424e57
 			hi link BqfPreviewBorder FloatermBorder
-			hi CursorLine guibg=#2f393d
-			hi CursorLineNr guibg=#2f393d
+			hi CursorLine guibg=#242b30
+			hi CursorLineNr guibg=#242b30
 
 			hi ExtraWhitespaceNormal ctermbg=red guibg=red
 			hi link ExtraWhitespaceInsert DiffDelete

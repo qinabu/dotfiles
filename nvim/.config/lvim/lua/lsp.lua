@@ -9,7 +9,7 @@ require('plugins').add {
 }
 
 vim.diagnostic.config {
-	-- float = { border = 'single' },
+	float = { border = 'rounded' },
 	virtual_text = false,
 	severity_sort = true,
 }
@@ -40,48 +40,7 @@ local settings = {
 		}
 	},
 	gopls = {
-		gopls = {
-			-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-			experimentalPostfixCompletions = true,
-			-- experimentalWorkspaceModule = true,
-			templateExtensions = { 'gotpl', 'gotmpl', 'go.tpl', 'go.tmpl' },
-			buildFlags = { '-tags=integration test mockery all' },
-			gofumpt = true,
-			staticcheck = true,
-			analyses = {
-				-- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
-				-- disabled by default:
-				unusedparams = true, --
-				unusedvariable = true,
-				shadow = false, -- !!!
-				-- fieldalignment = true, -- !!!
-				nilness = true, --
-				unusedwrite = true, --
-				useany = true, --
-			},
-			codelenses = {
-				gc_details = true,
-				-- gc_details = false,
-				generate = true,
-				regenerate_cgo = true,
-				test = true,
-				tidy = true,
-				vendor = true,
-				upgrade_dependency = true,
-				-- annotations = { bounds = true, escape = true, inline = true, ['nil'] = true }
-			},
-			workspaceFiles = {
-				'**/BUILD',
-				'**/WORKSPACE',
-				'**/*.{bzl,bazel}',
-			},
-			directoryFilters = {
-				'-bazel-bin',
-				'-bazel-out',
-				'-bazel-testlogs',
-				'-bazel-pedregal',
-			},
-		}
+		gopls = require 'gopls-settings',
 	},
 }
 

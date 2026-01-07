@@ -1,6 +1,6 @@
 require('opt')
 require('keys')
-require('ts')
+require('tsitter')
 require('ui')
 require('tele')
 require('lsp')

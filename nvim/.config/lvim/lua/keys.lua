@@ -27,6 +27,7 @@ n('<leader><leader>.', ':call chdir(expand("%:p:h")) | pwd<CR>', 'cd .')
 -- lang
 map({ 'i', 'c' }, '<c-l>', '<c-^>', 'switch lang')
 -- map('n', '<c-l>', ':norm i<c-^><esc>', 'switch lang') -- todo: collision c-l
+-- :exe "norm! i\<C-^>\<Esc>"
 
 -- navigation
 local function window_resizer()
@@ -159,7 +160,7 @@ n('<leader>/', ':noh<cr>', 'no highlight')
 n('<c-j>', ':silent exe "norm *" | exe "nohl"<cr>', 'next the word')
 n('<c-k>', ':silent exe "norm #" | exe "nohl"<cr>', 'prev the word')
 n('s', ':HopChar2<cr>', 'hop')
-n('S', ':HopWord<cr>', NS)
+n('S', ':HopWord<cr>', 'hop')
 
 
 -- lsp
@@ -261,3 +262,42 @@ n('ghb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', 'preview last l
 -- text object
 map('o', 'ih', ':<C-U>Gitsigns select_hunk<cr>', 'in hunk')
 map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', 'in hunk')
+
+n('<leader>gl', ':DiffviewFileHistory %<cr>', 'git file history')
+n('<leader>gL', ':DiffviewFileHistory<cr>', 'git history')
+
+n('<leader>gY', '<cmd>lua require"gitlinker".get_repo_url()<cr>', { silent = true })
+n(
+	'<leader>gy',
+	'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+	{ silent = true }
+)
+v(
+	'<leader>gy',
+	'<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+	{}
+)
+
+-- not taking
+n('fnn', ':Telekasten panel<cr>')
+-- find
+n('fnf', ':Telekasten find_notes<cr>')
+n('fng', ':Telekasten search_notes<cr>')
+-- week
+n('fnw', ':Telekasten goto_thisweek<cr>')
+n('fnW', ':Telekasten find_weekly_notes<cr>')
+-- todo toggle
+n('<leader>nx', ':Telekasten toggle_todo<cr>')
+-- links & tags
+n('<leader>nl', ':Telekasten follow_link<cr>')
+n('<leader>ni', ':Telekasten insert_link<cr>')
+n('<leader>ny', ':Telekasten yank_notelink<cr>')
+n('<leader>nb', ':Telekasten show_backlinks<cr>')
+n('<leader>nr', ':Telekasten find_friends<cr>')
+n('<leader>n[', ':Telekasten show_tags<cr>')
+
+-- translate
+n('trr', ':Pantran target=ru<cr>', 'translate -> ru')
+n('tre', ':Pantran target=en<cr>', 'translate -> en')
+map('x', 'trr', ':Pantran target=ru<cr>', 'translate -> ru')
+map('x', 'tre', ':Pantran target=en<cr>', 'translate -> en')

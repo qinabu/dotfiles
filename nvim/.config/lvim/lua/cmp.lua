@@ -9,8 +9,8 @@ require('plugins').add {
 		-- C-e: Hide menu
 		-- C-k: Toggle signature help (if signature.enabled = true)
 		keymap = { preset = 'default' },
-		fuzzy = { implementation = 'lua' },
 		signature = { enabled = true },
+		fuzzy = { implementation = 'lua' },
 		completion = {
 			documentation = {
 				auto_show = true,

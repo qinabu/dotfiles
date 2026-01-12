@@ -21,6 +21,7 @@ require('plugins').add {
 			hi link BqfPreviewBorder FloatermBorder
 			hi CursorLine guibg=#242b30
 			hi CursorLineNr guibg=#242b30
+			hi link TermCursor Visual
 
 			hi ExtraWhitespaceNormal ctermbg=red guibg=red
 			hi link ExtraWhitespaceInsert DiffDelete
@@ -69,7 +70,19 @@ require('plugins').add {
 				},
 				'diff',
 			},
-			lualine_y = { 'filesize' }, -- F.codecompanionLualine },
+			lualine_y = {
+				'filesize',
+				{
+					'lsp_status',
+					show_name = false,
+					icon = '',
+					symbols = {
+						spinner = { '░', '▓' },
+						done = '',
+						separator = '',
+					},
+				}
+			},
 			lualine_z = {},
 		},
 		inactive_sections = {
@@ -83,10 +96,3 @@ require('plugins').add {
 		extensions = { 'quickfix' },
 	}
 }
-
-
--- require('plugins').add {
--- 	'nvim-lualine/lualine.nvim',
--- 	opts = {
--- 	}
--- }

@@ -12,22 +12,18 @@ require('plugins').setup()
 -- 'nvim-treesitter/nvim-treesitter'
 -- 'hrsh7th/nvim-cmp' -> blink.cmp
 -- 'lewis6991/gitsigns.nvim'
-
--- todo:
--- 'folke/zen-mode.nvim'
---
 -- 'sindrets/diffview.nvim'
---
--- 'notjedi/nvim-rooter.lua'
---
 -- 'iamcco/markdown-preview.nvim'
--- 'mfussenegger/nvim-dap'
---
 -- 'renerocksai/telekasten.nvim'
 -- 'potamides/pantran.nvim'
---
--- 'norcalli/nvim-colorizer.lua'
+
+-- todo:
+-- 'mfussenegger/nvim-dap'
 -- 'andythigpen/nvim-coverage'
+--
+-- 'folke/zen-mode.nvim'
+-- 'notjedi/nvim-rooter.lua'
+-- 'norcalli/nvim-colorizer.lua'
 -- 'zbirenbaum/copilot.lua'
 -- 'zbirenbaum/copilot-cmp'
 -- 'olimorris/codecompanion.nvim'

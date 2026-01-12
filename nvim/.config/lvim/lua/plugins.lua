@@ -46,7 +46,7 @@ local default_plugins = {
 
 	-- curor hop
 	{
-		'phaazon/hop.nvim',
+		'smoka7/hop.nvim',
 		opts = { keys = 'fjdkslaghrutyeiwo' }
 	},
 
@@ -81,6 +81,76 @@ local default_plugins = {
 			preview_config = { border = 'rounded' },
 		},
 	},
+
+	-- git diff
+	{
+		'sindrets/diffview.nvim',
+		lazy = true,
+		opts = {
+			use_icons = false,
+			icons = {
+				folder_open = "+",
+				folder_closed = "-",
+			},
+			signs = {
+				fold_open = "+",
+				fold_closed = "-",
+			},
+		},
+	},
+
+	-- git link
+	{
+		'ruifm/gitlinker.nvim',
+		opts = { mappings = nil },
+	},
+
+	-- markdown
+	{
+		'iamcco/markdown-preview.nvim',
+		ft = { 'markdown' },
+		build = function() vim.fn['mkdp#util#install']() end,
+	},
+
+	-- note taking
+	{
+		'renerocksai/telekasten.nvim',
+		dependencies = { 'nvim-telescope/telescope.nvim' },
+		config = function()
+			local home = vim.fn.expand("~/Mind")
+			require 'telekasten'.setup {
+				home = home,
+				plug_into_calendar = false,
+				dailies = home .. '/' .. 'daily',
+				weeklies = home .. '/' .. 'weekly',
+				templates = home .. '/' .. 'templates',
+				template_new_note = home .. '/templates/new_note.md',
+				template_new_daily = home .. '/templates/daily.md',
+				template_new_weekly = home .. '/templates/weekly.md',
+			}
+		end,
+	},
+
+	-- translate
+	{
+		'potamides/pantran.nvim',
+		opts = {
+			ui = {
+				width_percentage = 0.95,
+				height_percentage = 0.6,
+			},
+			default_engine = 'google',
+			engines = {
+				google = {
+					default_target = 'ru',
+					fallback = {
+						default_target = 'ru'
+					},
+				},
+			},
+		},
+	},
+
 }
 
 local added_plugins = {}

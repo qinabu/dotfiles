@@ -1848,7 +1848,7 @@ function F.lspconfig()
 		jsonls = {},
 		helm_ls = {},
 		-- tilt_ls = {},
-		starpls = {},
+		-- starpls = {},
 		yamlls = {
 			-- https://github.com/gorkem/yaml-language-server/blob/main/src/yamlSettings.ts#L11
 			-- see interface Settings

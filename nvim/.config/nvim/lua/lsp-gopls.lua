@@ -8,9 +8,18 @@ return {
 		'-bazel-testlogs',
 		'-bazel-pedregal',
 	},
-	templateExtensions = { 'gotpl', 'gotmpl', 'go.tpl', 'go.tmpl' },
+	templateExtensions = {
+		'gotpl',
+		'gotmpl',
+		'go.tpl',
+		'go.tmpl',
+	},
 	expandWorkspaceToModule = true,
-	workspaceFiles = { '**/BUILD', '**/WORKSPACE', '**/*.{bzl,bazel}' },
+	workspaceFiles = {
+		'**/BUILD',
+		'**/WORKSPACE',
+		'**/*.{bzl,bazel}',
+	},
 	-- Formatting:
 	gofumpt = true,
 	-- UI:

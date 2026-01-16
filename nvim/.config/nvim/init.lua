@@ -1,11 +1,7 @@
 require('opt')
-require('keys')
-require('tsitter')
 require('ui')
-require('tele')
+require('keys')
 require('lsp')
-require('cmp')
-require('ai')
 require('plugins').setup()
 
 -- done:

@@ -3,6 +3,241 @@
 local default_plugins = {
 	{ 'nvim-lua/plenary.nvim' },
 
+	-- completion
+	{
+		'saghen/blink.cmp',
+		version = '1.*',
+		opts = {
+			-- All presets have the following mappings:
+			-- C-space: Open menu or open docs if already open
+			-- C-n/C-p or Up/Down: Select next/previous item
+			-- C-e: Hide menu
+			-- C-k: Toggle signature help (if signature.enabled = true)
+			keymap = { preset = 'default' },
+			signature = { enabled = true },
+			fuzzy = { implementation = 'lua' },
+			completion = {
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 50,
+				},
+				trigger = {
+					show_on_keyword = true,
+					show_on_trigger_character = true,
+					show_on_insert_on_trigger_character = true,
+				},
+			},
+			cmdline = {
+				enabled = true,
+				keymap = { preset = 'cmdline' },
+				sources = { 'cmdline', 'buffer' },
+				completion = {
+					menu = { auto_show = true },
+					ghost_text = { enabled = true },
+				},
+			},
+			sources = {
+				providers = {
+					-- defaults to `{ 'buffer' }`
+					lsp = { fallbacks = {} }
+				},
+				default = { 'lsp', 'path', 'buffer', 'omni' },
+				-- default = { 'lsp', 'path', 'snippets', 'buffer' },
+			},
+		},
+		opts_extend = { 'sources.default' }
+	},
+
+	-- telescope
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = 'v0.1.9',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'nvim-telescope/telescope-file-browser.nvim',
+			'nvim-telescope/telescope-ui-select.nvim',
+			'nvim-telescope/telescope-dap.nvim',
+			{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+		},
+		config = function()
+			local telescope = require('telescope')
+			local actions = require('telescope.actions')
+			local fb_actions = require('telescope._extensions.file_browser.actions')
+			telescope.setup {
+				defaults = {
+					layout_strategy = 'vertical',
+					layout_config = {
+						vertical = { height = 0.95, width = 0.95, prompt_position = 'top' },
+						center = { width = 0.9999, height = 0.9999, prompt_position = 'top' },
+						bottom_pane = { height = 0.9999, width = 0.9999 },
+					},
+					sorting_strategy = 'ascending',
+					prompt_prefix = '',
+
+					file_ignore_patterns = { '.git/' },
+					hidden = true,
+					mappings = {
+						i = {
+							['<C-/>'] = actions.which_key,
+						},
+						n = {
+							['<C-/>'] = actions.which_key,
+							['o'] = actions.select_default,
+						},
+					},
+				},
+				pickers = {
+					live_grep = {
+						additional_args = function(_)
+							return { '--hidden' }
+						end
+					},
+				},
+				extensions = {
+					fzf = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = 'smart_case',
+					},
+					file_browser = {
+						theme = 'ivy',
+						hijack_netrw = true,
+						layout_config = {
+							height = 0.8,
+						},
+						mappings = {
+							['i'] = {
+								['<c-e>'] = fb_actions.toggle_browser,
+								['<C-f>'] = false,
+							},
+							['n'] = {
+								['f'] = false,
+								['h'] = fb_actions.goto_parent_dir,
+								['e'] = fb_actions.toggle_browser,
+								['.'] = fb_actions.toggle_hidden,
+								['l'] = actions.select_default,
+								['o'] = actions.select_default,
+							},
+						},
+						hidden = true,
+						dir_icon = ' ',
+						grouped = true,
+						follow_symlinks = true,
+						select_buffer = true,
+						hide_parent_dir = true,
+						prompt_path = true,
+					},
+					['ui-select'] = {
+						require('telescope.themes').get_dropdown {}
+					},
+				},
+			}
+
+			telescope.load_extension('fzf')
+			telescope.load_extension('file_browser')
+			telescope.load_extension('ui-select')
+		end,
+	},
+
+	-- treesitter
+	{
+		'nvim-treesitter/nvim-treesitter',
+		branch = 'master',
+		dependencies = {
+			'nvim-treesitter/playground', -- :TSPlaygroundToggle
+			'nvim-treesitter/nvim-treesitter-textobjects',
+			'kiyoon/treesitter-indent-object.nvim',
+			'romgrk/nvim-treesitter-context',
+			'jubnzv/virtual-types.nvim',
+		},
+		build = ':TSUpdate',
+		config = function()
+			require 'nvim-treesitter'.setup()
+			require 'nvim-treesitter.configs'.setup {
+				ensure_installed = {
+					"lua",
+					"go",
+					"gowork",
+					"gotmpl",
+					"yaml",
+					"json",
+					-- "rust",
+					-- "python",
+					-- "hcl",
+					-- "vimdoc",
+					-- "starlark",
+				},
+				highlight = { enable = true },
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						node_incremental = ".", -- >
+						node_decremental = ",", -- <
+					},
+				},
+				indent = { enable = false },
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true,
+						keymaps = {
+							['af'] = '@function.outer',
+							['if'] = '@function.inner',
+							['ac'] = '@class.outer',
+							['ic'] = '@class.inner',
+						},
+					},
+					swap = {
+						enable = true,
+						swap_next = {
+							["<leader>el"] = "@parameter.inner",
+						},
+						swap_previous = {
+							["<leader>eh"] = "@parameter.inner",
+						},
+					},
+					move = {
+						enable = true,
+						-- set_jumps = true, -- whether to set jumps in the jumplist
+						goto_next_start = {
+							["]]"] = "@function.outer",
+						},
+						goto_next_end = {
+							["]["] = "@function.outer",
+						},
+						goto_previous_start = {
+							["[["] = "@function.outer",
+						},
+						goto_previous_end = {
+							["[]"] = "@function.outer",
+						},
+					},
+					-- lsp_interop = {
+					-- 	enable = false,
+					-- 	border = 'none',
+					-- 	peek_definition_code = {
+					-- 		-- ['K'] = "@function.outer",
+					-- 		-- ['<c-k>'] = "@class.outer",
+					-- 	},
+					-- },
+				},
+
+			}
+
+			require 'treesitter-context'.setup { enable = true, multiline_threshold = 8 }
+			require 'treesitter_indent_object'.setup {}
+			vim.treesitter.language.register("starlark", "tiltfile")
+
+			-- indent object
+			local tobj = require 'treesitter_indent_object.textobj'
+			vim.keymap.set({ 'x', 'o' }, 'ai', function() tobj.select_indent_outer() end)
+			vim.keymap.set({ 'x', 'o' }, 'aI', function() tobj.select_indent_outer(true) end)
+			vim.keymap.set({ 'x', 'o' }, 'ii', function() tobj.select_indent_inner() end)
+			vim.keymap.set({ 'x', 'o' }, 'iI', function() tobj.select_indent_inner(true, 'V') end)
+		end
+	},
+
 	-- editable quick fix list
 	{ 'itchyny/vim-qfedit',   lazy = true },
 
@@ -150,6 +385,9 @@ local default_plugins = {
 			},
 		},
 	},
+
+	-- copilot
+	{ 'github/copilot.vim', lazy = true },
 
 }
 

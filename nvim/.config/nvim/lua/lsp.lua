@@ -53,7 +53,7 @@ local settings = {
 		}
 	},
 	gopls = {
-		gopls = require 'gopls-settings',
+		gopls = require 'lsp-gopls',
 	},
 }
 

@@ -5,6 +5,7 @@ require('ui')
 require('tele')
 require('lsp')
 require('cmp')
+require('ai')
 require('plugins').setup()
 
 -- done:

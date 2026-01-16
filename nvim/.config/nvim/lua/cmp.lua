@@ -32,7 +32,11 @@ require('plugins').add {
 			},
 		},
 		sources = {
-			default = { 'lsp', 'path', 'buffer' },
+			providers = {
+				-- defaults to `{ 'buffer' }`
+				lsp = { fallbacks = {} }
+			},
+			default = { 'lsp', 'path', 'buffer', 'omni' },
 			-- default = { 'lsp', 'path', 'snippets', 'buffer' },
 		},
 	},

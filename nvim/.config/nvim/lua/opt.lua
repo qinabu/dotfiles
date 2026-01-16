@@ -87,7 +87,7 @@ vim.opt.wildmode = 'full'
 -- edit
 vim.opt.autoindent = true
 vim.opt.backspace = 'indent,eol,start'
-vim.opt.completeopt = 'menu,menuone,noselect'
+vim.opt.completeopt = 'menu,preview,menuone,noselect'
 vim.opt.formatoptions = 'tcqrn1'
 
 -- file types

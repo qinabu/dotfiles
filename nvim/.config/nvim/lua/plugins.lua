@@ -1,5 +1,3 @@
--- https://dev.to/delphinus35/dont-use-dependencies-in-lazynvim-4bk0
-
 local default_plugins = {
 	{ 'nvim-lua/plenary.nvim' },
 

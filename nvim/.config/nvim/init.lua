@@ -1,4 +1,4 @@
-require('opt')
+require('options')
 require('ui')
 require('keys')
 require('lsp')

@@ -421,7 +421,6 @@ return {
 		-- setup
 		require('lazy').setup {
 			spec = plugins,
-			-- spec = vim.tbl_extend('force', default_plugins, plugins, ...),
 			local_spec = false,
 			ui = {
 				size = { width = 0.95, height = 0.9 },

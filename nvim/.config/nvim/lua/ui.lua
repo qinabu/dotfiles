@@ -26,6 +26,7 @@ require('plugins').add {
 			hi ExtraWhitespaceNormal ctermbg=red guibg=red
 			hi link ExtraWhitespaceInsert DiffDelete
 			hi link ExtraWhitespace ExtraWhitespaceNormal
+			hi link SnippetTabstop VisualNOS
 			match ExtraWhitespace /\s\+$/
 			autocmd InsertEnter * hi link ExtraWhitespace ExtraWhitespaceInsert
 			autocmd InsertLeave * hi link ExtraWhitespace ExtraWhitespaceNormal

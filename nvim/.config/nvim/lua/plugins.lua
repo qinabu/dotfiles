@@ -1,20 +1,64 @@
 local default_plugins = {
 	{ 'nvim-lua/plenary.nvim' },
 
+	-- copilot
+	{
+		"github/copilot.vim",
+		cmd = "Copilot",
+		event = "BufWinEnter",
+		init = function()
+			vim.g.copilot_no_maps = true
+		end,
+		config = function()
+			-- Block the normal Copilot suggestions
+			vim.api.nvim_create_augroup("github_copilot", { clear = true })
+			vim.api.nvim_create_autocmd({ "FileType", "BufUnload" }, {
+				group = "github_copilot",
+				callback = function(args)
+					vim.fn["copilot#On" .. args.event]()
+				end,
+			})
+			vim.fn["copilot#OnFileType"]()
+		end,
+	},
+
 	-- completion
 	{
 		'saghen/blink.cmp',
+		dependencies = { "fang2hou/blink-copilot" },
 		version = '1.*',
 		opts = {
+			signature = { enabled = true },
+			fuzzy = { implementation = 'lua' },
 			-- All presets have the following mappings:
 			-- C-space: Open menu or open docs if already open
 			-- C-n/C-p or Up/Down: Select next/previous item
 			-- C-e: Hide menu
 			-- C-k: Toggle signature help (if signature.enabled = true)
-			keymap = { preset = 'default' },
-			signature = { enabled = true },
-			fuzzy = { implementation = 'lua' },
+			keymap = {
+				preset = 'default',
+				['<Tab>'] = {
+					function(cmp)
+						if cmp.get_selected_item_idx() ~= nil then
+							return cmp.accept()
+						end
+					end,
+					'snippet_forward',
+					'fallback',
+				},
+			},
 			completion = {
+				list = {
+					selection = {
+						preselect = false,
+						auto_insert = false,
+					},
+				},
+				keyword = { range = 'full' },
+				menu = {
+					min_width = 20,
+					max_height = 20,
+				},
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 50,
@@ -23,7 +67,12 @@ local default_plugins = {
 					show_on_keyword = true,
 					show_on_trigger_character = true,
 					show_on_insert_on_trigger_character = true,
+					show_on_backspace = true,
+					show_on_backspace_in_keyword = true,
+					show_on_insert = false, --
 				},
+				ghost_text = { enabled = true },
+
 			},
 			cmdline = {
 				enabled = true,
@@ -36,11 +85,15 @@ local default_plugins = {
 			},
 			sources = {
 				providers = {
-					-- defaults to `{ 'buffer' }`
-					lsp = { fallbacks = {} }
+					-- lsp = { fallbacks = {} },
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
+						score_offset = 100,
+						async = true,
+					},
 				},
-				default = { 'lsp', 'path', 'buffer', 'omni' },
-				-- default = { 'lsp', 'path', 'snippets', 'buffer' },
+				default = { 'copilot', 'lsp', 'path', 'buffer' },
 			},
 		},
 		opts_extend = { 'sources.default' }
@@ -383,9 +436,6 @@ local default_plugins = {
 			},
 		},
 	},
-
-	-- copilot
-	{ 'github/copilot.vim', lazy = true },
 
 }
 

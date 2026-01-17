@@ -83,10 +83,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 				end,
 			})
 		end
+		-- this works via blink.cmp
 		-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
-		if client:supports_method('textDocument/completion') then
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-		end
+		-- if client:supports_method('textDocument/completion') then
+		-- 	vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+		-- end
+
 		-- Auto-format ('lint') on save.
 		-- Usually not needed if server supports 'textDocument/willSaveWaitUntil'.
 		if not client:supports_method('textDocument/willSaveWaitUntil') and

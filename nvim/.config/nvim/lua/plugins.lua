@@ -37,6 +37,14 @@ local default_plugins = {
 			-- C-k: Toggle signature help (if signature.enabled = true)
 			keymap = {
 				preset = 'default',
+				['<CR>'] = {
+					function(cmp)
+						if cmp.get_selected_item_idx() ~= nil then
+							return cmp.accept()
+						end
+					end,
+					'fallback',
+				},
 				['<Tab>'] = {
 					function(cmp)
 						if cmp.get_selected_item_idx() ~= nil then

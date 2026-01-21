@@ -2,6 +2,7 @@ require('options')
 require('ui')
 require('keys')
 require('lsp')
+require('debugging')
 require('plugins').setup()
 
 -- done:

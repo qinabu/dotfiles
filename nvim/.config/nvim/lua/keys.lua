@@ -301,3 +301,32 @@ n('trr', ':Pantran target=ru<cr>', 'translate -> ru')
 n('tre', ':Pantran target=en<cr>', 'translate -> en')
 map('x', 'trr', ':Pantran target=ru<cr>', 'translate -> ru')
 map('x', 'tre', ':Pantran target=en<cr>', 'translate -> en')
+
+-- dap
+n('<leader>dd', function() require('dap').step_over() end, 'dap: step over')
+n('<leader>df', function() require('dap').step_into() end, 'dap: step into')
+n('<leader>dg', function() require('dap').step_out() end, 'dap: step out')
+n('<leader>dl', function() require('dap').run_to_cursor() end, 'dap: run to line')
+
+n('<leader>db', function() require('dap').toggle_breakpoint() end, 'dap: breakpoint')
+n('<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
+	'dap: breakpoint condition')
+n('<leader>dL', function() require("dap").set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+	'dap: breakpoint log point message')
+
+n('<leader>de', ':Telescope dap commands<cr>', 'dap: commands')
+n('<leader>dc', function() require('dap').continue() end, 'dap: continue / start')
+n('<leader>dC', function() require('dap').run_last() end, 'dap: run last')
+n('<leader>dp', function() require('dap').pause() end, 'dap: pause')
+n('<leader>du', function() require('dapui').toggle() end, 'dap: toggle debug ui')
+n('<leader>dq', function() require('dap').terminate() end, 'dap: quit')
+n('<leader>dt', function() require('dap-go').debug_test() end, 'dap-go: debug test')
+n('<leader>dr', function() require('dap').repl.open() end, 'dap: repl')
+n('<leader>dR', function() require('dap').restart() end, 'dap restart')
+n('<leader>dv', ':DapVirtualTextToggle<cr>', 'dap: virtual text toggle')
+
+-- vim-test
+map('n', '<leader>tt', ':TestNearest -tags=test,mockery,all -v<cr>', 'test nearest')
+map('n', '<leader>tT', ':TestFile -tags=test,mockery,all -v<cr>', 'test file')
+map('n', '<leader>tl', ':TestLast -tags=test,mockery,all -v<cr>', 'test last')
+map('n', '<leader>tv', ':TestVisit -tags=test,mockery,all<cr>', 'test visit')

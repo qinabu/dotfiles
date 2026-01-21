@@ -8,6 +8,8 @@ vim.opt.clipboard = 'unnamed'
 vim.opt.paste = false
 
 -- ui
+-- vim.opt.guicursor = ''
+-- vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 vim.opt.shortmess:append('I') -- no intro message
 vim.opt.shortmess:append('c') -- less verbose search
 vim.opt.cmdheight = 1

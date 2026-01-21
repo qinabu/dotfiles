@@ -131,11 +131,13 @@ function _set_block_cursor() { _set_cursor '\e[2 q' }
 function _set_beam_cursor() { _set_cursor '\e[6 q' }
 
 function zle-keymap-select {
-  if [[ ${KEYMAP} == "vicmd" ]] || [[ $1 = 'block' ]]; then
-      _set_block_cursor
-  else
-      _set_beam_cursor
-  fi
+	if [[ -z "$NVIM" ]]; then
+		if [[ ${KEYMAP} == "vicmd" ]] || [[ $1 = 'block' ]]; then
+			_set_block_cursor
+		else
+			_set_beam_cursor
+		fi
+	fi
 }
 zle -N zle-keymap-select
 # ensure beam cursor when starting new terminal

@@ -21,7 +21,9 @@ require('plugins').add {
 			hi link BqfPreviewBorder FloatermBorder
 			hi CursorLine guibg=#242b30
 			hi CursorLineNr guibg=#242b30
-			hi link TermCursor Visual
+
+			hi! Cursor cterm=reverse,nocombine gui=reverse,nocombine guifg=reverse,nocombine guibg=reverse,nocombine
+			hi link TermCursor Cursor
 
 			hi ExtraWhitespaceNormal ctermbg=red guibg=red
 			hi link ExtraWhitespaceInsert DiffDelete

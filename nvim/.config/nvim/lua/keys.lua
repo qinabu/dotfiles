@@ -266,35 +266,35 @@ map('x', 'ih', ':<C-U>Gitsigns select_hunk<cr>', 'in hunk')
 n('<leader>gl', ':DiffviewFileHistory %<cr>', 'git file history')
 n('<leader>gL', ':DiffviewFileHistory<cr>', 'git history')
 
-n('<leader>gY', '<cmd>lua require"gitlinker".get_repo_url()<cr>', { silent = true })
+n('<leader>gY', '<cmd>lua require"gitlinker".get_repo_url()<cr>', { silent = true, desc = 'git link: repo' })
 n(
 	'<leader>gy',
 	'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
-	{ silent = true }
+	{ silent = true, desc = 'git link: lines range' }
 )
 v(
 	'<leader>gy',
 	'<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
-	{}
+	{ desc = 'git link: lines range' }
 )
 
 -- not taking
-n('fnn', ':Telekasten panel<cr>')
+n('fnn', ':Telekasten panel<cr>', 'notes: commands')
 -- find
-n('fnf', ':Telekasten find_notes<cr>')
-n('fng', ':Telekasten search_notes<cr>')
+n('fnf', ':Telekasten find_notes<cr>', 'notes: search')
+n('fng', ':Telekasten search_notes<cr>', 'notes: search current word')
 -- week
-n('fnw', ':Telekasten goto_thisweek<cr>')
-n('fnW', ':Telekasten find_weekly_notes<cr>')
+n('fnw', ':Telekasten goto_thisweek<cr>', 'notes: current week')
+n('fnW', ':Telekasten find_weekly_notes<cr>', 'notes: search week')
 -- todo toggle
-n('<leader>nx', ':Telekasten toggle_todo<cr>')
+n('<leader>nx', ':Telekasten toggle_todo<cr>', 'toggle - [x]')
 -- links & tags
-n('<leader>nl', ':Telekasten follow_link<cr>')
-n('<leader>ni', ':Telekasten insert_link<cr>')
-n('<leader>ny', ':Telekasten yank_notelink<cr>')
-n('<leader>nb', ':Telekasten show_backlinks<cr>')
-n('<leader>nr', ':Telekasten find_friends<cr>')
-n('<leader>n[', ':Telekasten show_tags<cr>')
+n('<leader>nl', ':Telekasten follow_link<cr>', 'notes: follow [[link]]')
+n('<leader>ni', ':Telekasten insert_link<cr>', 'notes: insert [[link]]')
+n('<leader>ny', ':Telekasten yank_notelink<cr>', 'notes: yank a current note link')
+n('<leader>nb', ':Telekasten show_backlinks<cr>', 'notes: backlinks')
+n('<leader>nr', ':Telekasten find_friends<cr>', 'notes: search friends')
+n('<leader>n[', ':Telekasten show_tags<cr>', 'notes: show tags')
 
 -- translate
 n('trr', ':Pantran target=ru<cr>', 'translate -> ru')

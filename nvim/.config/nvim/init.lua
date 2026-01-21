@@ -13,14 +13,14 @@ require('plugins').setup()
 -- 'iamcco/markdown-preview.nvim'
 -- 'renerocksai/telekasten.nvim'
 -- 'potamides/pantran.nvim'
+-- 'notjedi/nvim-rooter.lua'
+-- 'zbirenbaum/copilot.lua'
+-- 'zbirenbaum/copilot-cmp'
 
 -- todo:
 -- 'mfussenegger/nvim-dap'
 -- 'andythigpen/nvim-coverage'
 --
 -- 'folke/zen-mode.nvim'
--- 'notjedi/nvim-rooter.lua'
 -- 'norcalli/nvim-colorizer.lua'
--- 'zbirenbaum/copilot.lua'
--- 'zbirenbaum/copilot-cmp'
 -- 'olimorris/codecompanion.nvim'

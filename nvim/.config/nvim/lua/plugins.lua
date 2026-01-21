@@ -107,6 +107,17 @@ local default_plugins = {
 		opts_extend = { 'sources.default' }
 	},
 
+	-- root directory
+	{
+		'notjedi/nvim-rooter.lua',
+		opts = {
+			rooter_patterns = { 'go.mod', '.git' },
+			exclude_filetypes = { 'ctrlsf', 'git', 'fugitiveblame', '' },
+			fallback_to_parent = false,
+			cd_scope = 'smart',
+		},
+	},
+
 	-- telescope
 	{
 		'nvim-telescope/telescope.nvim',

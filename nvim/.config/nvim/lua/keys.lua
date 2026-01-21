@@ -326,7 +326,7 @@ n('<leader>dR', function() require('dap').restart() end, 'dap restart')
 n('<leader>dv', ':DapVirtualTextToggle<cr>', 'dap: virtual text toggle')
 
 -- vim-test
-map('n', '<leader>tt', ':TestNearest -tags=test,mockery,all -v<cr>', 'test nearest')
-map('n', '<leader>tT', ':TestFile -tags=test,mockery,all -v<cr>', 'test file')
-map('n', '<leader>tl', ':TestLast -tags=test,mockery,all -v<cr>', 'test last')
-map('n', '<leader>tv', ':TestVisit -tags=test,mockery,all<cr>', 'test visit')
+map('n', '<leader>tt', ':TestNearest -tags=test,mockery,all -v<cr>', 'test: nearest')
+map('n', '<leader>tT', ':TestFile -tags=test,mockery,all -v<cr>', 'test: file')
+map('n', '<leader>tl', ':TestLast -tags=test,mockery,all -v<cr>', 'test: last')
+map('n', '<leader>tv', ':TestVisit -tags=test,mockery,all<cr>', 'test: visit')

@@ -17,11 +17,10 @@ require('plugins').setup()
 -- 'notjedi/nvim-rooter.lua'
 -- 'zbirenbaum/copilot.lua'
 -- 'zbirenbaum/copilot-cmp'
-
--- todo:
 -- 'mfussenegger/nvim-dap'
 -- 'andythigpen/nvim-coverage'
---
+
+-- todo:
 -- 'folke/zen-mode.nvim'
 -- 'norcalli/nvim-colorizer.lua'
 -- 'olimorris/codecompanion.nvim'

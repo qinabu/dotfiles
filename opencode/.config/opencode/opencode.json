@@ -1,8 +1,10 @@
 {
 	"$schema": "https://opencode.ai/config.json",
 	"theme": "opencode",
-	"model": "ollama/qwen2.5-coder:3b",
+	// "model": "ollama/qwen3-coder:30b",
 	"autoupdate": true,
+	"share": "disabled",
+	"default_agent": "plan",
 	"provider": {
 		"ollama": {
 			"npm": "@ai-sdk/openai-compatible",
@@ -11,7 +13,7 @@
 				"baseURL": "http://localhost:11434/v1"
 			},
 			"models": {
-				"qwen2.5-coder:3b": {}
+				"qwen3-coder:30b": {}
 			}
 		}
 	}

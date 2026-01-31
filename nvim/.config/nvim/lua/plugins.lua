@@ -390,7 +390,6 @@ local default_plugins = {
 	-- git diff
 	{
 		'sindrets/diffview.nvim',
-		lazy = true,
 		opts = {
 			use_icons = false,
 			icons = {

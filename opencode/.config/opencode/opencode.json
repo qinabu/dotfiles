@@ -2,18 +2,10 @@
 	"$schema": "https://opencode.ai/config.json",
 	"share": "disabled",
 	"theme": "opencode",
-	"model": "ollama/qwen3-coder:30b",
-	"autoupdate": true,
+	"autoupdate": false,
 	"default_agent": "plan",
-	"permission": {
-		"edit": "ask",
-		"grep": "ask",
-		"bash": "ask",
-		"webfetch": "ask",
-		"glob": "allow",
-		"list": "allow",
-		"lsp": "ask",
-		"skill": "allow", // SKILL.md
+	"keybinds": {
+		"input_newline": "shift+return,ctrl+return,alt+return,ctrl+j",
 	},
 	"provider": {
 		"ollama": {
@@ -23,8 +15,8 @@
 				"baseURL": "http://localhost:11434/v1"
 			},
 			"models": {
-				"qwen3-coder:30b": {},
 				"qwen3:0.6b": {},
+				"qwen3-coder:30b": {},
 			}
 		}
 	}

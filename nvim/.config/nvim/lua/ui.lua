@@ -22,6 +22,11 @@ require('plugins').add {
 			hi CursorLine guibg=#242b30
 			hi CursorLineNr guibg=#242b30
 
+			hi! link DiagnosticUnderlineInfo NONE
+			hi! link DiagnosticUnderlineHint NONE
+			hi! link LspDiagnosticsUnderlineInformation NONE
+			hi! link DiagnosticInfo NONE
+
 			hi! Cursor cterm=reverse,nocombine gui=reverse,nocombine guifg=reverse,nocombine guibg=reverse,nocombine
 			hi link TermCursor Cursor
 

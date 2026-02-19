@@ -11,7 +11,6 @@ require('plugins').add {
 			'lua_ls',
 			'gopls',
 			'pyright',
-			'rust_analyzer',
 			'bashls',
 			'html',
 			'cssls',
@@ -54,6 +53,12 @@ local settings = {
 	},
 	gopls = {
 		gopls = require 'lsp-gopls',
+	},
+	pyright = {
+		python = {
+			venvPath = ".",
+			venv = ".venv",
+		},
 	},
 }
 

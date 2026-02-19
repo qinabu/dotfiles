@@ -36,6 +36,7 @@ setopt HIST_IGNORE_SPACE
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' check-for-staged-changes true
+zstyle ':vcs_info:*' unstagedstr ''
 # hook for update vcs_info
 add-zsh-hook -Uz precmd vcs_info
 function vcs_info_tags() { vcs_tags=$(git tag --points-at HEAD 2>&- | xargs) }

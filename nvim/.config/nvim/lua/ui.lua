@@ -66,6 +66,7 @@ require('plugins').add {
 				'%S',
 			},
 			lualine_x = {
+				'selectioncount',
 				'searchcount',
 				{
 					'diagnostics',

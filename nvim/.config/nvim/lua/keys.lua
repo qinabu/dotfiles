@@ -98,6 +98,7 @@ n('<leader>ow', ':setlocal nowrap! linebreak!<cr>', 'wrap')
 n('<leader>oc', function() vim.wo.colorcolumn = (vim.wo.colorcolumn == '' and '72,80,100,120' or '') end, 'columns')
 n('<leader>oC', ":setlocal <C-R>=&conceallevel ? 'conceallevel=0' : 'conceallevel=2'<CR><CR>", 'conceal level')
 n('<leader>ot', function() vim.opt.tabstop = (vim.opt.tabstop:get() ~= 8 and 8 or 4) end, 'tabstop width')
+n('<leader>om', ":Markview toggle<cr>", 'toggle markdown conceallation')
 -- map('n', '<leader>o<tab>', ':lua print("test")', 'toggle tab') // toggle tab as a completion the first
 
 
